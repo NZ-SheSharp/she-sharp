@@ -1,0 +1,21 @@
+import { JoinTeamHeroSection } from "@/components/sections/join-team/join-team-hero-section";
+import { TeamOverviewSection } from "@/components/sections/join-team/team-overview-section";
+import { VolunteerOptionsSection } from "@/components/sections/join-team/volunteer-options-section";
+import { VolunteerRolesSection } from "@/components/sections/join-team/volunteer-roles-section";
+import { AnniversarySection } from "@/components/sections/join-team/anniversary-section";
+import { TeamTestimonialsSection } from "@/components/sections/join-team/team-testimonials-section";
+import { JoinTeamCTASection } from "@/components/sections/join-team/join-team-cta-section";
+
+export default function JoinOurTeamPage() {
+  return (
+    <>
+      <JoinTeamHeroSection />
+      <TeamOverviewSection />
+      <VolunteerOptionsSection />
+      <VolunteerRolesSection />
+      <AnniversarySection />
+      <TeamTestimonialsSection />
+      <JoinTeamCTASection />
+    </>
+  );
+}
