@@ -9,6 +9,25 @@
 @variant dark (&:is(.dark *));
 
 @theme {
+  /* She Sharp Custom Colors */
+  --color-purple-dark: #9b2e83;
+  --color-purple-mid: #c846ab;
+  --color-purple-light: #f7e5f3;
+  
+  --color-periwinkle-dark: #8982ff;
+  --color-periwinkle-light: #f4f4fa;
+  
+  --color-navy-dark: #1f1e44;
+  --color-navy-light: #eaf2ff;
+  
+  --color-mint-dark: #b1f6e9;
+  --color-mint-light: #effefb;
+  
+  --color-gray: #9b9b9b;
+  --color-blue: #1378d1;
+  --color-error: #d72f40;
+  
+  /* System Colors */
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
 
@@ -83,74 +102,90 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* She Sharp Color System */
+    --background: 0 0% 100%; /* white */
+    --foreground: 241 25% 21%; /* navy-dark */
+    --card: 216 12% 97%; /* navy-light */
+    --card-foreground: 241 25% 21%; /* navy-dark */
+    --popover: 0 0% 100%; /* white */
+    --popover-foreground: 241 25% 21%; /* navy-dark */
+    --primary: 316 53% 38%; /* purple-dark */
+    --primary-foreground: 0 0% 100%; /* white */
+    --secondary: 244 100% 76%; /* periwinkle-dark */
+    --secondary-foreground: 0 0% 100%; /* white */
+    --muted: 248 33% 97%; /* periwinkle-light */
+    --muted-foreground: 0 0% 61%; /* gray */
+    --accent: 168 86% 83%; /* mint-dark */
+    --accent-foreground: 241 25% 21%; /* navy-dark */
+    --destructive: 354 70% 54%; /* error */
+    --destructive-foreground: 0 0% 100%; /* white */
+    --border: 248 33% 97%; /* periwinkle-light */
+    --input: 248 33% 97%; /* periwinkle-light */
+    --ring: 316 53% 38%; /* purple-dark */
+    
+    /* She Sharp specific colors */
+    --purple-dark: 316 53% 38%;
+    --purple-mid: 315 49% 61%;
+    --purple-light: 315 60% 95%;
+    --periwinkle-dark: 244 100% 76%;
+    --periwinkle-light: 248 33% 97%;
+    --navy-dark: 241 25% 21%;
+    --navy-light: 216 12% 97%;
+    --mint-dark: 168 86% 83%;
+    --mint-light: 165 80% 97%;
+    --gray: 0 0% 61%;
+    --blue: 207 81% 46%;
+    --error: 354 70% 54%;
+    
+    --chart-1: 316 53% 38%; /* purple-dark */
+    --chart-2: 244 100% 76%; /* periwinkle-dark */
+    --chart-3: 168 86% 83%; /* mint-dark */
+    --chart-4: 315 49% 61%; /* purple-mid */
+    --chart-5: 207 81% 46%; /* blue */
+    --radius: 0.6rem;
+    --sidebar-background: 248 33% 97%; /* periwinkle-light */
+    --sidebar-foreground: 241 25% 21%; /* navy-dark */
+    --sidebar-primary: 316 53% 38%; /* purple-dark */
+    --sidebar-primary-foreground: 0 0% 100%; /* white */
+    --sidebar-accent: 168 86% 83%; /* mint-dark */
+    --sidebar-accent-foreground: 241 25% 21%; /* navy-dark */
+    --sidebar-border: 0 0% 61%; /* gray */
+    --sidebar-ring: 244 100% 76%; /* periwinkle-dark */
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --background: 241 25% 21%; /* navy-dark */
+    --foreground: 0 0% 100%; /* white */
+    --card: 241 25% 25%; /* navy-dark lightened */
+    --card-foreground: 0 0% 100%; /* white */
+    --popover: 241 25% 25%; /* navy-dark lightened */
+    --popover-foreground: 0 0% 100%; /* white */
+    --primary: 315 49% 61%; /* purple-mid */
+    --primary-foreground: 0 0% 100%; /* white */
+    --secondary: 244 100% 76%; /* periwinkle-dark */
+    --secondary-foreground: 241 25% 21%; /* navy-dark */
+    --muted: 241 25% 35%; /* navy-dark lighter */
+    --muted-foreground: 0 0% 75%; /* gray lighter */
+    --accent: 168 86% 83%; /* mint-dark */
+    --accent-foreground: 241 25% 21%; /* navy-dark */
+    --destructive: 354 70% 54%; /* error */
+    --destructive-foreground: 0 0% 100%; /* white */
+    --border: 241 25% 35%; /* navy-dark lighter */
+    --input: 241 25% 35%; /* navy-dark lighter */
+    --ring: 244 100% 76%; /* periwinkle-dark */
+    --chart-1: 315 49% 61%; /* purple-mid */
+    --chart-2: 244 100% 76%; /* periwinkle-dark */
+    --chart-3: 168 86% 83%; /* mint-dark */
+    --chart-4: 316 53% 38%; /* purple-dark */
+    --chart-5: 207 81% 46%; /* blue */
+    --sidebar-background: 241 25% 15%; /* navy-dark darker */
+    --sidebar-foreground: 0 0% 100%; /* white */
+    --sidebar-primary: 315 49% 61%; /* purple-mid */
+    --sidebar-primary-foreground: 0 0% 100%; /* white */
+    --sidebar-accent: 168 86% 83%; /* mint-dark */
+    --sidebar-accent-foreground: 241 25% 21%; /* navy-dark */
+    --sidebar-border: 241 25% 35%; /* navy-dark lighter */
+    --sidebar-ring: 244 100% 76%; /* periwinkle-dark */
   }
 }
 
