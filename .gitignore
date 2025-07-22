@@ -39,3 +39,19 @@ next-env.d.ts
 # Docker
 postgres_data/
 .env*.local
+
+# Additional environment files
+.env.development
+.env.production
+.env.test
+
+# Backup and temporary files
+*.bak
+*.backup
+*.old
+*.tmp
+*.temp
+*~
+
+# Claude AI
+.claude/
