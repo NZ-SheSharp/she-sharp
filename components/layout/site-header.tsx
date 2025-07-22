@@ -56,8 +56,8 @@ const navigation = {
       children: [
         { name: "Podcasts", href: "/media/podcasts", description: "Listen to women in tech stories" },
         { name: "Newsletters", href: "/media/newsletters", description: "Subscribe to our monthly newsletter" },
-        { name: "In the Press", href: "/media/press", description: "Media coverage and press releases" },
-        { name: "Photo Gallery", href: "/media/gallery", description: "Event highlights and moments" },
+        { name: "In the Press", href: "/media/news-and-press", description: "Media coverage and press releases" },
+        { name: "Photo Gallery", href: "/media/photo-gallery", description: "Event highlights and moments" },
       ],
     },
   ],
