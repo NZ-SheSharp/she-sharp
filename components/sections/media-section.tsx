@@ -220,7 +220,7 @@ export function MediaSection() {
                           fill
                           className="object-cover"
                         />
-                        {key === 'videos' && (
+                        {key === 'videos' && 'duration' in item && (
                           <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
                             {item.duration}
                           </div>
@@ -244,13 +244,13 @@ export function MediaSection() {
                           </CardDescription>
                         )}
                         <div className="flex items-center justify-between">
-                          {key === 'videos' && item.views && (
+                          {key === 'videos' && 'views' in item && item.views && (
                             <span className="text-xs text-gray">{item.views} views</span>
                           )}
-                          {key === 'podcasts' && item.duration && (
+                          {key === 'podcasts' && 'duration' in item && item.duration && (
                             <span className="text-xs text-gray">{item.duration}</span>
                           )}
-                          {key === 'publications' && item.pages && (
+                          {key === 'publications' && 'pages' in item && item.pages && (
                             <span className="text-xs text-gray">{item.pages} pages</span>
                           )}
                           <Button variant="ghost" size="sm" className="ml-auto">
