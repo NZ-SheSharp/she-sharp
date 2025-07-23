@@ -51,20 +51,8 @@ export function SiteFooter() {
       <div className="footer-pattern" />
 
       <div className="relative container px-4 py-16 md:px-6">
-        {/* Top Section - Stats & Newsletter */}
+        {/* Top Section - Newsletter */}
         <div className="mb-16">
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-8 mb-12 text-center">
-            {footerConfig.stats.map((stat) => (
-              <div key={stat.label} className="space-y-2">
-                <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-mid to-periwinkle-dark bg-clip-text text-transparent stat-number">
-                  {stat.value}
-                </div>
-                <div className="text-sm text-white/70">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-
           {/* Newsletter */}
           <div className="max-w-2xl mx-auto text-center">
             <h3 className="text-2xl md:text-3xl font-bold mb-4 bg-gradient-to-r from-white to-mint-dark bg-clip-text text-transparent">
@@ -234,27 +222,6 @@ export function SiteFooter() {
             </div>
           </div>
 
-          {/* Call to Action */}
-          <div className="text-center pt-8">
-            <p className="text-white/80 mb-4">
-              Ready to join our community of women in STEM?
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Button
-                asChild
-                variant="outline"
-                className="border-purple-mid text-purple-mid hover:bg-purple-mid hover:text-white"
-              >
-                <Link href="/events">Explore Events</Link>
-              </Button>
-              <Button
-                asChild
-                className="bg-gradient-to-r from-purple-dark to-periwinkle-dark hover:opacity-90"
-              >
-                <Link href="/support/donate">Support Our Mission</Link>
-              </Button>
-            </div>
-          </div>
         </div>
       </div>
     </footer>
