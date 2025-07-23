@@ -38,8 +38,8 @@ export const footerConfig = {
       title: "About",
       links: [
         { name: "About Us", href: "/about" },
-        { name: "For Sponsors", href: "/support/corporate-sponsorship" },
-        { name: "Join Our Team", href: "/support/join-our-team" },
+        { name: "For Sponsors", href: "/sponsors/corporate-sponsorship" },
+        { name: "Join Our Team", href: "/join-our-team" },
       ],
     },
     {
@@ -63,7 +63,7 @@ export const footerConfig = {
     {
       title: "Support",
       links: [
-        { name: "Donate", href: "/support/donate" },
+        { name: "Donate", href: "/donate" },
         { name: "Contact Us", href: "/contact" },
       ],
     },

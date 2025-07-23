@@ -45,12 +45,12 @@ export const navigationConfig: {
     },
     {
       title: "For Sponsors",
-      href: "/support/corporate-sponsorship",
+      href: "/sponsors/corporate-sponsorship",
       icon: Briefcase,
     },
     {
       title: "Join our Team",
-      href: "/support/join-our-team",
+      href: "/join-our-team",
       icon: Heart,
     },
     {
@@ -129,7 +129,7 @@ export const navigationConfig: {
     },
     {
       title: "Donate",
-      href: "/support/donate",
+      href: "/donate",
       variant: "default",
     },
   ],
