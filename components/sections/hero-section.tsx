@@ -69,7 +69,7 @@ export function HeroSection() {
                     />
                   </AspectRatio>
                   <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/80 via-navy-dark/40 to-transparent" />
-                  <div className="absolute bottom-8 left-8">
+                  <div className="absolute bottom-8 left-8 z-10">
                     <Badge className="bg-purple-dark text-white">
                       {image.caption}
                     </Badge>
@@ -78,8 +78,8 @@ export function HeroSection() {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="left-2 sm:left-4 h-10 w-10 sm:h-12 sm:w-12 bg-white/20 backdrop-blur-sm border-white/20 text-white hover:bg-white/30" />
-          <CarouselNext className="right-2 sm:right-4 h-10 w-10 sm:h-12 sm:w-12 bg-white/20 backdrop-blur-sm border-white/20 text-white hover:bg-white/30" />
+          <CarouselPrevious className="left-2 sm:left-4 h-10 w-10 sm:h-12 sm:w-12 bg-white/30 backdrop-blur-sm border-2 border-white/40 text-white hover:bg-white/50 hover:border-white/60 transition-all duration-200 z-20" />
+          <CarouselNext className="right-2 sm:right-4 h-10 w-10 sm:h-12 sm:w-12 bg-white/30 backdrop-blur-sm border-2 border-white/40 text-white hover:bg-white/50 hover:border-white/60 transition-all duration-200 z-20" />
         </Carousel>
       </div>
       
