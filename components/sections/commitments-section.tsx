@@ -17,7 +17,7 @@ const commitments = [
     color: "text-purple-dark",
     bgColor: "bg-purple-light/10",
     borderColor: "border-purple-light",
-    image: "https://placehold.co/600x400/7B3F99/FFFFFF?text=Connection",
+    image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
     features: [
       "Monthly networking events",
       "Online community platform",
@@ -33,7 +33,7 @@ const commitments = [
     color: "text-periwinkle-dark",
     bgColor: "bg-periwinkle-light",
     borderColor: "border-periwinkle-mid",
-    image: "https://placehold.co/600x400/4D7298/FFFFFF?text=Inspiration",
+    image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
     features: [
       "Speaker series with leaders",
       "Success story showcases",
@@ -49,7 +49,7 @@ const commitments = [
     color: "text-mint-dark",
     bgColor: "bg-mint-light",
     borderColor: "border-mint-mid",
-    image: "https://placehold.co/600x400/5EEAD4/1F2937?text=Empowerment",
+    image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
     features: [
       "1-on-1 mentorship program",
       "Skills development workshops",

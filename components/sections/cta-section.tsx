@@ -20,7 +20,7 @@ const ctaOptions = [
     buttonVariant: "default" as const,
     buttonClass: "bg-purple-dark hover:bg-purple-mid",
     href: "/donate",
-    image: "https://placehold.co/600x400/7B3F99/FFFFFF?text=Support+Our+Mission",
+    image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
   },
   {
     title: "Come to an event",
@@ -32,7 +32,7 @@ const ctaOptions = [
     buttonVariant: "outline" as const,
     buttonClass: "border-mint-dark text-mint-dark hover:bg-mint-light",
     href: "/events",
-    image: "https://placehold.co/600x400/5EEAD4/1F2937?text=Join+Our+Events",
+    image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
   },
   {
     title: "Join as a volunteer",
@@ -44,7 +44,7 @@ const ctaOptions = [
     buttonVariant: "outline" as const,
     buttonClass: "border-periwinkle-dark text-periwinkle-dark hover:bg-periwinkle-light",
     href: "/join",
-    image: "https://placehold.co/600x400/4D7298/FFFFFF?text=Volunteer+With+Us",
+    image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
   },
   {
     title: "Partner with us",
@@ -56,7 +56,7 @@ const ctaOptions = [
     buttonVariant: "outline" as const,
     buttonClass: "border-navy-dark text-navy-dark hover:bg-navy-light",
     href: "/sponsors/corporate",
-    image: "https://placehold.co/600x400/1F2937/FFFFFF?text=Become+a+Partner",
+    image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
   },
 ];
 

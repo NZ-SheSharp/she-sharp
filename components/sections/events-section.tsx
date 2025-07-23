@@ -21,7 +21,7 @@ const upcomingEvents = [
     type: "Networking",
     typeColor: "bg-purple-dark text-white",
     attendees: 150,
-    image: "https://placehold.co/400x300/7B3F99/FFFFFF?text=THRIVE+Event",
+    image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
     description: "An evening of inspiring stories and career insights from women leaders in tech.",
   },
   {
@@ -33,7 +33,7 @@ const upcomingEvents = [
     type: "Workshop",
     typeColor: "bg-periwinkle-dark text-white",
     attendees: 80,
-    image: "https://placehold.co/400x300/4D7298/FFFFFF?text=Cloud+Workshop",
+    image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
     description: "Hands-on workshop covering cloud fundamentals and practical applications.",
     isOnline: true,
   },
@@ -46,7 +46,7 @@ const upcomingEvents = [
     type: "Mentorship",
     typeColor: "bg-mint-dark text-white",
     attendees: 60,
-    image: "https://placehold.co/400x300/5EEAD4/1F2937?text=Mentorship+Event",
+    image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
     description: "Meet potential mentors in a fun, fast-paced environment.",
   },
 ];

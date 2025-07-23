@@ -17,7 +17,7 @@ const missionTabs = [
     icon: Target,
     title: "Bridging the Gender Gap in STEM",
     content: "We're on a mission to create a more inclusive tech industry by empowering women to pursue and thrive in STEM careers. Through community, education, and opportunity, we're changing the face of technology.",
-    image: "https://placehold.co/800x600/7B3F99/FFFFFF?text=Our+Mission",
+    image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
     stats: [
       { label: "Women Empowered", value: "2200+" },
       { label: "Career Transitions", value: "500+" },
@@ -29,7 +29,7 @@ const missionTabs = [
     icon: Users,
     title: "Building Community & Connections",
     content: "We believe in the power of community. By bringing women together through events, workshops, and mentorship programs, we create lasting connections that support career growth and personal development.",
-    image: "https://placehold.co/800x600/4D7298/FFFFFF?text=Our+Approach",
+    image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
     stats: [
       { label: "Events Hosted", value: "84+" },
       { label: "Partner Companies", value: "50+" },
@@ -41,7 +41,7 @@ const missionTabs = [
     icon: Heart,
     title: "Creating Real Change",
     content: "Our members have gone on to launch startups, lead engineering teams, and become advocates for diversity in their organizations. Every success story inspires the next generation.",
-    image: "https://placehold.co/800x600/93C5FD/FFFFFF?text=Our+Impact",
+    image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
     stats: [
       { label: "Success Stories", value: "100+" },
       { label: "Companies Reached", value: "200+" },

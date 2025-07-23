@@ -22,7 +22,7 @@ const mediaCategories = {
         title: "She Sharp Celebrates 10 Years of Empowering Women in Tech",
         outlet: "NZ Herald",
         date: "March 2024",
-        image: "https://placehold.co/400x250/7B3F99/FFFFFF?text=NZ+Herald",
+        image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
         link: "#",
         excerpt: "A decade of breaking barriers and building futures in New Zealand's tech industry...",
       },
@@ -31,7 +31,7 @@ const mediaCategories = {
         title: "How She Sharp is Closing the Gender Gap in STEM",
         outlet: "Stuff.co.nz",
         date: "February 2024",
-        image: "https://placehold.co/400x250/4D7298/FFFFFF?text=Stuff",
+        image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
         link: "#",
         excerpt: "Innovative programs and mentorship initiatives are making a real difference...",
       },
@@ -40,7 +40,7 @@ const mediaCategories = {
         title: "Tech Industry Rallies Behind She Sharp's Mission",
         outlet: "BusinessDesk",
         date: "January 2024",
-        image: "https://placehold.co/400x250/93C5FD/FFFFFF?text=BusinessDesk",
+        image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
         link: "#",
         excerpt: "Major tech companies pledge support for diversity initiatives...",
       },
@@ -55,7 +55,7 @@ const mediaCategories = {
         title: "Women in Tech: The She Sharp Story",
         outlet: "Tech Talks NZ",
         date: "March 2024",
-        image: "https://placehold.co/400x250/5EEAD4/1F2937?text=Podcast+1",
+        image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
         link: "#",
         duration: "45 min",
         excerpt: "Founder shares insights on building inclusive tech communities...",
@@ -65,7 +65,7 @@ const mediaCategories = {
         title: "Breaking Barriers: She Sharp Members Share Their Journeys",
         outlet: "Future Female Leaders",
         date: "February 2024",
-        image: "https://placehold.co/400x250/7B3F99/FFFFFF?text=Podcast+2",
+        image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
         link: "#",
         duration: "30 min",
         excerpt: "Inspiring stories from women who've transformed their careers...",
@@ -81,7 +81,7 @@ const mediaCategories = {
         title: "She Sharp Annual Conference 2024 Highlights",
         outlet: "She Sharp YouTube",
         date: "March 2024",
-        image: "https://placehold.co/400x250/4D7298/FFFFFF?text=Video+1",
+        image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
         link: "#",
         duration: "3:24",
         views: "2.5K",
@@ -91,7 +91,7 @@ const mediaCategories = {
         title: "Mentorship Success Stories",
         outlet: "She Sharp YouTube",
         date: "February 2024",
-        image: "https://placehold.co/400x250/93C5FD/FFFFFF?text=Video+2",
+        image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
         link: "#",
         duration: "5:45",
         views: "1.8K",
@@ -107,7 +107,7 @@ const mediaCategories = {
         title: "2024 State of Women in Tech Report",
         outlet: "She Sharp Research",
         date: "March 2024",
-        image: "https://placehold.co/400x250/5EEAD4/1F2937?text=Report+2024",
+        image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
         link: "#",
         type: "Research Report",
         pages: 48,
@@ -117,7 +117,7 @@ const mediaCategories = {
         title: "Mentorship Program Impact Study",
         outlet: "She Sharp & University of Auckland",
         date: "January 2024",
-        image: "https://placehold.co/400x250/7B3F99/FFFFFF?text=Impact+Study",
+        image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
         link: "#",
         type: "Academic Paper",
         pages: 24,
@@ -130,8 +130,8 @@ const featuredMedia = {
   title: "She Sharp Featured in TVNZ Breakfast Show",
   outlet: "TVNZ",
   date: "April 2024",
-  image: "https://placehold.co/800x450/7B3F99/FFFFFF?text=TVNZ+Feature",
-  videoUrl: "#",
+  image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
+  videoUrl: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/6494eca97a143f705f5a5436_Home%20Vid%201-1%20Placeholder-transcode.mp4",
   description: "Our CEO discusses the importance of diversity in tech and announces new nationwide initiatives to support women entering STEM careers.",
 };
 
@@ -160,9 +160,11 @@ export function MediaSection() {
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                  <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center cursor-pointer hover:bg-white transition-colors">
-                    <Play className="w-8 h-8 text-purple-dark ml-1" />
-                  </div>
+                  <Link href={featuredMedia.videoUrl} target="_blank" rel="noopener noreferrer">
+                    <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center cursor-pointer hover:bg-white transition-colors">
+                      <Play className="w-8 h-8 text-purple-dark ml-1" />
+                    </div>
+                  </Link>
                 </div>
               </AspectRatio>
             </div>

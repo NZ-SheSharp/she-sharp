@@ -15,53 +15,53 @@ const sponsors = {
   platinum: [
     { 
       name: "Microsoft", 
-      logo: "https://placehold.co/300x150/FFFFFF/7B3F99?text=Microsoft",
+      logo: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
       description: "Supporting women in cloud and AI technologies"
     },
   ],
   gold: [
     { 
       name: "AWS", 
-      logo: "https://placehold.co/300x150/FFFFFF/4D7298?text=AWS",
+      logo: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
       description: "Empowering women developers globally"
     },
     { 
       name: "Google", 
-      logo: "https://placehold.co/300x150/FFFFFF/4D7298?text=Google",
+      logo: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
       description: "Building inclusive tech communities"
     },
   ],
   silver: [
     { 
       name: "HCLTech", 
-      logo: "https://placehold.co/250x125/FFFFFF/93C5FD?text=HCLTech",
+      logo: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
       description: "Technology that makes a difference"
     },
     { 
       name: "Fonterra", 
-      logo: "https://placehold.co/250x125/FFFFFF/93C5FD?text=Fonterra",
+      logo: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
       description: "Innovation in every byte"
     },
   ],
   bronze: [
     { 
       name: "MYOB", 
-      logo: "https://placehold.co/200x100/FFFFFF/5EEAD4?text=MYOB",
+      logo: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
       description: "Business solutions for growth"
     },
     { 
       name: "Fiserv", 
-      logo: "https://placehold.co/200x100/FFFFFF/5EEAD4?text=Fiserv",
+      logo: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
       description: "Financial technology innovation"
     },
     { 
       name: "FlexWare", 
-      logo: "https://placehold.co/200x100/FFFFFF/5EEAD4?text=FlexWare",
+      logo: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
       description: "Flexible software solutions"
     },
     { 
       name: "Datacom", 
-      logo: "https://placehold.co/200x100/FFFFFF/5EEAD4?text=Datacom",
+      logo: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
       description: "Digital transformation experts"
     },
   ],

@@ -17,22 +17,22 @@ import { Badge } from "@/components/ui/badge";
 
 const heroImages = [
   {
-    src: "https://placehold.co/1920x1080/7B3F99/FFFFFF?text=She+Sharp+Event+1",
+    src: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
     alt: "She Sharp networking event with women in tech",
     caption: "THRIVE: Your Career, Your Story",
   },
   {
-    src: "https://placehold.co/1920x1080/4D7298/FFFFFF?text=She+Sharp+Workshop",
+    src: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
     alt: "Women participating in tech workshop",
     caption: "Hands-on Technical Workshops",
   },
   {
-    src: "https://placehold.co/1920x1080/93C5FD/FFFFFF?text=She+Sharp+Mentorship",
+    src: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
     alt: "Mentorship session at She Sharp",
     caption: "1-on-1 Mentorship Programs",
   },
   {
-    src: "https://placehold.co/1920x1080/5EEAD4/FFFFFF?text=She+Sharp+Community",
+    src: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
     alt: "She Sharp community gathering",
     caption: "Building a Supportive Community",
   },
