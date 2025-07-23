@@ -184,7 +184,7 @@ export function SponsorsSection() {
               size="lg"
               className="bg-purple-dark hover:bg-purple-mid"
             >
-              <Link href="/sponsors/corporate">Become a Sponsor</Link>
+              <Link href="/sponsors/corporate-sponsorship">Become a Sponsor</Link>
             </Button>
             <Button
               asChild
@@ -192,7 +192,7 @@ export function SponsorsSection() {
               variant="outline"
               className="border-purple-dark text-purple-dark hover:bg-white/50"
             >
-              <Link href="/sponsors/info">Sponsorship Info</Link>
+              <Link href="/sponsors/corporate-sponsorship">Sponsorship Info</Link>
             </Button>
           </div>
         </div>

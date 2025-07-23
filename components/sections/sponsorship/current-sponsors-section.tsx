@@ -81,7 +81,7 @@ export function CurrentSponsorsSection() {
 
         <div className="text-center">
           <Button asChild size="lg" className="bg-purple-dark hover:bg-purple-mid">
-            <Link href="/sponsors/contact">Become a sponsor</Link>
+            <Link href="/contact">Become a sponsor</Link>
           </Button>
         </div>
       </Container>

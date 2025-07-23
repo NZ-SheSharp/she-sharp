@@ -44,7 +44,7 @@ export function DonationOptionsSection() {
                   {option.amount}
                 </h3>
                 <Button asChild className="w-full bg-purple-dark hover:bg-purple-mid">
-                  <Link href="/checkout">Donate Now</Link>
+                  <Link href="/donate">Donate Now</Link>
                 </Button>
               </CardContent>
             </Card>

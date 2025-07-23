@@ -28,43 +28,44 @@ export const footerConfig = {
 
   sections: [
     {
-      title: "Events",
-      links: [
-        { name: "Explore Events", href: "/events" },
-        { name: "Google Educator Conference", href: "/events/google-educator" },
-      ],
-    },
-    {
       title: "About",
       links: [
-        { name: "About Us", href: "/about" },
-        { name: "For Sponsors", href: "/sponsors/corporate-sponsorship" },
-        { name: "Join Our Team", href: "/join-our-team" },
-      ],
-    },
-    {
-      title: "Media",
-      links: [
-        { name: "Podcasts", href: "/media/podcasts" },
-        { name: "Newsletters", href: "/media/newsletters" },
-        { name: "In the Press", href: "/media/news-and-press" },
-        { name: "Photo Gallery", href: "/media/photo-gallery" },
+        { name: "Our Mission", href: "/about" },
+        { name: "Meet the Team", href: "/about#team" },
         { name: "Impact Report", href: "/media/impact-report" },
       ],
     },
     {
-      title: "Mentorship",
+      title: "Programs",
       links: [
+        { name: "All Events", href: "/events" },
+        { name: "Google Educator Conference", href: "/events/google-educator" },
         { name: "Mentorship Program", href: "/mentorship" },
-        { name: "Meet our Mentors", href: "/mentorship/mentors" },
-        { name: "Become a Mentee", href: "/mentorship/mentee" },
       ],
     },
     {
-      title: "Support",
+      title: "Get Involved",
       links: [
-        { name: "Donate", href: "/donate" },
+        { name: "Become a Mentor", href: "/mentorship/mentors" },
+        { name: "Join as Mentee", href: "/mentorship/mentee" },
+        { name: "Volunteer with Us", href: "/join-our-team" },
+        { name: "Corporate Partnership", href: "/sponsors/corporate-sponsorship" },
+      ],
+    },
+    {
+      title: "Resources",
+      links: [
+        { name: "Podcasts", href: "/media/podcasts" },
+        { name: "Newsletters", href: "/media/newsletters" },
+        { name: "Photo Gallery", href: "/media/photo-gallery" },
+        { name: "In the Press", href: "/media/news-and-press" },
+      ],
+    },
+    {
+      title: "Connect",
+      links: [
         { name: "Contact Us", href: "/contact" },
+        { name: "Support Us", href: "/donate" },
       ],
     },
   ] as FooterSection[],

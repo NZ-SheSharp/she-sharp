@@ -1,4 +1,4 @@
-import { LucideIcon, Calendar, Users, Briefcase, Heart, Mic, Mail, Camera, FileText, Award } from "lucide-react";
+import { LucideIcon, Calendar, Users, Briefcase, Heart, Mic, Mail, Camera, FileText, Award, BookOpen, Sparkles, HandHeart, Building2 } from "lucide-react";
 
 export interface NavigationItem {
   title: string;
@@ -20,14 +20,39 @@ export const navigationConfig: {
 } = {
   items: [
     {
-      title: "Events",
+      title: "About",
+      href: "/about",
+      icon: Users,
+      children: [
+        {
+          title: "Our Mission",
+          href: "/about",
+          description: "Learn about our mission and values",
+          icon: Heart,
+        },
+        {
+          title: "Meet the Team",
+          href: "/about#team",
+          description: "Get to know our dedicated team",
+          icon: Users,
+        },
+        {
+          title: "Impact Report",
+          href: "/media/impact-report",
+          description: "Our annual achievements and impact",
+          icon: FileText,
+        },
+      ],
+    },
+    {
+      title: "Programs",
       href: "/events",
       icon: Calendar,
       children: [
         {
-          title: "Explore Events",
+          title: "All Events",
           href: "/events",
-          description: "Discover upcoming events and workshops",
+          description: "Explore our upcoming events and workshops",
           icon: Calendar,
         },
         {
@@ -36,27 +61,49 @@ export const navigationConfig: {
           description: "Annual education technology conference",
           icon: Award,
         },
+        {
+          title: "Mentorship Program",
+          href: "/mentorship",
+          description: "Connect with mentors and grow your career",
+          icon: Users,
+        },
       ],
     },
     {
-      title: "About Us",
-      href: "/about",
-      icon: Users,
-    },
-    {
-      title: "For Sponsors",
-      href: "/sponsors/corporate-sponsorship",
-      icon: Briefcase,
-    },
-    {
-      title: "Join our Team",
+      title: "Get Involved",
       href: "/join-our-team",
-      icon: Heart,
+      icon: HandHeart,
+      children: [
+        {
+          title: "Become a Mentor",
+          href: "/mentorship/mentors",
+          description: "Share your expertise and guide others",
+          icon: Award,
+        },
+        {
+          title: "Join as Mentee",
+          href: "/mentorship/mentee",
+          description: "Apply to join our mentorship program",
+          icon: BookOpen,
+        },
+        {
+          title: "Volunteer with Us",
+          href: "/join-our-team",
+          description: "Join our team and make a difference",
+          icon: Heart,
+        },
+        {
+          title: "Corporate Partnership",
+          href: "/sponsors/corporate-sponsorship",
+          description: "Partner with us to support women in STEM",
+          icon: Building2,
+        },
+      ],
     },
     {
-      title: "Media",
+      title: "Resources",
       href: "/media",
-      icon: Mic,
+      icon: BookOpen,
       children: [
         {
           title: "Podcasts",
@@ -71,64 +118,33 @@ export const navigationConfig: {
           icon: Mail,
         },
         {
-          title: "In the Press",
-          href: "/media/news-and-press",
-          description: "Media coverage and press releases",
-          icon: FileText,
-        },
-        {
           title: "Photo Gallery",
           href: "/media/photo-gallery",
           description: "Event highlights and memorable moments",
           icon: Camera,
         },
         {
-          title: "Impact Report",
-          href: "/media/impact-report",
-          description: "Our annual impact and achievements",
+          title: "In the Press",
+          href: "/media/news-and-press",
+          description: "Media coverage and press releases",
           icon: FileText,
         },
       ],
     },
     {
-      title: "Contact Us",
+      title: "Contact",
       href: "/contact",
       icon: Mail,
-    },
-    {
-      title: "Mentorship",
-      href: "/mentorship",
-      icon: Users,
-      children: [
-        {
-          title: "Mentorship Program",
-          href: "/mentorship",
-          description: "Learn about our mentorship initiatives",
-          icon: Users,
-        },
-        {
-          title: "Meet our Mentors",
-          href: "/mentorship/mentors",
-          description: "Connect with experienced professionals",
-          icon: Award,
-        },
-        {
-          title: "Become a Mentee",
-          href: "/mentorship/mentee",
-          description: "Apply to join our mentorship program",
-          icon: Users,
-        },
-      ],
     },
   ],
   buttons: [
     {
-      title: "Explore Events",
+      title: "Upcoming Events",
       href: "/events",
       variant: "outline",
     },
     {
-      title: "Donate",
+      title: "Support Us",
       href: "/donate",
       variant: "default",
     },

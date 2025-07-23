@@ -67,7 +67,7 @@ export function FeaturedEventSection() {
                 </p>
               </div>
               <Button asChild size="lg" className="bg-purple-dark hover:bg-purple-mid">
-                <Link href="/events/thrive-your-career-your-story">Learn more</Link>
+                <Link href="/events">Learn more</Link>
               </Button>
             </CardContent>
           </div>

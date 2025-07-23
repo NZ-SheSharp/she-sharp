@@ -149,7 +149,7 @@ export function MissionSection() {
             variant="outline"
             className="border-purple-dark text-purple-dark hover:bg-purple-light"
           >
-            <Link href="/join">Become a member</Link>
+            <Link href="/join-our-team">Become a member</Link>
           </Button>
         </div>
       </Container>

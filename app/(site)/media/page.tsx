@@ -1,0 +1,197 @@
+import Link from "next/link";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Container } from "@/components/layout/container";
+import { Section } from "@/components/layout/section";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Mic, Mail, Camera, FileText, ArrowRight, Sparkles } from "lucide-react";
+
+export default function MediaHubPage() {
+  const mediaCategories = [
+    {
+      title: "Podcasts",
+      description: "Listen to inspiring stories from women in STEM",
+      icon: Mic,
+      href: "/media/podcasts",
+      color: "bg-purple-light/20",
+      iconColor: "text-purple-dark",
+      featured: true,
+      stats: "20+ Episodes",
+    },
+    {
+      title: "Newsletters",
+      description: "Stay updated with our monthly newsletter",
+      icon: Mail,
+      href: "/media/newsletters",
+      color: "bg-mint-light/20",
+      iconColor: "text-mint-dark",
+      stats: "Monthly Updates",
+    },
+    {
+      title: "Photo Gallery",
+      description: "Browse event highlights and memorable moments",
+      icon: Camera,
+      href: "/media/photo-gallery",
+      color: "bg-periwinkle-light/20",
+      iconColor: "text-periwinkle-dark",
+      stats: "500+ Photos",
+    },
+    {
+      title: "In the Press",
+      description: "Read about our impact in media coverage",
+      icon: FileText,
+      href: "/media/news-and-press",
+      color: "bg-navy-light/20",
+      iconColor: "text-navy-dark",
+      stats: "Latest Coverage",
+    },
+  ];
+
+  return (
+    <>
+      {/* Hero Section */}
+      <Section bgColor="white" className="pt-24 pb-12">
+        <Container size="xl">
+          <div className="text-center max-w-4xl mx-auto px-4">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <Sparkles className="w-6 h-6 text-purple-dark" />
+              <span className="text-purple-dark font-semibold">Resources Hub</span>
+            </div>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-navy-dark mb-6">
+              Media & Resources
+            </h1>
+            <p className="text-lg sm:text-xl text-gray">
+              Explore our collection of podcasts, newsletters, photos, and press coverage. 
+              Stay connected with the She Sharp community and discover inspiring stories 
+              from women in STEM.
+            </p>
+          </div>
+        </Container>
+      </Section>
+
+      {/* Media Categories Grid */}
+      <Section bgColor="light">
+        <Container size="xl">
+          <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
+            {mediaCategories.map((category) => (
+              <Card 
+                key={category.title} 
+                className={cn(
+                  "hover:shadow-lg transition-all duration-300",
+                  category.featured && "md:col-span-2"
+                )}
+              >
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div className={`w-14 h-14 rounded-full ${category.color} flex items-center justify-center mb-4`}>
+                      <category.icon className={`w-7 h-7 ${category.iconColor}`} />
+                    </div>
+                    <span className="text-sm text-gray">{category.stats}</span>
+                  </div>
+                  <CardTitle className="text-xl sm:text-2xl text-navy-dark">
+                    {category.title}
+                  </CardTitle>
+                  <CardDescription className="text-gray">
+                    {category.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button
+                    asChild
+                    variant="ghost"
+                    className="group p-0 h-auto font-semibold text-purple-dark hover:text-purple-mid"
+                  >
+                    <Link href={category.href}>
+                      Explore {category.title}
+                      <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                    </Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </Container>
+      </Section>
+
+      {/* Impact Report Special Section */}
+      <Section bgColor="white">
+        <Container size="lg">
+          <Card className="overflow-hidden bg-gradient-to-br from-purple-light/10 to-periwinkle-light/10">
+            <div className="grid md:grid-cols-2 gap-8 items-center">
+              <div className="p-8 md:p-12">
+                <h2 className="text-2xl sm:text-3xl font-bold text-navy-dark mb-4">
+                  Annual Impact Report
+                </h2>
+                <p className="text-gray mb-6">
+                  Discover how She Sharp is making a difference in the lives of women in STEM. 
+                  Our comprehensive impact report showcases our achievements, growth, and the 
+                  positive change we're creating in the tech community.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Button
+                    asChild
+                    className="bg-purple-dark hover:bg-purple-mid"
+                  >
+                    <Link href="/media/impact-report">
+                      View Impact Report
+                    </Link>
+                  </Button>
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="border-purple-dark text-purple-dark hover:bg-purple-light"
+                  >
+                    <Link href="/about">
+                      Learn About Our Mission
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+              <div className="relative h-64 md:h-full bg-gradient-to-br from-purple-dark to-periwinkle-dark">
+                <div className="absolute inset-0 flex items-center justify-center text-white">
+                  <div className="text-center">
+                    <div className="text-4xl md:text-5xl font-bold mb-2">2200+</div>
+                    <div className="text-lg">Members Strong</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </Container>
+      </Section>
+
+      {/* Newsletter Signup */}
+      <Section bgColor="light">
+        <Container size="lg">
+          <Card className="text-center p-8 md:p-12">
+            <div className="w-16 h-16 mx-auto mb-6 bg-mint-light/20 rounded-full flex items-center justify-center">
+              <Mail className="w-8 h-8 text-mint-dark" />
+            </div>
+            <h3 className="text-2xl font-bold text-navy-dark mb-4">
+              Never Miss an Update
+            </h3>
+            <p className="text-gray mb-8 max-w-2xl mx-auto">
+              Subscribe to our newsletter and be the first to know about upcoming events, 
+              new podcast episodes, and inspiring success stories from our community.
+            </p>
+            <Button
+              asChild
+              size="lg"
+              className="bg-purple-dark hover:bg-purple-mid"
+            >
+              <Link href="/media/newsletters">
+                Subscribe to Newsletter
+              </Link>
+            </Button>
+          </Card>
+        </Container>
+      </Section>
+    </>
+  );
+}
+
+// Add missing import
+function cn(...classes: (string | boolean | undefined)[]) {
+  return classes.filter(Boolean).join(' ');
+}
