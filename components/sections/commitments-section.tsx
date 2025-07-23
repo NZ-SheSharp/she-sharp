@@ -1,7 +1,13 @@
+"use client";
+
+import Image from "next/image";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
-import { Users, Lightbulb, Rocket } from "lucide-react";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Badge } from "@/components/ui/badge";
+import { Users, Lightbulb, Rocket, ArrowRight, Calendar, BookOpen, Briefcase } from "lucide-react";
+import Link from "next/link";
 
 const commitments = [
   {
@@ -10,6 +16,15 @@ const commitments = [
     icon: Users,
     color: "text-purple-dark",
     bgColor: "bg-purple-light/10",
+    borderColor: "border-purple-light",
+    image: "https://placehold.co/600x400/7B3F99/FFFFFF?text=Connection",
+    features: [
+      "Monthly networking events",
+      "Online community platform",
+      "Industry-specific meetups",
+    ],
+    stats: { value: "2200+", label: "Active Members" },
+    link: { href: "/events", text: "Join an Event" },
   },
   {
     title: "Inspiration",
@@ -17,6 +32,15 @@ const commitments = [
     icon: Lightbulb,
     color: "text-periwinkle-dark",
     bgColor: "bg-periwinkle-light",
+    borderColor: "border-periwinkle-mid",
+    image: "https://placehold.co/600x400/4D7298/FFFFFF?text=Inspiration",
+    features: [
+      "Speaker series with leaders",
+      "Success story showcases",
+      "Career pathway workshops",
+    ],
+    stats: { value: "100+", label: "Role Models" },
+    link: { href: "/mentorship", text: "Meet Our Mentors" },
   },
   {
     title: "Empowerment",
@@ -24,6 +48,15 @@ const commitments = [
     icon: Rocket,
     color: "text-mint-dark",
     bgColor: "bg-mint-light",
+    borderColor: "border-mint-mid",
+    image: "https://placehold.co/600x400/5EEAD4/1F2937?text=Empowerment",
+    features: [
+      "1-on-1 mentorship program",
+      "Skills development workshops",
+      "Career transition support",
+    ],
+    stats: { value: "500+", label: "Careers Launched" },
+    link: { href: "/join", text: "Start Your Journey" },
   },
 ];
 
@@ -31,34 +64,99 @@ export function CommitmentsSection() {
   return (
     <Section bgColor="light">
       <Container>
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-navy-dark mb-4">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-navy-dark mb-4">
             Our commitments
           </h2>
-          <p className="text-lg text-gray max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-gray max-w-2xl mx-auto px-4">
             Through three core commitments, we are dedicated to creating a better future for women in tech
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {commitments.map((commitment) => {
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          {commitments.map((commitment, index) => {
             const Icon = commitment.icon;
             return (
-              <Card key={commitment.title} className="border-0 shadow-sm hover:shadow-md transition-shadow">
-                <CardHeader className="text-center">
-                  <div className={`inline-flex p-4 rounded-full ${commitment.bgColor} mb-4`}>
-                    <Icon className={`w-8 h-8 ${commitment.color}`} />
+              <Card 
+                key={commitment.title} 
+                className={`border-2 ${commitment.borderColor} shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group`}
+              >
+                {/* Image */}
+                <div className="relative h-48 overflow-hidden">
+                  <AspectRatio ratio={3 / 2}>
+                    <Image
+                      src={commitment.image}
+                      alt={commitment.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </AspectRatio>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <div className="absolute bottom-4 left-4">
+                    <Badge className={`${commitment.bgColor} ${commitment.color} border-0`}>
+                      {commitment.stats.value} {commitment.stats.label}
+                    </Badge>
                   </div>
-                  <CardTitle className="text-xl">{commitment.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-center text-base">
+                </div>
+
+                <CardHeader>
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className={`p-3 rounded-full ${commitment.bgColor}`}>
+                      <Icon className={`w-6 h-6 ${commitment.color}`} />
+                    </div>
+                    <CardTitle className="text-xl">{commitment.title}</CardTitle>
+                  </div>
+                  <CardDescription className="text-base">
                     {commitment.description}
                   </CardDescription>
+                </CardHeader>
+                
+                <CardContent>
+                  <ul className="space-y-2 mb-4">
+                    {commitment.features.map((feature, featureIndex) => (
+                      <li key={featureIndex} className="flex items-start gap-2">
+                        <ArrowRight className="w-4 h-4 text-gray mt-0.5 flex-shrink-0" />
+                        <span className="text-sm text-gray">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  
+                  <Link 
+                    href={commitment.link.href}
+                    className={`inline-flex items-center gap-2 text-sm font-medium ${commitment.color} hover:underline`}
+                  >
+                    {commitment.link.text}
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
                 </CardContent>
               </Card>
             );
           })}
+        </div>
+
+        {/* Bottom CTA */}
+        <div className="mt-12 sm:mt-16 grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 p-4 sm:p-6 lg:p-8 bg-white rounded-lg shadow-sm">
+          <div className="flex items-center gap-3">
+            <Calendar className="w-6 sm:w-8 h-6 sm:h-8 text-purple-dark flex-shrink-0" />
+            <div>
+              <div className="text-sm sm:text-base font-semibold text-navy-dark">Regular Events</div>
+              <div className="text-xs sm:text-sm text-gray">Join us monthly</div>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <BookOpen className="w-6 sm:w-8 h-6 sm:h-8 text-periwinkle-dark flex-shrink-0" />
+            <div>
+              <div className="text-sm sm:text-base font-semibold text-navy-dark">Learning Resources</div>
+              <div className="text-xs sm:text-sm text-gray">Grow your skills</div>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <Briefcase className="w-6 sm:w-8 h-6 sm:h-8 text-mint-dark flex-shrink-0" />
+            <div>
+              <div className="text-sm sm:text-base font-semibold text-navy-dark">Career Support</div>
+              <div className="text-xs sm:text-sm text-gray">Advance your career</div>
+            </div>
+          </div>
         </div>
       </Container>
     </Section>

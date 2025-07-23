@@ -1,50 +1,119 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/container";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+import { Badge } from "@/components/ui/badge";
+
+const heroImages = [
+  {
+    src: "https://placehold.co/1920x1080/7B3F99/FFFFFF?text=She+Sharp+Event+1",
+    alt: "She Sharp networking event with women in tech",
+    caption: "THRIVE: Your Career, Your Story",
+  },
+  {
+    src: "https://placehold.co/1920x1080/4D7298/FFFFFF?text=She+Sharp+Workshop",
+    alt: "Women participating in tech workshop",
+    caption: "Hands-on Technical Workshops",
+  },
+  {
+    src: "https://placehold.co/1920x1080/93C5FD/FFFFFF?text=She+Sharp+Mentorship",
+    alt: "Mentorship session at She Sharp",
+    caption: "1-on-1 Mentorship Programs",
+  },
+  {
+    src: "https://placehold.co/1920x1080/5EEAD4/FFFFFF?text=She+Sharp+Community",
+    alt: "She Sharp community gathering",
+    caption: "Building a Supportive Community",
+  },
+];
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-light via-white to-periwinkle-light" />
-      
-      {/* Pattern overlay */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239b2e83' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }} />
+    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+      {/* Background Carousel */}
+      <div className="absolute inset-0">
+        <Carousel
+          className="w-full h-full"
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+          plugins={[
+            Autoplay({
+              delay: 5000,
+            }),
+          ]}
+        >
+          <CarouselContent className="h-full">
+            {heroImages.map((image, index) => (
+              <CarouselItem key={index} className="h-full">
+                <div className="relative w-full h-full">
+                  <AspectRatio ratio={16 / 9} className="h-full">
+                    <Image
+                      src={image.src}
+                      alt={image.alt}
+                      fill
+                      className="object-cover"
+                      priority={index === 0}
+                    />
+                  </AspectRatio>
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/80 via-navy-dark/40 to-transparent" />
+                  <div className="absolute bottom-8 left-8">
+                    <Badge className="bg-purple-dark text-white">
+                      {image.caption}
+                    </Badge>
+                  </div>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="left-2 sm:left-4 h-10 w-10 sm:h-12 sm:w-12 bg-white/20 backdrop-blur-sm border-white/20 text-white hover:bg-white/30" />
+          <CarouselNext className="right-2 sm:right-4 h-10 w-10 sm:h-12 sm:w-12 bg-white/20 backdrop-blur-sm border-white/20 text-white hover:bg-white/30" />
+        </Carousel>
       </div>
+      
+      {/* Content Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-dark/20 via-transparent to-periwinkle-dark/20" />,
 
       <Container className="relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           {/* Announcement */}
-          <div className="mb-8">
-            <span className="inline-flex items-center px-4 py-2 rounded-full bg-mint-light text-navy-dark text-sm font-medium">
+          <div className="mb-6 sm:mb-8 animate-fade-in-down">
+            <Badge className="px-3 sm:px-6 py-1.5 sm:py-2 text-xs sm:text-sm bg-mint-light/90 backdrop-blur-sm text-navy-dark border-mint-mid">
               🎉 Our next event: THRIVE: Your Career, Your Story
-            </span>
+            </Badge>
           </div>
 
           {/* Main heading */}
-          <h1 className="text-5xl md:text-7xl font-bold text-navy-dark mb-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-6 animate-fade-in-up">
             CONNECTING{" "}
-            <span className="bg-gradient-to-r from-purple-dark to-periwinkle-dark bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-purple-light to-periwinkle-light bg-clip-text text-transparent">
               women in technology
             </span>
           </h1>
 
           {/* Subheading */}
-          <p className="text-xl md:text-2xl text-gray mb-8 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 mb-8 max-w-2xl mx-auto animate-fade-in-up animation-delay-200 px-4">
             She Sharp is on a mission to bridge the gender gap in STEM, one woman at a time. Through events, networking, and career development opportunities.
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-400">
             <Button
               size="lg"
               asChild
-              className="bg-purple-dark hover:bg-purple-mid text-white"
+              className="bg-purple-dark hover:bg-purple-mid text-white shadow-lg"
             >
               <Link href="/events">Explore Events</Link>
             </Button>
@@ -52,25 +121,25 @@ export function HeroSection() {
               size="lg"
               variant="outline"
               asChild
-              className="border-purple-dark text-purple-dark hover:bg-purple-light"
+              className="border-white text-white hover:bg-white/20 backdrop-blur-sm"
             >
               <Link href="/join">Join Our Team</Link>
             </Button>
           </div>
 
           {/* Stats */}
-          <div className="mt-16 grid grid-cols-3 gap-8 max-w-2xl mx-auto">
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-purple-dark">2200+</div>
-              <div className="text-sm text-gray mt-1">She Sharp Members</div>
+          <div className="mt-12 sm:mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-2xl mx-auto animate-fade-in-up animation-delay-600">
+            <div className="text-center bg-white/10 backdrop-blur-sm rounded-lg p-3 sm:p-4">
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">2200+</div>
+              <div className="text-xs sm:text-sm text-white/80 mt-1">She Sharp Members</div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-purple-dark">50+</div>
-              <div className="text-sm text-gray mt-1">She Sharp Sponsors</div>
+            <div className="text-center bg-white/10 backdrop-blur-sm rounded-lg p-3 sm:p-4">
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">50+</div>
+              <div className="text-xs sm:text-sm text-white/80 mt-1">She Sharp Sponsors</div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-purple-dark">84+</div>
-              <div className="text-sm text-gray mt-1">Events Since 2014</div>
+            <div className="text-center bg-white/10 backdrop-blur-sm rounded-lg p-3 sm:p-4">
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">84+</div>
+              <div className="text-xs sm:text-sm text-white/80 mt-1">Events Since 2014</div>
             </div>
           </div>
         </div>
