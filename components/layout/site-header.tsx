@@ -34,15 +34,31 @@ export function SiteHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const [openMobileMenus, setOpenMobileMenus] = useState<string[]>([]);
   const [scrolled, setScrolled] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
+      const currentScrollY = window.scrollY;
+      
+      // Update scrolled state for styling
+      setScrolled(currentScrollY > 10);
+      
+      // Determine if navbar should be visible
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Scrolling down & past 100px
+        setVisible(false);
+      } else {
+        // Scrolling up
+        setVisible(true);
+      }
+      
+      setLastScrollY(currentScrollY);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [lastScrollY]);
 
   const toggleMobileMenu = (title: string) => {
     setOpenMobileMenus((prev) =>
@@ -54,10 +70,11 @@ export function SiteHeader() {
 
   return (
     <header className={cn(
-      "sticky top-0 z-50 w-full border-b backdrop-blur transition-all duration-300",
+      "fixed top-0 z-50 w-full border-b backdrop-blur transition-all duration-300",
       scrolled 
         ? "border-purple-light/30 bg-white/95 shadow-sm" 
-        : "border-purple-light/20 bg-gradient-to-r from-white via-purple-light/5 to-white supports-[backdrop-filter]:bg-white/95"
+        : "border-purple-light/20 bg-gradient-to-r from-white via-purple-light/5 to-white supports-[backdrop-filter]:bg-white/95",
+      visible ? "translate-y-0" : "-translate-y-full"
     )}>
       <div className="container flex h-16 items-center">
         {/* Logo */}

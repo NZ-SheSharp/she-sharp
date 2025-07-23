@@ -77,35 +77,40 @@ export function SponsorsSection() {
 
         {/* Silver Sponsors */}
         <div className="mb-12">
-          <div className="text-center mb-6">
-            <Badge variant="secondary" className="text-base px-6 py-2">
+          <div className="text-center mb-8">
+            <h3 className="text-lg font-bold bg-gradient-to-r from-gray via-navy-dark to-gray bg-clip-text text-transparent mb-2 tracking-wider flex items-center justify-center gap-2">
+              <span className="w-8 h-0.5 bg-gradient-to-r from-transparent to-gray/40"></span>
               SILVER SPONSORS
-            </Badge>
+              <span className="w-8 h-0.5 bg-gradient-to-l from-transparent to-gray/40"></span>
+            </h3>
+            <div className="w-32 h-1 bg-gradient-to-r from-transparent via-gray/50 to-transparent mx-auto"></div>
           </div>
-          <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
             {sponsors.silver.map((sponsor) => (
-              <Card key={sponsor.name} className="overflow-hidden hover:shadow-md transition-shadow group">
-                <CardContent className="p-6">
-                  <div className="relative h-20">
-                    <Image
-                      src={sponsor.logo}
-                      alt={sponsor.name}
-                      fill
-                      className="object-contain transition-all duration-300 group-hover:scale-105 filter grayscale hover:grayscale-0"
-                    />
-                  </div>
-                </CardContent>
-              </Card>
+              <div key={sponsor.name} className="group">
+                <div className="relative h-24 flex items-center justify-center">
+                  <Image
+                    src={sponsor.logo}
+                    alt={sponsor.name}
+                    fill
+                    className={`object-contain transition-all duration-300 group-hover:scale-110 ${
+                      sponsor.name === 'Fonterra' ? 'scale-125' : ''
+                    }`}
+                  />
+                </div>
+                <p className="text-center text-sm text-gray mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  {sponsor.description}
+                </p>
+              </div>
             ))}
           </div>
         </div>
 
         {/* Bronze Sponsors - Carousel */}
         <div className="mb-12 sm:mb-16 overflow-hidden">
-          <div className="text-center mb-6">
-            <Badge variant="outline" className="text-sm sm:text-base px-4 sm:px-6 py-1.5 sm:py-2">
-              BRONZE SPONSORS
-            </Badge>
+          <div className="text-center mb-8">
+            <h3 className="text-sm font-medium text-gray mb-2 tracking-wide">BRONZE SPONSORS</h3>
+            <div className="w-20 h-[1px] bg-gradient-to-r from-transparent via-gray/20 to-transparent mx-auto"></div>
           </div>
           <div className="max-w-4xl mx-auto relative px-12">
             <Carousel
@@ -123,19 +128,17 @@ export function SponsorsSection() {
               <CarouselContent>
                 {sponsors.bronze.map((sponsor) => (
                   <CarouselItem key={sponsor.name} className="basis-1/2 sm:basis-1/2 md:basis-1/3">
-                    <div className="p-1">
-                      <Card className="group">
-                        <CardContent className="p-3 sm:p-4">
-                          <div className="relative h-12 sm:h-16">
-                            <Image
-                              src={sponsor.logo}
-                              alt={sponsor.name}
-                              fill
-                              className="object-contain transition-all duration-300 group-hover:scale-105 filter grayscale hover:grayscale-0"
-                            />
-                          </div>
-                        </CardContent>
-                      </Card>
+                    <div className="p-2">
+                      <div className="group">
+                        <div className="relative h-16 sm:h-20 flex items-center justify-center">
+                          <Image
+                            src={sponsor.logo}
+                            alt={sponsor.name}
+                            fill
+                            className="object-contain transition-all duration-300 group-hover:scale-110"
+                          />
+                        </div>
+                      </div>
                     </div>
                   </CarouselItem>
                 ))}

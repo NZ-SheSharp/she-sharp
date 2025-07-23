@@ -121,7 +121,7 @@ export function HeroSection() {
               size="lg"
               variant="outline"
               asChild
-              className="border-white text-white hover:bg-white/20 backdrop-blur-sm"
+              className="border-2 border-white bg-white/20 text-white hover:bg-white hover:text-purple-dark backdrop-blur-sm transition-all"
             >
               <Link href="/join">Join Our Team</Link>
             </Button>

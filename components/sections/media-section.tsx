@@ -191,17 +191,17 @@ export function MediaSection() {
 
         {/* Media Categories */}
         <Tabs defaultValue="news" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 mb-6 sm:mb-8">
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 mb-6 sm:mb-8 bg-purple-light/10 p-1.5 rounded-lg h-auto">
             {Object.entries(mediaCategories).map(([key, category]) => {
               const Icon = category.icon;
               return (
                 <TabsTrigger
                   key={key}
                   value={key}
-                  className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2 sm:py-3 data-[state=active]:bg-purple-dark data-[state=active]:text-white"
+                  className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 py-3 sm:py-4 data-[state=active]:bg-purple-dark data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200 rounded-md h-full"
                 >
                   <Icon className="w-4 h-4" />
-                  <span className="text-xs sm:text-sm">{category.label}</span>
+                  <span className="text-xs sm:text-sm font-medium">{category.label}</span>
                 </TabsTrigger>
               );
             })}
@@ -209,10 +209,10 @@ export function MediaSection() {
 
           {Object.entries(mediaCategories).map(([key, category]) => (
             <TabsContent key={key} value={key}>
-              <ScrollArea className="w-full whitespace-nowrap rounded-md">
+              <ScrollArea className="w-full rounded-md">
                 <div className="flex w-max space-x-4 p-1">
                   {category.items.map((item) => (
-                    <Card key={item.id} className="w-[280px] sm:w-[320px] md:w-[350px] overflow-hidden hover:shadow-md transition-shadow">
+                    <Card key={item.id} className="w-[300px] sm:w-[350px] md:w-[400px] overflow-hidden hover:shadow-md transition-shadow flex-shrink-0">
                       <AspectRatio ratio={16 / 10}>
                         <Image
                           src={item.image}
@@ -233,13 +233,13 @@ export function MediaSection() {
                           </Badge>
                           <span className="text-xs text-gray">{item.date}</span>
                         </div>
-                        <CardTitle className="text-base line-clamp-2">
+                        <CardTitle className="text-base">
                           {item.title}
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
                         {'excerpt' in item && item.excerpt && (
-                          <CardDescription className="text-sm line-clamp-2 mb-3">
+                          <CardDescription className="text-sm mb-3">
                             {item.excerpt}
                           </CardDescription>
                         )}

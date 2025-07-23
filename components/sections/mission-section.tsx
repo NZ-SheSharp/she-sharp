@@ -63,17 +63,17 @@ export function MissionSection() {
         </div>
 
         <Tabs defaultValue="mission" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-6 sm:mb-8">
+          <TabsList className="grid w-full grid-cols-3 mb-6 sm:mb-8 bg-purple-light/10 p-1.5 rounded-lg h-auto">
             {missionTabs.map((tab) => {
               const Icon = tab.icon;
               return (
                 <TabsTrigger
                   key={tab.value}
                   value={tab.value}
-                  className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2 sm:py-3 data-[state=active]:bg-purple-dark data-[state=active]:text-white"
+                  className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 py-3 sm:py-4 data-[state=active]:bg-purple-dark data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200 rounded-md h-full"
                 >
                   <Icon className="w-4 h-4" />
-                  <span className="text-xs sm:text-sm">{tab.label}</span>
+                  <span className="text-xs sm:text-sm font-medium">{tab.label}</span>
                 </TabsTrigger>
               );
             })}
