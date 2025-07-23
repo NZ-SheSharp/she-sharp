@@ -238,7 +238,7 @@ export function MediaSection() {
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
-                        {item.excerpt && (
+                        {'excerpt' in item && item.excerpt && (
                           <CardDescription className="text-sm line-clamp-2 mb-3">
                             {item.excerpt}
                           </CardDescription>
