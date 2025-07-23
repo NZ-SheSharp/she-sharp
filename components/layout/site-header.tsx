@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -62,11 +63,17 @@ export function SiteHeader() {
         {/* Logo */}
         <Link 
           href="/" 
-          className="mr-8 flex items-center space-x-2 transition-transform hover:scale-105"
+          className="mr-8 flex items-center space-x-2 transition-all duration-300 hover:scale-105 group"
         >
-          <span className="text-2xl font-bold bg-gradient-to-r from-purple-dark to-periwinkle-dark bg-clip-text text-transparent logo-shimmer">
-            She Sharp
-          </span>
+          <div className="relative w-32 h-10">
+            <Image
+              src="/logos/she-sharp-logo.svg"
+              alt="She Sharp"
+              fill
+              className="object-contain transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(155,46,131,0.5)]"
+              priority
+            />
+          </div>
         </Link>
 
         {/* Desktop Navigation */}

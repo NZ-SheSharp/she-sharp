@@ -12,57 +12,33 @@ import Autoplay from "embla-carousel-autoplay";
 import { Handshake, Heart, Award } from "lucide-react";
 
 const sponsors = {
-  platinum: [
-    { 
-      name: "Microsoft", 
-      logo: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
-      description: "Supporting women in cloud and AI technologies"
-    },
-  ],
-  gold: [
-    { 
-      name: "AWS", 
-      logo: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
-      description: "Empowering women developers globally"
-    },
-    { 
-      name: "Google", 
-      logo: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
-      description: "Building inclusive tech communities"
-    },
-  ],
   silver: [
     { 
       name: "HCLTech", 
-      logo: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
+      logo: "/logos/hcltech-logo.svg",
       description: "Technology that makes a difference"
     },
     { 
       name: "Fonterra", 
-      logo: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
+      logo: "/logos/fonterra-logo.svg",
       description: "Innovation in every byte"
     },
   ],
   bronze: [
     { 
       name: "MYOB", 
-      logo: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
+      logo: "/logos/myob-logo.svg",
       description: "Business solutions for growth"
     },
     { 
-      name: "Fiserv", 
-      logo: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
-      description: "Financial technology innovation"
+      name: "Fisher & Paykel Healthcare", 
+      logo: "/logos/FPHcare-logo.svg",
+      description: "Healthcare innovation"
     },
     { 
       name: "FlexWare", 
-      logo: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
+      logo: "/logos/flexware-logo.svg",
       description: "Flexible software solutions"
-    },
-    { 
-      name: "Datacom", 
-      logo: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
-      description: "Digital transformation experts"
     },
   ],
 };
@@ -98,63 +74,6 @@ export function SponsorsSection() {
           </p>
         </div>
 
-        {/* Platinum Sponsors */}
-        {sponsors.platinum.length > 0 && (
-          <div className="mb-12">
-            <div className="text-center mb-6">
-              <Badge className="text-base px-6 py-2 bg-gradient-to-r from-purple-dark to-periwinkle-dark text-white border-0">
-                PLATINUM SPONSOR
-              </Badge>
-            </div>
-            <div className="max-w-2xl mx-auto">
-              {sponsors.platinum.map((sponsor) => (
-                <Card key={sponsor.name} className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <CardContent className="p-0">
-                    <div className="bg-gradient-to-r from-purple-light/20 to-periwinkle-light/20 p-8 text-center">
-                      <div className="relative h-32 mb-4">
-                        <Image
-                          src={sponsor.logo}
-                          alt={sponsor.name}
-                          fill
-                          className="object-contain"
-                        />
-                      </div>
-                      <p className="text-gray italic">"{sponsor.description}"</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Gold Sponsors */}
-        {sponsors.gold.length > 0 && (
-          <div className="mb-12">
-            <div className="text-center mb-6">
-              <Badge className="text-base px-6 py-2 bg-amber-500 text-white border-0">
-                GOLD SPONSORS
-              </Badge>
-            </div>
-            <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-              {sponsors.gold.map((sponsor) => (
-                <Card key={sponsor.name} className="overflow-hidden hover:shadow-md transition-shadow">
-                  <CardContent className="p-6 text-center">
-                    <div className="relative h-24 mb-3">
-                      <Image
-                        src={sponsor.logo}
-                        alt={sponsor.name}
-                        fill
-                        className="object-contain"
-                      />
-                    </div>
-                    <p className="text-sm text-gray">{sponsor.description}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        )}
 
         {/* Silver Sponsors */}
         <div className="mb-12">
@@ -165,14 +84,14 @@ export function SponsorsSection() {
           </div>
           <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
             {sponsors.silver.map((sponsor) => (
-              <Card key={sponsor.name} className="overflow-hidden hover:shadow-md transition-shadow">
+              <Card key={sponsor.name} className="overflow-hidden hover:shadow-md transition-shadow group">
                 <CardContent className="p-6">
                   <div className="relative h-20">
                     <Image
                       src={sponsor.logo}
                       alt={sponsor.name}
                       fill
-                      className="object-contain"
+                      className="object-contain transition-all duration-300 group-hover:scale-105 filter grayscale hover:grayscale-0"
                     />
                   </div>
                 </CardContent>
@@ -205,14 +124,14 @@ export function SponsorsSection() {
                 {sponsors.bronze.map((sponsor) => (
                   <CarouselItem key={sponsor.name} className="basis-1/2 sm:basis-1/2 md:basis-1/3">
                     <div className="p-1">
-                      <Card>
+                      <Card className="group">
                         <CardContent className="p-3 sm:p-4">
                           <div className="relative h-12 sm:h-16">
                             <Image
                               src={sponsor.logo}
                               alt={sponsor.name}
                               fill
-                              className="object-contain"
+                              className="object-contain transition-all duration-300 group-hover:scale-105 filter grayscale hover:grayscale-0"
                             />
                           </div>
                         </CardContent>

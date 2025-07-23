@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { Mail, ChevronDown, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -207,9 +208,16 @@ export function SiteFooter() {
           {/* Copyright & Charity Info */}
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/60">
             <div className="flex items-center gap-2">
-              <span className="text-lg font-bold bg-gradient-to-r from-purple-mid to-periwinkle-dark bg-clip-text text-transparent">
-                {footerConfig.charityInfo.name}
-              </span>
+              <Link href="/" className="group">
+                <div className="relative w-24 h-8">
+                  <Image
+                    src="/logos/she-sharp-logo.svg"
+                    alt="She Sharp"
+                    fill
+                    className="object-contain brightness-0 invert opacity-90 group-hover:opacity-100 transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]"
+                  />
+                </div>
+              </Link>
               <span className="text-white/40">|</span>
               <Link
                 href={footerConfig.charityInfo.registrationLink}
