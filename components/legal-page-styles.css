@@ -1,0 +1,138 @@
+/* Legal Page Typography */
+.legal-content h2 {
+  @apply text-2xl md:text-3xl font-bold text-purple-dark mb-6 mt-12 first:mt-0;
+  @apply relative pl-6;
+}
+
+.legal-content h2::before {
+  content: '';
+  @apply absolute left-0 top-1/2 -translate-y-1/2;
+  @apply w-3 h-8 bg-gradient-to-b from-purple-dark to-periwinkle-dark rounded-full;
+}
+
+.legal-content h3 {
+  @apply text-xl md:text-2xl font-semibold text-navy-dark mb-4 mt-8;
+}
+
+.legal-content p {
+  @apply text-navy-dark mb-4 leading-relaxed text-base md:text-lg;
+}
+
+.legal-content ul, .legal-content ol {
+  @apply space-y-3 mb-6 ml-6;
+}
+
+.legal-content li {
+  @apply text-navy-dark relative pl-6 leading-relaxed;
+}
+
+.legal-content ul li::before {
+  content: '•';
+  @apply absolute left-0 text-purple-dark text-xl font-bold;
+}
+
+.legal-content ol {
+  counter-reset: item;
+}
+
+.legal-content ol li {
+  counter-increment: item;
+}
+
+.legal-content ol li::before {
+  content: counter(item) '.';
+  @apply absolute left-0 text-purple-dark font-semibold;
+}
+
+.legal-content a {
+  @apply text-purple-dark hover:text-purple-mid underline underline-offset-2 transition-colors;
+}
+
+.legal-content strong {
+  @apply font-semibold text-navy-dark;
+}
+
+/* Legal Section Styling */
+.legal-section {
+  @apply relative pb-8 mb-8 border-b border-purple-light/20 last:border-0 last:pb-0 last:mb-0;
+}
+
+/* Info Boxes */
+.legal-info-box {
+  @apply bg-gradient-to-br from-purple-light/20 to-periwinkle-light/20;
+  @apply border border-purple-light/30 rounded-xl p-6 my-8;
+  @apply relative overflow-hidden;
+}
+
+.legal-info-box::before {
+  content: '';
+  @apply absolute top-0 right-0 w-32 h-32;
+  @apply bg-gradient-to-br from-purple-mid/10 to-transparent rounded-full;
+  @apply transform translate-x-16 -translate-y-16;
+}
+
+.legal-warning-box {
+  @apply bg-gradient-to-br from-mint-light/30 to-mint-dark/10;
+  @apply border border-mint-dark/30 rounded-xl p-6 my-8;
+}
+
+.legal-highlight-box {
+  @apply bg-gradient-to-br from-periwinkle-light/30 to-purple-light/20;
+  @apply border border-periwinkle-dark/20 rounded-xl p-6 my-8;
+}
+
+/* Table Styling */
+.legal-table {
+  @apply w-full overflow-hidden rounded-lg border border-purple-light/20 my-8;
+}
+
+.legal-table thead {
+  @apply bg-gradient-to-r from-purple-light/30 to-periwinkle-light/30;
+}
+
+.legal-table th {
+  @apply px-4 py-3 text-left text-sm font-semibold text-navy-dark;
+}
+
+.legal-table td {
+  @apply px-4 py-3 text-sm text-navy-dark border-t border-purple-light/20;
+}
+
+.legal-table tbody tr {
+  @apply hover:bg-purple-light/10 transition-colors;
+}
+
+/* Contact Cards */
+.legal-contact-card {
+  @apply bg-gradient-to-br from-white to-purple-light/10;
+  @apply border border-purple-light/30 rounded-xl p-8 my-8;
+  @apply shadow-sm hover:shadow-md transition-shadow;
+}
+
+/* Numbered List Styling */
+.legal-numbered-list {
+  @apply space-y-4 my-6;
+}
+
+.legal-numbered-list li {
+  @apply flex items-start gap-4;
+}
+
+.legal-numbered-list .number {
+  @apply flex-shrink-0 w-8 h-8 bg-gradient-to-br from-purple-dark to-periwinkle-dark;
+  @apply text-white rounded-full flex items-center justify-center;
+  @apply text-sm font-semibold;
+}
+
+/* Icon Lists */
+.legal-icon-list {
+  @apply space-y-4 my-6;
+}
+
+.legal-icon-list li {
+  @apply flex items-start gap-3;
+}
+
+.legal-icon-list .icon {
+  @apply flex-shrink-0 w-6 h-6 text-purple-dark mt-0.5;
+}

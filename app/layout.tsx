@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next';
 import { Manrope } from 'next/font/google';
 import { getUser, getTeamForUser } from '@/lib/db/queries';
 import { SWRConfig } from 'swr';
+import { CookieBanner } from '@/components/cookie-banner';
 
 export const metadata: Metadata = {
   title: 'She Sharp - Connecting Women in Technology',
@@ -46,6 +47,7 @@ export default function RootLayout({
           }}
         >
           {children}
+          <CookieBanner />
         </SWRConfig>
       </body>
     </html>
