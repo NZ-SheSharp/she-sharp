@@ -1,14 +1,42 @@
 import { AboutHeroSection } from "@/components/sections/about/about-hero-section";
+import { StatsDashboard } from "@/components/sections/about/stats-dashboard";
 import { TeamSection } from "@/components/sections/about/team-section";
+import { TimelineSection } from "@/components/sections/about/timeline-section";
+import { ValuesCollageSection } from "@/components/sections/about/values-collage-section";
 import { VolunteerSection } from "@/components/sections/about/volunteer-section";
+import { PartnersCloudSection } from "@/components/sections/about/partners-cloud-section";
 import { AboutCTASection } from "@/components/sections/about/about-cta-section";
+import { AnimatedWrapper } from "@/components/sections/about/animated-wrapper";
 
 export default function AboutPage() {
   return (
     <>
       <AboutHeroSection />
-      <TeamSection />
-      <VolunteerSection />
+      
+      <AnimatedWrapper animation="fade-up">
+        <StatsDashboard />
+      </AnimatedWrapper>
+      
+      <AnimatedWrapper animation="fade-up" delay={100}>
+        <TeamSection />
+      </AnimatedWrapper>
+      
+      <AnimatedWrapper animation="fade-up" delay={150}>
+        <TimelineSection />
+      </AnimatedWrapper>
+      
+      <AnimatedWrapper animation="fade-up" delay={200}>
+        <ValuesCollageSection />
+      </AnimatedWrapper>
+      
+      <AnimatedWrapper animation="fade-up" delay={250}>
+        <VolunteerSection />
+      </AnimatedWrapper>
+      
+      <AnimatedWrapper animation="fade-up" delay={300}>
+        <PartnersCloudSection />
+      </AnimatedWrapper>
+      
       <AboutCTASection />
     </>
   );
