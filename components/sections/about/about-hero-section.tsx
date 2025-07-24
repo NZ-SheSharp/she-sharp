@@ -18,6 +18,7 @@ export function AboutHeroSection() {
             src="https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg"
             alt="She Sharp team at an event"
             fill
+            sizes="(max-width: 1024px) 100vw, 60vw"
             className="object-cover"
             priority
           />

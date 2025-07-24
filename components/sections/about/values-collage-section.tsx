@@ -109,6 +109,7 @@ export function ValuesCollageSection() {
                     src={value.image}
                     alt={value.title}
                     fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
                     className="object-cover"
                   />
                   <div className={cn(
@@ -161,6 +162,7 @@ export function ValuesCollageSection() {
                     src={value.image}
                     alt={value.title}
                     fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className={cn(
@@ -214,6 +216,7 @@ export function ValuesCollageSection() {
                     src={value.image}
                     alt={value.title}
                     fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className={cn(

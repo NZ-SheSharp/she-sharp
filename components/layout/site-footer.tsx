@@ -224,6 +224,7 @@ export function SiteFooter() {
                     src="/logos/she-sharp-logo.svg"
                     alt="She Sharp"
                     fill
+                    sizes="96px"
                     className="object-contain brightness-0 invert opacity-90 group-hover:opacity-100 transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]"
                   />
                 </div>

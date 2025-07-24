@@ -150,6 +150,7 @@ export function PartnersCloudSection() {
                     src={partner.logo}
                     alt={partner.name}
                     fill
+                    sizes="(max-width: 640px) 120px, 160px"
                     className="object-contain p-4"
                   />
                   
