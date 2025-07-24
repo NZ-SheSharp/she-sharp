@@ -109,7 +109,7 @@ export function TeamSection() {
   }, [roleFilter, searchQuery]);
 
   return (
-    <Section id="team" className="bg-gradient-to-b from-white to-purple-light/5 py-12 sm:py-16 lg:py-20">
+    <Section className="bg-gradient-to-b from-white to-purple-light/5 py-12 sm:py-16 lg:py-20">
       <Container>
         <div className="text-center mb-8 sm:mb-12">
           <h2 className="text-3xl sm:text-4xl font-bold text-navy">Meet Our People</h2>

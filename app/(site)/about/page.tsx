@@ -10,10 +10,27 @@ import { PartnersCloudSection } from "@/components/sections/about/partners-cloud
 import { AboutCTASection } from "@/components/sections/about/about-cta-section";
 import { AnimatedWrapper } from "@/components/sections/about/animated-wrapper";
 import { useScrollToHash } from "@/hooks/use-scroll-to-hash";
+import { useEffect } from "react";
 
 export default function AboutPage() {
   // 使用自定义 hook 处理 hash 滚动
   useScrollToHash();
+  
+  // Debug: Check if team element exists after render
+  useEffect(() => {
+    const checkElement = () => {
+      const teamElement = document.querySelector('#team');
+      const allSections = document.querySelectorAll('section');
+      console.log('Debug - Team element found:', !!teamElement);
+      console.log('Debug - All sections count:', allSections.length);
+      console.log('Debug - All section IDs:', Array.from(allSections).map(s => s.id).filter(id => id));
+    };
+    
+    // Check immediately and after delays
+    checkElement();
+    setTimeout(checkElement, 1000);
+    setTimeout(checkElement, 3000);
+  }, []);
 
   return (
     <>
@@ -23,9 +40,11 @@ export default function AboutPage() {
         <StatsDashboard />
       </AnimatedWrapper>
       
-      <AnimatedWrapper animation="fade-up" delay={100}>
-        <TeamSection />
-      </AnimatedWrapper>
+      <div id="team">
+        <AnimatedWrapper animation="fade-up" delay={100}>
+          <TeamSection />
+        </AnimatedWrapper>
+      </div>
       
       <AnimatedWrapper animation="fade-up" delay={150}>
         <TimelineSection />
