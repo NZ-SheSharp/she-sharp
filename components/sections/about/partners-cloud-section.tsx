@@ -86,7 +86,7 @@ export function PartnersCloudSection() {
 
   // Desktop cloud layout positions
   const getPosition = (index: number, size: string) => {
-    const positions = {
+    const positions: Record<number, { top: string; left: string }> = {
       0: { top: '10%', left: '15%' },
       1: { top: '5%', left: '60%' },
       2: { top: '30%', left: '5%' },
