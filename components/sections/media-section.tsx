@@ -157,6 +157,7 @@ export function MediaSection() {
                   src={featuredMedia.image}
                   alt={featuredMedia.title}
                   fill
+                  sizes="(max-width: 640px) 100vw, 50vw"
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
@@ -218,6 +219,7 @@ export function MediaSection() {
                           src={item.image}
                           alt={item.title}
                           fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                           className="object-cover"
                         />
                         {key === 'videos' && 'duration' in item && (
