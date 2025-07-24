@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, MapPin, Clock } from 'lucide-react';
 import { format, isSameDay, addMonths, subMonths } from 'date-fns';
@@ -35,71 +34,6 @@ export function EventsCalendarView({ events, onEventClick }: EventsCalendarViewP
 
   // Get all dates that have events
   const eventDates = events.map(event => event.date);
-
-  // Custom day content renderer
-  const DayContent = ({ date }: { date: Date }) => {
-    const dayEvents = getEventsForDate(date);
-    const hasEvents = dayEvents.length > 0;
-
-    if (!hasEvents) {
-      return <div>{format(date, 'd')}</div>;
-    }
-
-    return (
-      <HoverCard>
-        <HoverCardTrigger asChild>
-          <div className="relative w-full h-full flex items-center justify-center cursor-pointer">
-            <div className={cn(
-              "w-8 h-8 rounded-full flex items-center justify-center font-medium",
-              "bg-purple-dark text-white"
-            )}>
-              {format(date, 'd')}
-            </div>
-            {dayEvents.length > 1 && (
-              <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center bg-mint-dark text-navy-dark border-0 text-xs">
-                {dayEvents.length}
-              </Badge>
-            )}
-          </div>
-        </HoverCardTrigger>
-        <HoverCardContent className="w-80" align="center">
-          <div className="space-y-2">
-            <h4 className="text-sm font-semibold text-navy-dark dark:text-white">
-              {format(date, 'EEEE, MMMM d')}
-            </h4>
-            <div className="space-y-2">
-              {dayEvents.map((event) => (
-                <div
-                  key={event.id}
-                  className="p-2 rounded-lg bg-gray-50 dark:bg-gray-800 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                  onClick={() => onEventClick?.(event)}
-                >
-                  <p className="font-medium text-sm text-navy-dark dark:text-white line-clamp-1">
-                    {event.title}
-                  </p>
-                  <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400 mt-1">
-                    <Clock className="w-3 h-3" />
-                    <span>{event.time}</span>
-                  </div>
-                  <Badge 
-                    variant="outline" 
-                    className={cn(
-                      "mt-1 text-xs",
-                      event.type === 'online' && "border-blue text-blue",
-                      event.type === 'in-person' && "border-purple-dark text-purple-dark",
-                      event.type === 'workshop' && "border-periwinkle-dark text-periwinkle-dark"
-                    )}
-                  >
-                    {event.type === 'online' ? 'Online' : event.type === 'in-person' ? 'In Person' : 'Workshop'}
-                  </Badge>
-                </div>
-              ))}
-            </div>
-          </div>
-        </HoverCardContent>
-      </HoverCard>
-    );
-  };
 
   // Events for selected date
   const selectedDateEvents = selectedDate ? getEventsForDate(selectedDate) : [];
@@ -138,14 +72,14 @@ export function EventsCalendarView({ events, onEventClick }: EventsCalendarViewP
             month={currentMonth}
             onMonthChange={setCurrentMonth}
             className="rounded-md"
-            components={{
-              DayContent: ({ date }) => <DayContent date={date} />
-            }}
             modifiers={{
               hasEvents: eventDates
             }}
             modifiersStyles={{
               hasEvents: {
+                backgroundColor: 'rgb(155 46 131)',
+                color: 'white',
+                borderRadius: '50%',
                 fontWeight: 'bold'
               }
             }}
