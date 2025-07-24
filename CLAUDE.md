@@ -128,3 +128,34 @@ Required environment variables (see `.env.example`):
 1. **Connection**: Building professional networks
 2. **Inspiration**: Showcasing STEM careers
 3. **Empowerment**: Career development support
+
+## Development Guidelines
+
+### Language Requirements
+- **All UI text must be in English**: No Chinese characters should appear in any page content, components, or user-facing strings
+- **Code comments**: Write function-level comments following Google's open source style guide
+- **Commit messages**: Use English following Angular commit convention (e.g., `feat:`, `fix:`, `docs:`, `style:`, `refactor:`, `test:`, `chore:`)
+
+### Version Control
+- **Commit style**: Follow Conventional Commits specification
+- **GitHub CLI**: Use `gh` command for GitHub operations (issues, PRs, etc.)
+- **Pull requests**: Create descriptive PRs with clear test plans
+
+### Testing Strategy
+- **Milestone testing**: Create functional tests for each small milestone
+- **Test frequently**: Ensure steady progress by testing after each implementation
+- **Test location**: Place tests in project folder alongside related code
+- **Minimal test approach**: Focus on essential validation without over-engineering
+
+### Code Development Practices
+- **Focused implementation**: Address only the requested task without extra features
+- **Efficient coding**: Always seek the most token-efficient implementation
+- **Minimal changes**: Control code modification scope to what's necessary
+- **Direct problem solving**: Find optimal solutions without workarounds
+- **No unnecessary documentation**: Don't create extra .md files unless explicitly requested
+
+### Communication Guidelines
+- **Dialog language**: Maintain conversations in Chinese
+- **Code strings**: Keep all code strings and comments in English
+- **Clear explanations**: Explain actions clearly within the conversation
+- **Focused assistance**: Help with specific tasks without adding unrequested features
