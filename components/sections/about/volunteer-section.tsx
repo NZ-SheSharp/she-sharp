@@ -19,8 +19,25 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import type { LucideIcon } from "lucide-react";
 
-const volunteerRoles = {
+interface VolunteerRole {
+  title: string;
+  description: string;
+  skills: string[];
+  commitment: string;
+  urgent?: boolean;
+  icon?: LucideIcon;
+}
+
+interface VolunteerCategory {
+  title: string;
+  color: string;
+  icon: LucideIcon;
+  roles: VolunteerRole[];
+}
+
+const volunteerRoles: Record<string, VolunteerCategory> = {
   technical: {
     title: "Technical",
     color: "from-purple-dark to-purple-mid",
