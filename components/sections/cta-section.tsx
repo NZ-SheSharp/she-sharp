@@ -99,6 +99,7 @@ export function CTASection() {
                         src={option.image}
                         alt={option.title}
                         fill
+                        sizes="(max-width: 640px) 100vw, 40vw"
                         className="object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     </AspectRatio>
