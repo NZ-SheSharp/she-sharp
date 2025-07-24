@@ -308,3 +308,34 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom Animation Classes for About Page */
+@layer utilities {
+  .animate-in {
+    animation-fill-mode: both;
+  }
+  
+  /* Scroll animations */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  
+  /* Intersection Observer animation states */
+  .animate-in\:translate-y-0 {
+    transform: translateY(0);
+  }
+  
+  .animate-in\:translate-x-0 {
+    transform: translateX(0);
+  }
+  
+  .animate-in\:opacity-100 {
+    opacity: 1;
+  }
+  
+  .animate-in\:scale-100 {
+    transform: scale(1);
+  }
+}
