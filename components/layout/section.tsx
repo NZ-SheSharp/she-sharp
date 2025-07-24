@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
+import { HTMLAttributes } from "react";
 
-interface SectionProps {
+interface SectionProps extends HTMLAttributes<HTMLElement> {
   children: React.ReactNode;
   className?: string;
   bgColor?: "white" | "light" | "accent" | "dark";
@@ -12,6 +13,7 @@ export function Section({
   className,
   bgColor = "white",
   noPadding = false,
+  ...props
 }: SectionProps) {
   const bgClasses = {
     white: "bg-white",
@@ -27,6 +29,7 @@ export function Section({
         !noPadding && "py-16 md:py-24",
         className
       )}
+      {...props}
     >
       {children}
     </section>
