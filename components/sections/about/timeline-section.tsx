@@ -142,6 +142,7 @@ export function TimelineSection() {
                               src={milestone.image}
                               alt={milestone.title}
                               fill
+                              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 600px, 400px"
                               className="object-cover"
                             />
                           </AspectRatio>
@@ -218,6 +219,7 @@ export function TimelineSection() {
                               src={milestone.image}
                               alt={milestone.title}
                               fill
+                              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 600px, 400px"
                               className="object-cover"
                             />
                           </AspectRatio>

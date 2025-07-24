@@ -107,6 +107,7 @@ export function SiteHeader() {
               src="/logos/she-sharp-logo.svg"
               alt="She Sharp"
               fill
+              sizes="128px"
               className="object-contain transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(155,46,131,0.5)]"
               priority
             />
