@@ -89,6 +89,7 @@ export function MissionSection() {
                       src={tab.image}
                       alt={tab.title}
                       fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover"
                     />
                   </AspectRatio>
