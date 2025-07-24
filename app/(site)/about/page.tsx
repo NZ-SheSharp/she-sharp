@@ -1,3 +1,5 @@
+"use client";
+
 import { AboutHeroSection } from "@/components/sections/about/about-hero-section";
 import { StatsDashboard } from "@/components/sections/about/stats-dashboard";
 import { TeamSection } from "@/components/sections/about/team-section";
@@ -7,8 +9,12 @@ import { VolunteerSection } from "@/components/sections/about/volunteer-section"
 import { PartnersCloudSection } from "@/components/sections/about/partners-cloud-section";
 import { AboutCTASection } from "@/components/sections/about/about-cta-section";
 import { AnimatedWrapper } from "@/components/sections/about/animated-wrapper";
+import { useScrollToHash } from "@/hooks/use-scroll-to-hash";
 
 export default function AboutPage() {
+  // 使用自定义 hook 处理 hash 滚动
+  useScrollToHash();
+
   return (
     <>
       <AboutHeroSection />
