@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
@@ -31,11 +32,30 @@ import { navigationConfig } from "@/lib/navigation-config";
 import "./navigation-styles.css";
 
 export function SiteHeader() {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [openMobileMenus, setOpenMobileMenus] = useState<string[]>([]);
   const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+
+  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    const url = new URL(href, window.location.origin);
+    const hash = url.hash;
+    const pathname = url.pathname;
+    
+    // 如果是当前页面的锚点
+    if (pathname === window.location.pathname && hash) {
+      e.preventDefault();
+      const element = document.querySelector(hash);
+      if (element) {
+        const yOffset = -80; // 导航栏高度偏移
+        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+    }
+    // 如果是跳转到其他页面，让默认行为处理
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -112,6 +132,7 @@ export function SiteHeader() {
                             <NavigationMenuLink asChild>
                               <Link
                                 href={child.href}
+                                onClick={(e) => handleSmoothScroll(e, child.href)}
                                 className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all hover:bg-purple-light/50 hover:text-purple-dark focus:bg-purple-light/50 focus:text-purple-dark group"
                               >
                                 <div className="flex items-center gap-2">
@@ -137,7 +158,8 @@ export function SiteHeader() {
                 ) : (
                   <NavigationMenuLink asChild>
                     <Link 
-                      href={item.href} 
+                      href={item.href}
+                      onClick={(e) => handleSmoothScroll(e, item.href)} 
                       className={cn(
                         navigationMenuTriggerStyle(),
                         "bg-transparent hover:bg-purple-light/30 hover:text-purple-dark transition-all duration-200 nav-item-underline"
@@ -228,7 +250,10 @@ export function SiteHeader() {
                               key={child.title}
                               href={child.href}
                               className="flex items-center gap-2 py-2 text-sm text-gray hover:text-purple-dark transition-colors"
-                              onClick={() => setIsOpen(false)}
+                              onClick={(e) => {
+                                handleSmoothScroll(e, child.href);
+                                setIsOpen(false);
+                              }}
                             >
                               {child.icon && <child.icon className="h-3 w-3" />}
                               {child.title}
@@ -241,7 +266,10 @@ export function SiteHeader() {
                     <Link
                       href={item.href}
                       className="flex items-center gap-2 py-4 text-base font-medium text-navy-dark hover:text-purple-dark transition-colors"
-                      onClick={() => setIsOpen(false)}
+                      onClick={(e) => {
+                        handleSmoothScroll(e, item.href);
+                        setIsOpen(false);
+                      }}
                     >
                       {item.icon && <item.icon className="h-4 w-4" />}
                       {item.title}

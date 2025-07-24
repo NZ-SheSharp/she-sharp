@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { Mail, ChevronDown, ExternalLink } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
@@ -18,9 +19,28 @@ import { socialIcons } from "@/components/ui/social-icons";
 import "./footer-styles.css";
 
 export function SiteFooter() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [newsletterStatus, setNewsletterStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [openSections, setOpenSections] = useState<string[]>([]);
+
+  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    const url = new URL(href, window.location.origin);
+    const hash = url.hash;
+    const pathname = url.pathname;
+    
+    // 如果是当前页面的锚点
+    if (pathname === window.location.pathname && hash) {
+      e.preventDefault();
+      const element = document.querySelector(hash);
+      if (element) {
+        const yOffset = -80; // 导航栏高度偏移
+        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+    }
+    // 如果是跳转到其他页面，让默认行为处理
+  };
 
   const toggleSection = (title: string) => {
     setOpenSections((prev) =>
@@ -101,6 +121,7 @@ export function SiteFooter() {
                     <li key={link.name}>
                       <Link
                         href={link.href}
+                        onClick={(e) => handleSmoothScroll(e, link.href)}
                         className="text-sm text-white/80 hover:text-purple-mid transition-colors footer-link"
                       >
                         {link.name}
@@ -136,6 +157,7 @@ export function SiteFooter() {
                         <li key={link.name}>
                           <Link
                             href={link.href}
+                            onClick={(e) => handleSmoothScroll(e, link.href)}
                             className="text-sm text-white/80 hover:text-purple-mid transition-colors block py-1"
                           >
                             {link.name}
