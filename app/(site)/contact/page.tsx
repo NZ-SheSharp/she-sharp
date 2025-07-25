@@ -1,15 +1,32 @@
 import { ContactHeroSection } from "@/components/sections/contact/contact-hero-section";
 import { ContactFormSection } from "@/components/sections/contact/contact-form-section";
+import { ContactInfoSection } from "@/components/sections/contact/contact-info-section";
 import { SocialMediaSection } from "@/components/sections/contact/social-media-section";
-import { ContactCTASection } from "@/components/sections/contact/contact-cta-section";
+import { Container } from "@/components/layout/container";
+import { Section } from "@/components/layout/section";
 
 export default function ContactPage() {
   return (
     <>
       <ContactHeroSection />
-      <ContactFormSection />
+      <Section className="py-20 md:py-32">
+        <Container>
+          <div className="mx-auto max-w-5xl">
+            <div className="grid gap-16 md:grid-cols-5 md:gap-20">
+              {/* Left column - Contact Info */}
+              <div className="md:col-span-2">
+                <ContactInfoSection />
+              </div>
+              
+              {/* Right column - Contact Form */}
+              <div className="md:col-span-3">
+                <ContactFormSection />
+              </div>
+            </div>
+          </div>
+        </Container>
+      </Section>
       <SocialMediaSection />
-      <ContactCTASection />
     </>
   );
 }
