@@ -1,28 +1,76 @@
+"use client";
+
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
+const heroImages = [
+  "https://cdn.prod.website-files.com/646ab5895264c7470e0c89f5/684918c467a93421eafe8f3b_unnamed.jpg",
+  "https://cdn.prod.website-files.com/646ab5895264c7470e0c89f5/67fd6ff293328e7d586a0200_myOB%20tech%20week%20event.png",
+  "https://cdn.prod.website-files.com/646ab5895264c7470e0c89f5/67ce885e79f6ad76f91dc4a1_Screen%20Shot%202025-03-10%20at%207.36.11%20PM.png",
+  "https://cdn.prod.website-files.com/646ab5895264c7470e0c89f5/67db4b3d53a88fa011d49f6e_IWD%20-%20Poster%20(1).png"
+];
+
 export function GalleryHeroSection() {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <Section className="relative overflow-hidden">
+    <Section className="relative h-[70vh] min-h-[500px] overflow-hidden">
+      {/* Full-screen image carousel */}
       <div className="absolute inset-0">
-        <Image
-          src="https://cdn.prod.website-files.com/646193fdf4af9a2a791b1555/648914967442a2bef74a02c2_Photo%20Gallery_Banner%20image.png"
-          alt="She Sharp event gallery banner"
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-dark/80 to-transparent" />
+        {heroImages.map((image, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-opacity duration-1000 ${
+              index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <Image
+              src={image}
+              alt={`Gallery image ${index + 1}`}
+              fill
+              className="object-cover"
+              priority={index === 0}
+            />
+          </div>
+        ))}
+        
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-mint-dark/90 via-mint-dark/50 to-transparent" />
       </div>
-      <Container className="relative z-10">
-        <div className="py-24 md:py-32">
-          <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl">
-            She Sharp
-          </h1>
-          <h2 className="text-5xl font-bold text-white mt-2 sm:text-6xl md:text-7xl">
+
+      <Container className="relative z-10 h-full flex items-end pb-12">
+        <div className="max-w-3xl">
+          <h1 className="text-6xl md:text-8xl font-bold text-white mb-4 drop-shadow-lg">
             Gallery
-          </h2>
+          </h1>
+          <p className="text-xl md:text-2xl text-white/90 leading-relaxed">
+            Capturing moments of innovation, inspiration, and community
+          </p>
+          
+          {/* Image indicators */}
+          <div className="flex gap-2 mt-8">
+            {heroImages.map((_, index) => (
+              <button
+                key={index}
+                className={`h-1 rounded-full transition-all ${
+                  index === currentImageIndex 
+                    ? 'w-12 bg-white' 
+                    : 'w-6 bg-white/40 hover:bg-white/60'
+                }`}
+                onClick={() => setCurrentImageIndex(index)}
+                aria-label={`Go to image ${index + 1}`}
+              />
+            ))}
+          </div>
         </div>
       </Container>
     </Section>
