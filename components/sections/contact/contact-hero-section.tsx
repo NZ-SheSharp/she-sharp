@@ -3,18 +3,14 @@ import { Section } from "@/components/layout/section";
 
 export function ContactHeroSection() {
   return (
-    <Section className="bg-gradient-to-r from-purple-light to-periwinkle-light py-20">
+    <Section className="bg-white pt-32 pb-20">
       <Container>
-        <div className="mx-auto max-w-3xl text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-navy sm:text-5xl md:text-6xl">
-            Let&apos;s Connect
+        <div className="mx-auto max-w-2xl text-center">
+          <h1 className="text-5xl font-light tracking-tight text-navy-dark sm:text-6xl md:text-7xl">
+            Get in Touch
           </h1>
-          <p className="mt-4 text-2xl text-purple-dark">
-            Say hello to get the ball rolling
-          </p>
-          <p className="mt-6 text-lg text-gray-700">
-            From questions about our events and how we make an impact to featuring 
-            us in the media, we&apos;d love to hear from you!
+          <p className="mt-8 text-xl text-gray leading-relaxed">
+            We&apos;d love to hear from you. Send us a message and we&apos;ll respond within 48 hours.
           </p>
         </div>
       </Container>
