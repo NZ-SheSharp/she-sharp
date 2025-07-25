@@ -1,42 +1,90 @@
+"use client";
+
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
+import { Card } from "@/components/ui/card";
+import { Heart, TrendingUp, Target } from "lucide-react";
+import { motion } from "framer-motion";
 
 const benefits = [
   {
-    icon: "💝",
+    icon: Heart,
     title: "Personal Fulfillment",
-    description: "Find satisfaction in witnessing the growth and success of your mentee. Knowing you've played a part in their journey is genuinely rewarding."
+    description: "Find satisfaction in witnessing the growth and success of your mentee. Knowing you've played a part in their journey is genuinely rewarding.",
+    color: "text-purple-dark",
+    bgColor: "bg-purple-light"
   },
   {
-    icon: "🌟",
+    icon: Target,
     title: "Leave a positive mark",
-    description: "Leave behind a positive impact that lasts long after your interactions. It's about making a difference, one mentee at a time!"
+    description: "Leave behind a positive impact that lasts long after your interactions. It's about making a difference, one mentee at a time!",
+    color: "text-periwinkle-dark",
+    bgColor: "bg-periwinkle-light"
   },
   {
-    icon: "📈",
+    icon: TrendingUp,
     title: "Grow as you guide",
-    description: "Develop strong leadership and communication abilities as you support your mentee. It's a win-win: they flourish, and you thrive right alongside them."
+    description: "Develop strong leadership and communication abilities as you support your mentee. It's a win-win: they flourish, and you thrive right alongside them.",
+    color: "text-mint-dark",
+    bgColor: "bg-mint-light"
   }
 ];
 
 export function MentorBenefitsSection() {
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 }
+  };
+
   return (
-    <Section className="py-16 bg-purple-light">
+    <Section className="py-16 lg:py-24 bg-gradient-to-br from-white via-purple-light/30 to-periwinkle-light/30">
       <Container>
-        <h2 className="text-3xl font-bold text-navy text-center mb-12">
-          BENEFITS OF BECOMING A MENTOR
-        </h2>
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {benefits.map((benefit) => (
-            <div key={benefit.title} className="text-center">
-              <div className="text-5xl mb-4">{benefit.icon}</div>
-              <h3 className="text-xl font-semibold text-navy mb-3">
-                {benefit.title}
-              </h3>
-              <p className="text-gray-700">{benefit.description}</p>
-            </div>
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold text-navy-dark mb-4">
+            BENEFITS OF BECOMING A MENTOR
+          </h2>
+          <p className="text-lg text-gray max-w-2xl mx-auto">
+            Join our mentorship program and make a lasting impact while growing your own skills
+          </p>
+        </motion.div>
+        
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto"
+        >
+          {benefits.map((benefit, index) => (
+            <motion.div key={benefit.title} variants={item}>
+              <Card className="h-full p-8 text-center hover:shadow-xl transition-all duration-300 group cursor-pointer border-gray/20">
+                <div className={`inline-flex p-4 rounded-full ${benefit.bgColor} mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                  <benefit.icon className={`h-8 w-8 ${benefit.color}`} />
+                </div>
+                <h3 className="text-xl font-semibold text-navy-dark mb-4">
+                  {benefit.title}
+                </h3>
+                <p className="text-gray leading-relaxed">{benefit.description}</p>
+              </Card>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </Container>
     </Section>
   );
