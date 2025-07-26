@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { Quote, Sparkles } from "lucide-react";
+import { layoutSystem } from "@/lib/layout-system";
 
 const testimonials = [
   {
@@ -68,8 +69,8 @@ const testimonials = [
 
 export function TeamTestimonialsSection() {
   return (
-    <Section className="py-32 bg-navy-light/5 overflow-hidden">
-      <Container>
+    <Section bgColor="accent">
+      <Container size="full">
         <div className="mx-auto max-w-7xl">
           {/* Section Header with more spacing */}
           <div className="text-center mb-24 space-y-6">

@@ -6,12 +6,13 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Calendar, Mail, Users, Heart } from "lucide-react";
 import Link from "next/link";
+import { layoutSystem, layoutClasses } from "@/lib/layout-system";
 
 export function JoinTeamCTASection() {
   return (
-    <Section className="py-20 bg-mint-light/10">
-      <Container>
-        <div className="mx-auto max-w-6xl">
+    <Section bgColor="accent">
+      <Container size="wide">
+        <div>
           {/* Section Header */}
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-navy-dark mb-6">
@@ -34,7 +35,7 @@ export function JoinTeamCTASection() {
                 Become a She Sharp Volunteer
               </h3>
               
-              <p className="text-lg text-gray-700 mb-8 max-w-2xl mx-auto">
+              <p className="text-lg text-gray mb-8 max-w-2xl mx-auto">
                 Whether you can spare a few hours for events or want to join our ambassador team, 
                 we have the perfect opportunity for you to contribute to our mission.
               </p>
@@ -63,7 +64,12 @@ export function JoinTeamCTASection() {
           </Alert>
 
           {/* Secondary CTAs */}
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className={layoutClasses(
+            "grid",
+            layoutSystem.grids.content.cols1,
+            layoutSystem.grids.content.cols3,
+            layoutSystem.grids.content.gap
+          )}>
             <Card className="group hover:shadow-lg transition-shadow duration-150">
               <CardContent className="p-8 text-center">
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-light/20 rounded-full mb-6 group-hover:bg-purple-light/30 transition-colors duration-150">
@@ -72,7 +78,7 @@ export function JoinTeamCTASection() {
                 <h4 className="text-xl font-semibold text-navy-dark mb-3">
                   Support Our Mission
                 </h4>
-                <p className="text-gray-600 mb-6">
+                <p className="text-gray mb-6">
                   Your donation helps us create more opportunities for women in STEM
                 </p>
                 <Button asChild variant="link" className="text-purple-dark p-0">
@@ -92,7 +98,7 @@ export function JoinTeamCTASection() {
                 <h4 className="text-xl font-semibold text-navy-dark mb-3">
                   Attend Our Events
                 </h4>
-                <p className="text-gray-600 mb-6">
+                <p className="text-gray mb-6">
                   Connect with the community at our workshops and networking events
                 </p>
                 <Button asChild variant="link" className="text-periwinkle-dark p-0">
@@ -112,7 +118,7 @@ export function JoinTeamCTASection() {
                 <h4 className="text-xl font-semibold text-navy-dark mb-3">
                   Stay Connected
                 </h4>
-                <p className="text-gray-600 mb-6">
+                <p className="text-gray mb-6">
                   Get the latest updates on volunteer opportunities and events
                 </p>
                 <Button asChild variant="link" className="text-navy-dark p-0">

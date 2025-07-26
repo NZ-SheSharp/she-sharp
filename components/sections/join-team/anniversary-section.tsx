@@ -5,15 +5,16 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Sparkles, Users } from "lucide-react";
 import Link from "next/link";
+import { layoutSystem } from "@/lib/layout-system";
 
 export function AnniversarySection() {
   return (
-    <Section className="py-20 bg-mint-dark relative overflow-hidden">
+    <Section bgColor="dark" className="relative overflow-hidden bg-mint-dark">
       {/* Background decoration */}
       <div className="absolute inset-0 bg-navy-dark/10" />
 
-      <Container className="relative z-10">
-        <Card className="mx-auto max-w-4xl border-0 shadow-2xl bg-white/95 backdrop-blur">
+      <Container size="content" className="relative z-10">
+        <Card className="mx-auto border-0 shadow-2xl bg-white/95 backdrop-blur">
           <CardContent className="p-12 text-center">
             <Badge className="mb-6 bg-white/20 text-purple-dark border border-purple-dark px-4 py-2">
               <Sparkles className="w-4 h-4 mr-2" />
@@ -24,7 +25,7 @@ export function AnniversarySection() {
               Calling All She Sharp Alumni!
             </h3>
             
-            <p className="text-lg text-gray-700 mb-8 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg text-gray mb-8 max-w-2xl mx-auto leading-relaxed">
               Were you an ambassador with She Sharp? Join us in celebrating a decade of 
               empowering women in STEM. Reconnect with fellow ambassadors and share your journey.
             </p>
@@ -42,7 +43,7 @@ export function AnniversarySection() {
               </Button>
             </div>
 
-            <p className="mt-6 text-sm text-gray-600">
+            <p className="mt-6 text-sm text-gray">
               Help us celebrate our impact and inspire the next generation
             </p>
           </CardContent>

@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Users, Calendar, TrendingUp } from "lucide-react";
 import { useEffect, useState } from "react";
+import { layoutSystem, layoutClasses } from "@/lib/layout-system";
 
 const impactMetrics = [
   {
@@ -64,9 +65,9 @@ export function SponsorshipStatsSection() {
   }, []);
 
   return (
-    <Section className="py-20">
-      <Container>
-        <div className="max-w-5xl mx-auto">
+    <Section bgColor="white">
+      <Container size="content">
+        <div>
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-navy-dark mb-4">
               Our Collective Impact
@@ -76,7 +77,12 @@ export function SponsorshipStatsSection() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className={layoutClasses(
+            "grid",
+            layoutSystem.grids.content.cols1,
+            layoutSystem.grids.content.cols3,
+            layoutSystem.grids.content.gap
+          )}>
             {impactMetrics.map((metric, index) => {
               const Icon = metric.icon;
               const progress = animatedValues[index];

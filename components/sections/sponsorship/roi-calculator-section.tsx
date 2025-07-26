@@ -10,6 +10,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Calculator, TrendingUp, Users, Calendar, Award, Target } from "lucide-react";
 import { useState } from "react";
+import { layoutSystem, layoutClasses } from "@/lib/layout-system";
 
 interface ROIMetrics {
   brandExposure: string;
@@ -69,9 +70,9 @@ export function ROICalculatorSection() {
   const metrics = packageROI[selectedPackage];
 
   return (
-    <Section className="py-20">
-      <Container>
-        <div className="max-w-4xl mx-auto">
+    <Section bgColor="white">
+      <Container size="content">
+        <div>
           <Card className="border-2 border-purple-dark/10">
             <CardHeader className="text-center pb-8">
               <div className="mx-auto w-12 h-12 bg-purple-light rounded-full flex items-center justify-center mb-4">
@@ -94,7 +95,10 @@ export function ROICalculatorSection() {
                 <RadioGroup
                   value={selectedPackage}
                   onValueChange={setSelectedPackage}
-                  className="grid md:grid-cols-2 gap-4"
+                  className={layoutClasses(
+                    "grid gap-4",
+                    "md:grid-cols-2"
+                  )}
                 >
                   <div className="flex items-start space-x-3 p-4 rounded-lg border-2 hover:border-purple-dark/50 transition-colors cursor-pointer">
                     <RadioGroupItem value="bronze" id="bronze" className="mt-1" />
@@ -163,7 +167,10 @@ export function ROICalculatorSection() {
                     Your Expected Partnership ROI
                   </AlertTitle>
                   <AlertDescription className="space-y-4">
-                    <div className="grid md:grid-cols-2 gap-4">
+                    <div className={layoutClasses(
+                      "grid gap-4",
+                      "md:grid-cols-2"
+                    )}>
                       <div className="flex items-start gap-3">
                         <Users className="h-5 w-5 text-purple-dark mt-0.5" />
                         <div>
