@@ -9,7 +9,7 @@ export default function NewslettersPage() {
       <NewslettersHeroSection />
       <NewsletterPreviewSection />
       <NewslettersGridSection />
-      <SmartCTASection title="Stay Connected" bgColor="purple" />
+      <SmartCTASection title="Stay Connected" bgColor="accent" />
     </>
   );
 }

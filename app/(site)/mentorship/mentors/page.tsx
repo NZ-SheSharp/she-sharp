@@ -21,7 +21,7 @@ export default function MeetOurMentorsPage() {
         subtitle="Hear from mentors who are making a difference in the lives of women in STEM"
         pageKey="mentorship"
       />
-      <SmartCTASection title="Ready to Inspire?" bgColor="purple" />
+      <SmartCTASection title="Ready to Inspire?" bgColor="accent" />
     </>
   );
 }
