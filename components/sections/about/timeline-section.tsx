@@ -9,6 +9,7 @@ import { ChevronDown, Calendar, Users, Trophy, Rocket } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { layoutSystem, layoutClasses } from "@/lib/layout-system";
 
 const milestones = [
   {
@@ -71,17 +72,17 @@ export function TimelineSection() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   return (
-    <Section className="relative bg-gradient-to-br from-purple-light/5 via-white to-mint/5 py-12 sm:py-16 lg:py-20 overflow-hidden">
+    <Section bgColor="white" className="relative overflow-hidden">
       {/* Background decoration */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-1/4 left-0 w-64 h-64 sm:w-96 sm:h-96 bg-purple-light rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-0 w-64 h-64 sm:w-96 sm:h-96 bg-mint rounded-full blur-3xl" />
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute top-1/4 left-0 w-64 h-64 sm:w-96 sm:h-96 bg-navy-light rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-0 w-64 h-64 sm:w-96 sm:h-96 bg-navy-light rounded-full blur-3xl" />
       </div>
 
-      <Container className="relative z-10">
+      <Container size="content" className="relative z-10">
         <div className="text-center mb-8 sm:mb-12 lg:mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-navy">Our Journey</h2>
-          <p className="mt-3 sm:mt-4 text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-4 sm:px-0">
+          <h2 className="text-3xl sm:text-4xl font-bold text-navy-dark">Our Journey</h2>
+          <p className="mt-3 sm:mt-4 text-base sm:text-lg text-gray max-w-2xl mx-auto px-4 sm:px-0">
             From a small group of passionate advocates to a thriving community of 2200+ members
           </p>
         </div>
@@ -90,7 +91,10 @@ export function TimelineSection() {
         <div className="lg:hidden">
           <div className="relative pl-8">
             {/* Vertical Line */}
-            <div className="absolute left-3 top-0 bottom-0 w-0.5 bg-gradient-to-b from-purple-dark via-periwinkle to-mint" />
+            <div className={cn(
+              "absolute left-3 top-0 bottom-0 w-0.5 bg-navy-light",
+              layoutSystem.patterns.timeline.line
+            )} />
 
             {milestones.map((milestone, index) => {
               const Icon = milestone.icon;
@@ -124,8 +128,8 @@ export function TimelineSection() {
                                 </div>
                                 <p className="text-sm font-medium text-purple-dark">{milestone.year}</p>
                               </div>
-                              <h3 className="text-lg font-bold text-navy">{milestone.title}</h3>
-                              <p className="mt-1 text-sm text-gray-600 line-clamp-2">{milestone.description}</p>
+                              <h3 className="text-lg font-bold text-navy-dark">{milestone.title}</h3>
+                              <p className="mt-1 text-sm text-gray line-clamp-2">{milestone.description}</p>
                             </div>
                             <ChevronDown className={cn(
                               "h-5 w-5 text-gray-400 transition-transform flex-shrink-0 ml-2",
@@ -136,7 +140,7 @@ export function TimelineSection() {
                       </CollapsibleTrigger>
                       <CollapsibleContent>
                         <div className="border-t border-gray-100 p-4 sm:p-5 pt-0">
-                          <p className="mt-4 text-sm text-gray-700">{milestone.details}</p>
+                          <p className="mt-4 text-sm text-gray">{milestone.details}</p>
                           <AspectRatio ratio={16 / 9} className="mt-4 overflow-hidden rounded-lg">
                             <Image
                               src={milestone.image}
@@ -159,7 +163,7 @@ export function TimelineSection() {
         {/* Desktop Snake Timeline */}
         <div className="hidden lg:block relative">
           {/* Connecting Line */}
-          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-purple-dark via-periwinkle to-mint" />
+          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-navy-light" />
 
           {milestones.map((milestone, index) => {
             const isLeft = index % 2 === 0;
@@ -201,8 +205,8 @@ export function TimelineSection() {
                               isLeft ? "lg:text-right" : "lg:text-left"
                             )}>
                               <p className="text-sm font-medium text-purple-dark">{milestone.year}</p>
-                              <h3 className="text-xl font-bold text-navy">{milestone.title}</h3>
-                              <p className="mt-2 text-gray-600">{milestone.description}</p>
+                              <h3 className="text-xl font-bold text-navy-dark">{milestone.title}</h3>
+                              <p className="mt-2 text-gray">{milestone.description}</p>
                             </div>
                             <ChevronDown className={cn(
                               "h-5 w-5 text-gray-400 transition-transform",
@@ -213,7 +217,7 @@ export function TimelineSection() {
                       </CollapsibleTrigger>
                       <CollapsibleContent>
                         <div className="border-t border-gray-100 p-6 pt-0">
-                          <p className="mt-4 text-gray-700">{milestone.details}</p>
+                          <p className="mt-4 text-gray">{milestone.details}</p>
                           <AspectRatio ratio={16 / 9} className="mt-4 overflow-hidden rounded-lg">
                             <Image
                               src={milestone.image}

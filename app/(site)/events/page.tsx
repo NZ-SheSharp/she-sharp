@@ -14,6 +14,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { CalendarDays, Grid3X3, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { layoutSystem, layoutClasses } from '@/lib/layout-system';
 
 // Mock data - replace with actual API calls
 const mockEvents = [
@@ -187,7 +188,7 @@ export default function EventsPage() {
 
       {/* Main Content */}
       <section className="py-16 md:py-24" id="all-events">
-        <Container>
+        <Container size="wide">
           {/* Section Header */}
           <div className="text-center mb-8">
             <h2 className="text-3xl md:text-4xl font-bold text-navy-dark dark:text-white mb-4">
@@ -252,7 +253,13 @@ export default function EventsPage() {
                 })()}
 
                 {/* Events Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className={layoutClasses(
+                  "grid",
+                  layoutSystem.grids.content.cols1,
+                  layoutSystem.grids.content.cols2,
+                  layoutSystem.grids.content.cols3,
+                  layoutSystem.grids.content.gap
+                )}>
                   {filteredEvents
                     .filter(e => !e.isFeatured)
                     .map((event) => (
@@ -278,7 +285,7 @@ export default function EventsPage() {
                   <Button
                     onClick={handleLoadMore}
                     disabled={isLoading}
-                    className="bg-purple-dark hover:bg-purple-mid text-white"
+                    className="bg-purple-dark hover:bg-purple-mid text-white transition-colors duration-150"
                   >
                     {isLoading ? (
                       <>

@@ -8,6 +8,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Badge } from "@/components/ui/badge";
 import { Users, Lightbulb, Rocket, ArrowRight, Calendar, BookOpen, Briefcase } from "lucide-react";
 import Link from "next/link";
+import { layoutSystem, layoutClasses } from "@/lib/layout-system";
 
 const commitments = [
   {
@@ -63,7 +64,7 @@ const commitments = [
 export function CommitmentsSection() {
   return (
     <Section bgColor="light">
-      <Container>
+      <Container size="wide">
         <div className="text-center mb-8 sm:mb-12">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-navy-dark mb-4">
             Our commitments
@@ -73,13 +74,21 @@ export function CommitmentsSection() {
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className={layoutClasses(
+          "grid",
+          layoutSystem.grids.content.cols1,
+          layoutSystem.grids.content.cols2,
+          layoutSystem.grids.content.cols3,
+          layoutSystem.grids.content.gap
+        )}>
           {commitments.map((commitment, index) => {
             const Icon = commitment.icon;
             return (
               <Card 
                 key={commitment.title} 
-                className={`border-2 ${commitment.borderColor} shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group`}
+                className={`border-2 ${commitment.borderColor} shadow-sm hover:shadow-lg transition-all duration-150 overflow-hidden group ${
+                  index === 0 ? "lg:col-span-2" : ""
+                }`}
               >
                 {/* Image */}
                 <div className="relative h-48 overflow-hidden">
@@ -89,7 +98,7 @@ export function CommitmentsSection() {
                       alt={commitment.title}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="object-cover group-hover:scale-105 transition-transform duration-150"
                     />
                   </AspectRatio>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -136,7 +145,13 @@ export function CommitmentsSection() {
         </div>
 
         {/* Bottom CTA */}
-        <div className="mt-12 sm:mt-16 grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 p-4 sm:p-6 lg:p-8 bg-white rounded-lg shadow-sm">
+        <div className={layoutClasses(
+          "mt-12 sm:mt-16 grid p-4 sm:p-6 lg:p-8 bg-white rounded-lg shadow-sm",
+          layoutSystem.grids.content.cols1,
+          "sm:grid-cols-2",
+          "md:grid-cols-3",
+          "gap-4 sm:gap-6"
+        )}>
           <div className="flex items-center gap-3">
             <Calendar className="w-6 sm:w-8 h-6 sm:h-8 text-purple-dark flex-shrink-0" />
             <div>
