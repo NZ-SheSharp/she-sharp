@@ -63,7 +63,7 @@ export function SiteFooter() {
   };
 
   return (
-    <footer className="relative bg-gradient-to-b from-navy-dark to-[#1a1939] text-white mt-20 overflow-hidden">
+    <footer className="relative bg-navy-dark text-white mt-20 overflow-hidden">
       {/* Wave Decoration */}
       <div className="footer-wave" />
       
@@ -75,7 +75,7 @@ export function SiteFooter() {
         <div className="mb-16">
           {/* Newsletter */}
           <div className="max-w-2xl mx-auto text-center">
-            <h3 className="text-2xl md:text-3xl font-bold mb-4 bg-gradient-to-r from-white to-mint-dark bg-clip-text text-transparent">
+            <h3 className="text-2xl md:text-3xl font-bold mb-4 text-white">
               Stay Connected with She Sharp
             </h3>
             <p className="text-white/80 mb-6">
@@ -96,7 +96,7 @@ export function SiteFooter() {
               <Button
                 type="submit"
                 disabled={newsletterStatus === "loading"}
-                className="bg-gradient-to-r from-purple-dark to-periwinkle-dark hover:opacity-90 text-white shadow-lg cta-button-pulse"
+                className="bg-purple-dark text-white hover:bg-purple-mid transition-colors duration-150"
               >
                 {newsletterStatus === "loading" ? "Subscribing..." : "Subscribe"}
               </Button>
@@ -107,7 +107,7 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="gradient-separator mb-12" />
+        <Separator className="mb-12 bg-white/20" />
 
         {/* Main Content Grid */}
         <div className="grid gap-12 mb-12">
@@ -145,7 +145,7 @@ export function SiteFooter() {
                   <h4 className="font-semibold text-mint-dark">{section.title}</h4>
                   <ChevronDown
                     className={cn(
-                      "h-4 w-4 transition-transform duration-200",
+                      "h-4 w-4 transition-transform duration-150",
                       openSections.includes(section.title) && "rotate-180"
                     )}
                   />
@@ -194,7 +194,7 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="gradient-separator mb-8" />
+        <Separator className="mb-8 bg-white/20" />
 
         {/* Bottom Section */}
         <div className="space-y-6">
@@ -204,7 +204,7 @@ export function SiteFooter() {
               <div key={link.name} className="flex items-center">
                 <Link
                   href={link.href}
-                  className="text-white/60 hover:text-purple-mid transition-colors legal-link"
+                  className="text-white/60 hover:text-purple-mid transition-colors duration-150 legal-link"
                 >
                   {link.name}
                 </Link>
@@ -225,7 +225,7 @@ export function SiteFooter() {
                     alt="She Sharp"
                     fill
                     sizes="96px"
-                    className="object-contain brightness-0 invert opacity-90 group-hover:opacity-100 transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]"
+                    className="object-contain brightness-0 invert opacity-90 group-hover:opacity-100 transition-opacity duration-150"
                   />
                 </div>
               </Link>
@@ -234,7 +234,7 @@ export function SiteFooter() {
                 href={footerConfig.charityInfo.registrationLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-purple-mid transition-colors flex items-center gap-1"
+                className="hover:text-purple-mid transition-colors duration-150 flex items-center gap-1"
               >
                 Registered NZ Charity #{footerConfig.charityInfo.registrationNumber}
                 <ExternalLink className="h-3 w-3" />

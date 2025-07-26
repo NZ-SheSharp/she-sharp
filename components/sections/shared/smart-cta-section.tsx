@@ -274,7 +274,7 @@ export function SmartCTASection({
           {ctaItems.map((item, index) => {
             const Icon = item.icon;
             return (
-              <Card key={index} className="text-center hover:shadow-lg transition-shadow duration-300">
+              <Card key={index} className="text-center hover:shadow-lg transition-shadow duration-150">
                 <CardContent className="p-8">
                   <div className={cn(
                     "w-16 h-16 rounded-full mx-auto mb-6 flex items-center justify-center",

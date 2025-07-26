@@ -100,14 +100,14 @@ export function EventsTimelineHero() {
                 )}
               >
                 {/* Timeline dot */}
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-purple-dark rounded-full ring-4 ring-white dark:ring-gray-900 z-10" />
+                <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-mint-dark rounded-full ring-4 ring-white dark:ring-gray-900 z-10" />
 
                 {/* Event card */}
                 <Link
                   href={`/events/${event.id}`}
                   className={cn(
                     "group relative w-full md:w-5/12 bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6",
-                    "border border-gray-200 dark:border-gray-700 hover:border-purple-dark dark:hover:border-purple-dark",
+                    "border border-gray-200 dark:border-gray-700 hover:border-mint-dark dark:hover:border-mint-dark",
                     index % 2 === 0 ? "md:mr-auto" : "md:ml-auto"
                   )}
                 >
@@ -118,10 +118,10 @@ export function EventsTimelineHero() {
 
                   <div className="space-y-3">
                     <div className="flex items-start justify-between">
-                      <h3 className="font-semibold text-lg text-navy-dark dark:text-white group-hover:text-purple-dark transition-colors">
+                      <h3 className="font-semibold text-lg text-navy-dark dark:text-white group-hover:text-mint-dark transition-colors">
                         {event.title}
                       </h3>
-                      <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-purple-dark transition-colors" />
+                      <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-mint-dark transition-colors" />
                     </div>
 
                     <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
@@ -160,7 +160,7 @@ export function EventsTimelineHero() {
           <div className="text-center mt-12">
             <Link
               href="#all-events"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-purple-dark text-white rounded-lg hover:bg-purple-mid transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-mint-dark text-white rounded-lg hover:bg-mint-dark/90 transition-colors"
             >
               View All Events
               <ChevronRight className="w-4 h-4" />
