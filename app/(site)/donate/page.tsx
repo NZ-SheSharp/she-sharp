@@ -3,7 +3,7 @@ import { DonationOptionsSection } from "@/components/sections/donate/donation-op
 import { DonateInfoSection } from "@/components/sections/donate/donate-info-section";
 import { DonationImpactSection } from "@/components/sections/donate/donation-impact-section";
 import { TestimonialsSection } from "@/components/sections/donate/testimonials-section";
-import { DonateCTASection } from "@/components/sections/donate/donate-cta-section";
+import { SmartCTASection } from "@/components/sections/shared/smart-cta-section";
 
 export default function DonatePage() {
   return (
@@ -13,7 +13,7 @@ export default function DonatePage() {
       <DonateInfoSection />
       <DonationImpactSection />
       <TestimonialsSection />
-      <DonateCTASection />
+      <SmartCTASection title="Other Ways to Support" />
     </>
   );
 }

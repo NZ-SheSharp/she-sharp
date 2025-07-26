@@ -7,41 +7,21 @@ import { Progress } from "@/components/ui/progress";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { TrendingUp, Users, Award, Sparkles, Info } from "lucide-react";
 import { useState, useEffect } from "react";
+import { globalStats, pageStats } from "@/lib/data/stats";
 
-const stats = [
-  {
-    percentage: "85%",
-    value: 85,
-    description: "Feel more empowered after joining a mentorship program",
-    detail: "Based on survey of 500+ program participants across 3 years",
-    icon: Sparkles,
-    color: "purple"
-  },
-  {
-    percentage: "90%",
-    value: 90,
-    description: "Experienced improvement of their interpersonal skills",
-    detail: "Including communication, leadership, and networking abilities",
-    icon: Users,
-    color: "periwinkle"
-  },
-  {
-    percentage: "6x more",
-    value: 100,
-    description: "Mentors are likely to be promoted",
-    detail: "Compared to colleagues who don't participate in mentorship",
-    icon: TrendingUp,
-    color: "mint"
-  },
-  {
-    percentage: "5x more",
-    value: 100,
-    description: "Mentees with mentors are likely to be promoted",
-    detail: "Within 2 years of completing the mentorship program",
-    icon: Award,
-    color: "navy"
-  }
-];
+const stats = pageStats.mentorship.outcomes.map((outcome, index) => {
+  const icons = [Sparkles, Users, TrendingUp, Award];
+  const colors = ["purple", "periwinkle", "mint", "navy"];
+  
+  return {
+    percentage: outcome.percentage,
+    value: outcome.percentage.includes("%") ? parseInt(outcome.percentage) : 100,
+    description: outcome.description,
+    detail: outcome.detail,
+    icon: icons[index],
+    color: colors[index]
+  };
+});
 
 export function StatsSection() {
   const [animated, setAnimated] = useState(false);

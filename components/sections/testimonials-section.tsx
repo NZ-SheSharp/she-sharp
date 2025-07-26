@@ -14,65 +14,11 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { Quote } from "lucide-react";
-
-const testimonials = [
-  {
-    id: 1,
-    name: "Sarah Chen",
-    role: "Software Engineer",
-    company: "Microsoft",
-    image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
-    quote: "She Sharp gave me the confidence and network I needed to transition into tech. The mentorship program was life-changing!",
-    tags: ["Career Transition", "Mentorship"],
-  },
-  {
-    id: 2,
-    name: "Emma Wilson",
-    role: "Data Scientist",
-    company: "Datacom",
-    image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
-    quote: "Through She Sharp events, I connected with amazing women who became both friends and professional contacts. This community is incredible!",
-    tags: ["Networking", "Community"],
-  },
-  {
-    id: 3,
-    name: "Priya Patel",
-    role: "Product Manager",
-    company: "Xero",
-    image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
-    quote: "The workshops and skill-building sessions helped me level up my career. I went from junior developer to product manager in two years!",
-    tags: ["Skills Development", "Career Growth"],
-  },
-  {
-    id: 4,
-    name: "Jessica Kim",
-    role: "Cloud Architect",
-    company: "AWS",
-    image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
-    quote: "She Sharp's support during my university years shaped my career path. Now I'm giving back as a mentor to inspire the next generation.",
-    tags: ["University", "Giving Back"],
-  },
-  {
-    id: 5,
-    name: "Maria Rodriguez",
-    role: "UX Designer",
-    company: "Trade Me",
-    image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
-    quote: "Finding role models who looked like me in tech was powerful. She Sharp showed me that I belong in this industry.",
-    tags: ["Role Models", "Belonging"],
-  },
-  {
-    id: 6,
-    name: "Aisha Mohammed",
-    role: "Security Engineer",
-    company: "Spark NZ",
-    image: "https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg",
-    quote: "The technical workshops and hackathons pushed me out of my comfort zone. I discovered my passion for cybersecurity at a She Sharp event!",
-    tags: ["Technical Skills", "Discovery"],
-  },
-];
+import { testimonialsByPage } from "@/lib/data/testimonials";
 
 export function TestimonialsSection() {
+  const testimonials = testimonialsByPage.home;
+  
   return (
     <Section bgColor="white" className="overflow-hidden">
       <Container size="xl">
