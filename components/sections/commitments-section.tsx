@@ -66,6 +66,18 @@ export function CommitmentsSection() {
     <Section bgColor="light">
       <Container size="wide">
         <div className="text-center mb-8 sm:mb-12">
+          {/* Logo */}
+          <div className="mb-6 flex justify-center">
+            <div className="relative w-16 h-16 opacity-20">
+              <Image
+                src="/logos/she-sharp-logo-purple-mid-130x130.svg"
+                alt="She Sharp"
+                fill
+                sizes="64px"
+                className="object-contain"
+              />
+            </div>
+          </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-navy-dark mb-4">
             Our commitments
           </h2>

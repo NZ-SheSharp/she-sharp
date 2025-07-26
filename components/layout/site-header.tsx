@@ -252,8 +252,23 @@ export function SiteHeader() {
             className="w-[300px] sm:w-[400px] p-0 overflow-y-auto"
           >
             {/* Mobile Header */}
-            <div className="bg-purple-dark p-6">
-              <SheetTitle className="text-white text-xl">Menu</SheetTitle>
+            <div className="bg-gradient-to-br from-purple-dark to-purple-mid p-6 relative overflow-hidden">
+              <SheetTitle className="text-white text-xl font-bold relative z-10">
+                Menu
+              </SheetTitle>
+              {/* Background Logo */}
+              <div className="absolute bottom-0 right-0 transform translate-x-1/4 translate-y-1/4 opacity-20">
+                <div className="relative w-32 h-32">
+                  <Image
+                    src="/logos/she-sharp-logo-purple-dark-130x130.svg"
+                    alt=""
+                    fill
+                    sizes="128px"
+                    className="object-contain"
+                    aria-hidden="true"
+                  />
+                </div>
+              </div>
             </div>
             
             {/* Mobile Navigation */}
