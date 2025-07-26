@@ -53,7 +53,7 @@ export default function MediaHubPage() {
     <>
       {/* Hero Section */}
       <Section bgColor="white" className="pt-24 pb-12">
-        <Container size="xl">
+        <Container size="full">
           <div className="text-center max-w-4xl mx-auto px-4">
             <div className="flex items-center justify-center gap-2 mb-4">
               <Sparkles className="w-6 h-6 text-purple-mid" />
@@ -73,7 +73,7 @@ export default function MediaHubPage() {
 
       {/* Media Categories Grid */}
       <Section bgColor="light">
-        <Container size="xl">
+        <Container size="full">
           <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
             {mediaCategories.map((category) => (
               <Card 

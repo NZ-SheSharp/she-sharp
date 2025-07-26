@@ -72,7 +72,7 @@ export default function GoogleEducator2024Page() {
 
       {/* Event Details */}
       <Section>
-        <Container size="md">
+        <Container size="narrow">
           <div>
             <h2 className="text-3xl font-bold text-navy-dark mb-6">
               Conference Highlights
@@ -114,7 +114,7 @@ export default function GoogleEducator2024Page() {
 
       {/* CTA */}
       <Section>
-        <Container size="sm" className="text-center">
+        <Container size="narrow" className="text-center">
           <h2 className="text-3xl font-bold text-navy-dark mb-4">
             Inspired by Our 2024 Conference?
           </h2>
