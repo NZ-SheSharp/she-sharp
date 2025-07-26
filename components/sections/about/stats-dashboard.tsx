@@ -5,10 +5,11 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { TrendingUp, Users, Calendar } from "lucide-react";
 import { useEffect, useState } from "react";
+import { globalStats, pageStats } from "@/lib/data/stats";
 
 export function StatsDashboard() {
-  const [memberCount, setMemberCount] = useState(2150);
-  const targetMemberCount = 2200;
+  const [memberCount, setMemberCount] = useState(globalStats.members.current - 50);
+  const targetMemberCount = globalStats.members.current;
 
   // Animate member count
   useEffect(() => {

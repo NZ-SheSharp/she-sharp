@@ -1,0 +1,202 @@
+"use client";
+
+import { Container } from "@/components/layout/container";
+import { Section } from "@/components/layout/section";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { 
+  Calendar, 
+  Clock, 
+  TrendingUp, 
+  Lightbulb,
+  Users,
+  BookOpen,
+  ArrowRight,
+  Sparkles
+} from "lucide-react";
+import { motion } from "framer-motion";
+
+const recentIssues = [
+  {
+    edition: "November 2024",
+    title: "Breaking Barriers: Women Leading AI Innovation",
+    highlights: [
+      "Interview with Dr. Sarah Chen on ethical AI",
+      "5 AI tools every developer should know",
+      "Community spotlight: Auckland AI meetup recap"
+    ],
+    readTime: "5 min read",
+    category: "Technology",
+    icon: TrendingUp
+  },
+  {
+    edition: "October 2024",
+    title: "Career Transitions: From Teacher to Tech Leader",
+    highlights: [
+      "Success story: Maria's journey to Product Management",
+      "Top skills for career changers",
+      "Free resources for learning to code"
+    ],
+    readTime: "7 min read",
+    category: "Career",
+    icon: Lightbulb
+  },
+  {
+    edition: "September 2024",
+    title: "Building Your Personal Brand in Tech",
+    highlights: [
+      "LinkedIn optimization tips",
+      "How to start technical blogging",
+      "Networking strategies that actually work"
+    ],
+    readTime: "6 min read",
+    category: "Professional Development",
+    icon: Users
+  }
+];
+
+const newsletterTopics = [
+  {
+    icon: TrendingUp,
+    title: "Industry Insights",
+    description: "Latest trends and innovations in tech"
+  },
+  {
+    icon: Users,
+    title: "Community Stories",
+    description: "Inspiring journeys from our members"
+  },
+  {
+    icon: BookOpen,
+    title: "Learning Resources",
+    description: "Curated tools and tutorials"
+  },
+  {
+    icon: Calendar,
+    title: "Event Highlights",
+    description: "Recap of recent events and upcoming opportunities"
+  }
+];
+
+export function NewsletterPreviewSection() {
+  return (
+    <Section className="py-16 lg:py-24 bg-gradient-to-b from-white to-purple-light/10">
+      <Container>
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
+          <Badge className="mb-4 bg-mint-light text-mint-dark border-mint-dark/20">
+            Monthly Insights
+          </Badge>
+          <h2 className="text-3xl md:text-4xl font-bold text-navy-dark mb-4">
+            What's Inside Our Newsletter
+          </h2>
+          <p className="text-lg text-gray max-w-3xl mx-auto">
+            Each month, we deliver carefully curated content to help you grow your career, 
+            expand your network, and stay inspired in your STEM journey.
+          </p>
+        </motion.div>
+
+        {/* Topics Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          {newsletterTopics.map((topic, index) => (
+            <motion.div
+              key={topic.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true }}
+            >
+              <Card className="h-full text-center hover:shadow-lg transition-shadow duration-300">
+                <CardContent className="p-6">
+                  <div className="inline-flex p-3 rounded-full bg-purple-light/20 mb-4">
+                    <topic.icon className="h-6 w-6 text-purple-dark" />
+                  </div>
+                  <h3 className="font-semibold text-navy-dark mb-2">
+                    {topic.title}
+                  </h3>
+                  <p className="text-sm text-gray">
+                    {topic.description}
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Recent Issues */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="mb-12"
+        >
+          <h3 className="text-2xl font-bold text-navy-dark mb-6 text-center">
+            Recent Newsletter Issues
+          </h3>
+          <div className="grid lg:grid-cols-3 gap-6">
+            {recentIssues.map((issue, index) => (
+              <Card key={issue.edition} className="hover:shadow-xl transition-shadow duration-300">
+                <CardHeader>
+                  <div className="flex items-start justify-between mb-2">
+                    <Badge variant="secondary">
+                      {issue.edition}
+                    </Badge>
+                    <span className="text-sm text-gray-500 flex items-center gap-1">
+                      <Clock className="h-3 w-3" />
+                      {issue.readTime}
+                    </span>
+                  </div>
+                  <CardTitle className="text-lg">{issue.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2 mb-4">
+                    {issue.highlights.map((highlight) => (
+                      <div key={highlight} className="flex items-start gap-2">
+                        <Sparkles className="h-4 w-4 text-purple-dark mt-0.5 flex-shrink-0" />
+                        <span className="text-sm text-gray-600">{highlight}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="w-full group"
+                  >
+                    Read This Issue
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Testimonial */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="bg-white rounded-2xl shadow-lg p-8 text-center"
+        >
+          <p className="text-lg text-gray italic mb-4">
+            "The She Sharp newsletter is my monthly dose of inspiration and practical advice. 
+            It's helped me stay connected to the community and discover opportunities I wouldn't 
+            have found otherwise."
+          </p>
+          <div>
+            <p className="font-semibold text-navy-dark">Rachel Kim</p>
+            <p className="text-sm text-gray">Software Engineer at Xero</p>
+          </div>
+        </motion.div>
+      </Container>
+    </Section>
+  );
+}

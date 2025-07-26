@@ -6,8 +6,7 @@ import { HowItWorksSection } from "@/components/sections/mentorship/how-it-works
 import { MentorsPreviewSection } from "@/components/sections/mentorship/mentors-preview-section";
 import { BenefitsSection } from "@/components/sections/mentorship/benefits-section";
 import { IndustryLogosSection } from "@/components/sections/mentorship/industry-logos-section";
-import { JoinCTASection } from "@/components/sections/mentorship/join-cta-section";
-import { MentorshipCTASection } from "@/components/sections/mentorship/mentorship-cta-section";
+import { SmartCTASection } from "@/components/sections/shared/smart-cta-section";
 
 export default function MentorshipPage() {
   return (
@@ -20,8 +19,7 @@ export default function MentorshipPage() {
       <MentorsPreviewSection />
       <BenefitsSection />
       <IndustryLogosSection />
-      <JoinCTASection />
-      <MentorshipCTASection />
+      <SmartCTASection title="Start Your Mentorship Journey" />
     </>
   );
 }

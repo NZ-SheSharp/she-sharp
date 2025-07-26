@@ -1,10 +1,11 @@
 import { MentorsHeroSection } from "@/components/sections/mentorship/mentors/mentors-hero-section";
 import { MentorsCallToActionSection } from "@/components/sections/mentorship/mentors/mentors-call-to-action-section";
 import { MentorsListSection } from "@/components/sections/mentorship/mentors/mentors-list-section";
-import { MentorResponsibilitiesSection } from "@/components/sections/mentorship/mentors/mentor-responsibilities-section";
+import { MentorJourneySection } from "@/components/sections/mentorship/mentors/mentor-journey-section";
+import { MentorCommunitySection } from "@/components/sections/mentorship/mentors/mentor-community-section";
 import { MentorBenefitsSection } from "@/components/sections/mentorship/mentors/mentor-benefits-section";
-import { BecomeMentorCTASection } from "@/components/sections/mentorship/mentors/become-mentor-cta-section";
-import { MentorsCTASection } from "@/components/sections/mentorship/mentors/mentors-cta-section";
+import { PageTestimonialsSection } from "@/components/sections/shared/page-testimonials-section";
+import { SmartCTASection } from "@/components/sections/shared/smart-cta-section";
 
 export default function MeetOurMentorsPage() {
   return (
@@ -12,10 +13,15 @@ export default function MeetOurMentorsPage() {
       <MentorsHeroSection />
       <MentorsCallToActionSection />
       <MentorsListSection />
-      <MentorResponsibilitiesSection />
+      <MentorJourneySection />
+      <MentorCommunitySection />
       <MentorBenefitsSection />
-      <BecomeMentorCTASection />
-      <MentorsCTASection />
+      <PageTestimonialsSection 
+        title="Stories from Our Mentors"
+        subtitle="Hear from mentors who are making a difference in the lives of women in STEM"
+        pageKey="mentorship"
+      />
+      <SmartCTASection title="Ready to Inspire?" bgColor="purple" />
     </>
   );
 }

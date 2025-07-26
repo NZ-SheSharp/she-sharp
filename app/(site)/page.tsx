@@ -6,7 +6,7 @@ import { EventsSection } from "@/components/sections/events-section";
 import { TestimonialsSection } from "@/components/sections/testimonials-section";
 import { MediaSection } from "@/components/sections/media-section";
 import { SponsorsSection } from "@/components/sections/sponsors-section";
-import { CTASection } from "@/components/sections/cta-section";
+import { SmartCTASection } from "@/components/sections/shared/smart-cta-section";
 
 export default function HomePage() {
   return (
@@ -18,7 +18,7 @@ export default function HomePage() {
       <TestimonialsSection />
       <MediaSection />
       <SponsorsSection />
-      <CTASection />
+      <SmartCTASection title="Get Involved" />
     </>
   );
 }

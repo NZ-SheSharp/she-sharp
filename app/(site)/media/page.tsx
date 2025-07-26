@@ -6,6 +6,7 @@ import { Section } from "@/components/layout/section";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Mic, Mail, Camera, FileText, ArrowRight, Sparkles } from "lucide-react";
+import { SmartCTASection } from "@/components/sections/shared/smart-cta-section";
 
 export default function MediaHubPage() {
   const mediaCategories = [
@@ -161,32 +162,8 @@ export default function MediaHubPage() {
         </Container>
       </Section>
 
-      {/* Newsletter Signup */}
-      <Section bgColor="light">
-        <Container size="lg">
-          <Card className="text-center p-8 md:p-12">
-            <div className="w-16 h-16 mx-auto mb-6 bg-mint-light/20 rounded-full flex items-center justify-center">
-              <Mail className="w-8 h-8 text-mint-dark" />
-            </div>
-            <h3 className="text-2xl font-bold text-navy-dark mb-4">
-              Never Miss an Update
-            </h3>
-            <p className="text-gray mb-8 max-w-2xl mx-auto">
-              Subscribe to our newsletter and be the first to know about upcoming events, 
-              new podcast episodes, and inspiring success stories from our community.
-            </p>
-            <Button
-              asChild
-              size="lg"
-              className="bg-purple-dark hover:bg-purple-mid"
-            >
-              <Link href="/media/newsletters">
-                Subscribe to Newsletter
-              </Link>
-            </Button>
-          </Card>
-        </Container>
-      </Section>
+      {/* Smart CTA Section */}
+      <SmartCTASection title="Stay Connected" />
     </>
   );
 }

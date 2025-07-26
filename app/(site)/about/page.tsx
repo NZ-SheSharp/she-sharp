@@ -7,7 +7,7 @@ import { TimelineSection } from "@/components/sections/about/timeline-section";
 import { ValuesCollageSection } from "@/components/sections/about/values-collage-section";
 import { VolunteerSection } from "@/components/sections/about/volunteer-section";
 import { PartnersCloudSection } from "@/components/sections/about/partners-cloud-section";
-import { AboutCTASection } from "@/components/sections/about/about-cta-section";
+import { SmartCTASection } from "@/components/sections/shared/smart-cta-section";
 import { AnimatedWrapper } from "@/components/sections/about/animated-wrapper";
 import { useScrollToHash } from "@/hooks/use-scroll-to-hash";
 
@@ -45,7 +45,7 @@ export default function AboutPage() {
         <PartnersCloudSection />
       </AnimatedWrapper>
       
-      <AboutCTASection />
+      <SmartCTASection title="Join Our Journey" />
     </>
   );
 }
