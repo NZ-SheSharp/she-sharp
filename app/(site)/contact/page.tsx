@@ -4,15 +4,19 @@ import { ContactInfoSection } from "@/components/sections/contact/contact-info-s
 import { SocialMediaSection } from "@/components/sections/contact/social-media-section";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
+import { layoutSystem, layoutClasses } from "@/lib/layout-system";
 
 export default function ContactPage() {
   return (
     <>
       <ContactHeroSection />
-      <Section className="py-20 md:py-32">
-        <Container>
-          <div className="mx-auto max-w-5xl">
-            <div className="grid gap-16 md:grid-cols-5 md:gap-20">
+      <Section bgColor="white">
+        <Container size="content">
+          <div>
+            <div className={layoutClasses(
+              "grid gap-16 md:grid-cols-5",
+              "md:gap-20"
+            )}>
               {/* Left column - Contact Info */}
               <div className="md:col-span-2">
                 <ContactInfoSection />

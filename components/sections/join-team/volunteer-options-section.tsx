@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Users, Clock, Heart } from "lucide-react";
+import { layoutSystem, layoutClasses } from "@/lib/layout-system";
 
 const volunteerPaths = [
   {
@@ -62,8 +63,8 @@ const volunteerPaths = [
 
 export function VolunteerOptionsSection() {
   return (
-    <Section className="py-20 bg-white">
-      <Container>
+    <Section bgColor="white">
+      <Container size="wide">
         <div className="mx-auto max-w-6xl">
           {/* Section Header */}
           <div className="text-center mb-16">
