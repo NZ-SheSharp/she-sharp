@@ -13,7 +13,6 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import { Badge } from "@/components/ui/badge";
 
 const heroImages = [
   {
@@ -40,7 +39,7 @@ const heroImages = [
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[80vh] sm:min-h-[85vh] flex items-center justify-center overflow-hidden">
       {/* Background Carousel */}
       <div className="absolute inset-0">
         <Carousel
@@ -69,11 +68,6 @@ export function HeroSection() {
                     />
                   </AspectRatio>
                   <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/80 via-navy-dark/40 to-transparent" />
-                  <div className="absolute bottom-8 left-8 z-10">
-                    <Badge className="bg-purple-dark text-white">
-                      {image.caption}
-                    </Badge>
-                  </div>
                 </div>
               </CarouselItem>
             ))}
@@ -88,59 +82,23 @@ export function HeroSection() {
 
       <Container className="relative z-10">
         <div className="max-w-4xl mx-auto text-center">
-          {/* Announcement */}
-          <div className="mb-6 sm:mb-8 animate-fade-in-down">
-            <Badge className="px-3 sm:px-6 py-1.5 sm:py-2 text-xs sm:text-sm bg-mint-light/90 backdrop-blur-sm text-navy-dark border-mint-mid">
-              🎉 Our next event: THRIVE: Your Career, Your Story
-            </Badge>
-          </div>
-
           {/* Main heading */}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-6 animate-fade-in-up">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold text-white mb-12 animate-fade-in-up leading-tight">
             CONNECTING{" "}
             <span className="bg-gradient-to-r from-purple-light to-periwinkle-light bg-clip-text text-transparent">
               women in technology
             </span>
           </h1>
 
-          {/* Subheading */}
-          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 mb-8 max-w-2xl mx-auto animate-fade-in-up animation-delay-200 px-4">
-            She Sharp is on a mission to bridge the gender gap in STEM, one woman at a time. Through events, networking, and career development opportunities.
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-400">
+          {/* CTA Button */}
+          <div className="animate-fade-in-up animation-delay-200">
             <Button
               size="lg"
               asChild
-              className="bg-purple-dark hover:bg-purple-mid text-white shadow-lg"
+              className="bg-purple-dark hover:bg-purple-mid text-white shadow-lg px-8 py-6 text-lg"
             >
               <Link href="/events">Explore Events</Link>
             </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              asChild
-              className="border-2 border-white bg-white/20 text-white hover:bg-white hover:text-purple-dark backdrop-blur-sm transition-all"
-            >
-              <Link href="/join-our-team">Join Our Team</Link>
-            </Button>
-          </div>
-
-          {/* Stats */}
-          <div className="mt-12 sm:mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-2xl mx-auto animate-fade-in-up animation-delay-600">
-            <div className="text-center bg-white/10 backdrop-blur-sm rounded-lg p-3 sm:p-4">
-              <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">2200+</div>
-              <div className="text-xs sm:text-sm text-white/80 mt-1">She Sharp Members</div>
-            </div>
-            <div className="text-center bg-white/10 backdrop-blur-sm rounded-lg p-3 sm:p-4">
-              <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">50+</div>
-              <div className="text-xs sm:text-sm text-white/80 mt-1">She Sharp Sponsors</div>
-            </div>
-            <div className="text-center bg-white/10 backdrop-blur-sm rounded-lg p-3 sm:p-4">
-              <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">84+</div>
-              <div className="text-xs sm:text-sm text-white/80 mt-1">Events Since 2014</div>
-            </div>
           </div>
         </div>
       </Container>
