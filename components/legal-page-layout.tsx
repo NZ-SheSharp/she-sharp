@@ -50,14 +50,11 @@ export function LegalPageLayout({
   icon 
 }: LegalPageLayoutProps) {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-purple-light/10">
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-purple-dark via-periwinkle-dark to-navy-dark">
+      <div className="relative overflow-hidden bg-navy-dark">
         <div className="absolute inset-0 bg-black/20" />
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-purple-mid/20 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2" />
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-periwinkle-dark/20 rounded-full blur-3xl transform translate-x-1/2 translate-y-1/2" />
-        </div>
+        <div className="absolute inset-0 bg-purple-light/10" />
         
         <div className="relative container mx-auto px-4 py-24 md:py-32">
           <div className="max-w-4xl mx-auto text-center">
@@ -100,9 +97,9 @@ export function LegalPageLayout({
                   key={page.href}
                   href={page.href}
                   className={cn(
-                    "group relative p-4 rounded-xl transition-all duration-300",
+                    "group relative p-4 rounded-xl transition-colors duration-150",
                     isActive 
-                      ? "bg-gradient-to-br from-purple-dark to-periwinkle-dark text-white shadow-lg" 
+                      ? "bg-purple-dark text-white shadow-md" 
                       : "bg-white hover:bg-purple-light/20 border border-purple-light/20 hover:border-purple-mid"
                   )}
                 >
@@ -131,7 +128,7 @@ export function LegalPageLayout({
                     </div>
                   </div>
                   {!isActive && (
-                    <ChevronRight className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-purple-dark opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all" />
+                    <ChevronRight className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-purple-dark opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
                   )}
                 </Link>
               );

@@ -9,7 +9,7 @@ import Link from "next/link";
 
 export function JoinTeamCTASection() {
   return (
-    <Section className="py-20 bg-gradient-to-br from-purple-light/10 to-periwinkle-light/10">
+    <Section className="py-20 bg-mint-light/10">
       <Container>
         <div className="mx-auto max-w-6xl">
           {/* Section Header */}
@@ -40,12 +40,12 @@ export function JoinTeamCTASection() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-purple-dark hover:bg-purple-mid text-white">
+                <Button size="lg" className="bg-mint-dark hover:bg-mint-dark/90 text-navy-dark transition-colors duration-150">
                   <Users className="w-5 h-5 mr-2" />
                   Apply Now
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
-                <Button size="lg" variant="outline" className="border-2 border-purple-dark text-purple-dark hover:bg-purple-light">
+                <Button size="lg" variant="outline" className="border-2 border-mint-dark text-mint-dark hover:bg-mint-light/20 transition-colors duration-150">
                   <Mail className="w-5 h-5 mr-2" />
                   Get Updates
                 </Button>
@@ -64,9 +64,9 @@ export function JoinTeamCTASection() {
 
           {/* Secondary CTAs */}
           <div className="grid md:grid-cols-3 gap-8">
-            <Card className="group hover:shadow-lg transition-shadow">
+            <Card className="group hover:shadow-lg transition-shadow duration-150">
               <CardContent className="p-8 text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-light/20 rounded-full mb-6 group-hover:bg-purple-light/30 transition-colors">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-light/20 rounded-full mb-6 group-hover:bg-purple-light/30 transition-colors duration-150">
                   <Heart className="w-8 h-8 text-purple-dark" />
                 </div>
                 <h4 className="text-xl font-semibold text-navy-dark mb-3">
@@ -84,9 +84,9 @@ export function JoinTeamCTASection() {
               </CardContent>
             </Card>
 
-            <Card className="group hover:shadow-lg transition-shadow">
+            <Card className="group hover:shadow-lg transition-shadow duration-150">
               <CardContent className="p-8 text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-periwinkle-light/20 rounded-full mb-6 group-hover:bg-periwinkle-light/30 transition-colors">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-periwinkle-light/20 rounded-full mb-6 group-hover:bg-periwinkle-light/30 transition-colors duration-150">
                   <Calendar className="w-8 h-8 text-periwinkle-dark" />
                 </div>
                 <h4 className="text-xl font-semibold text-navy-dark mb-3">
@@ -104,9 +104,9 @@ export function JoinTeamCTASection() {
               </CardContent>
             </Card>
 
-            <Card className="group hover:shadow-lg transition-shadow">
+            <Card className="group hover:shadow-lg transition-shadow duration-150">
               <CardContent className="p-8 text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-mint-light/20 rounded-full mb-6 group-hover:bg-mint-light/30 transition-colors">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-mint-light/20 rounded-full mb-6 group-hover:bg-mint-light/30 transition-colors duration-150">
                   <Mail className="w-8 h-8 text-navy-dark" />
                 </div>
                 <h4 className="text-xl font-semibold text-navy-dark mb-3">

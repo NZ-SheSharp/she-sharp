@@ -142,7 +142,7 @@ export function NewsListSection() {
   const years = Object.keys(groupedByYear).sort((a, b) => b.localeCompare(a));
 
   return (
-    <Section className="py-16 bg-gradient-to-b from-white to-purple-light/10">
+    <Section className="py-16 bg-purple-light/5">
       <Container>
         {/* Filter Section */}
         <div className="mb-12">
@@ -158,7 +158,7 @@ export function NewsListSection() {
                   />
                   <Label
                     htmlFor={category.value}
-                    className="flex items-center justify-center gap-2 rounded-lg border-2 border-gray-200 p-4 hover:border-purple-dark cursor-pointer peer-data-[state=checked]:border-purple-dark peer-data-[state=checked]:bg-purple-light/20 transition-all"
+                    className="flex items-center justify-center gap-2 rounded-lg border-2 border-gray-200 p-4 hover:border-purple-mid cursor-pointer peer-data-[state=checked]:border-purple-mid peer-data-[state=checked]:bg-purple-light/20 transition-colors duration-150"
                   >
                     <category.icon className="h-5 w-5" />
                     <span className="font-medium">{category.label}</span>
@@ -172,13 +172,13 @@ export function NewsListSection() {
         {/* Timeline Layout */}
         <div className="relative">
           {/* Timeline line */}
-          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-purple-dark via-periwinkle-dark to-mint-dark" />
+          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-purple-mid" />
 
           {years.map((year, yearIndex) => (
             <div key={year} className="mb-16">
               {/* Year marker */}
               <div className="relative flex items-center justify-center mb-8">
-                <div className="absolute left-8 md:left-1/2 w-4 h-4 bg-purple-dark rounded-full -translate-x-1/2" />
+                <div className="absolute left-8 md:left-1/2 w-4 h-4 bg-purple-mid rounded-full" />
                 <Badge className="bg-navy-dark text-white text-lg px-4 py-2">
                   {year}
                 </Badge>
@@ -194,13 +194,13 @@ export function NewsListSection() {
                     }`}
                   >
                     {/* Timeline dot */}
-                    <div className="absolute left-8 md:left-1/2 w-3 h-3 bg-white border-2 border-purple-dark rounded-full -translate-x-1/2 z-10" />
+                    <div className="absolute left-8 md:left-1/2 w-3 h-3 bg-white border-2 border-purple-mid rounded-full z-10" />
 
                     {/* Empty space for alternating layout */}
                     <div className="hidden md:block md:w-1/2" />
 
                     {/* Content card */}
-                    <Card className="flex-1 ml-16 md:ml-0 md:w-1/2 hover:shadow-xl transition-shadow border-2 hover:border-purple-dark">
+                    <Card className="flex-1 ml-16 md:ml-0 md:w-1/2 hover:shadow-lg transition-shadow duration-150 border-2 hover:border-purple-mid">
                       <CardHeader className="pb-4">
                         <div className="flex flex-col md:flex-row gap-4">
                           {item.image && (

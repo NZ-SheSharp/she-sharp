@@ -142,7 +142,7 @@ export function GalleryGridSection() {
   };
 
   return (
-    <Section className="py-16 bg-gradient-to-b from-white via-mint-light/20 to-white">
+    <Section className="py-16 bg-purple-light/5">
       <Container>
         {/* Tabs for categories */}
         <Tabs defaultValue="all" value={selectedCategory} onValueChange={setSelectedCategory} className="mb-12">
@@ -165,7 +165,7 @@ export function GalleryGridSection() {
               {filteredItems.map((item, index) => (
                 <Card 
                   key={item.id} 
-                  className={`break-inside-avoid group overflow-hidden cursor-pointer hover:shadow-2xl transition-all border-0 ${
+                  className={`break-inside-avoid group overflow-hidden cursor-pointer hover:shadow-lg transition-shadow duration-150 border-0 ${
                     item.aspectRatio === 'portrait' ? 'aspect-[3/4]' : 
                     item.aspectRatio === 'square' ? 'aspect-square' : 
                     'aspect-[16/9]'
@@ -181,7 +181,7 @@ export function GalleryGridSection() {
                           src={item.image}
                           alt={item.title}
                           fill
-                          className="object-cover group-hover:scale-110 transition-transform duration-500"
+                          className="object-cover transition-opacity duration-150"
                           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                         />
                         

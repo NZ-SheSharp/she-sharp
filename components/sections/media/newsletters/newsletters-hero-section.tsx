@@ -6,23 +6,7 @@ export function NewslettersHeroSection() {
   return (
     <Section className="relative overflow-hidden bg-navy-dark">
       {/* Typography pattern background */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `repeating-linear-gradient(
-            0deg,
-            transparent,
-            transparent 35px,
-            rgba(255, 255, 255, 0.1) 35px,
-            rgba(255, 255, 255, 0.1) 36px
-          ), repeating-linear-gradient(
-            90deg,
-            transparent,
-            transparent 35px,
-            rgba(255, 255, 255, 0.1) 35px,
-            rgba(255, 255, 255, 0.1) 36px
-          )`
-        }} />
-      </div>
+      <div className="absolute inset-0 bg-purple-light/10" />
 
       {/* Floating typography elements */}
       <div className="absolute inset-0 overflow-hidden">
