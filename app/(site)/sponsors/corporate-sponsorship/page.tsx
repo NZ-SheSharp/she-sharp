@@ -3,6 +3,7 @@ import { CurrentSponsorsSection } from "@/components/sections/sponsorship/curren
 import { SponsorshipOverviewSection } from "@/components/sections/sponsorship/sponsorship-overview-section";
 import { SponsorshipStatsSection } from "@/components/sections/sponsorship/sponsorship-stats-section";
 import { SponsorshipPackagesSection } from "@/components/sections/sponsorship/sponsorship-packages-section";
+import { ROICalculatorSection } from "@/components/sections/sponsorship/roi-calculator-section";
 import { PhotoGallerySection } from "@/components/sections/sponsorship/photo-gallery-section";
 import { SponsorshipCTASection } from "@/components/sections/sponsorship/sponsorship-cta-section";
 
@@ -10,10 +11,11 @@ export default function CorporateSponsorshipPage() {
   return (
     <>
       <SponsorshipHeroSection />
-      <CurrentSponsorsSection />
-      <SponsorshipOverviewSection />
       <SponsorshipStatsSection />
+      <CurrentSponsorsSection />
       <SponsorshipPackagesSection />
+      <SponsorshipOverviewSection />
+      <ROICalculatorSection />
       <PhotoGallerySection />
       <SponsorshipCTASection />
     </>
