@@ -25,7 +25,7 @@ export function EventMiniCard({ event, className }: EventMiniCardProps) {
   return (
     <Link href={`/events/${event.id}`} className="block group">
       <div className={cn(
-        "relative overflow-hidden rounded-lg bg-white dark:bg-gray-900 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1",
+        "relative overflow-hidden rounded-lg bg-white dark:bg-gray-900 shadow-md hover:shadow-lg transition-shadow duration-150",
         "border border-periwinkle-light dark:border-periwinkle-dark/30",
         className
       )}>
@@ -35,11 +35,11 @@ export function EventMiniCard({ event, className }: EventMiniCardProps) {
             src={event.image}
             alt={event.title}
             fill
-            className="object-cover group-hover:scale-105 transition-transform duration-300"
+            className="object-cover transition-opacity duration-150"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
           {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/60 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-navy-dark/20" />
           
           {/* Badges */}
           <div className="absolute top-2 left-2 flex gap-2">
@@ -91,7 +91,7 @@ export function EventMiniCard({ event, className }: EventMiniCardProps) {
           </div>
 
           {/* Ticket perforation decoration */}
-          <div className="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-transparent to-gray-50 dark:to-gray-800">
+          <div className="absolute bottom-0 left-0 right-0 h-4 bg-gray-50 dark:bg-gray-800">
             <div className="flex justify-around items-center h-full">
               {[...Array(6)].map((_, i) => (
                 <div key={i} className="w-2 h-2 bg-white dark:bg-gray-950 rounded-full" />

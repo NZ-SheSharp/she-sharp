@@ -13,7 +13,7 @@ export function DonateHeroSection() {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-dark/80 to-purple-dark/40" />
+        <div className="absolute inset-0 bg-purple-dark/70" />
       </div>
       <Container className="relative z-10">
         <div className="py-24 md:py-32">
