@@ -21,6 +21,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { layoutSystem, layoutClasses } from '@/lib/layout-system'
 
 export default function GoogleEducatorPage() {
   const yearData = {
@@ -87,12 +88,12 @@ export default function GoogleEducatorPage() {
   return (
     <>
       {/* Hero Section - More Compact with Visual Interest */}
-      <Section className="relative bg-gradient-to-br from-periwinkle-light via-white to-mint-light/30 overflow-hidden">
+      <Section bgColor="accent" className="relative overflow-hidden">
         {/* Decorative Elements */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-periwinkle-light/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-mint-light/30 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2" />
         
-        <Container size="lg" className="relative py-16 md:py-20">
+        <Container size="wide" className="relative">
           <div className="text-center mb-12">
             <Badge className="mb-4 bg-periwinkle-dark/10 text-periwinkle-dark border-periwinkle-dark/20">
               <Sparkles className="h-3 w-3 mr-1" />
@@ -118,8 +119,8 @@ export default function GoogleEducatorPage() {
       </Section>
 
       {/* Conference Years - Tabbed Display */}
-      <Section className="py-12">
-        <Container size="xl">
+      <Section bgColor="white" spacing="component">
+        <Container size="wide">
           <Tabs defaultValue="2024" className="w-full">
             <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-8">
               <TabsTrigger value="2024" className="text-lg">2024</TabsTrigger>
@@ -128,7 +129,11 @@ export default function GoogleEducatorPage() {
 
             {Object.entries(yearData).map(([year, data]) => (
               <TabsContent key={year} value={year} className="mt-0">
-                <div className="grid lg:grid-cols-2 gap-8 items-center">
+                <div className={layoutClasses(
+                  "grid items-center",
+                  layoutSystem.patterns.splitLayout.gap,
+                  "lg:grid-cols-2"
+                )}>
                   {/* Image Section */}
                   <div className="order-2 lg:order-1">
                     <AspectRatio ratio={16 / 9} className="overflow-hidden rounded-xl shadow-xl">
@@ -198,15 +203,20 @@ export default function GoogleEducatorPage() {
       </Section>
 
       {/* Message to the Community */}
-      <Section className="py-16">
-        <Container size="lg">
+      <Section bgColor="white">
+        <Container size="content">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-navy-dark">
               Message to the Community
             </h2>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className={layoutClasses(
+            "grid",
+            layoutSystem.grids.content.cols1,
+            layoutSystem.grids.content.cols3,
+            layoutSystem.grids.content.gap
+          )}>
             <div className="text-center">
               <div className="w-16 h-16 mx-auto mb-4 bg-purple-light/20 rounded-full flex items-center justify-center">
                 <Calendar className="w-8 h-8 text-purple-dark" />
@@ -252,8 +262,8 @@ export default function GoogleEducatorPage() {
       </Section>
 
       {/* Features Section */}
-      <Section className="bg-gradient-to-b from-navy-light/20 to-white py-16">
-        <Container size="lg">
+      <Section bgColor="accent">
+        <Container size="wide">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-navy-dark mb-4">
               Why Attend?
@@ -263,7 +273,10 @@ export default function GoogleEducatorPage() {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className={layoutClasses(
+            "grid sm:grid-cols-2 lg:grid-cols-4",
+            layoutSystem.grids.content.gap
+          )}>
             {features.map((feature, index) => (
               <Card key={index} className="text-center hover:shadow-lg transition-shadow">
                 <CardHeader>
@@ -282,8 +295,8 @@ export default function GoogleEducatorPage() {
       </Section>
 
       {/* Testimonial Section */}
-      <Section className="py-16">
-        <Container size="md" className="text-center">
+      <Section bgColor="white">
+        <Container size="narrow" className="text-center">
           <Quote className="h-12 w-12 text-periwinkle-light mx-auto mb-6" />
           <blockquote className="text-xl md:text-2xl text-navy-dark font-medium mb-6">
             "The Google Educator Conference transformed how I integrate technology in my classroom. 
@@ -296,8 +309,8 @@ export default function GoogleEducatorPage() {
       </Section>
 
       {/* Partners Section */}
-      <Section className="bg-gradient-to-t from-periwinkle-light/20 to-white py-16">
-        <Container size="lg">
+      <Section bgColor="accent">
+        <Container size="content">
           <div className="text-center mb-10">
             <h2 className="text-2xl md:text-3xl font-bold text-navy-dark mb-2">
               In Partnership With
@@ -314,15 +327,20 @@ export default function GoogleEducatorPage() {
       </Section>
 
       {/* BRIDGE THE GENDER GAP IN STEM WITH US */}
-      <Section className="py-16">
-        <Container size="lg">
+      <Section bgColor="white">
+        <Container size="content">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-navy-dark">
               BRIDGE THE GENDER GAP IN STEM WITH US
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className={layoutClasses(
+            "grid max-w-4xl mx-auto",
+            layoutSystem.grids.content.cols1,
+            layoutSystem.grids.content.cols2,
+            layoutSystem.grids.content.gap
+          )}>
             {/* Donate Card */}
             <Card className="text-center p-8">
               <div className="w-16 h-16 mx-auto mb-4 bg-purple-light/20 rounded-full flex items-center justify-center">

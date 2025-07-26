@@ -17,6 +17,7 @@ import {
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
+import { layoutSystem, layoutClasses } from "@/lib/layout-system";
 
 const galleryCategories = [
   {
@@ -61,8 +62,8 @@ export function GalleryHighlightsSection() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   return (
-    <Section className="py-16 lg:py-24 bg-gradient-to-b from-white to-purple-light/10">
-      <Container>
+    <Section bgColor="white">
+      <Container size="wide">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -83,7 +84,10 @@ export function GalleryHighlightsSection() {
         </motion.div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+        <div className={layoutClasses(
+          "grid grid-cols-2 md:grid-cols-4 mb-12",
+          layoutSystem.grids.content.gap
+        )}>
           {photoStats.map((stat, index) => (
             <motion.div
               key={stat.label}
@@ -103,7 +107,10 @@ export function GalleryHighlightsSection() {
         </div>
 
         {/* Gallery Categories */}
-        <div className="grid md:grid-cols-2 gap-6 mb-12">
+        <div className={layoutClasses(
+          "grid md:grid-cols-2 mb-12",
+          layoutSystem.grids.content.gap
+        )}>
           {galleryCategories.map((category, index) => (
             <motion.div
               key={category.title}
@@ -163,7 +170,7 @@ export function GalleryHighlightsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-r from-purple-dark to-periwinkle-dark rounded-2xl p-8 lg:p-12 text-white"
+          className="bg-purple-dark rounded-2xl p-8 lg:p-12 text-white"
         >
           <div className="grid lg:grid-cols-2 gap-8 items-center">
             <div>

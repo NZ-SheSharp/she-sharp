@@ -12,6 +12,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { ExternalLink, Play, Pause, Clock, Calendar, Info } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import { layoutSystem, layoutClasses } from "@/lib/layout-system";
 
 const podcasts = [
   {
@@ -127,7 +128,7 @@ export function PodcastsListSection() {
     : podcasts.filter(p => p.category === selectedCategory);
 
   const categoryColors: Record<string, string> = {
-    "Career Stories": "bg-purple-mid text-white",
+    "Career Stories": "bg-purple-dark text-white",
     "Industry Insights": "bg-periwinkle-dark text-white",
     "Wellbeing": "bg-mint-dark text-navy-dark",
     "Diversity & Inclusion": "bg-purple-dark text-white",
@@ -137,10 +138,10 @@ export function PodcastsListSection() {
   };
 
   return (
-    <Section className="py-16 bg-gradient-to-b from-white to-periwinkle-light/20">
-      <Container>
+    <Section bgColor="white">
+      <Container size="full">
         {/* Featured Podcasts Carousel */}
-        <div className="mb-16">
+        <div className={layoutSystem.spacing.component.combined}>
           <h2 className="text-3xl md:text-4xl font-bold text-navy-dark mb-8">Featured Episodes</h2>
           <Carousel className="w-full">
             <CarouselContent>
