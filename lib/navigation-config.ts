@@ -6,6 +6,11 @@ export interface NavigationItem {
   description?: string;
   icon?: LucideIcon;
   children?: NavigationItem[];
+  image?: {
+    src: string;
+    alt: string;
+    href: string;
+  };
 }
 
 export interface NavigationButton {
@@ -23,6 +28,11 @@ export const navigationConfig: {
       title: "About",
       href: "/about",
       icon: Users,
+      image: {
+        src: "/images/nav/about-team.jpg",
+        alt: "Our team at She Sharp",
+        href: "/about#team",
+      },
       children: [
         {
           title: "Our Mission",
@@ -48,6 +58,11 @@ export const navigationConfig: {
       title: "Programs",
       href: "/events",
       icon: Calendar,
+      image: {
+        src: "/images/nav/programs-mentorship.jpg",
+        alt: "Mentorship program in action",
+        href: "/mentorship",
+      },
       children: [
         {
           title: "All Events",
@@ -73,6 +88,11 @@ export const navigationConfig: {
       title: "Get Involved",
       href: "/join-our-team",
       icon: HandHeart,
+      image: {
+        src: "/images/nav/get-involved-volunteer.jpg",
+        alt: "Join our volunteer team",
+        href: "/join-our-team",
+      },
       children: [
         {
           title: "Become a Mentor",
@@ -104,6 +124,11 @@ export const navigationConfig: {
       title: "Resources",
       href: "/media",
       icon: BookOpen,
+      image: {
+        src: "/images/nav/resources-podcast.jpg",
+        alt: "She Sharp Podcast",
+        href: "/media/podcasts",
+      },
       children: [
         {
           title: "Podcasts",
