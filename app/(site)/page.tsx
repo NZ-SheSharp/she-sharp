@@ -1,6 +1,7 @@
 import "./hero-animations.css";
 import { HeroSection } from "@/components/sections/hero-section";
 import { MissionSection } from "@/components/sections/mission-section";
+import { ImpactSection } from "@/components/sections/impact-section";
 import { CommitmentsSection } from "@/components/sections/commitments-section";
 import { EventsSection } from "@/components/sections/events-section";
 import { TestimonialsSection } from "@/components/sections/testimonials-section";
@@ -12,6 +13,7 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
+      <ImpactSection />
       <MissionSection />
       <CommitmentsSection />
       <EventsSection />

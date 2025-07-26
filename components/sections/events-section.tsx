@@ -135,8 +135,8 @@ export function EventsSection() {
 
             {/* Event Cards */}
             <div className="space-y-4">
-              {upcomingEvents.map((event) => (
-                <Card key={event.id} className="overflow-hidden hover:shadow-md transition-shadow">
+              {upcomingEvents.map((event, index) => (
+                <Card key={event.id} className={`overflow-hidden hover:shadow-md transition-shadow ${index === 0 ? 'ring-2 ring-purple-dark' : ''}`}>
                   <div className="sm:flex">
                     {/* Event Image */}
                     <div className="sm:w-2/5">
@@ -155,6 +155,11 @@ export function EventsSection() {
                     <div className="sm:w-3/5 p-4 sm:p-6">
                       <div className="flex items-start justify-between mb-3">
                         <div>
+                          {index === 0 && (
+                            <Badge className="bg-mint-light text-navy-dark border-mint-mid mr-2">
+                              🎉 Next Event
+                            </Badge>
+                          )}
                           <Badge className={event.typeColor}>{event.type}</Badge>
                           {event.isOnline && (
                             <Badge variant="outline" className="ml-2">
