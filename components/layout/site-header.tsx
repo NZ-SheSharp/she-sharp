@@ -98,7 +98,7 @@ export function SiteHeader() {
         {/* Logo */}
         <Link 
           href="/" 
-          className="mr-8 flex items-center space-x-2 transition-colors duration-150 group"
+          className="mr-8 flex items-center space-x-2 transition-all duration-200 group hover:opacity-80"
         >
           <div className="relative w-32 h-10">
             <Image
@@ -106,8 +106,25 @@ export function SiteHeader() {
               alt="She Sharp"
               fill
               sizes="128px"
-              className="object-contain"
+              className="object-contain transition-all duration-200 group-hover:brightness-0 group-hover:saturate-100 group-active:scale-95"
+              style={{
+                filter: 'brightness(1) saturate(1)',
+              }}
               priority
+            />
+            <div 
+              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
+              style={{
+                background: '#9B2E83',
+                maskImage: 'url(/logos/she-sharp-logo.svg)',
+                maskSize: 'contain',
+                maskRepeat: 'no-repeat',
+                maskPosition: 'center',
+                WebkitMaskImage: 'url(/logos/she-sharp-logo.svg)',
+                WebkitMaskSize: 'contain',
+                WebkitMaskRepeat: 'no-repeat',
+                WebkitMaskPosition: 'center',
+              }}
             />
           </div>
         </Link>
@@ -125,33 +142,55 @@ export function SiteHeader() {
                       </span>
                     </NavigationMenuTrigger>
                     <NavigationMenuContent className="nav-dropdown-enter nav-dropdown-enter-active">
-                      <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                        {item.children.map((child) => (
-                          <li key={child.title}>
-                            <NavigationMenuLink asChild>
-                              <Link
-                                href={child.href}
-                                onClick={(e) => handleSmoothScroll(e, child.href)}
-                                className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors duration-150 hover:bg-purple-light/50 hover:text-purple-dark focus:bg-purple-light/50 focus:text-purple-dark group"
-                              >
-                                <div className="flex items-center gap-2">
-                                  {child.icon && (
-                                    <child.icon className="h-4 w-4 text-purple-dark/70 group-hover:text-purple-dark transition-colors duration-150" />
-                                  )}
-                                  <div className="text-sm font-medium leading-none">
-                                    {child.title}
-                                  </div>
-                                </div>
-                                {child.description && (
-                                  <p className="line-clamp-2 text-sm leading-snug text-gray">
-                                    {child.description}
-                                  </p>
-                                )}
-                              </Link>
-                            </NavigationMenuLink>
-                          </li>
-                        ))}
-                      </ul>
+                      <div className="flex w-[800px]">
+                        {/* Left side - Navigation links */}
+                        <div className="flex-1 p-6">
+                          <ul className="space-y-1">
+                            {item.children.map((child) => (
+                              <li key={child.title}>
+                                <NavigationMenuLink asChild>
+                                  <Link
+                                    href={child.href}
+                                    onClick={(e) => handleSmoothScroll(e, child.href)}
+                                    className="flex items-start gap-3 rounded-lg p-3 transition-all duration-150 hover:bg-purple-light/30 focus:bg-purple-light/30 group"
+                                  >
+                                    {child.icon && (
+                                      <div className="mt-0.5">
+                                        <child.icon className="h-5 w-5 text-purple-dark/60 group-hover:text-purple-dark transition-colors duration-150" />
+                                      </div>
+                                    )}
+                                    <div className="flex-1">
+                                      <div className="text-sm font-medium text-navy-dark group-hover:text-purple-dark transition-colors duration-150">
+                                        {child.title}
+                                      </div>
+                                      {child.description && (
+                                        <p className="mt-1 text-sm text-gray group-hover:text-gray-dark transition-colors duration-150">
+                                          {child.description}
+                                        </p>
+                                      )}
+                                    </div>
+                                  </Link>
+                                </NavigationMenuLink>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        
+                        {/* Right side - Featured image */}
+                        {item.image && (
+                          <Link 
+                            href={item.image.href}
+                            className="relative w-80 overflow-hidden bg-gray-light/10 group"
+                          >
+                            <div className="absolute inset-0 bg-gradient-to-br from-purple-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+                            <div className="relative h-full bg-purple-light/20 transition-transform duration-300 group-hover:scale-105">
+                              <div className="flex h-full items-center justify-center">
+                                <span className="text-sm text-gray">Featured Image</span>
+                              </div>
+                            </div>
+                          </Link>
+                        )}
+                      </div>
                     </NavigationMenuContent>
                   </>
                 ) : (
