@@ -20,6 +20,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { ChevronDown, Grid3X3, List, Building2 } from "lucide-react";
+import { layoutSystem, layoutClasses } from "@/lib/layout-system";
 
 interface Sponsor {
   name: string;
@@ -111,8 +112,8 @@ export function CurrentSponsorsSection() {
   }, [industryFilter, levelFilter]);
 
   return (
-    <Section className="py-20">
-      <Container>
+    <Section bgColor="white">
+      <Container size="wide">
         <div className="space-y-8">
           {/* Section Header */}
           <div className="text-center space-y-4">
@@ -200,7 +201,13 @@ export function CurrentSponsorsSection() {
 
           {/* Sponsors Display */}
           {isLoading ? (
-            <div className={viewMode === "grid" ? "grid md:grid-cols-2 lg:grid-cols-3 gap-6" : "space-y-4"}>
+            <div className={viewMode === "grid" ? layoutClasses(
+              "grid",
+              layoutSystem.grids.content.cols1,
+              layoutSystem.grids.content.cols2,
+              layoutSystem.grids.content.cols3,
+              layoutSystem.grids.content.gap
+            ) : "space-y-4"}>
               {[1, 2, 3, 4, 5, 6].map((i) => (
                 <Skeleton key={i} className={viewMode === "grid" ? "h-64" : "h-32"} />
               ))}
@@ -210,7 +217,13 @@ export function CurrentSponsorsSection() {
               <p className="text-gray">No sponsors found matching your criteria.</p>
             </div>
           ) : viewMode === "grid" ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className={layoutClasses(
+              "grid",
+              layoutSystem.grids.content.cols1,
+              layoutSystem.grids.content.cols2,
+              layoutSystem.grids.content.cols3,
+              layoutSystem.grids.content.gap
+            )}>
               {filteredSponsors.map((sponsor) => (
                 <Card key={sponsor.name} className="overflow-hidden hover:shadow-lg transition-shadow">
                   <CardContent className="p-6">

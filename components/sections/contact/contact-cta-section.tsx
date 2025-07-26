@@ -3,6 +3,7 @@ import { Section } from "@/components/layout/section";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { layoutSystem, layoutClasses } from "@/lib/layout-system";
 
 const ctaItems = [
   {
@@ -23,14 +24,19 @@ const ctaItems = [
 
 export function ContactCTASection() {
   return (
-    <Section className="py-16">
-      <Container>
+    <Section bgColor="white">
+      <Container size="content">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-navy uppercase">
             Bridge the Gender Gap in STEM with Us
           </h2>
         </div>
-        <div className="grid gap-8 md:grid-cols-2 max-w-4xl mx-auto">
+        <div className={layoutClasses(
+          "grid",
+          layoutSystem.grids.content.cols1,
+          layoutSystem.grids.content.cols2,
+          layoutSystem.grids.content.gap
+        )}>
           {ctaItems.map((item) => (
             <Card key={item.title} className="text-center">
               <CardContent className="p-8">

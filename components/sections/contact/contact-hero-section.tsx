@@ -1,11 +1,12 @@
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
+import { layoutSystem } from "@/lib/layout-system";
 
 export function ContactHeroSection() {
   return (
-    <Section className="bg-white pt-32 pb-20">
-      <Container>
-        <div className="mx-auto max-w-2xl text-center">
+    <Section bgColor="white" noPadding className="pt-32 pb-20">
+      <Container size="narrow">
+        <div className="text-center">
           <h1 className="text-5xl font-light tracking-tight text-navy-dark sm:text-6xl md:text-7xl">
             Get in Touch
           </h1>
