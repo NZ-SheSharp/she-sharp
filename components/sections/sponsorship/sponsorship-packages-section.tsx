@@ -1,31 +1,285 @@
+"use client";
+
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
-import { Button } from "@/components/ui/button";
-import { ExternalLink } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { Badge } from "@/components/ui/badge";
+import { Check, X } from "lucide-react";
+import { useState } from "react";
+
+const annualBenefits = [
+  {
+    benefit: "Logo on She Sharp website",
+    bronze: true,
+    silver: true,
+    gold: true,
+    platinum: true,
+  },
+  {
+    benefit: "Social media recognition",
+    bronze: "Quarterly",
+    silver: "Monthly",
+    gold: "Bi-weekly",
+    platinum: "Weekly",
+  },
+  {
+    benefit: "Event speaking opportunities",
+    bronze: false,
+    silver: "1 event",
+    gold: "3 events",
+    platinum: "All events",
+  },
+  {
+    benefit: "Branded workshop/panel hosting",
+    bronze: false,
+    silver: false,
+    gold: "1 per year",
+    platinum: "Quarterly",
+  },
+  {
+    benefit: "Recruitment booth at events",
+    bronze: false,
+    silver: "2 events",
+    gold: "4 events",
+    platinum: "All events",
+  },
+  {
+    benefit: "Employee mentorship program access",
+    bronze: false,
+    silver: "2 slots",
+    gold: "5 slots",
+    platinum: "Unlimited",
+  },
+  {
+    benefit: "Custom STEM diversity workshops",
+    bronze: false,
+    silver: false,
+    gold: "1 workshop",
+    platinum: "4 workshops",
+  },
+  {
+    benefit: "Annual impact report feature",
+    bronze: "Logo only",
+    silver: "Logo + mention",
+    gold: "Half page",
+    platinum: "Full page",
+  },
+  {
+    benefit: "Complimentary event tickets",
+    bronze: "2 per event",
+    silver: "4 per event",
+    gold: "8 per event",
+    platinum: "VIP table",
+  },
+  {
+    benefit: "Investment amount (NZD)",
+    bronze: "$5,000",
+    silver: "$10,000",
+    gold: "$20,000",
+    platinum: "$50,000+",
+  },
+];
+
+const eventBenefits = [
+  {
+    benefit: "Event naming rights",
+    bronze: false,
+    silver: false,
+    gold: false,
+    platinum: true,
+  },
+  {
+    benefit: "Logo on event materials",
+    bronze: true,
+    silver: true,
+    gold: true,
+    platinum: true,
+  },
+  {
+    benefit: "Opening/closing remarks",
+    bronze: false,
+    silver: false,
+    gold: "Opening",
+    platinum: "Both",
+  },
+  {
+    benefit: "Branded activation space",
+    bronze: false,
+    silver: "Small booth",
+    gold: "Large booth",
+    platinum: "Premium space",
+  },
+  {
+    benefit: "Social media coverage",
+    bronze: "1 post",
+    silver: "3 posts",
+    gold: "5 posts",
+    platinum: "Full coverage",
+  },
+  {
+    benefit: "Attendee list access",
+    bronze: false,
+    silver: false,
+    gold: "Post-event",
+    platinum: "Pre & post",
+  },
+  {
+    benefit: "Complimentary tickets",
+    bronze: "2 tickets",
+    silver: "5 tickets",
+    gold: "10 tickets",
+    platinum: "20 tickets",
+  },
+  {
+    benefit: "Investment amount (NZD)",
+    bronze: "$2,500",
+    silver: "$5,000",
+    gold: "$10,000",
+    platinum: "$25,000+",
+  },
+];
+
+function BenefitCell({ value }: { value: boolean | string }) {
+  if (typeof value === "boolean") {
+    return value ? (
+      <Check className="h-5 w-5 text-mint-dark mx-auto" />
+    ) : (
+      <X className="h-5 w-5 text-gray/30 mx-auto" />
+    );
+  }
+  return <span className="text-sm text-navy-dark">{value}</span>;
+}
 
 export function SponsorshipPackagesSection() {
+  const [sponsorshipType, setSponsorshipType] = useState<string>("annual");
+  const benefits = sponsorshipType === "annual" ? annualBenefits : eventBenefits;
+
   return (
-    <Section className="py-16">
+    <Section id="packages" className="py-20 bg-navy-light">
       <Container>
-        <div className="text-center">
-          <h2 className="text-3xl font-bold text-navy mb-8">
-            Interested in becoming a sponsor?
-          </h2>
-          <Button 
-            asChild 
-            size="lg" 
-            className="bg-purple-dark hover:bg-purple-mid"
-          >
-            <a 
-              href="https://www.canva.com/design/DAGWHRmz_Ic/Pf0d0otpCH5YqLXscgiJwA/view?utm_content=DAGWHRmz_Ic&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h17df57e36c" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2"
+        <div className="space-y-12">
+          {/* Section Header */}
+          <div className="text-center space-y-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-navy-dark">
+              Partnership Packages
+            </h2>
+            <p className="text-lg text-gray max-w-2xl mx-auto">
+              Choose the partnership level that aligns with your organization's goals and commitment to diversity in STEM.
+            </p>
+          </div>
+
+          {/* Toggle between Annual and Event */}
+          <div className="flex justify-center">
+            <ToggleGroup
+              type="single"
+              value={sponsorshipType}
+              onValueChange={(value) => value && setSponsorshipType(value)}
+              className="bg-white/50 p-1 rounded-lg"
             >
-              Check out our sponsorship packages
-              <ExternalLink className="h-4 w-4" />
+              <ToggleGroupItem value="annual" className="px-6 py-2">
+                Annual Partnership
+              </ToggleGroupItem>
+              <ToggleGroupItem value="event" className="px-6 py-2">
+                Event Sponsorship
+              </ToggleGroupItem>
+            </ToggleGroup>
+          </div>
+
+          {/* Benefits Table */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray/10 overflow-hidden">
+            <ScrollArea className="w-full">
+              <div className="min-w-[640px]">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="border-b-2">
+                      <TableHead className="w-[280px] bg-gray-50 font-semibold text-navy-dark">
+                        Benefits & Features
+                      </TableHead>
+                      <TableHead className="text-center bg-gray-50">
+                        <div className="space-y-1">
+                          <div className="font-semibold text-navy-dark">Bronze</div>
+                          <Badge variant="outline" className="text-xs">Entry Level</Badge>
+                        </div>
+                      </TableHead>
+                      <TableHead className="text-center bg-gray-50">
+                        <div className="space-y-1">
+                          <div className="font-semibold text-navy-dark">Silver</div>
+                          <Badge variant="outline" className="text-xs">Popular</Badge>
+                        </div>
+                      </TableHead>
+                      <TableHead className="text-center bg-gray-50">
+                        <div className="space-y-1">
+                          <div className="font-semibold text-navy-dark">Gold</div>
+                          <Badge className="bg-mint-dark text-navy-dark hover:bg-mint-dark/90 text-xs">
+                            Recommended
+                          </Badge>
+                        </div>
+                      </TableHead>
+                      <TableHead className="text-center bg-gray-50">
+                        <div className="space-y-1">
+                          <div className="font-semibold text-navy-dark">Platinum</div>
+                          <Badge variant="outline" className="text-xs">Premium</Badge>
+                        </div>
+                      </TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {benefits.map((row, index) => (
+                      <TableRow
+                        key={index}
+                        className={
+                          row.benefit.includes("Investment amount")
+                            ? "bg-periwinkle-light/30 font-semibold"
+                            : index % 2 === 0
+                            ? "bg-gray-50/30"
+                            : ""
+                        }
+                      >
+                        <TableCell className="font-medium text-navy-dark">
+                          {row.benefit}
+                        </TableCell>
+                        <TableCell className="text-center">
+                          <BenefitCell value={row.bronze} />
+                        </TableCell>
+                        <TableCell className="text-center">
+                          <BenefitCell value={row.silver} />
+                        </TableCell>
+                        <TableCell className="text-center bg-mint-light/10">
+                          <BenefitCell value={row.gold} />
+                        </TableCell>
+                        <TableCell className="text-center">
+                          <BenefitCell value={row.platinum} />
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+          </div>
+
+          {/* CTA */}
+          <div className="text-center pt-8">
+            <p className="text-sm text-gray mb-4">
+              All packages are customizable to meet your specific objectives
+            </p>
+            <a
+              href="#contact"
+              className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-purple-dark text-white hover:bg-purple-mid h-11 px-8"
+            >
+              Discuss Partnership Options
             </a>
-          </Button>
+          </div>
         </div>
       </Container>
     </Section>
