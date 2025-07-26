@@ -10,7 +10,8 @@ export const metadata = {
 export default function AccessibilityPage() {
   return (
     <LegalPageLayout 
-      title="Accessibility Statement" 
+      title="Accessibility Statement"
+      navTitle="Accessibility"
       icon={<Heart className="h-12 w-12 text-white" />}
     >
       <div className="legal-content">
