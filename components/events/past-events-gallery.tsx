@@ -90,15 +90,15 @@ export function PastEventsGallery({ events }: PastEventsGalleryProps) {
                     src={image}
                     alt={`${event.title} - Photo ${imageIndex + 1}`}
                     fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-110"
+                    className="object-cover transition-opacity duration-150"
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   />
                   
                   {/* Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-navy-dark/60 opacity-0 group-hover:opacity-100 transition-opacity duration-150" />
                   
                   {/* Event Info */}
-                  <div className="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                  <div className="absolute bottom-0 left-0 right-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-150">
                     <h3 className="font-semibold text-sm mb-1 line-clamp-1">{event.title}</h3>
                     <div className="flex items-center gap-3 text-xs">
                       <span className="flex items-center gap-1">
@@ -121,7 +121,7 @@ export function PastEventsGallery({ events }: PastEventsGalleryProps) {
         <div className="text-center mt-12">
           <Button
             variant="outline"
-            className="border-purple-dark text-purple-dark hover:bg-purple-light"
+            className="border-purple-dark text-purple-dark hover:bg-purple-light/10 transition-colors duration-150"
           >
             View All Past Events
           </Button>

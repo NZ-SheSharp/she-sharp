@@ -15,8 +15,8 @@ export default function MediaHubPage() {
       description: "Listen to inspiring stories from women in STEM",
       icon: Mic,
       href: "/media/podcasts",
-      color: "bg-purple-light/20",
-      iconColor: "text-purple-dark",
+      color: "bg-purple-mid/10",
+      iconColor: "text-purple-mid",
       featured: true,
       stats: "20+ Episodes",
     },
@@ -56,8 +56,8 @@ export default function MediaHubPage() {
         <Container size="xl">
           <div className="text-center max-w-4xl mx-auto px-4">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <Sparkles className="w-6 h-6 text-purple-dark" />
-              <span className="text-purple-dark font-semibold">Resources Hub</span>
+              <Sparkles className="w-6 h-6 text-purple-mid" />
+              <span className="text-purple-mid font-semibold">Resources Hub</span>
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-navy-dark mb-6">
               Media & Resources
@@ -79,7 +79,7 @@ export default function MediaHubPage() {
               <Card 
                 key={category.title} 
                 className={cn(
-                  "hover:shadow-lg transition-all duration-300",
+                  "hover:shadow-md transition-shadow duration-150",
                   category.featured && "md:col-span-2"
                 )}
               >
@@ -101,11 +101,11 @@ export default function MediaHubPage() {
                   <Button
                     asChild
                     variant="ghost"
-                    className="group p-0 h-auto font-semibold text-purple-dark hover:text-purple-mid"
+                    className="group p-0 h-auto font-semibold text-purple-mid hover:text-purple-dark transition-colors duration-150"
                   >
                     <Link href={category.href}>
                       Explore {category.title}
-                      <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                      <ArrowRight className="w-4 h-4 ml-2" />
                     </Link>
                   </Button>
                 </CardContent>
@@ -118,7 +118,7 @@ export default function MediaHubPage() {
       {/* Impact Report Special Section */}
       <Section bgColor="white">
         <Container size="lg">
-          <Card className="overflow-hidden bg-gradient-to-br from-purple-light/10 to-periwinkle-light/10">
+          <Card className="overflow-hidden bg-purple-light/5">
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div className="p-8 md:p-12">
                 <h2 className="text-2xl sm:text-3xl font-bold text-navy-dark mb-4">
@@ -132,7 +132,7 @@ export default function MediaHubPage() {
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button
                     asChild
-                    className="bg-purple-dark hover:bg-purple-mid"
+                    className="bg-purple-mid hover:bg-purple-dark transition-colors duration-150"
                   >
                     <Link href="/media/impact-report">
                       View Impact Report
@@ -141,7 +141,7 @@ export default function MediaHubPage() {
                   <Button
                     asChild
                     variant="outline"
-                    className="border-purple-dark text-purple-dark hover:bg-purple-light"
+                    className="border-purple-mid text-purple-mid hover:bg-purple-mid/10 transition-colors duration-150"
                   >
                     <Link href="/about">
                       Learn About Our Mission
@@ -149,7 +149,7 @@ export default function MediaHubPage() {
                   </Button>
                 </div>
               </div>
-              <div className="relative h-64 md:h-full bg-gradient-to-br from-purple-dark to-periwinkle-dark">
+              <div className="relative h-64 md:h-full bg-purple-mid">
                 <div className="absolute inset-0 flex items-center justify-center text-white">
                   <div className="text-center">
                     <div className="text-4xl md:text-5xl font-bold mb-2">2200+</div>

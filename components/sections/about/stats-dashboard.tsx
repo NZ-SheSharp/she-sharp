@@ -27,7 +27,7 @@ export function StatsDashboard() {
   }, []);
 
   return (
-    <Section className="bg-gradient-to-br from-purple-light/5 to-periwinkle-light/5 py-12 sm:py-16 lg:py-20">
+    <Section className="bg-navy-light/5 py-12 sm:py-16 lg:py-20">
       <Container>
         {/* Mobile: Stack vertically, Desktop: Grid */}
         <div className="space-y-6 md:space-y-0 md:grid md:gap-6 md:grid-cols-3">
@@ -39,18 +39,18 @@ export function StatsDashboard() {
                   <h3 className="text-xl sm:text-2xl font-bold text-navy">Growing Community</h3>
                   <p className="mt-2 text-sm sm:text-base text-gray-600">Active members and counting</p>
                 </div>
-                <div className="rounded-full bg-gradient-to-br from-purple-light to-periwinkle p-3 sm:p-4 self-start sm:self-auto">
+                <div className="rounded-full bg-navy-dark p-3 sm:p-4 self-start sm:self-auto">
                   <Users className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
                 </div>
               </div>
               
               <div className="mt-6 sm:mt-8">
-                <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-dark to-periwinkle">
+                <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-navy-dark">
                   {memberCount.toLocaleString()}+
                 </div>
                 <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-gray-200">
                   <div 
-                    className="h-full bg-gradient-to-r from-purple-dark to-periwinkle transition-all duration-1000 ease-out"
+                    className="h-full bg-navy-dark transition-width duration-150 ease-out"
                     style={{ width: `${(memberCount / 3000) * 100}%` }}
                   />
                 </div>
@@ -64,7 +64,7 @@ export function StatsDashboard() {
                 {[40, 55, 45, 70, 65, 80, 75, 90, 85, 95].map((height, i) => (
                   <div
                     key={i}
-                    className="flex-1 bg-gradient-to-t from-purple-dark/20 to-periwinkle/20 transition-all duration-500 hover:from-purple-dark/30 hover:to-periwinkle/30"
+                    className="flex-1 bg-navy-light/20 transition-colors duration-150 hover:bg-navy-light/30"
                     style={{ 
                       height: `${height * 0.5}px`,
                       animationDelay: `${i * 100}ms`,
@@ -89,7 +89,7 @@ export function StatsDashboard() {
                     <p className="text-xs sm:text-sm font-medium text-gray-600">Corporate Sponsors</p>
                     <p className="mt-1 text-2xl sm:text-3xl font-bold text-navy">50+</p>
                   </div>
-                  <div className="rounded-full bg-gradient-to-br from-navy to-purple-dark p-2.5 sm:p-3">
+                  <div className="rounded-full bg-navy-dark p-2.5 sm:p-3">
                     <svg className="h-5 w-5 sm:h-6 sm:w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
@@ -109,7 +109,7 @@ export function StatsDashboard() {
                     <p className="text-xs sm:text-sm font-medium text-gray-600">Events Hosted</p>
                     <p className="mt-1 text-2xl sm:text-3xl font-bold text-navy">84+</p>
                   </div>
-                  <div className="rounded-full bg-gradient-to-br from-mint to-periwinkle p-2.5 sm:p-3">
+                  <div className="rounded-full bg-mint-dark p-2.5 sm:p-3">
                     <Calendar className="h-5 w-5 sm:h-6 sm:w-6 text-navy" />
                   </div>
                 </div>
