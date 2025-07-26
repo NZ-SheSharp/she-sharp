@@ -22,7 +22,7 @@ export function AboutHeroSection() {
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-purple-dark/40 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-purple-dark/30" />
+          <div className="absolute inset-0 bg-navy-dark/40" />
           
           {/* Mobile overlay text */}
           <div className="absolute bottom-0 left-0 right-0 p-6 text-white lg:hidden">
@@ -35,12 +35,12 @@ export function AboutHeroSection() {
         </div>
 
         {/* Right Side - Content */}
-        <div className="flex min-h-[50vh] w-full flex-col justify-center bg-gradient-to-br from-purple-light/10 to-periwinkle-light/10 px-6 py-12 sm:px-8 lg:h-screen lg:w-[40%] lg:px-12 xl:px-16">
+        <div className="flex min-h-[50vh] w-full flex-col justify-center bg-navy-light/5 px-6 py-12 sm:px-8 lg:h-screen lg:w-[40%] lg:px-12 xl:px-16">
           <div className="mx-auto w-full max-w-xl">
             {/* Desktop Title */}
             <h1 className="hidden font-serif text-4xl font-bold leading-tight text-navy sm:text-5xl lg:block lg:text-6xl">
               Bridging the
-              <span className="block bg-gradient-to-r from-purple-dark to-periwinkle bg-clip-text text-transparent">
+              <span className="block text-navy-dark">
                 Gender Gap
               </span>
               in STEM

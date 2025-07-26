@@ -90,17 +90,15 @@ export function SiteHeader() {
 
   return (
     <header className={cn(
-      "fixed top-0 z-50 w-full border-b backdrop-blur transition-all duration-300",
-      scrolled 
-        ? "border-purple-light/30 bg-white/95 shadow-sm" 
-        : "border-purple-light/20 bg-gradient-to-r from-white via-purple-light/5 to-white supports-[backdrop-filter]:bg-white/95",
+      "fixed top-0 z-50 w-full border-b bg-white transition-all duration-150",
+      scrolled ? "shadow-sm" : "",
       visible ? "translate-y-0" : "-translate-y-full"
     )}>
       <div className="container flex h-16 items-center">
         {/* Logo */}
         <Link 
           href="/" 
-          className="mr-8 flex items-center space-x-2 transition-all duration-300 hover:scale-105 group"
+          className="mr-8 flex items-center space-x-2 transition-colors duration-150 group"
         >
           <div className="relative w-32 h-10">
             <Image
@@ -108,7 +106,7 @@ export function SiteHeader() {
               alt="She Sharp"
               fill
               sizes="128px"
-              className="object-contain transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(155,46,131,0.5)]"
+              className="object-contain"
               priority
             />
           </div>
@@ -121,7 +119,7 @@ export function SiteHeader() {
               <NavigationMenuItem key={item.title}>
                 {item.children ? (
                   <>
-                    <NavigationMenuTrigger className="bg-transparent hover:bg-purple-light/30 hover:text-purple-dark data-[state=open]:bg-purple-light/30 data-[state=open]:text-purple-dark transition-all duration-200 nav-item-underline">
+                    <NavigationMenuTrigger className="bg-transparent hover:bg-purple-light/30 hover:text-purple-dark data-[state=open]:bg-purple-light/30 data-[state=open]:text-purple-dark transition-colors duration-150">
                       <span className="flex items-center gap-1">
                         {item.title}
                       </span>
@@ -134,11 +132,11 @@ export function SiteHeader() {
                               <Link
                                 href={child.href}
                                 onClick={(e) => handleSmoothScroll(e, child.href)}
-                                className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all hover:bg-purple-light/50 hover:text-purple-dark focus:bg-purple-light/50 focus:text-purple-dark group"
+                                className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors duration-150 hover:bg-purple-light/50 hover:text-purple-dark focus:bg-purple-light/50 focus:text-purple-dark group"
                               >
                                 <div className="flex items-center gap-2">
                                   {child.icon && (
-                                    <child.icon className="h-4 w-4 text-purple-dark/70 group-hover:text-purple-dark transition-colors" />
+                                    <child.icon className="h-4 w-4 text-purple-dark/70 group-hover:text-purple-dark transition-colors duration-150" />
                                   )}
                                   <div className="text-sm font-medium leading-none">
                                     {child.title}
@@ -163,7 +161,7 @@ export function SiteHeader() {
                       onClick={(e) => handleSmoothScroll(e, item.href)} 
                       className={cn(
                         navigationMenuTriggerStyle(),
-                        "bg-transparent hover:bg-purple-light/30 hover:text-purple-dark transition-all duration-200 nav-item-underline"
+                        "bg-transparent hover:bg-purple-light/30 hover:text-purple-dark transition-all duration-150 nav-item-underline"
                       )}
                     >
                       {item.title}
@@ -183,10 +181,10 @@ export function SiteHeader() {
               variant={button.variant}
               asChild
               className={cn(
-                "transition-all duration-200 cta-button-glow",
+                "transition-all duration-150",
                 button.variant === "default" 
-                  ? "bg-gradient-to-r from-purple-dark to-periwinkle-dark hover:opacity-90 text-white shadow-md hover:shadow-lg" 
-                  : "border-2 border-purple-dark text-purple-dark hover:bg-purple-light hover:border-purple-mid"
+                  ? "bg-purple-dark text-white hover:bg-purple-mid" 
+                  : "border-2 border-purple-dark text-purple-dark hover:bg-purple-light"
               )}
             >
               <Link href={button.href}>{button.title}</Link>
@@ -215,7 +213,7 @@ export function SiteHeader() {
             className="w-[300px] sm:w-[400px] p-0 overflow-y-auto"
           >
             {/* Mobile Header */}
-            <div className="bg-gradient-to-r from-purple-dark to-periwinkle-dark p-6">
+            <div className="bg-purple-dark p-6">
               <SheetTitle className="text-white text-xl">Menu</SheetTitle>
             </div>
             
@@ -239,7 +237,7 @@ export function SiteHeader() {
                         </span>
                         <ChevronDown 
                           className={cn(
-                            "h-4 w-4 transition-transform duration-200",
+                            "h-4 w-4 transition-transform duration-150",
                             openMobileMenus.includes(item.title) && "rotate-180"
                           )}
                         />
@@ -287,10 +285,10 @@ export function SiteHeader() {
                     variant={button.variant}
                     asChild
                     className={cn(
-                      "w-full transition-all duration-200",
+                      "w-full transition-all duration-150",
                       button.variant === "default" 
-                        ? "bg-gradient-to-r from-purple-dark to-periwinkle-dark hover:opacity-90 text-white shadow-md" 
-                        : "border-2 border-purple-dark text-purple-dark hover:bg-purple-light hover:border-purple-mid"
+                        ? "bg-purple-dark text-white hover:bg-purple-mid" 
+                        : "border-2 border-purple-dark text-purple-dark hover:bg-purple-light"
                     )}
                     onClick={() => setIsOpen(false)}
                   >
