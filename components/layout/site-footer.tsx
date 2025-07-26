@@ -215,6 +215,28 @@ export function SiteFooter() {
             ))}
           </div>
 
+          {/* Logo Display - Above Copyright */}
+          <div className="flex justify-center mb-8">
+            <Link href="/" className="group">
+              <div className="relative w-20 h-20">
+                <Image
+                  src="/logos/she-sharp-logo-purple-mid-130x130.svg"
+                  alt="She Sharp"
+                  fill
+                  sizes="80px"
+                  className="object-contain transition-all duration-300 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+                />
+                {/* Subtle glow effect */}
+                <div 
+                  className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-300 pointer-events-none blur-xl"
+                  style={{
+                    background: 'radial-gradient(circle, #f7e5f3, transparent)',
+                  }}
+                />
+              </div>
+            </Link>
+          </div>
+
           {/* Copyright & Charity Info */}
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/60">
             <div className="flex items-center gap-2">

@@ -135,23 +135,39 @@ export function MissionSection() {
         </Tabs>
 
         {/* Additional CTA */}
-        <div className="mt-12 sm:mt-16 text-center bg-purple-light/10 rounded-lg p-6 sm:p-8">
-          <div className="flex items-center justify-center mb-4">
-            <Sparkles className="w-6 sm:w-8 h-6 sm:h-8 text-purple-dark" />
+        <div className="mt-12 sm:mt-16 text-center bg-purple-light/10 rounded-lg p-6 sm:p-8 relative overflow-hidden">
+          {/* Background Logo Watermark */}
+          <div className="absolute right-0 bottom-0 transform translate-x-1/4 translate-y-1/4 opacity-5 pointer-events-none">
+            <div className="relative w-64 h-64">
+              <Image
+                src="/logos/she-sharp-logo-purple-dark-130x130.svg"
+                alt=""
+                fill
+                sizes="256px"
+                className="object-contain"
+                aria-hidden="true"
+              />
+            </div>
           </div>
-          <h3 className="text-lg sm:text-xl font-semibold text-navy-dark mb-2">
-            Ready to join our mission?
-          </h3>
-          <p className="text-gray mb-4">
-            Become part of a community that's changing the face of technology
-          </p>
-          <Button
-            asChild
-            variant="outline"
-            className="border-purple-dark text-purple-dark hover:bg-purple-light"
-          >
-            <Link href="/join-our-team">Become a member</Link>
-          </Button>
+          
+          <div className="relative z-10">
+            <div className="flex items-center justify-center mb-4">
+              <Sparkles className="w-6 sm:w-8 h-6 sm:h-8 text-purple-dark" />
+            </div>
+            <h3 className="text-lg sm:text-xl font-semibold text-navy-dark mb-2">
+              Ready to join our mission?
+            </h3>
+            <p className="text-gray mb-4">
+              Become part of a community that's changing the face of technology
+            </p>
+            <Button
+              asChild
+              variant="outline"
+              className="border-purple-dark text-purple-dark hover:bg-purple-light"
+            >
+              <Link href="/join-our-team">Become a member</Link>
+            </Button>
+          </div>
         </div>
       </Container>
     </Section>
