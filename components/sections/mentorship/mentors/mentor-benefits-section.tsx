@@ -5,6 +5,7 @@ import { Section } from "@/components/layout/section";
 import { Card } from "@/components/ui/card";
 import { Heart, TrendingUp, Target } from "lucide-react";
 import { motion } from "framer-motion";
+import { layoutSystem, layoutClasses } from "@/lib/layout-system";
 
 const benefits = [
   {
@@ -47,8 +48,8 @@ export function MentorBenefitsSection() {
   };
 
   return (
-    <Section className="py-16 lg:py-24 bg-gradient-to-br from-white via-purple-light/30 to-periwinkle-light/30">
-      <Container>
+    <Section bgColor="accent">
+      <Container size="wide">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -69,12 +70,17 @@ export function MentorBenefitsSection() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
-          className="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto"
+          className={layoutClasses(
+            "grid max-w-6xl mx-auto",
+            layoutSystem.grids.content.cols1,
+            layoutSystem.grids.content.cols3,
+            layoutSystem.grids.content.gap
+          )}
         >
           {benefits.map((benefit, index) => (
             <motion.div key={benefit.title} variants={item}>
-              <Card className="h-full p-8 text-center hover:shadow-xl transition-all duration-300 group cursor-pointer border-gray/20">
-                <div className={`inline-flex p-4 rounded-full ${benefit.bgColor} mb-6 group-hover:scale-110 transition-transform duration-300`}>
+              <Card className="h-full p-8 text-center hover:shadow-xl transition-all duration-150 group cursor-pointer border-gray/20">
+                <div className={`inline-flex p-4 rounded-full ${benefit.bgColor} mb-6 group-hover:scale-110 transition-transform duration-150`}>
                   <benefit.icon className={`h-8 w-8 ${benefit.color}`} />
                 </div>
                 <h3 className="text-xl font-semibold text-navy-dark mb-4">

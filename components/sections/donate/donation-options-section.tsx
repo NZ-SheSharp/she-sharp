@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
+import { layoutSystem, layoutClasses } from "@/lib/layout-system";
 
 const donationOptions = [
   {
@@ -26,11 +27,16 @@ const donationOptions = [
 
 export function DonationOptionsSection() {
   return (
-    <Section className="py-16">
-      <Container>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <Section bgColor="white">
+      <Container size="wide">
+        <div className={layoutClasses(
+          "grid",
+          "grid-cols-2",
+          "lg:grid-cols-4",
+          layoutSystem.grids.content.gap
+        )}>
           {donationOptions.map((option) => (
-            <Card key={option.amount} className="text-center hover:shadow-lg transition-shadow">
+            <Card key={option.amount} className="text-center hover:shadow-lg transition-shadow duration-150">
               <CardContent className="p-6">
                 <div className="relative w-24 h-24 mx-auto mb-4">
                   <Image
@@ -43,7 +49,7 @@ export function DonationOptionsSection() {
                 <h3 className="text-3xl font-bold text-purple-dark mb-4">
                   {option.amount}
                 </h3>
-                <Button asChild className="w-full bg-purple-dark hover:bg-purple-mid">
+                <Button asChild className="w-full bg-purple-dark hover:bg-purple-mid transition-colors duration-150">
                   <Link href="/donate">Donate Now</Link>
                 </Button>
               </CardContent>

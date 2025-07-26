@@ -12,6 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { Trophy, Newspaper, Calendar, ExternalLink, Share2, Award, FileText, Mic } from "lucide-react";
+import { layoutSystem, layoutClasses } from "@/lib/layout-system";
 
 const newsItems = [
   {
@@ -142,8 +143,8 @@ export function NewsListSection() {
   const years = Object.keys(groupedByYear).sort((a, b) => b.localeCompare(a));
 
   return (
-    <Section className="py-16 bg-purple-light/5">
-      <Container>
+    <Section bgColor="accent">
+      <Container size="content">
         {/* Filter Section */}
         <div className="mb-12">
           <h2 className="text-2xl font-bold text-navy-dark mb-6">Filter by Category</h2>
@@ -172,7 +173,10 @@ export function NewsListSection() {
         {/* Timeline Layout */}
         <div className="relative">
           {/* Timeline line */}
-          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-purple-mid" />
+          <div className={layoutClasses(
+            "absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-purple-light",
+            layoutSystem.patterns.timeline.line
+          )} />
 
           {years.map((year, yearIndex) => (
             <div key={year} className="mb-16">
@@ -200,7 +204,7 @@ export function NewsListSection() {
                     <div className="hidden md:block md:w-1/2" />
 
                     {/* Content card */}
-                    <Card className="flex-1 ml-16 md:ml-0 md:w-1/2 hover:shadow-lg transition-shadow duration-150 border-2 hover:border-purple-mid">
+                    <Card className="flex-1 ml-16 md:ml-0 md:w-1/2 hover:shadow-lg transition-shadow duration-150 border-2 hover:border-purple-light">
                       <CardHeader className="pb-4">
                         <div className="flex flex-col md:flex-row gap-4">
                           {item.image && (
@@ -234,7 +238,7 @@ export function NewsListSection() {
                               <span>{item.date}</span>
                             </div>
 
-                            <p className="text-gray-600 mb-4">{item.description}</p>
+                            <p className="text-gray mb-4">{item.description}</p>
 
                             <Accordion
                               type="single"
@@ -253,7 +257,7 @@ export function NewsListSection() {
                                   Read full story
                                 </AccordionTrigger>
                                 <AccordionContent className="pt-4">
-                                  <p className="text-gray-600 mb-4">{item.fullContent}</p>
+                                  <p className="text-gray mb-4">{item.fullContent}</p>
                                   <div className="flex gap-3">
                                     <Button asChild variant="outline" className="flex-1">
                                       <Link href={item.href} target="_blank" rel="noopener noreferrer">

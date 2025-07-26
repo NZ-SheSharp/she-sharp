@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Target, Lightbulb, Users, TrendingUp, Brain, Heart, Sparkles } from "lucide-react";
 import { useState } from "react";
+import { layoutSystem, layoutClasses } from "@/lib/layout-system";
 
 const benefits = [
   {
@@ -89,23 +90,28 @@ export function BenefitsSection() {
   };
 
   return (
-    <Section className="py-16 md:py-24 bg-gradient-to-b from-periwinkle-light/20 via-white to-mint-light/20 dark:from-periwinkle-dark/5 dark:via-gray-950 dark:to-mint-dark/5">
-      <Container>
+    <Section bgColor="light">
+      <Container size="wide">
         <div className="text-center mb-12">
           <Badge className="mb-4 bg-periwinkle-dark/10 text-periwinkle-dark border-periwinkle-dark">
             <Sparkles className="w-3 h-3 mr-1" />
             Transform Your Career
           </Badge>
-          <h2 className="text-3xl md:text-4xl font-bold text-navy dark:text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-navy-dark mb-4">
             Benefits of Joining the Mentorship Program
           </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          <p className="text-lg text-gray max-w-2xl mx-auto">
             Unlock opportunities for growth, learning, and connection in a supportive environment
           </p>
         </div>
         
         {/* Main Benefits Cards */}
-        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
+        <div className={layoutClasses(
+          "grid max-w-6xl mx-auto mb-12",
+          layoutSystem.grids.content.cols1,
+          layoutSystem.grids.content.cols3,
+          layoutSystem.grids.content.gap
+        )}>
           {benefits.map((benefit, index) => {
             const Icon = benefit.icon;
             const colors = getColorClasses(benefit.color);
@@ -114,21 +120,21 @@ export function BenefitsSection() {
             return (
               <Card 
                 key={benefit.title}
-                className={`relative overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer ${colors.bg} ${colors.border}`}
+                className={`relative overflow-hidden transition-all duration-150 hover:shadow-xl hover:-translate-y-1 cursor-pointer ${colors.bg} ${colors.border}`}
                 onMouseEnter={() => setHoveredCard(index)}
                 onMouseLeave={() => setHoveredCard(null)}
               >
                 <CardContent className="p-6">
                   {/* Icon Container */}
-                  <div className={`w-16 h-16 rounded-full ${colors.bg} ${colors.border} border-2 flex items-center justify-center mb-4 mx-auto transition-transform duration-300 ${isHovered ? 'scale-110' : ''}`}>
+                  <div className={`w-16 h-16 rounded-full ${colors.bg} ${colors.border} border-2 flex items-center justify-center mb-4 mx-auto transition-transform duration-150 ${isHovered ? 'scale-110' : ''}`}
                     <Icon className={`w-8 h-8 ${colors.icon}`} />
                   </div>
                   
                   {/* Content */}
-                  <h3 className="text-xl font-semibold text-navy dark:text-white mb-3 text-center">
+                  <h3 className="text-xl font-semibold text-navy-dark mb-3 text-center">
                     {benefit.title}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-400 text-center mb-4">
+                  <p className="text-gray text-center mb-4">
                     {benefit.description}
                   </p>
                   
@@ -138,7 +144,7 @@ export function BenefitsSection() {
                       <Badge 
                         key={highlight} 
                         variant="secondary" 
-                        className={`text-xs transition-opacity duration-300 ${colors.badge} ${isHovered ? 'opacity-100' : 'opacity-70'}`}
+                        className={`text-xs transition-opacity duration-150 ${colors.badge} ${isHovered ? 'opacity-100' : 'opacity-70'}`}
                       >
                         {highlight}
                       </Badge>
@@ -152,10 +158,15 @@ export function BenefitsSection() {
         
         {/* Additional Benefits Stats */}
         <div className="mt-16">
-          <h3 className="text-2xl font-bold text-navy dark:text-white text-center mb-8">
+          <h3 className="text-2xl font-bold text-navy-dark text-center mb-8">
             The Impact in Numbers
           </h3>
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <div className={layoutClasses(
+            "grid max-w-4xl mx-auto",
+            layoutSystem.grids.content.cols1,
+            layoutSystem.grids.content.cols3,
+            layoutSystem.grids.content.gap
+          )}>
             {additionalBenefits.map((benefit) => {
               const Icon = benefit.icon;
               
@@ -167,10 +178,10 @@ export function BenefitsSection() {
                   <div className="text-3xl font-bold text-purple-dark dark:text-purple-mid mb-1">
                     {benefit.stat}
                   </div>
-                  <h4 className="font-semibold text-navy dark:text-white mb-1">
+                  <h4 className="font-semibold text-navy-dark mb-1">
                     {benefit.title}
                   </h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <p className="text-sm text-gray">
                     {benefit.description}
                   </p>
                 </div>

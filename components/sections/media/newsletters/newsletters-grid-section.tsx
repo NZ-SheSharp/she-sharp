@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Calendar, Download, Eye, ArrowRight, Filter } from "lucide-react";
+import { layoutSystem, layoutClasses } from "@/lib/layout-system";
 
 const newsletters = [
   {
@@ -117,8 +118,8 @@ export function NewslettersGridSection() {
   const featuredNewsletters = newsletters.filter(n => n.featured);
 
   return (
-    <Section className="py-16 bg-gradient-to-b from-white to-navy-light/30">
-      <Container>
+    <Section bgColor="white">
+      <Container size="wide">
         {/* Filter Section */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-navy-dark">Browse Archive</h2>
@@ -143,7 +144,12 @@ export function NewslettersGridSection() {
         {selectedYear === "All Years" && (
           <div className="mb-16">
             <Badge className="mb-4 bg-navy-dark text-white">Latest Issues</Badge>
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className={layoutClasses(
+              "grid",
+              layoutSystem.grids.content.cols1,
+              layoutSystem.grids.content.cols2,
+              layoutSystem.grids.content.gap
+            )}>
               {featuredNewsletters.map((newsletter) => (
                 <Card key={newsletter.id} className="group overflow-hidden border-2 border-navy-light hover:border-navy-dark transition-all">
                   <div className="relative">
@@ -159,7 +165,7 @@ export function NewslettersGridSection() {
                         />
                       )}
                     </AspectRatio>
-                    <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="absolute inset-0 bg-navy-dark/80 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
                       <div className="absolute bottom-0 left-0 right-0 p-6">
                         <h3 className="text-2xl font-bold text-white mb-2">
                           {newsletter.month} {newsletter.year}
@@ -252,7 +258,11 @@ export function NewslettersGridSection() {
         )}
 
         {/* Masonry Grid */}
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+        <div className={layoutClasses(
+          layoutSystem.grids.masonry.base,
+          layoutSystem.grids.masonry.gap,
+          "space-y-6"
+        )}>
           {filteredNewsletters.map((newsletter, index) => (
             <Card 
               key={newsletter.id} 
@@ -271,7 +281,7 @@ export function NewslettersGridSection() {
                       src={newsletter.image}
                       alt={`${newsletter.month} ${newsletter.year} Newsletter`}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="object-cover group-hover:scale-105 transition-transform duration-150"
                     />
                   )}
                 </AspectRatio>
