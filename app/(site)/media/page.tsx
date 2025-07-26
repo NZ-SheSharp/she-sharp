@@ -117,7 +117,7 @@ export default function MediaHubPage() {
 
       {/* Impact Report Special Section */}
       <Section bgColor="white">
-        <Container size="lg">
+        <Container size="content">
           <Card className="overflow-hidden bg-purple-light/5">
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div className="p-8 md:p-12">

@@ -57,7 +57,7 @@ export default function GoogleEducator2024Page() {
 
       {/* Main Visual */}
       <Section className="pt-0">
-        <Container size="lg">
+        <Container size="content">
           <AspectRatio ratio={16 / 9} className="overflow-hidden rounded-lg">
             <Image
               src={images[0]}
@@ -92,7 +92,7 @@ export default function GoogleEducator2024Page() {
       {/* Photo Gallery - Placeholder for future images */}
       {images.length > 1 && (
         <Section className="bg-navy-light/30">
-          <Container size="lg">
+          <Container size="content">
             <h2 className="text-3xl font-bold text-navy-dark mb-8 text-center">
               Event Gallery
             </h2>
