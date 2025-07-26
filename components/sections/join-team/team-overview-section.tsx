@@ -2,6 +2,7 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Card, CardContent } from "@/components/ui/card";
 import { Users, Calendar, Clock } from "lucide-react";
+import { layoutSystem, layoutClasses } from "@/lib/layout-system";
 
 const stats = [
   {
@@ -26,9 +27,9 @@ const stats = [
 
 export function TeamOverviewSection() {
   return (
-    <Section className="py-20 bg-gray-50">
-      <Container>
-        <div className="mx-auto max-w-6xl">
+    <Section bgColor="light">
+      <Container size="wide">
+        <div>
           {/* Section Header */}
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-navy-dark mb-6">
@@ -40,7 +41,12 @@ export function TeamOverviewSection() {
           </div>
 
           {/* Stats Grid */}
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
+          <div className={layoutClasses(
+            "grid mb-16",
+            layoutSystem.grids.content.cols1,
+            layoutSystem.grids.content.cols3,
+            layoutSystem.grids.content.gap
+          )}>
             {stats.map((stat) => (
               <Card key={stat.label} className="bg-white border-0 shadow-md hover:shadow-lg transition-shadow">
                 <CardContent className="p-8 text-center">

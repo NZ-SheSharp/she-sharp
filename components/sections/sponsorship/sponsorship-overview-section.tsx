@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle2, Circle, ChevronDown, ChevronRight } from "lucide-react";
 import { useState } from "react";
+import { layoutSystem } from "@/lib/layout-system";
 
 const applicationSteps = [
   {
@@ -83,9 +84,9 @@ export function SponsorshipOverviewSection() {
   };
 
   return (
-    <Section className="py-20 bg-periwinkle-light">
-      <Container>
-        <div className="max-w-4xl mx-auto space-y-12">
+    <Section bgColor="accent">
+      <Container size="content">
+        <div className="space-y-12">
           {/* Section Header */}
           <div className="text-center space-y-4">
             <Badge className="bg-purple-dark text-white hover:bg-purple-dark">

@@ -17,6 +17,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Calendar, Users, Lightbulb, ArrowRight } from "lucide-react";
 import Autoplay from "embla-carousel-autoplay";
+import { layoutSystem } from "@/lib/layout-system";
 
 const eventCategories = {
   networking: {
@@ -74,9 +75,9 @@ const eventCategories = {
 
 export function PhotoGallerySection() {
   return (
-    <Section className="py-20 bg-gradient-to-b from-white to-periwinkle-light/20">
-      <Container>
-        <div className="max-w-6xl mx-auto">
+    <Section bgColor="white">
+      <Container size="wide">
+        <div>
           {/* Section Header */}
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-navy-dark mb-4">

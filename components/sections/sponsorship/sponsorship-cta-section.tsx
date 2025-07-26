@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { toast } from "sonner";
 import { Mail, Phone, MapPin, Send, Download, Copy } from "lucide-react";
 import { useState } from "react";
+import { layoutSystem, layoutClasses } from "@/lib/layout-system";
 
 export function SponsorshipCTASection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -68,9 +69,13 @@ export function SponsorshipCTASection() {
   };
 
   return (
-    <Section id="contact" className="py-20">
-      <Container>
-        <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+    <Section id="contact" bgColor="white">
+      <Container size="wide">
+        <div className={layoutClasses(
+          "grid",
+          layoutSystem.patterns.splitLayout.gap,
+          "lg:grid-cols-2"
+        )}>
           {/* Contact Information */}
           <div className="space-y-8">
             <div>

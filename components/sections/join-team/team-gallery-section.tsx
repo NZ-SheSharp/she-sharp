@@ -20,6 +20,7 @@ import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import { Calendar, Users, MapPin, Camera } from "lucide-react";
 import Autoplay from "embla-carousel-autoplay";
+import { layoutSystem } from "@/lib/layout-system";
 
 const galleryImages = [
   {
@@ -98,9 +99,9 @@ const galleryImages = [
 
 export function TeamGallerySection() {
   return (
-    <Section className="py-24 bg-mint-light/10 overflow-hidden">
-      <Container>
-        <div className="mx-auto max-w-7xl">
+    <Section bgColor="accent" className="overflow-hidden">
+      <Container size="full">
+        <div>
           {/* Section Header */}
           <div className="text-center mb-20 space-y-4">
             <div className="inline-flex items-center justify-center gap-2 mb-4">
