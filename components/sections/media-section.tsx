@@ -11,6 +11,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Newspaper, Mic, Camera, FileText, ExternalLink, Play } from "lucide-react";
+import { layoutSystem, layoutClasses } from "@/lib/layout-system";
 
 const mediaCategories = {
   news: {
@@ -138,7 +139,7 @@ const featuredMedia = {
 export function MediaSection() {
   return (
     <Section bgColor="light">
-      <Container size="xl">
+      <Container size="wide">
         <div className="text-center mb-8 sm:mb-12">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-navy-dark mb-4">
             She Sharp in the Media
@@ -150,8 +151,8 @@ export function MediaSection() {
 
         {/* Featured Media */}
         <Card className="mb-8 sm:mb-12 overflow-hidden border-0 shadow-lg">
-          <div className="sm:flex">
-            <div className="sm:w-1/2 relative">
+          <div className={layoutClasses("grid", "md:grid-cols-2", "gap-0")}>
+            <div className="relative">
               <AspectRatio ratio={16 / 9}>
                 <Image
                   src={featuredMedia.image}
@@ -169,7 +170,7 @@ export function MediaSection() {
                 </div>
               </AspectRatio>
             </div>
-            <div className="sm:w-1/2 p-4 sm:p-6 lg:p-8 flex flex-col justify-center">
+            <div className="p-4 sm:p-6 lg:p-8 flex flex-col justify-center">
               <Badge className="w-fit mb-3 bg-purple-dark text-white">Featured</Badge>
               <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-navy-dark mb-2">
                 {featuredMedia.title}
@@ -182,7 +183,7 @@ export function MediaSection() {
               <p className="text-sm sm:text-base text-gray mb-4 sm:mb-6">
                 {featuredMedia.description}
               </p>
-              <Button className="w-fit bg-purple-dark hover:bg-purple-mid">
+              <Button className="w-fit bg-purple-dark hover:bg-purple-mid transition-colors duration-150">
                 Watch Full Interview
                 <ExternalLink className="ml-2 w-4 h-4" />
               </Button>
@@ -199,7 +200,7 @@ export function MediaSection() {
                 <TabsTrigger
                   key={key}
                   value={key}
-                  className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 py-3 sm:py-4 data-[state=active]:bg-purple-dark data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200 rounded-md h-full"
+                  className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 py-3 sm:py-4 data-[state=active]:bg-purple-dark data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-150 rounded-md h-full"
                 >
                   <Icon className="w-4 h-4" />
                   <span className="text-xs sm:text-sm font-medium">{category.label}</span>
@@ -280,10 +281,10 @@ export function MediaSection() {
             facts, figures, and spokesperson information.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="outline" className="border-purple-dark text-purple-dark hover:bg-purple-light">
+            <Button variant="outline" className="border-purple-dark text-purple-dark hover:bg-purple-light transition-colors duration-150">
               Download Media Kit
             </Button>
-            <Button variant="outline" className="border-purple-dark text-purple-dark hover:bg-purple-light">
+            <Button variant="outline" className="border-purple-dark text-purple-dark hover:bg-purple-light transition-colors duration-150">
               Contact Press Team
             </Button>
           </div>

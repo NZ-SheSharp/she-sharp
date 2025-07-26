@@ -94,7 +94,7 @@ export function SiteHeader() {
       scrolled ? "shadow-sm" : "",
       visible ? "translate-y-0" : "-translate-y-full"
     )}>
-      <div className="container flex h-16 items-center">
+      <div className="mx-auto px-4 md:px-6 max-w-7xl flex h-16 items-center">
         {/* Logo */}
         <Link 
           href="/" 

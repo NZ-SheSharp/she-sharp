@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Calendar, Clock, MapPin, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { layoutSystem, layoutClasses } from '@/lib/layout-system';
 
 interface UpcomingEvent {
   id: string;
@@ -60,25 +61,25 @@ export function EventsTimelineHero() {
   }, []);
 
   return (
-    <section className="relative bg-gradient-to-br from-periwinkle-light via-white to-mint-light dark:from-navy-dark dark:via-gray-900 dark:to-gray-800 overflow-hidden">
+    <section className="relative bg-white overflow-hidden">
       {/* Background decoration */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-20 left-10 w-64 h-64 bg-periwinkle-dark rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-mint-dark rounded-full blur-3xl" />
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute top-20 left-10 w-64 h-64 bg-mint-light rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-mint-light rounded-full blur-3xl" />
       </div>
 
-      <Container className="relative py-16 md:py-24">
+      <Container size="content" className="relative py-16 md:py-24">
         <div className="text-center mb-12">
-          <Badge className="mb-4 bg-periwinkle-dark text-white border-0">
+          <Badge className="mb-4 bg-mint-dark text-white border-0">
             Upcoming Events
           </Badge>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-navy-dark dark:text-white mb-4">
             Your Next Tech Journey
-            <span className="block text-3xl md:text-4xl lg:text-5xl text-purple-dark mt-2">
+            <span className="block text-3xl md:text-4xl lg:text-5xl text-mint-dark mt-2">
               Starts Here
             </span>
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+          <p className="text-lg text-gray max-w-2xl mx-auto">
             Connect, learn, and grow with She Sharp&apos;s upcoming events. 
             From workshops to networking sessions, find your next opportunity.
           </p>
@@ -87,7 +88,10 @@ export function EventsTimelineHero() {
         {/* Timeline */}
         <div className="relative max-w-4xl mx-auto">
           {/* Timeline line */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-purple-dark via-periwinkle-dark to-mint-dark opacity-20" />
+          <div className={cn(
+            "absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-mint-light",
+            layoutSystem.patterns.timeline.line
+          )} />
 
           {/* Events */}
           <div className="space-y-8">
@@ -100,14 +104,14 @@ export function EventsTimelineHero() {
                 )}
               >
                 {/* Timeline dot */}
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-mint-dark rounded-full ring-4 ring-white dark:ring-gray-900 z-10" />
+                <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-mint-dark rounded-full ring-4 ring-white z-10" />
 
                 {/* Event card */}
                 <Link
                   href={`/events/${event.id}`}
                   className={cn(
-                    "group relative w-full md:w-5/12 bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-6",
-                    "border border-gray-200 dark:border-gray-700 hover:border-mint-dark dark:hover:border-mint-dark",
+                    "group relative w-full md:w-5/12 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-150 p-6",
+                    "border border-gray hover:border-mint-dark",
                     index % 2 === 0 ? "md:mr-auto" : "md:ml-auto"
                   )}
                 >
@@ -124,17 +128,17 @@ export function EventsTimelineHero() {
                       <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-mint-dark transition-colors" />
                     </div>
 
-                    <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                    <div className="space-y-2 text-sm text-gray">
                       <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4 text-periwinkle-dark" />
+                        <Calendar className="w-4 h-4 text-mint-dark" />
                         <span>{event.date}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Clock className="w-4 h-4 text-periwinkle-dark" />
+                        <Clock className="w-4 h-4 text-mint-dark" />
                         <span>{event.time}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <MapPin className="w-4 h-4 text-periwinkle-dark" />
+                        <MapPin className="w-4 h-4 text-mint-dark" />
                         <span>{event.location}</span>
                       </div>
                     </div>
@@ -143,9 +147,9 @@ export function EventsTimelineHero() {
                       variant="outline" 
                       className={cn(
                         "w-fit",
-                        event.type === 'online' && "border-blue text-blue",
-                        event.type === 'in-person' && "border-purple-dark text-purple-dark",
-                        event.type === 'workshop' && "border-periwinkle-dark text-periwinkle-dark"
+                        event.type === 'online' && "border-navy-dark text-navy-dark",
+                        event.type === 'in-person' && "border-mint-dark text-mint-dark",
+                        event.type === 'workshop' && "border-mint-mid text-mint-mid"
                       )}
                     >
                       {event.type === 'online' ? 'Online Event' : event.type === 'in-person' ? 'In Person' : 'Workshop'}
@@ -160,7 +164,7 @@ export function EventsTimelineHero() {
           <div className="text-center mt-12">
             <Link
               href="#all-events"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-mint-dark text-white rounded-lg hover:bg-mint-dark/90 transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-mint-dark text-white rounded-lg hover:bg-mint-mid transition-colors duration-150"
             >
               View All Events
               <ChevronRight className="w-4 h-4" />
@@ -169,7 +173,7 @@ export function EventsTimelineHero() {
         </div>
 
         {/* Live clock */}
-        <div className="text-center mt-8 text-sm text-gray-500 dark:text-gray-400">
+        <div className="text-center mt-8 text-sm text-gray">
           Current time: {currentTime.toLocaleTimeString('en-NZ', { 
             hour: '2-digit', 
             minute: '2-digit',

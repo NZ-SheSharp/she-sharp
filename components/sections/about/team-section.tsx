@@ -11,6 +11,7 @@ import { Search, X } from "lucide-react";
 import Image from "next/image";
 import { useState, useMemo } from "react";
 import { cn } from "@/lib/utils";
+import { layoutSystem, layoutClasses } from "@/lib/layout-system";
 
 const teamMembers = [
   {
@@ -109,11 +110,11 @@ export function TeamSection() {
   }, [roleFilter, searchQuery]);
 
   return (
-    <Section className="bg-gradient-to-b from-white to-purple-light/5 py-12 sm:py-16 lg:py-20">
-      <Container>
+    <Section bgColor="light">
+      <Container size="wide">
         <div className="text-center mb-8 sm:mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-navy">Meet Our People</h2>
-          <p className="mt-3 sm:mt-4 text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-4 sm:px-0">
+          <h2 className="text-3xl sm:text-4xl font-bold text-navy-dark">Meet Our People</h2>
+          <p className="mt-3 sm:mt-4 text-base sm:text-lg text-gray max-w-2xl mx-auto px-4 sm:px-0">
             The passionate team of leaders, innovators, and advocates driving change in the tech industry
           </p>
         </div>
@@ -167,7 +168,11 @@ export function TeamSection() {
         </div>
 
         {/* Team Grid - Responsive */}
-        <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+        <div className={layoutClasses(
+          "grid",
+          "grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
+          layoutSystem.grids.content.gap
+        )}>
           {filteredMembers.map((member, index) => (
             <Card
               key={member.name}
@@ -186,7 +191,7 @@ export function TeamSection() {
                   alt={member.name}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  className="object-cover transition-transform duration-150 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
@@ -215,13 +220,13 @@ export function TeamSection() {
                   )}
                 </div>
                 <h3 className={cn(
-                  "font-semibold text-navy line-clamp-1",
+                  "font-semibold text-navy-dark line-clamp-1",
                   member.featured ? "text-lg sm:text-xl" : "text-base sm:text-lg"
                 )}>
                   {member.name}
                 </h3>
                 <p className={cn(
-                  "mt-2 text-gray-600",
+                  "mt-2 text-gray",
                   member.featured ? "text-sm sm:text-base line-clamp-3 sm:line-clamp-4" : "text-xs sm:text-sm line-clamp-2"
                 )}>
                   {member.description}

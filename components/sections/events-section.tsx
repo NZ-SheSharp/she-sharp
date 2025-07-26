@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar } from "@/components/ui/calendar";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { CalendarDays, Clock, MapPin, Users, Video, Sparkles } from "lucide-react";
+import { layoutSystem, layoutClasses } from "@/lib/layout-system";
 
 const upcomingEvents = [
   {
@@ -61,7 +62,7 @@ const eventTypes = [
 export function EventsSection() {
   return (
     <Section bgColor="white">
-      <Container size="xl">
+      <Container size="wide">
         <div className="text-center mb-8 sm:mb-12">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-navy-dark mb-4">
             Events that connect, engage, and inspire
@@ -73,9 +74,13 @@ export function EventsSection() {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className={layoutClasses(
+          "grid",
+          "lg:grid-cols-12",
+          layoutSystem.patterns.splitLayout.gap
+        )}>
           {/* Left Column - Calendar and Stats */}
-          <div className="space-y-6 hidden lg:block">
+          <div className="space-y-6 hidden lg:block lg:col-span-4">
             {/* Calendar Card */}
             <Card className="border-purple-light">
               <CardHeader>
@@ -112,7 +117,7 @@ export function EventsSection() {
           </div>
 
           {/* Right Column - Upcoming Events */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-8 space-y-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg sm:text-xl font-semibold text-navy-dark flex items-center gap-2">
                 <Sparkles className="w-4 sm:w-5 h-4 sm:h-5 text-purple-dark" />
@@ -134,7 +139,7 @@ export function EventsSection() {
                 <Card key={event.id} className="overflow-hidden hover:shadow-md transition-shadow">
                   <div className="sm:flex">
                     {/* Event Image */}
-                    <div className="sm:w-1/3">
+                    <div className="sm:w-2/5">
                       <AspectRatio ratio={4 / 3}>
                         <Image
                           src={event.image}
@@ -147,7 +152,7 @@ export function EventsSection() {
                     </div>
 
                     {/* Event Details */}
-                    <div className="sm:w-2/3 p-4 sm:p-6">
+                    <div className="sm:w-3/5 p-4 sm:p-6">
                       <div className="flex items-start justify-between mb-3">
                         <div>
                           <Badge className={event.typeColor}>{event.type}</Badge>
@@ -192,7 +197,7 @@ export function EventsSection() {
                         <Button
                           asChild
                           size="sm"
-                          className="bg-purple-dark hover:bg-purple-mid"
+                          className="bg-purple-dark hover:bg-purple-mid transition-colors duration-150"
                         >
                           <Link href={`/events/${event.id}`}>Register Now</Link>
                         </Button>
@@ -209,7 +214,7 @@ export function EventsSection() {
                 asChild
                 size="lg"
                 variant="outline"
-                className="border-purple-dark text-purple-dark hover:bg-purple-light"
+                className="border-purple-dark text-purple-dark hover:bg-purple-light transition-colors duration-150"
               >
                 <Link href="/events">Explore All Events</Link>
               </Button>

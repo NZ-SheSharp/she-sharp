@@ -1,26 +1,19 @@
 import { cn } from "@/lib/utils";
+import { layoutSystem, getContainer } from "@/lib/layout-system";
 
 interface ContainerProps {
   children: React.ReactNode;
   className?: string;
-  size?: "sm" | "md" | "lg" | "xl" | "full";
+  size?: keyof typeof layoutSystem.containers;
 }
 
 export function Container({
   children,
   className,
-  size = "lg",
+  size = "content",
 }: ContainerProps) {
-  const sizes = {
-    sm: "max-w-3xl",
-    md: "max-w-5xl",
-    lg: "max-w-7xl",
-    xl: "max-w-[90rem]",
-    full: "max-w-full",
-  };
-
   return (
-    <div className={cn("mx-auto px-4 md:px-6", sizes[size], className)}>
+    <div className={cn(getContainer(size), className)}>
       {children}
     </div>
   );

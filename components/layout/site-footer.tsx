@@ -70,7 +70,7 @@ export function SiteFooter() {
       {/* Background Pattern */}
       <div className="footer-pattern" />
 
-      <div className="relative container px-4 py-16 md:px-6">
+      <div className="relative mx-auto px-4 md:px-6 max-w-7xl py-16">
         {/* Top Section - Newsletter */}
         <div className="mb-16">
           {/* Newsletter */}
