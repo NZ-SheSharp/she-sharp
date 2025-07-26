@@ -2,10 +2,13 @@ import Link from "next/link";
 import { ChevronRight, FileText, Shield, Cookie, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { layoutSystem, getContainer } from "@/lib/layout-system";
+import { SiteHeader } from "@/components/layout/site-header";
+import { SiteFooter } from "@/components/layout/site-footer";
 
 interface LegalPageLayoutProps {
   children: React.ReactNode;
   title: string;
+  navTitle?: string; // Optional title for navigation matching
   lastUpdated?: Date;
   icon?: React.ReactNode;
 }
@@ -46,14 +49,18 @@ const legalPages: LegalNavItem[] = [
 
 export function LegalPageLayout({ 
   children, 
-  title, 
+  title,
+  navTitle,
   lastUpdated = new Date(),
   icon 
 }: LegalPageLayoutProps) {
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <div className="relative overflow-hidden bg-navy-dark">
+    <div className="flex min-h-screen flex-col">
+      <SiteHeader />
+      <main className="flex-1 pt-16">
+        <div className="min-h-screen bg-white">
+          {/* Hero Section */}
+          <div className="relative overflow-hidden bg-navy-dark">
         <div className="absolute inset-0 bg-black/20" />
         <div className="absolute inset-0 bg-purple-light/10" />
         
@@ -80,9 +87,9 @@ export function LegalPageLayout({
         </div>
         
         {/* Wave decoration */}
-        <div className="absolute bottom-0 left-0 right-0 h-24">
-          <svg className="absolute bottom-0 w-full h-24" viewBox="0 0 1440 74" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 24C240 24 240 74 480 74C720 74 720 24 960 24C1200 24 1200 74 1440 74V0H0V24Z" fill="white"/>
+        <div className="absolute -bottom-1 left-0 right-0 h-24 overflow-hidden">
+          <svg className="absolute bottom-0 w-full h-full" viewBox="0 0 1440 74" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M0 50C240 50 240 0 480 0C720 0 720 50 960 50C1200 50 1200 0 1440 0V75H0V50Z" fill="white"/>
           </svg>
         </div>
       </div>
@@ -92,7 +99,7 @@ export function LegalPageLayout({
         <div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
             {legalPages.map((page) => {
-              const isActive = page.title === title;
+              const isActive = page.title === (navTitle || title);
               return (
                 <Link
                   key={page.href}
@@ -155,6 +162,9 @@ export function LegalPageLayout({
           </div>
         </div>
       </div>
+    </div>
+      </main>
+      <SiteFooter />
     </div>
   );
 }

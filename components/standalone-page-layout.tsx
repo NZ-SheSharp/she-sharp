@@ -1,7 +1,7 @@
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 
-export default function SiteLayout({
+export function StandalonePageLayout({
   children,
 }: {
   children: React.ReactNode;
