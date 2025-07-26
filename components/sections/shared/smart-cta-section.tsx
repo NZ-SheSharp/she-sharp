@@ -245,7 +245,7 @@ const defaultCTA = [
 interface SmartCTASectionProps {
   title?: string;
   className?: string;
-  bgColor?: "white" | "light" | "purple";
+  bgColor?: "white" | "light" | "accent" | "dark";
 }
 
 export function SmartCTASection({ 
