@@ -1,57 +1,171 @@
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
+import { Calendar, Users, Clock, Heart } from "lucide-react";
 
-const volunteerOptions = [
+const volunteerPaths = [
   {
-    icon: "https://cdn.prod.website-files.com/646193fdf4af9a2a791b1555/648642dac44436f6a72135db_purple-2.png",
-    title: "Help with Events",
-    description: [
-      "Throughout the year, we host our own events and raise She Sharp's profile and our mission to bridge the gender gap by attending industry conferences like the Tomorrow Expo and MOTAT's STEM Fair.",
-      "These volunteers roles are selected on a per-event basis—perfect if you want to get more involved with She Sharp a handful of times a year."
+    id: "events",
+    title: "Event Volunteer",
+    icon: Calendar,
+    color: "purple",
+    commitment: "Flexible • 4-6 times per year",
+    highlights: [
+      "Perfect for busy schedules",
+      "Choose events that interest you",
+      "Network with industry professionals",
+      "No weekly commitment required"
+    ],
+    responsibilities: [
+      "Help with event setup and registration",
+      "Welcome and guide attendees",
+      "Support speakers and panellists",
+      "Represent She Sharp at conferences",
+      "Assist with photography and social media"
+    ],
+    benefits: [
+      "Free entry to all She Sharp events",
+      "Networking opportunities",
+      "Certificate of volunteer service",
+      "Professional development workshops"
     ]
   },
   {
-    icon: "https://cdn.prod.website-files.com/646193fdf4af9a2a791b1555/648642dbd8da4bb3196bd36d_periwinkle-half-circle.png",
-    title: "Help with operations behind the scenes",
-    description: [
-      "Our Ambassadors are involved in running She Sharp as a nonprofit organisation all year round—think shaping our events, engaging with our community, and She Sharp's digital marketing.",
-      "We recruit Ambassadors every February. If you're passionate about She Sharp's work and are keen to volunteer on a weekly basis, be sure to apply!"
+    id: "ambassador",
+    title: "She Sharp Ambassador",
+    icon: Users,
+    color: "periwinkle",
+    commitment: "Regular • Weekly involvement",
+    highlights: [
+      "Shape She Sharp's future",
+      "Lead meaningful projects",
+      "Build lasting connections",
+      "Develop leadership skills"
+    ],
+    responsibilities: [
+      "Attend fortnightly team meetings",
+      "Lead event planning and execution",
+      "Manage sponsor relationships",
+      "Create content for social media",
+      "Mentor new volunteers"
+    ],
+    benefits: [
+      "Leadership development opportunities",
+      "Direct impact on She Sharp's strategy",
+      "Strong professional network",
+      "Resume and LinkedIn recommendations"
     ]
   }
 ];
 
 export function VolunteerOptionsSection() {
   return (
-    <Section className="py-16 bg-gray-50">
+    <Section className="py-20 bg-white">
       <Container>
-        <h2 className="text-3xl font-bold text-navy text-center mb-12">
-          Ways you can volunteer
-        </h2>
-        <div className="grid md:grid-cols-2 gap-8">
-          {volunteerOptions.map((option) => (
-            <Card key={option.title}>
-              <CardHeader className="text-center">
-                <div className="relative w-16 h-16 mx-auto mb-4">
-                  <Image
-                    src={option.icon}
-                    alt={option.title}
-                    fill
-                    className="object-contain"
-                  />
+        <div className="mx-auto max-w-6xl">
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-navy-dark mb-6">
+              Choose Your Way to Make an Impact
+            </h2>
+            <p className="text-xl text-gray max-w-3xl mx-auto">
+              Whether you have a few hours or can commit weekly, there&apos;s a perfect volunteer opportunity waiting for you
+            </p>
+          </div>
+
+          {/* Volunteer Options Tabs */}
+          <Tabs defaultValue="events" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-12">
+              <TabsTrigger value="events" className="text-lg">Event Volunteer</TabsTrigger>
+              <TabsTrigger value="ambassador" className="text-lg">Ambassador</TabsTrigger>
+            </TabsList>
+
+            {volunteerPaths.map((path) => (
+              <TabsContent key={path.id} value={path.id} className="mt-0">
+                <div className="grid lg:grid-cols-2 gap-12">
+                  {/* Left Column - Overview */}
+                  <div>
+                    <Card className={`border-2 ${path.color === 'purple' ? 'border-purple-light' : 'border-periwinkle-light'}`}>
+                      <CardContent className="p-8">
+                        <div className="flex items-start gap-4 mb-6">
+                          <div className={`inline-flex items-center justify-center w-12 h-12 rounded-full ${
+                            path.color === 'purple' ? 'bg-purple-light/20' : 'bg-periwinkle-light/20'
+                          }`}>
+                            <path.icon className={`w-6 h-6 ${
+                              path.color === 'purple' ? 'text-purple-dark' : 'text-periwinkle-dark'
+                            }`} />
+                          </div>
+                          <div>
+                            <h3 className="text-2xl font-bold text-navy-dark mb-2">{path.title}</h3>
+                            <Badge variant="secondary" className="font-normal">
+                              <Clock className="w-3 h-3 mr-1" />
+                              {path.commitment}
+                            </Badge>
+                          </div>
+                        </div>
+
+                        <div className="space-y-3 mb-6">
+                          {path.highlights.map((highlight, index) => (
+                            <div key={index} className="flex items-center gap-3">
+                              <Heart className={`w-4 h-4 ${
+                                path.color === 'purple' ? 'text-purple-dark' : 'text-periwinkle-dark'
+                              }`} />
+                              <span className="text-gray-700">{highlight}</span>
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className={`p-4 rounded-lg ${
+                          path.color === 'purple' ? 'bg-purple-light/10' : 'bg-periwinkle-light/10'
+                        }`}>
+                          <p className="text-sm text-gray-600">
+                            {path.id === 'events' 
+                              ? 'Applications open year-round. Join us for our next event!'
+                              : 'Applications open in February each year. Register your interest below.'}
+                          </p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  {/* Right Column - Details */}
+                  <div className="space-y-8">
+                    {/* Responsibilities */}
+                    <div>
+                      <h4 className="text-xl font-semibold text-navy-dark mb-4">What You&apos;ll Do</h4>
+                      <ul className="space-y-2">
+                        {path.responsibilities.map((item, index) => (
+                          <li key={index} className="flex items-start gap-3">
+                            <div className={`w-1.5 h-1.5 rounded-full mt-2 ${
+                              path.color === 'purple' ? 'bg-purple-dark' : 'bg-periwinkle-dark'
+                            }`} />
+                            <span className="text-gray-700">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Benefits */}
+                    <div>
+                      <h4 className="text-xl font-semibold text-navy-dark mb-4">What You&apos;ll Gain</h4>
+                      <ul className="space-y-2">
+                        {path.benefits.map((item, index) => (
+                          <li key={index} className="flex items-start gap-3">
+                            <div className={`w-1.5 h-1.5 rounded-full mt-2 ${
+                              path.color === 'purple' ? 'bg-purple-dark' : 'bg-periwinkle-dark'
+                            }`} />
+                            <span className="text-gray-700">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
                 </div>
-                <CardTitle className="text-xl text-navy">{option.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {option.description.map((paragraph, index) => (
-                    <p key={index} className="text-gray-700">{paragraph}</p>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+              </TabsContent>
+            ))}
+          </Tabs>
         </div>
       </Container>
     </Section>
