@@ -14,6 +14,7 @@ import {
   ExternalLink 
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { layoutSystem, layoutClasses } from "@/lib/layout-system";
 
 const podcastPlatforms = [
   {
@@ -55,8 +56,8 @@ const stats = [
 
 export function PodcastSubscribeSection() {
   return (
-    <Section className="py-16 lg:py-24 bg-gradient-to-br from-purple-light/10 via-white to-mint-light/10">
-      <Container>
+    <Section bgColor="accent">
+      <Container size="content">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -93,7 +94,10 @@ export function PodcastSubscribeSection() {
         </motion.div>
 
         {/* Platform Links */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div className={layoutClasses(
+          "grid md:grid-cols-2 lg:grid-cols-4 mb-12",
+          layoutSystem.grids.content.gap
+        )}>
           {podcastPlatforms.map((platform, index) => (
             <motion.div
               key={platform.name}
@@ -104,8 +108,8 @@ export function PodcastSubscribeSection() {
             >
               <Card className="h-full hover:shadow-lg transition-shadow duration-300 cursor-pointer group">
                 <CardContent className="p-6 text-center">
-                  <div className={`inline-flex p-4 rounded-full bg-${platform.color}-light/20 mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                    <platform.icon className={`h-8 w-8 text-${platform.color}-dark`} />
+                  <div className="inline-flex p-4 rounded-full bg-purple-light/20 mb-4 group-hover:scale-110 transition-transform duration-150">
+                    <platform.icon className="h-8 w-8 text-purple-dark" />
                   </div>
                   <h3 className="font-semibold text-navy-dark mb-2">
                     {platform.name}
@@ -136,7 +140,7 @@ export function PodcastSubscribeSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="bg-gradient-to-r from-purple-dark to-periwinkle-dark rounded-2xl p-8 lg:p-12 text-white text-center"
+          className="bg-purple-dark rounded-2xl p-8 lg:p-12 text-white text-center"
         >
           <Globe className="h-12 w-12 mx-auto mb-4" />
           <h3 className="text-2xl font-bold mb-4">

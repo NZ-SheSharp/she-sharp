@@ -1,13 +1,14 @@
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
+import { layoutSystem } from "@/lib/layout-system";
 
 export function PodcastsHeroSection() {
   return (
-    <Section className="relative overflow-hidden bg-purple-mid">
+    <Section bgColor="dark" noPadding className="relative overflow-hidden bg-purple-dark">
       {/* Simple background pattern */}
       <div className="absolute inset-0 bg-purple-light/10" />
 
-      <Container className="relative z-10">
+      <Container size="content" className="relative z-10">
         <div className="py-20 md:py-28">
           <div className="flex flex-col items-center text-center">
             {/* Audio wave visualization */}
@@ -29,7 +30,7 @@ export function PodcastsHeroSection() {
             <h2 className="text-6xl md:text-8xl font-bold text-white/90 mb-6">
               Podcasts
             </h2>
-            <p className="text-xl md:text-2xl text-white/80 max-w-2xl">
+            <p className="text-xl md:text-2xl text-white/80 max-w-2xl mx-auto">
               Inspiring conversations with women leading innovation in technology
             </p>
           </div>

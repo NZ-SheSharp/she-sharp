@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { CalendarDays, Users, Award, Camera, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { layoutSystem, layoutClasses } from "@/lib/layout-system";
 
 const galleryItems = [
   {
@@ -142,8 +143,8 @@ export function GalleryGridSection() {
   };
 
   return (
-    <Section className="py-16 bg-purple-light/5">
-      <Container>
+    <Section bgColor="accent">
+      <Container size="full">
         {/* Tabs for categories */}
         <Tabs defaultValue="all" value={selectedCategory} onValueChange={setSelectedCategory} className="mb-12">
           <TabsList className="w-full justify-start flex-wrap h-auto p-1 bg-mint-light/50">
@@ -161,7 +162,11 @@ export function GalleryGridSection() {
 
           <TabsContent value={selectedCategory} className="mt-8">
             {/* Masonry Grid */}
-            <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
+            <div className={layoutClasses(
+              layoutSystem.grids.masonry.base,
+              layoutSystem.grids.masonry.gap,
+              "space-y-4"
+            )}>
               {filteredItems.map((item, index) => (
                 <Card 
                   key={item.id} 

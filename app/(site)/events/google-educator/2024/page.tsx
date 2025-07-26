@@ -5,6 +5,7 @@ import { AspectRatio } from '@/components/ui/aspect-ratio'
 import { ArrowLeft, Calendar, MapPin } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { layoutSystem } from '@/lib/layout-system'
 
 export default function GoogleEducator2024Page() {
   const highlights = [
@@ -22,8 +23,8 @@ export default function GoogleEducator2024Page() {
   return (
     <>
       {/* Back Navigation */}
-      <Section className="pt-24 pb-0">
-        <Container size="lg">
+      <Section bgColor="white" noPadding className="pt-24">
+        <Container size="content">
           <Button asChild variant="ghost" className="mb-8 -ml-4">
             <Link href="/events/google-educator">
               <ArrowLeft className="mr-2 h-4 w-4" />
@@ -34,8 +35,8 @@ export default function GoogleEducator2024Page() {
       </Section>
 
       {/* Header */}
-      <Section>
-        <Container size="lg">
+      <Section bgColor="white">
+        <Container size="content">
           <div className="text-center mb-12">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-navy-dark mb-4">
               2024

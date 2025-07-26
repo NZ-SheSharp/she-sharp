@@ -4,6 +4,7 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { layoutSystem } from "@/lib/layout-system";
 
 const heroImages = [
   "https://cdn.prod.website-files.com/646ab5895264c7470e0c89f5/684918c467a93421eafe8f3b_unnamed.jpg",
@@ -23,7 +24,7 @@ export function GalleryHeroSection() {
   }, []);
 
   return (
-    <Section className="relative h-[70vh] min-h-[500px] overflow-hidden">
+    <Section noPadding className="relative h-[70vh] min-h-[500px] overflow-hidden">
       {/* Full-screen image carousel */}
       <div className="absolute inset-0">
         {heroImages.map((image, index) => (
@@ -47,7 +48,7 @@ export function GalleryHeroSection() {
         <div className="absolute inset-0 bg-purple-dark/60" />
       </div>
 
-      <Container className="relative z-10 h-full flex items-end pb-12">
+      <Container size="wide" className="relative z-10 h-full flex items-end pb-12">
         <div className="max-w-3xl">
           <h1 className="text-6xl md:text-8xl font-bold text-white mb-4 drop-shadow-lg">
             Gallery

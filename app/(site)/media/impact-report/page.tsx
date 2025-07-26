@@ -1,3 +1,10 @@
+import { Container } from "@/components/layout/container";
+import { Section } from "@/components/layout/section";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { layoutSystem, layoutClasses } from "@/lib/layout-system";
+import { Download, TrendingUp, Users, Calendar, Award } from "lucide-react";
+
 export const metadata = {
   title: "Impact Report | She Sharp",
   description: "Read about She Sharp's annual impact and achievements in empowering women in STEM.",
@@ -5,64 +12,154 @@ export const metadata = {
 
 export default function ImpactReportPage() {
   return (
-    <div className="container mx-auto px-4 py-12 md:py-24">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-bold text-navy-dark mb-6">
-          Impact Report
-        </h1>
-        <p className="text-xl text-gray mb-12">
-          Discover the transformative impact She Sharp has made in empowering women in STEM fields.
-        </p>
-
-        <div className="bg-purple-light/20 rounded-lg p-8 mb-12">
-          <h2 className="text-2xl font-bold text-purple-dark mb-4">
-            2024 Annual Impact Report
-          </h2>
-          <p className="text-navy-dark mb-6">
-            Our comprehensive annual report showcases the growth, achievements, and impact of our programs.
+    <Section bgColor="white">
+      <Container size="content">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold text-navy-dark mb-6">
+            Impact Report
+          </h1>
+          <p className="text-xl text-gray max-w-3xl mx-auto">
+            Discover the transformative impact She Sharp has made in empowering women in STEM fields.
           </p>
-          <button className="bg-gradient-to-r from-purple-dark to-periwinkle-dark text-white px-6 py-3 rounded-lg hover:opacity-90 transition-opacity">
-            Download 2024 Report (PDF)
-          </button>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
-          <div className="bg-white p-6 rounded-lg shadow-sm border border-purple-light/20">
-            <h3 className="text-xl font-bold text-navy-dark mb-3">
-              Key Achievements
-            </h3>
-            <ul className="space-y-2 text-gray">
-              <li>• 2200+ active members in our community</li>
-              <li>• 84+ events organized since 2014</li>
-              <li>• 50+ corporate sponsors supporting our mission</li>
-              <li>• 150+ successful mentorship matches</li>
-            </ul>
-          </div>
+        {/* Featured Report Card */}
+        <Card className="border-2 border-purple-dark shadow-xl mb-12">
+          <CardContent className="p-8 md:p-12 text-center">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-light rounded-full mb-6">
+              <Download className="h-8 w-8 text-purple-dark" />
+            </div>
+            <h2 className="text-2xl font-bold text-purple-dark mb-4">
+              2024 Annual Impact Report
+            </h2>
+            <p className="text-navy-dark mb-6 max-w-2xl mx-auto">
+              Our comprehensive annual report showcases the growth, achievements, and impact of our programs.
+            </p>
+            <Button size="lg" className="bg-purple-dark hover:bg-purple-dark/90">
+              <Download className="mr-2 h-5 w-5" />
+              Download 2024 Report (PDF)
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* Key Metrics Grid */}
+        <div className={layoutClasses(
+          "grid mb-12",
+          layoutSystem.grids.content.cols1,
+          layoutSystem.grids.content.cols2,
+          layoutSystem.grids.content.gap
+        )}>
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardContent className="p-8">
+              <div className="flex items-start gap-4">
+                <div className="p-3 bg-mint-light rounded-full">
+                  <TrendingUp className="h-6 w-6 text-navy-dark" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold text-navy-dark mb-4">
+                    Key Achievements
+                  </h3>
+                  <ul className="space-y-3 text-gray">
+                    <li className="flex items-start gap-2">
+                      <span className="text-purple-dark">•</span>
+                      <span>2200+ active members in our community</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-purple-dark">•</span>
+                      <span>84+ events organized since 2014</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-purple-dark">•</span>
+                      <span>50+ corporate sponsors supporting our mission</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-purple-dark">•</span>
+                      <span>150+ successful mentorship matches</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
           
-          <div className="bg-white p-6 rounded-lg shadow-sm border border-purple-light/20">
-            <h3 className="text-xl font-bold text-navy-dark mb-3">
-              Program Highlights
-            </h3>
-            <ul className="space-y-2 text-gray">
-              <li>• THRIVE: Career development program launch</li>
-              <li>• Google Educator Conference success</li>
-              <li>• Expanded mentorship program</li>
-              <li>• New podcast series launch</li>
-            </ul>
-          </div>
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardContent className="p-8">
+              <div className="flex items-start gap-4">
+                <div className="p-3 bg-periwinkle-light rounded-full">
+                  <Award className="h-6 w-6 text-periwinkle-dark" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold text-navy-dark mb-4">
+                    Program Highlights
+                  </h3>
+                  <ul className="space-y-3 text-gray">
+                    <li className="flex items-start gap-2">
+                      <span className="text-periwinkle-dark">•</span>
+                      <span>THRIVE: Career development program launch</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-periwinkle-dark">•</span>
+                      <span>Google Educator Conference success</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-periwinkle-dark">•</span>
+                      <span>Expanded mentorship program</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-periwinkle-dark">•</span>
+                      <span>New podcast series launch</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
-        <div className="bg-mint-light border border-mint-dark rounded-lg p-8">
-          <h3 className="text-2xl font-bold text-navy-dark mb-4">
-            Looking Ahead
-          </h3>
-          <p className="text-navy-dark">
-            As we move forward, She Sharp remains committed to expanding our reach and impact. 
-            Our goals for the coming year include launching new initiatives, expanding our mentorship 
-            program, and creating more opportunities for women to thrive in STEM careers.
-          </p>
+        {/* Looking Ahead Section */}
+        <Card className="bg-mint-light border-mint-dark">
+          <CardContent className="p-8 md:p-12">
+            <div className="flex items-start gap-4">
+              <div className="p-3 bg-white rounded-full">
+                <Users className="h-6 w-6 text-navy-dark" />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-2xl font-bold text-navy-dark mb-4">
+                  Looking Ahead
+                </h3>
+                <p className="text-navy-dark leading-relaxed">
+                  As we move forward, She Sharp remains committed to expanding our reach and impact. 
+                  Our goals for the coming year include launching new initiatives, expanding our mentorship 
+                  program, and creating more opportunities for women to thrive in STEM careers.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Historical Reports */}
+        <div className="mt-12 text-center">
+          <h3 className="text-2xl font-bold text-navy-dark mb-6">Previous Impact Reports</h3>
+          <div className={layoutClasses(
+            "grid",
+            layoutSystem.grids.content.cols1,
+            "sm:grid-cols-2",
+            layoutSystem.grids.content.cols3,
+            "gap-4"
+          )}>
+            {[2023, 2022, 2021].map((year) => (
+              <Button
+                key={year}
+                variant="outline"
+                className="border-purple-dark text-purple-dark hover:bg-purple-light"
+              >
+                <Calendar className="mr-2 h-4 w-4" />
+                {year} Report
+              </Button>
+            ))}
+          </div>
         </div>
-      </div>
-    </div>
+      </Container>
+    </Section>
   );
 }
