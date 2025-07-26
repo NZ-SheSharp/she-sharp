@@ -126,7 +126,7 @@ export function BenefitsSection() {
               >
                 <CardContent className="p-6">
                   {/* Icon Container */}
-                  <div className={`w-16 h-16 rounded-full ${colors.bg} ${colors.border} border-2 flex items-center justify-center mb-4 mx-auto transition-transform duration-150 ${isHovered ? 'scale-110' : ''}`}
+                  <div className={`w-16 h-16 rounded-full ${colors.bg} ${colors.border} border-2 flex items-center justify-center mb-4 mx-auto transition-transform duration-150 ${isHovered ? 'scale-110' : ''}`}>
                     <Icon className={`w-8 h-8 ${colors.icon}`} />
                   </div>
                   
