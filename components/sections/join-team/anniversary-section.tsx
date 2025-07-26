@@ -2,26 +2,57 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Sparkles, Users } from "lucide-react";
 import Link from "next/link";
 
 export function AnniversarySection() {
   return (
-    <Section className="py-16 bg-purple-light">
-      <Container>
-        <Card className="mx-auto max-w-3xl">
-          <CardContent className="p-8 md:p-12 text-center">
-            <h3 className="text-2xl font-bold text-navy mb-4">
-              Were you an ambassador with She Sharp? We want to hear from you!
+    <Section className="py-20 bg-gradient-to-r from-purple-dark to-periwinkle-dark relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 opacity-10">
+        <div 
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `radial-gradient(circle at 20% 80%, white 0%, transparent 50%),
+                            radial-gradient(circle at 80% 20%, white 0%, transparent 50%)`
+          }}
+        />
+      </div>
+
+      <Container className="relative z-10">
+        <Card className="mx-auto max-w-4xl border-0 shadow-2xl bg-white/95 backdrop-blur">
+          <CardContent className="p-12 text-center">
+            <Badge className="mb-6 bg-white/20 text-purple-dark border border-purple-dark px-4 py-2">
+              <Sparkles className="w-4 h-4 mr-2" />
+              10 Years of Impact
+            </Badge>
+            
+            <h3 className="text-3xl md:text-4xl font-bold text-navy-dark mb-6">
+              Calling All She Sharp Alumni!
             </h3>
-            <p className="text-gray-700 mb-8">
-              Sign up to participate in our 10th-anniversary celebrations and 
-              reconnect with fellow She Sharp ambassadors.
+            
+            <p className="text-lg text-gray-700 mb-8 max-w-2xl mx-auto leading-relaxed">
+              Were you an ambassador with She Sharp? Join us in celebrating a decade of 
+              empowering women in STEM. Reconnect with fellow ambassadors and share your journey.
             </p>
-            <Button asChild size="lg" className="bg-purple-dark hover:bg-purple-mid">
-              <Link href="/contact">
-                Celebrate with us : Register your interest
-              </Link>
-            </Button>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button 
+                asChild 
+                size="lg" 
+                className="bg-purple-dark hover:bg-purple-mid text-white shadow-lg"
+              >
+                <Link href="/contact">
+                  <Users className="w-5 h-5 mr-2" />
+                  Register Your Interest
+                </Link>
+              </Button>
+            </div>
+
+            <p className="mt-6 text-sm text-gray-600">
+              Help us celebrate our impact and inspire the next generation
+            </p>
           </CardContent>
         </Card>
       </Container>
