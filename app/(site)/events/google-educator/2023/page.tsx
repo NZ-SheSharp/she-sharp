@@ -22,8 +22,8 @@ export default function GoogleEducator2023Page() {
   return (
     <>
       {/* Back Navigation */}
-      <Section className="pt-24 pb-0">
-        <Container size="lg">
+      <Section bgColor="white" noPadding className="pt-24">
+        <Container size="content">
           <Button asChild variant="ghost" className="mb-8 -ml-4">
             <Link href="/events/google-educator">
               <ArrowLeft className="mr-2 h-4 w-4" />
@@ -34,8 +34,8 @@ export default function GoogleEducator2023Page() {
       </Section>
 
       {/* Header */}
-      <Section>
-        <Container size="lg">
+      <Section bgColor="white">
+        <Container size="content">
           <div className="text-center mb-12">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-navy-dark mb-4">
               2023
@@ -56,7 +56,7 @@ export default function GoogleEducator2023Page() {
 
       {/* Main Visual */}
       <Section className="pt-0">
-        <Container size="lg">
+        <Container size="content">
           <AspectRatio ratio={16 / 9} className="overflow-hidden rounded-lg">
             <Image
               src={images[0]}
@@ -91,7 +91,7 @@ export default function GoogleEducator2023Page() {
       {/* Photo Gallery - Placeholder for future images */}
       {images.length > 1 && (
         <Section className="bg-navy-light/30">
-          <Container size="lg">
+          <Container size="content">
             <h2 className="text-3xl font-bold text-navy-dark mb-8 text-center">
               Event Gallery
             </h2>
