@@ -108,7 +108,7 @@ export function SponsorshipOverviewSection() {
               return (
                 <Card
                   key={index}
-                  className="overflow-hidden transition-all duration-200 hover:shadow-md"
+                  className="overflow-hidden transition-shadow duration-150 hover:shadow-md"
                 >
                   <CardContent className="p-0">
                     <Toggle

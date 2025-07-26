@@ -68,7 +68,7 @@ const testimonials = [
 
 export function TeamTestimonialsSection() {
   return (
-    <Section className="py-32 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
+    <Section className="py-32 bg-navy-light/5 overflow-hidden">
       <Container>
         <div className="mx-auto max-w-7xl">
           {/* Section Header with more spacing */}
@@ -113,20 +113,20 @@ export function TeamTestimonialsSection() {
                 {testimonials.map((testimonial) => (
                   <CarouselItem key={testimonial.id} className="pl-6 lg:pl-8 basis-full md:basis-1/2 lg:basis-1/3">
                     <Card 
-                      className={`h-full border-0 shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden group ${
+                      className={`h-full border-0 shadow-md hover:shadow-lg transition-shadow duration-150 overflow-hidden group ${
                         testimonial.theme === 'purple' ? 'bg-white' : 'bg-white'
                       }`}
                     >
                       {/* Color accent bar */}
                       <div className={`h-1 ${
-                        testimonial.theme === 'purple' ? 'bg-gradient-to-r from-purple-dark to-purple-mid' : 'bg-gradient-to-r from-periwinkle-dark to-periwinkle-light'
+                        testimonial.theme === 'purple' ? 'bg-purple-dark' : 'bg-periwinkle-dark'
                       }`} />
                       
                       <CardContent className="p-10 flex flex-col h-full space-y-6">
                         {/* Quote Icon with breathing room */}
                         <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full ${
                           testimonial.theme === 'purple' ? 'bg-purple-light/10' : 'bg-periwinkle-light/10'
-                        } group-hover:scale-110 transition-transform duration-300`}>
+                        } transition-colors duration-150`}>
                           <Quote className={`w-8 h-8 ${
                             testimonial.theme === 'purple' ? 'text-purple-dark' : 'text-periwinkle-dark'
                           }`} />
@@ -183,7 +183,7 @@ export function TeamTestimonialsSection() {
 
           {/* Impact Statistics with generous spacing */}
           <div className="mt-32 relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-light/5 to-periwinkle-light/5 rounded-3xl transform -skew-y-2" />
+            <div className="absolute inset-0 bg-mint-light/10 rounded-3xl" />
             <div className="relative bg-white rounded-3xl shadow-lg p-12 md:p-16">
               <h3 className="text-2xl font-bold text-navy-dark text-center mb-12">
                 Our Collective Impact

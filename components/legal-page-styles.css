@@ -7,7 +7,7 @@
 .legal-content h2::before {
   content: '';
   @apply absolute left-0 top-1/2 -translate-y-1/2;
-  @apply w-3 h-8 bg-gradient-to-b from-purple-dark to-periwinkle-dark rounded-full;
+  @apply w-3 h-8 bg-purple-dark rounded-full;
 }
 
 .legal-content h3 {
@@ -45,7 +45,7 @@
 }
 
 .legal-content a {
-  @apply text-purple-dark hover:text-purple-mid underline underline-offset-2 transition-colors;
+  @apply text-purple-dark hover:text-purple-mid underline underline-offset-2 transition-colors duration-150;
 }
 
 .legal-content strong {
@@ -59,7 +59,7 @@
 
 /* Info Boxes */
 .legal-info-box {
-  @apply bg-gradient-to-br from-purple-light/20 to-periwinkle-light/20;
+  @apply bg-purple-light/10;
   @apply border border-purple-light/30 rounded-xl p-6 my-8;
   @apply relative overflow-hidden;
 }
@@ -67,17 +67,16 @@
 .legal-info-box::before {
   content: '';
   @apply absolute top-0 right-0 w-32 h-32;
-  @apply bg-gradient-to-br from-purple-mid/10 to-transparent rounded-full;
-  @apply transform translate-x-16 -translate-y-16;
+  @apply bg-purple-mid/10 rounded-full;
 }
 
 .legal-warning-box {
-  @apply bg-gradient-to-br from-mint-light/30 to-mint-dark/10;
+  @apply bg-mint-light/20;
   @apply border border-mint-dark/30 rounded-xl p-6 my-8;
 }
 
 .legal-highlight-box {
-  @apply bg-gradient-to-br from-periwinkle-light/30 to-purple-light/20;
+  @apply bg-periwinkle-light/20;
   @apply border border-periwinkle-dark/20 rounded-xl p-6 my-8;
 }
 
@@ -87,7 +86,7 @@
 }
 
 .legal-table thead {
-  @apply bg-gradient-to-r from-purple-light/30 to-periwinkle-light/30;
+  @apply bg-purple-light/20;
 }
 
 .legal-table th {
@@ -99,14 +98,14 @@
 }
 
 .legal-table tbody tr {
-  @apply hover:bg-purple-light/10 transition-colors;
+  @apply hover:bg-purple-light/10 transition-colors duration-150;
 }
 
 /* Contact Cards */
 .legal-contact-card {
-  @apply bg-gradient-to-br from-white to-purple-light/10;
+  @apply bg-purple-light/5;
   @apply border border-purple-light/30 rounded-xl p-8 my-8;
-  @apply shadow-sm hover:shadow-md transition-shadow;
+  @apply shadow-sm hover:shadow-md transition-shadow duration-150;
 }
 
 /* Numbered List Styling */
@@ -119,7 +118,7 @@
 }
 
 .legal-numbered-list .number {
-  @apply flex-shrink-0 w-8 h-8 bg-gradient-to-br from-purple-dark to-periwinkle-dark;
+  @apply flex-shrink-0 w-8 h-8 bg-purple-dark;
   @apply text-white rounded-full flex items-center justify-center;
   @apply text-sm font-semibold;
 }

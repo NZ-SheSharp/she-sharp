@@ -8,17 +8,9 @@ import Link from "next/link";
 
 export function AnniversarySection() {
   return (
-    <Section className="py-20 bg-gradient-to-r from-purple-dark to-periwinkle-dark relative overflow-hidden">
+    <Section className="py-20 bg-mint-dark relative overflow-hidden">
       {/* Background decoration */}
-      <div className="absolute inset-0 opacity-10">
-        <div 
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `radial-gradient(circle at 20% 80%, white 0%, transparent 50%),
-                            radial-gradient(circle at 80% 20%, white 0%, transparent 50%)`
-          }}
-        />
-      </div>
+      <div className="absolute inset-0 bg-navy-dark/10" />
 
       <Container className="relative z-10">
         <Card className="mx-auto max-w-4xl border-0 shadow-2xl bg-white/95 backdrop-blur">
@@ -41,7 +33,7 @@ export function AnniversarySection() {
               <Button 
                 asChild 
                 size="lg" 
-                className="bg-purple-dark hover:bg-purple-mid text-white shadow-lg"
+                className="bg-navy-dark hover:bg-navy-dark/90 text-white shadow-md transition-colors duration-150"
               >
                 <Link href="/contact">
                   <Users className="w-5 h-5 mr-2" />

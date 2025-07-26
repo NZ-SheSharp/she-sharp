@@ -13,13 +13,9 @@ const stats = [
 
 export function NewsHeroSection() {
   return (
-    <Section className="relative overflow-hidden bg-gradient-to-br from-white via-purple-light/20 to-periwinkle-light/30">
+    <Section className="relative overflow-hidden bg-purple-light/10">
       {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-light rounded-full opacity-20 animate-pulse" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-periwinkle-light rounded-full opacity-20 animate-pulse animation-delay-2000" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-mint-light rounded-full opacity-10 animate-pulse animation-delay-4000" />
-      </div>
+      <div className="absolute inset-0 bg-purple-mid/5" />
 
       <Container className="relative z-10">
         <div className="py-20 md:py-28">
@@ -41,7 +37,7 @@ export function NewsHeroSection() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="text-center group">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white shadow-lg group-hover:shadow-xl transition-shadow mb-4">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white shadow-md group-hover:shadow-lg transition-shadow duration-150 mb-4">
                   <stat.icon className="h-8 w-8 text-purple-dark" />
                 </div>
                 <div className="text-3xl md:text-4xl font-bold text-navy-dark mb-1">

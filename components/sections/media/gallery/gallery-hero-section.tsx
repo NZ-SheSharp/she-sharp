@@ -29,7 +29,7 @@ export function GalleryHeroSection() {
         {heroImages.map((image, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
+            className={`absolute inset-0 transition-opacity duration-150 ${
               index === currentImageIndex ? 'opacity-100' : 'opacity-0'
             }`}
           >
@@ -44,7 +44,7 @@ export function GalleryHeroSection() {
         ))}
         
         {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-mint-dark/90 via-mint-dark/50 to-transparent" />
+        <div className="absolute inset-0 bg-purple-dark/60" />
       </div>
 
       <Container className="relative z-10 h-full flex items-end pb-12">
@@ -61,7 +61,7 @@ export function GalleryHeroSection() {
             {heroImages.map((_, index) => (
               <button
                 key={index}
-                className={`h-1 rounded-full transition-all ${
+                className={`h-1 rounded-full transition-colors duration-150 ${
                   index === currentImageIndex 
                     ? 'w-12 bg-white' 
                     : 'w-6 bg-white/40 hover:bg-white/60'

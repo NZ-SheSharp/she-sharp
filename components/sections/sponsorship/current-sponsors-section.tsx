@@ -74,10 +74,10 @@ const sponsors: Sponsor[] = [
 ];
 
 const levelColors = {
-  platinum: "bg-gradient-to-r from-gray-300 to-gray-400 text-white",
-  gold: "bg-gradient-to-r from-yellow-400 to-yellow-500 text-white",
-  silver: "bg-gradient-to-r from-gray-400 to-gray-500 text-white",
-  bronze: "bg-gradient-to-r from-orange-600 to-orange-700 text-white",
+  platinum: "bg-gray-400 text-white",
+  gold: "bg-yellow-500 text-white",
+  silver: "bg-gray-500 text-white",
+  bronze: "bg-orange-600 text-white",
 };
 
 export function CurrentSponsorsSection() {

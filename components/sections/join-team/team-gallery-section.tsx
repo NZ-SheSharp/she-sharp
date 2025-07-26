@@ -98,7 +98,7 @@ const galleryImages = [
 
 export function TeamGallerySection() {
   return (
-    <Section className="py-24 bg-gradient-to-b from-white to-gray-50 overflow-hidden">
+    <Section className="py-24 bg-mint-light/10 overflow-hidden">
       <Container>
         <div className="mx-auto max-w-7xl">
           {/* Section Header */}
@@ -145,13 +145,13 @@ export function TeamGallerySection() {
                               src={image.src}
                               alt={image.alt}
                               fill
-                              className="object-cover transition-transform duration-700 group-hover:scale-105"
+                              className="object-cover transition-opacity duration-150"
                               priority={image.id === 1}
                             />
                           </AspectRatio>
                           
                           {/* Gradient Overlay */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                          <div className="absolute inset-0 bg-black/50" />
                           
                           {/* Caption Overlay */}
                           <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
@@ -175,7 +175,7 @@ export function TeamGallerySection() {
                           </div>
                           
                           {/* Hover Indicator */}
-                          <div className="absolute top-6 right-6 bg-white/20 backdrop-blur-sm rounded-full p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <div className="absolute top-6 right-6 bg-white/20 backdrop-blur-sm rounded-full p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
                             <Camera className="w-5 h-5 text-white" />
                           </div>
                         </div>
@@ -223,7 +223,7 @@ export function TeamGallerySection() {
               {galleryImages.map((image, index) => (
                 <button
                   key={image.id}
-                  className={`w-16 h-12 rounded-lg overflow-hidden transition-all duration-300 hover:scale-110 ${
+                  className={`w-16 h-12 rounded-lg overflow-hidden transition-opacity duration-150 hover:opacity-80 ${
                     index === 0 ? 'ring-2 ring-purple-dark ring-offset-2' : ''
                   }`}
                   aria-label={`View ${image.caption}`}
@@ -245,7 +245,7 @@ export function TeamGallerySection() {
             <p className="text-lg text-gray-600 mb-4">
               Ready to create your own volunteer memories?
             </p>
-            <Badge className="bg-purple-dark text-white px-6 py-2 text-sm hover:bg-purple-mid cursor-pointer">
+            <Badge className="bg-mint-dark text-navy-dark px-6 py-2 text-sm hover:bg-mint-dark/90 cursor-pointer transition-colors duration-150">
               Join Our Next Event
             </Badge>
           </div>
