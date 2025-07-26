@@ -10,6 +10,7 @@ import { UserPlus, Users, Target, Rocket, Heart, Award, Calendar, Globe } from "
 import Link from "next/link";
 import Image from "next/image";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { layoutSystem, layoutClasses } from "@/lib/layout-system";
 
 const programFeatures = [
   {
@@ -43,20 +44,23 @@ const impactMetrics = [
 
 export function ProgramOverviewSection() {
   return (
-    <Section className="py-16 md:py-24 bg-white dark:bg-gray-950">
-      <Container>
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+    <Section bgColor="white">
+      <Container size="wide">
+        <div className={layoutClasses(
+          "grid lg:grid-cols-12 items-center",
+          layoutSystem.patterns.splitLayout.gap
+        )}>
           {/* Left Content */}
-          <div className="space-y-6">
+          <div className={layoutClasses("space-y-6", layoutSystem.patterns.splitLayout.left)}>
             <div>
               <Badge className="mb-4 bg-purple-dark/10 text-purple-dark border-purple-dark">
                 <Heart className="w-3 h-3 mr-1" />
                 Empowering Women in Tech
               </Badge>
-              <h2 className="text-3xl md:text-4xl font-bold text-navy dark:text-white mb-4">
+              <h2 className="text-3xl md:text-4xl font-bold text-navy-dark mb-4">
                 Empowering Women in STEM Through Mentoring
               </h2>
-              <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+              <p className="text-lg text-gray leading-relaxed">
                 Our mentorship program facilitates supportive relationships between our 
                 mentors and mentees. Through sharing knowledge, advice, and encouragement, 
                 we help mentees navigate careers, overcome challenges, and achieve 
@@ -74,10 +78,10 @@ export function ProgramOverviewSection() {
                   <Card key={feature.title} className="hover:shadow-md transition-shadow">
                     <CardContent className="p-4">
                       <Icon className="w-8 h-8 text-purple-dark mb-3" />
-                      <h3 className="font-semibold text-navy dark:text-white text-sm mb-1">
+                      <h3 className="font-semibold text-navy-dark text-sm mb-1">
                         {feature.title}
                       </h3>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">
+                      <p className="text-xs text-gray">
                         {feature.description}
                       </p>
                     </CardContent>
@@ -88,13 +92,13 @@ export function ProgramOverviewSection() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button asChild size="lg" className="bg-purple-dark hover:bg-purple-mid text-white">
+              <Button asChild size="lg" className="bg-purple-dark hover:bg-purple-mid text-white transition-colors duration-150">
                 <Link href="/mentorship/mentee">
                   <UserPlus className="mr-2 h-4 w-4" />
                   Join as Mentee
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="border-purple-dark text-purple-dark hover:bg-purple-light dark:border-purple-mid dark:text-purple-mid">
+              <Button asChild variant="outline" size="lg" className="border-purple-dark text-purple-dark hover:bg-purple-light transition-colors duration-150">
                 <Link href="/mentorship/mentor-application">
                   <Rocket className="mr-2 h-4 w-4" />
                   Become a Mentor
@@ -104,7 +108,7 @@ export function ProgramOverviewSection() {
           </div>
 
           {/* Right Content - Tabs */}
-          <div>
+          <div className={layoutSystem.patterns.splitLayout.right}>
             <Tabs defaultValue="overview" className="w-full">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="overview">Program Overview</TabsTrigger>
@@ -113,18 +117,18 @@ export function ProgramOverviewSection() {
               
               <TabsContent value="overview" className="mt-6">
                 <Card className="overflow-hidden">
-                  <CardHeader className="bg-gradient-to-r from-purple-light to-periwinkle-light dark:from-purple-dark/20 dark:to-periwinkle-dark/20">
-                    <CardTitle className="text-navy dark:text-white">What You'll Experience</CardTitle>
+                  <CardHeader className="bg-periwinkle-light">
+                    <CardTitle className="text-navy-dark">What You'll Experience</CardTitle>
                   </CardHeader>
                   <CardContent className="pt-6">
                     <div className="space-y-4">
                       <div className="flex items-start gap-3">
                         <Target className="w-5 h-5 text-purple-dark mt-0.5 flex-shrink-0" />
                         <div>
-                          <h4 className="font-semibold text-navy dark:text-white mb-1">
+                          <h4 className="font-semibold text-navy-dark mb-1">
                             Goal-Oriented Matching
                           </h4>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                          <p className="text-sm text-gray">
                             We pair you based on your career goals, industry experience, and personal interests
                           </p>
                         </div>
@@ -133,10 +137,10 @@ export function ProgramOverviewSection() {
                       <div className="flex items-start gap-3">
                         <Users className="w-5 h-5 text-periwinkle-dark mt-0.5 flex-shrink-0" />
                         <div>
-                          <h4 className="font-semibold text-navy dark:text-white mb-1">
+                          <h4 className="font-semibold text-navy-dark mb-1">
                             Community Support
                           </h4>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                          <p className="text-sm text-gray">
                             Join a vibrant community of women in tech through events, workshops, and online forums
                           </p>
                         </div>
@@ -145,10 +149,10 @@ export function ProgramOverviewSection() {
                       <div className="flex items-start gap-3">
                         <Award className="w-5 h-5 text-mint-dark mt-0.5 flex-shrink-0" />
                         <div>
-                          <h4 className="font-semibold text-navy dark:text-white mb-1">
+                          <h4 className="font-semibold text-navy-dark mb-1">
                             Professional Growth
                           </h4>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                          <p className="text-sm text-gray">
                             Develop leadership skills, expand your network, and accelerate your career trajectory
                           </p>
                         </div>
@@ -172,7 +176,7 @@ export function ProgramOverviewSection() {
               
               <TabsContent value="impact" className="mt-6">
                 <Card className="overflow-hidden">
-                  <CardHeader className="bg-gradient-to-r from-mint-light to-periwinkle-light dark:from-mint-dark/20 dark:to-periwinkle-dark/20">
+                  <CardHeader className="bg-mint-light">
                     <CardTitle className="text-navy dark:text-white">Program Impact</CardTitle>
                   </CardHeader>
                   <CardContent className="pt-6">
@@ -183,7 +187,7 @@ export function ProgramOverviewSection() {
                           <div className="text-3xl font-bold text-purple-dark dark:text-purple-mid mb-1">
                             {metric.value}
                           </div>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                          <p className="text-sm text-gray">
                             {metric.label}
                           </p>
                         </div>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ChevronRight, FileText, Shield, Cookie, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { layoutSystem, getContainer } from "@/lib/layout-system";
 
 interface LegalPageLayoutProps {
   children: React.ReactNode;
@@ -56,7 +57,7 @@ export function LegalPageLayout({
         <div className="absolute inset-0 bg-black/20" />
         <div className="absolute inset-0 bg-purple-light/10" />
         
-        <div className="relative container mx-auto px-4 py-24 md:py-32">
+        <div className={cn("relative py-24 md:py-32", getContainer("content"))}>
           <div className="max-w-4xl mx-auto text-center">
             {icon && (
               <div className="flex justify-center mb-6">
@@ -87,8 +88,8 @@ export function LegalPageLayout({
       </div>
 
       {/* Quick Navigation */}
-      <div className="container mx-auto px-4 py-12">
-        <div className="max-w-4xl mx-auto">
+      <div className={cn("py-12", getContainer("content"))}>
+        <div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
             {legalPages.map((page) => {
               const isActive = page.title === title;
@@ -97,7 +98,7 @@ export function LegalPageLayout({
                   key={page.href}
                   href={page.href}
                   className={cn(
-                    "group relative p-4 rounded-xl transition-colors duration-150",
+                    "group relative p-4 rounded-xl transition-all duration-150",
                     isActive 
                       ? "bg-purple-dark text-white shadow-md" 
                       : "bg-white hover:bg-purple-light/20 border border-purple-light/20 hover:border-purple-mid"
@@ -138,9 +139,18 @@ export function LegalPageLayout({
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 pb-24">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-2xl shadow-sm border border-purple-light/20 p-8 md:p-12">
+      <div className={cn("pb-24", getContainer("narrow"))}>
+        <div>
+          <div className={cn(
+            "bg-white rounded-2xl shadow-sm border border-gray p-8 md:p-12",
+            "prose prose-gray max-w-none",
+            "prose-headings:text-navy-dark",
+            "prose-p:text-gray prose-p:leading-relaxed",
+            "prose-a:text-purple-dark prose-a:no-underline hover:prose-a:underline",
+            "prose-strong:text-navy-dark",
+            "prose-ul:text-gray prose-ol:text-gray",
+            "prose-li:marker:text-purple-dark"
+          )}>
             {children}
           </div>
         </div>
