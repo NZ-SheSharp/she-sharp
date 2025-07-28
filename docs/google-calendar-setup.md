@@ -5,9 +5,7 @@ This guide helps you configure Google Calendar for public access on your deploye
 ## Problem
 When deploying to Vercel, you might see the error: "Events from one or more calendars could not be shown here because you do not have the permission to view them."
 
-## Solution Options
-
-### Option 1: Fix Calendar Permissions (Recommended First Step)
+## Solution: Ensure Calendar is Properly Public
 
 1. **Sign in to Google Calendar** with the account that owns the calendar (website@shesharp.org.nz)
 
@@ -31,37 +29,6 @@ When deploying to Vercel, you might see the error: "Events from one or more cale
    - Changes may take up to 24 hours to propagate
    - Clear browser cache and test again
 
-### Option 2: Use Google Calendar API (More Reliable)
-
-1. **Create a Google Cloud Project:**
-   - Go to [Google Cloud Console](https://console.cloud.google.com)
-   - Create a new project or select existing
-   - Enable the Google Calendar API
-
-2. **Create API Credentials:**
-   - Go to APIs & Services → Credentials
-   - Click "Create Credentials" → API Key
-   - Restrict the key:
-     - Application restrictions: HTTP referrers
-     - Add your domains:
-       - `https://yourdomain.vercel.app/*`
-       - `https://yourdomain.com/*`
-       - `http://localhost:3000/*` (for development)
-     - API restrictions: Google Calendar API only
-
-3. **Add API Key to Vercel:**
-   - In Vercel dashboard → Settings → Environment Variables
-   - Add: `NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY` = your-api-key
-   - Redeploy your application
-
-### Option 3: Alternative Embed Method
-
-If the above options don't work, try this direct URL format:
-
-```javascript
-// In google-calendar-embed.tsx
-const publicUrl = `https://calendar.google.com/calendar/u/0/embed?src=${encodeURIComponent(calendarId)}&ctz=Pacific/Auckland`;
-```
 
 ### Troubleshooting
 
@@ -79,7 +46,7 @@ const publicUrl = `https://calendar.google.com/calendar/u/0/embed?src=${encodeUR
 
 4. **Contact Google Workspace Admin:**
    - They may need to update organization-wide sharing settings
-   - Request to allow public calendar sharing for website@shesharp.org.nz
+   - Request to allow public calendar sharing for your calendar
 
 ## Testing
 
