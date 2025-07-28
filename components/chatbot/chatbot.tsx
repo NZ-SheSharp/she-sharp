@@ -6,13 +6,12 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Textarea } from '@/components/ui/textarea';
-import { MessageSquare, X, Minimize2, Send, Maximize2, Trash2 } from 'lucide-react';
+import { MessageSquare, X, Send, Trash2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { ChatMessage } from './chat-message';
 import { TypingIndicator } from './typing-indicator';
 import { QuickActions } from './quick-actions';
-import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const STORAGE_KEY = 'she-sharp-chat-history';
@@ -20,8 +19,6 @@ const MAX_HISTORY_SIZE = 50;
 
 export function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isMinimized, setIsMinimized] = useState(false);
-  const [hasNewMessage, setHasNewMessage] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   
@@ -107,20 +104,10 @@ export function Chatbot() {
 
   // Focus textarea when chat opens
   useEffect(() => {
-    if (isOpen && !isMinimized && textareaRef.current) {
+    if (isOpen && textareaRef.current) {
       setTimeout(() => textareaRef.current?.focus(), 100);
     }
-  }, [isOpen, isMinimized]);
-
-  // Track new messages when minimized
-  useEffect(() => {
-    if (isMinimized && messages.length > 1) {
-      const lastMessage = messages[messages.length - 1];
-      if (lastMessage.role === 'assistant') {
-        setHasNewMessage(true);
-      }
-    }
-  }, [messages, isMinimized]);
+  }, [isOpen]);
 
   const handlePresetQuestion = (question: string, answer: string) => {
     setMessages([
@@ -146,10 +133,6 @@ export function Chatbot() {
     }
   };
 
-  const toggleMinimize = useCallback(() => {
-    setIsMinimized(prev => !prev);
-    setHasNewMessage(false);
-  }, []);
 
   const clearHistory = useCallback(() => {
     const initialMessages = [
@@ -170,19 +153,13 @@ export function Chatbot() {
           <div
             className={cn(
               'fixed z-50',
-              // When minimized, only position bottom-right
-              isMinimized ? [
-                'bottom-20 right-4 w-96 max-w-[calc(100vw-2rem)]'
-              ] : [
-                // Mobile layout (default) - fullscreen with margins
-                'top-4 right-4 bottom-4 left-4',
-                // Desktop layout (sm and up) - positioned dialog
-                'sm:top-auto sm:left-auto',
-                'sm:bottom-4 sm:right-4',
-                'sm:w-[28rem] sm:max-w-[calc(100vw-2rem)]',
-                'sm:h-[40rem] sm:max-h-[calc(100vh-5rem)]'
-              ],
-              isMinimized && 'pointer-events-none'
+              // Mobile layout (default) - fullscreen with margins
+              'top-4 right-4 bottom-4 left-4',
+              // Desktop layout (sm and up) - positioned dialog
+              'sm:top-auto sm:left-auto',
+              'sm:bottom-4 sm:right-4',
+              'sm:w-[28rem] sm:max-w-[calc(100vw-2rem)]',
+              'sm:h-[40rem] sm:max-h-[calc(100vh-5rem)]'
             )}
           >
           <motion.div
@@ -192,40 +169,22 @@ export function Chatbot() {
             transition={{ duration: 0.2 }}
             className="h-full w-full"
           >
-            <Card className={cn(
-              'flex flex-col overflow-hidden shadow-2xl border-purple-200 h-full',
-              isMinimized && 'h-14'
-            )}>
+            <Card className="flex flex-col overflow-hidden shadow-2xl border-purple-200 h-full">
               <div className="flex items-center justify-between bg-gradient-to-r from-purple-600 to-purple-700 p-3 sm:p-4 text-white flex-shrink-0">
                 <div className="flex items-center gap-2">
                   <MessageSquare size={20} />
                   <h3 className="font-semibold">She Sharp Assistant</h3>
-                  {hasNewMessage && (
-                    <Badge variant="secondary" className="bg-white text-purple-700 text-xs">
-                      New
-                    </Badge>
-                  )}
                 </div>
                 <div className="flex items-center gap-1">
                   <span className="text-xs opacity-70 mr-2">⌘K</span>
-                  {!isMinimized && (
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      className="h-8 w-8 text-white hover:bg-white/20"
-                      onClick={clearHistory}
-                      title="Clear chat history"
-                    >
-                      <Trash2 size={16} />
-                    </Button>
-                  )}
                   <Button
                     size="icon"
                     variant="ghost"
                     className="h-8 w-8 text-white hover:bg-white/20"
-                    onClick={toggleMinimize}
+                    onClick={clearHistory}
+                    title="Clear chat history"
                   >
-                    {isMinimized ? <Maximize2 size={16} /> : <Minimize2 size={16} />}
+                    <Trash2 size={16} />
                   </Button>
                   <Button
                     size="icon"
@@ -238,8 +197,7 @@ export function Chatbot() {
                 </div>
               </div>
 
-              {!isMinimized && (
-                <div className="flex flex-col flex-1 overflow-hidden">
+              <div className="flex flex-col flex-1 overflow-hidden">
                   <ScrollArea ref={scrollAreaRef} className="flex-1 overflow-auto">
                     <div className="flex flex-col">
                       {messages
@@ -290,7 +248,6 @@ export function Chatbot() {
                     </div>
                   </form>
                 </div>
-              )}
             </Card>
           </motion.div>
           </div>
@@ -310,9 +267,6 @@ export function Chatbot() {
           className="relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-purple-700 text-white shadow-lg hover:shadow-xl transition-shadow"
         >
           <MessageSquare size={24} />
-          {hasNewMessage && !isOpen && (
-            <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-red-500 animate-pulse" />
-          )}
         </button>
         <div className="absolute bottom-16 right-0 bg-white rounded-lg shadow-md p-2 text-xs text-gray-600 opacity-0 hover:opacity-100 transition-opacity">
           Press ⌘K to open
