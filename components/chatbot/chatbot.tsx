@@ -248,7 +248,7 @@ export function Chatbot() {
                           <ChatMessage
                             key={message.id}
                             content={message.content}
-                            role={message.role}
+                            role={message.role as 'user' | 'assistant'}
                             isStreaming={false}
                           />
                         ))}
