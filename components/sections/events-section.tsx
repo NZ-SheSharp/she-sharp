@@ -7,7 +7,6 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar } from "@/components/ui/calendar";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { CalendarDays, Clock, MapPin, Users, Video, Sparkles } from "lucide-react";
 import { layoutSystem, layoutClasses } from "@/lib/layout-system";
@@ -52,12 +51,6 @@ const upcomingEvents = [
   },
 ];
 
-const eventTypes = [
-  { name: "All Events", count: 12 },
-  { name: "Networking", count: 5 },
-  { name: "Workshops", count: 4 },
-  { name: "Mentorship", count: 3 },
-];
 
 export function EventsSection() {
   return (
@@ -74,50 +67,32 @@ export function EventsSection() {
           </p>
         </div>
 
-        <div className={layoutClasses(
-          "grid",
-          "lg:grid-cols-12",
-          layoutSystem.patterns.splitLayout.gap
-        )}>
-          {/* Left Column - Calendar and Stats */}
-          <div className="space-y-6 hidden lg:block lg:col-span-4">
-            {/* Calendar Card */}
-            <Card className="border-purple-light">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <CalendarDays className="w-5 h-5 text-purple-dark" />
-                  Event Calendar
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Calendar
-                  mode="single"
-                  selected={upcomingEvents[0].date}
-                  className="rounded-md border-0"
+        <div className="space-y-12">
+          {/* Google Calendar Card */}
+          <Card className="border-purple-light overflow-hidden">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <CalendarDays className="w-5 h-5 text-purple-dark" />
+                Event Calendar
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-0">
+              <div className="w-full">
+                <iframe
+                  src="https://calendar.google.com/calendar/embed?src=website%40shesharp.org.nz&ctz=Pacific%2FAuckland&bgcolor=%23f7e5f3&color=%239b2e83&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=1&mode=MONTH&wkst=2"
+                  style={{ border: 0 }}
+                  width="100%"
+                  height="600"
+                  frameBorder="0"
+                  scrolling="no"
+                  className="h-[400px] sm:h-[500px] lg:h-[600px]"
                 />
-              </CardContent>
-            </Card>
+              </div>
+            </CardContent>
+          </Card>
 
-            {/* Event Types */}
-            <Card className="border-periwinkle-light">
-              <CardHeader>
-                <CardTitle className="text-lg">Event Categories</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {eventTypes.map((type) => (
-                    <div key={type.name} className="flex items-center justify-between">
-                      <span className="text-sm text-gray">{type.name}</span>
-                      <Badge variant="secondary">{type.count}</Badge>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Right Column - Upcoming Events */}
-          <div className="lg:col-span-8 space-y-6">
+          {/* Upcoming Events */}
+          <div className="space-y-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg sm:text-xl font-semibold text-navy-dark flex items-center gap-2">
                 <Sparkles className="w-4 sm:w-5 h-4 sm:h-5 text-purple-dark" />
@@ -134,81 +109,70 @@ export function EventsSection() {
             </div>
 
             {/* Event Cards */}
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {upcomingEvents.map((event, index) => (
-                <Card key={event.id} className={`overflow-hidden hover:shadow-md transition-shadow ${index === 0 ? 'ring-2 ring-purple-dark' : ''}`}>
-                  <div className="sm:flex">
-                    {/* Event Image */}
-                    <div className="sm:w-2/5">
-                      <AspectRatio ratio={4 / 3}>
-                        <Image
-                          src={event.image}
-                          alt={event.title}
-                          fill
-                          sizes="(max-width: 640px) 100vw, 33vw"
-                          className="object-cover"
-                        />
-                      </AspectRatio>
-                    </div>
+                <Card key={event.id} className={`overflow-hidden hover:shadow-md transition-shadow h-full ${index === 0 ? 'ring-2 ring-purple-dark' : ''}`}>
+                  {/* Event Image */}
+                  <AspectRatio ratio={16 / 9}>
+                    <Image
+                      src={event.image}
+                      alt={event.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover"
+                    />
+                  </AspectRatio>
 
-                    {/* Event Details */}
-                    <div className="sm:w-3/5 p-4 sm:p-6">
-                      <div className="flex items-start justify-between mb-3">
-                        <div>
-                          {index === 0 && (
-                            <Badge className="bg-mint-light text-navy-dark border-mint-mid mr-2">
-                              🎉 Next Event
-                            </Badge>
-                          )}
-                          <Badge className={event.typeColor}>{event.type}</Badge>
-                          {event.isOnline && (
-                            <Badge variant="outline" className="ml-2">
-                              <Video className="w-3 h-3 mr-1" />
-                              Online
-                            </Badge>
-                          )}
-                        </div>
-                        <span className="text-sm text-gray">
-                          {event.date.toLocaleDateString('en-NZ', { 
-                            month: 'short', 
-                            day: 'numeric' 
-                          })}
-                        </span>
-                      </div>
-
-                      <h4 className="text-base sm:text-lg font-semibold text-navy-dark mb-2">
-                        {event.title}
-                      </h4>
-                      <p className="text-gray text-xs sm:text-sm mb-3">
-                        {event.description}
-                      </p>
-
-                      <div className="flex flex-wrap gap-2 sm:gap-4 text-xs sm:text-sm text-gray">
-                        <span className="flex items-center gap-1">
-                          <Clock className="w-4 h-4" />
-                          {event.time}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <MapPin className="w-4 h-4" />
-                          {event.location}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Users className="w-4 h-4" />
-                          {event.attendees} attending
-                        </span>
-                      </div>
-
-                      <div className="mt-4">
-                        <Button
-                          asChild
-                          size="sm"
-                          className="bg-purple-dark hover:bg-purple-mid transition-colors duration-150"
-                        >
-                          <Link href={`/events/${event.id}`}>Register Now</Link>
-                        </Button>
+                  {/* Event Details */}
+                  <CardContent className="p-4">
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex flex-wrap gap-1">
+                        {index === 0 && (
+                          <Badge className="bg-mint-light text-navy-dark border-mint-mid">
+                            🎉 Next
+                          </Badge>
+                        )}
+                        <Badge className={event.typeColor}>{event.type}</Badge>
+                        {event.isOnline && (
+                          <Badge variant="outline">
+                            <Video className="w-3 h-3 mr-1" />
+                            Online
+                          </Badge>
+                        )}
                       </div>
                     </div>
-                  </div>
+
+                    <h4 className="text-base font-semibold text-navy-dark mb-2 line-clamp-2">
+                      {event.title}
+                    </h4>
+                    
+                    <div className="space-y-1 text-xs text-gray mb-3">
+                      <div className="flex items-center gap-1">
+                        <CalendarDays className="w-3 h-3" />
+                        {event.date.toLocaleDateString('en-NZ', { 
+                          month: 'short', 
+                          day: 'numeric',
+                          year: 'numeric'
+                        })}
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Clock className="w-3 h-3" />
+                        {event.time}
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <MapPin className="w-3 h-3" />
+                        {event.location}
+                      </div>
+                    </div>
+
+                    <Button
+                      asChild
+                      size="sm"
+                      className="w-full bg-purple-dark hover:bg-purple-mid transition-colors duration-150"
+                    >
+                      <Link href={`/events/${event.id}`}>Register</Link>
+                    </Button>
+                  </CardContent>
                 </Card>
               ))}
             </div>
