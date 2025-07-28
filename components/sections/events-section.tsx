@@ -10,7 +10,6 @@ import { Badge } from "@/components/ui/badge";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { CalendarDays, Clock, MapPin, Users, Video, Sparkles } from "lucide-react";
 import { layoutSystem, layoutClasses } from "@/lib/layout-system";
-import { GoogleCalendarEmbed } from "./google-calendar-embed";
 
 const upcomingEvents = [
   {
@@ -78,12 +77,17 @@ export function EventsSection() {
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">
-              <GoogleCalendarEmbed
-                calendarId="be0a13dc6a2867f7da1144d4370ef222ce6aaf3b15b062fa35e79f60c8ed22ba@group.calendar.google.com"
-                apiKey={process.env.NEXT_PUBLIC_GOOGLE_CALENDAR_API_KEY}
-                height="600"
-                className="h-[400px] sm:h-[500px] lg:h-[600px]"
-              />
+              <div className="w-full">
+                <iframe
+                  src="https://calendar.google.com/calendar/embed?src=be0a13dc6a2867f7da1144d4370ef222ce6aaf3b15b062fa35e79f60c8ed22ba%40group.calendar.google.com&ctz=Pacific%2FAuckland&bgcolor=%23f7e5f3&color=%239b2e83&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=1&mode=MONTH&wkst=2"
+                  style={{ border: 0 }}
+                  width="100%"
+                  height="600"
+                  frameBorder="0"
+                  scrolling="no"
+                  className="h-[400px] sm:h-[500px] lg:h-[600px]"
+                />
+              </div>
             </CardContent>
           </Card>
 
