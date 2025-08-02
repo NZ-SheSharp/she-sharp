@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { PasswordInput } from '@/components/ui/password-strength';
-import { Checkbox } from '@/components/ui/checkbox';
 import { OAuthButtons } from '@/components/ui/oauth-buttons';
 import { CircleIcon, Loader2 } from 'lucide-react';
 import { signIn, signUp } from './actions';
@@ -101,10 +100,16 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
 
           {mode === 'signin' && (
             <div className="flex items-center space-x-2">
-              <Checkbox id="rememberMe" name="rememberMe" />
+              <input
+                type="checkbox"
+                id="rememberMe"
+                name="rememberMe"
+                value="on"
+                className="h-4 w-4 rounded border-gray-300 text-purple-dark focus:ring-purple-dark"
+              />
               <Label
                 htmlFor="rememberMe"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="text-sm font-medium leading-none cursor-pointer select-none"
               >
                 Remember me for 30 days
               </Label>
