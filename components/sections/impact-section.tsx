@@ -8,7 +8,7 @@ import { Users, Building2, Calendar, TrendingUp } from "lucide-react";
 const impactStats = [
   {
     icon: Users,
-    value: "2200+",
+    value: "1000",
     label: "She Sharp Members",
     description: "Women empowered in tech",
     color: "purple",
