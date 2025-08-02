@@ -1,5 +1,6 @@
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { BreadcrumbNav } from "@/components/layout/breadcrumb-nav";
 
 export default function SiteLayout({
   children,
@@ -9,7 +10,10 @@ export default function SiteLayout({
   return (
     <div className="flex min-h-screen flex-col">
       <SiteHeader />
-      <main className="flex-1 pt-16">{children}</main>
+      <div className="pt-16">
+        <BreadcrumbNav />
+        <main className="flex-1">{children}</main>
+      </div>
       <SiteFooter />
     </div>
   );

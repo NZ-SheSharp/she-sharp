@@ -55,3 +55,6 @@ postgres_data/
 
 # Claude AI
 .claude/
+
+# Email preview files
+tmp/emails/

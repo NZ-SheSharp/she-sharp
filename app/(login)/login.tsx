@@ -61,12 +61,22 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
           </div>
 
           <div>
-            <Label
-              htmlFor="password"
-              className="block text-sm font-medium text-navy-dark"
-            >
-              Password
-            </Label>
+            <div className="flex items-center justify-between">
+              <Label
+                htmlFor="password"
+                className="block text-sm font-medium text-navy-dark"
+              >
+                Password
+              </Label>
+              {mode === 'signin' && (
+                <Link
+                  href="/forgot-password"
+                  className="text-sm text-purple-dark hover:text-purple-mid hover:underline"
+                >
+                  Forgot password?
+                </Link>
+              )}
+            </div>
             <div className="mt-1">
               <Input
                 id="password"
