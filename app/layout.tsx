@@ -6,6 +6,7 @@ import { SWRConfig } from 'swr';
 import { CookieBanner } from '@/components/cookie-banner';
 import { Toaster } from '@/components/ui/sonner';
 import { ChatbotProvider } from '@/components/chatbot/chatbot-provider';
+import { Providers } from './providers';
 
 export const metadata: Metadata = {
   title: 'She Sharp - Connecting Women in Technology',
@@ -43,21 +44,23 @@ export default function RootLayout({
       className={`bg-white dark:bg-gray-950 text-black dark:text-white ${manrope.className}`}
     >
       <body className="min-h-[100dvh] bg-gray-50">
-        <SWRConfig
-          value={{
-            fallback: {
-              // We do NOT await here
-              // Only components that read this data will suspend
-              '/api/user': getUser(),
-              '/api/team': getTeamForUser()
-            }
-          }}
-        >
-          {children}
-          <CookieBanner />
-          <Toaster />
-          <ChatbotProvider />
-        </SWRConfig>
+        <Providers>
+          <SWRConfig
+            value={{
+              fallback: {
+                // We do NOT await here
+                // Only components that read this data will suspend
+                '/api/user': getUser(),
+                '/api/team': getTeamForUser()
+              }
+            }}
+          >
+            {children}
+            <CookieBanner />
+            <Toaster />
+            <ChatbotProvider />
+          </SWRConfig>
+        </Providers>
       </body>
     </html>
   );
