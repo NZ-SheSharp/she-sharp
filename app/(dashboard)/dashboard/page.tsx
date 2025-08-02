@@ -56,8 +56,8 @@ export default function DashboardPage() {
       icon: Settings,
       href: '/dashboard/settings/account',
       color: 'text-purple-dark',
-      bgColor: 'bg-purple-light/30',
-      hoverBg: 'hover:bg-purple-light/50',
+      bgColor: 'bg-purple-light',
+      hoverBg: 'hover:bg-purple-mid hover:text-white',
     },
     {
       title: 'Active Sessions',
@@ -65,17 +65,17 @@ export default function DashboardPage() {
       icon: Monitor,
       href: '/dashboard/settings/sessions',
       color: 'text-periwinkle-dark',
-      bgColor: 'bg-periwinkle-light/30',
-      hoverBg: 'hover:bg-periwinkle-light/50',
+      bgColor: 'bg-periwinkle-light',
+      hoverBg: 'hover:bg-periwinkle-dark hover:text-white',
     },
     {
       title: 'Team Settings',
       description: 'Manage team members and roles',
       icon: Users,
       href: '/dashboard/settings/team',
-      color: 'text-mint-dark',
-      bgColor: 'bg-mint/30',
-      hoverBg: 'hover:bg-mint/50',
+      color: 'text-navy-dark',
+      bgColor: 'bg-mint-light',
+      hoverBg: 'hover:bg-mint-dark hover:text-navy-dark',
     },
     {
       title: 'Security',
@@ -83,8 +83,8 @@ export default function DashboardPage() {
       icon: Shield,
       href: '/dashboard/settings/account#security',
       color: 'text-navy-dark',
-      bgColor: 'bg-navy-light/30',
-      hoverBg: 'hover:bg-navy-light/50',
+      bgColor: 'bg-navy-light',
+      hoverBg: 'hover:bg-navy-dark hover:text-white',
     },
   ];
 
@@ -179,14 +179,14 @@ export default function DashboardPage() {
 
       {/* Email Verification Alert */}
       {!isVerified && (
-        <Alert className="mb-8 border-amber-200 bg-amber-50">
-          <AlertTriangle className="h-4 w-4 text-amber-600" />
+        <Alert className="mb-8 border-error bg-error/10">
+          <AlertTriangle className="h-4 w-4 text-error" />
           <AlertDescription className="flex items-center justify-between">
             <span className="text-navy-dark">
-              <strong>Email not verified.</strong> Please verify your email address to access all features.
+              <strong className="font-semibold">Email not verified.</strong> Please verify your email address to access all features.
             </span>
             <Link href={`/verify-email?email=${encodeURIComponent(user?.email || '')}`}>
-              <Button size="sm" variant="outline" className="ml-4 border-purple-dark text-purple-dark hover:bg-purple-light/20">
+              <Button size="sm" variant="outline" className="ml-4 border-purple-dark text-purple-dark hover:bg-purple-light transition-colors">
                 Verify Email
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
@@ -196,21 +196,21 @@ export default function DashboardPage() {
       )}
 
       {/* Account Status Card */}
-      <Card className="mb-8 border-purple-light/50 shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-purple-light/20 to-periwinkle-light/20">
-          <CardTitle className="text-purple-dark">Account Overview</CardTitle>
-          <CardDescription className="text-navy-dark">Your account status and security information</CardDescription>
+      <Card className="mb-8 border-periwinkle-light shadow-lg bg-card">
+        <CardHeader className="bg-gradient-to-r from-purple-light to-periwinkle-light">
+          <CardTitle className="text-navy-dark">Account Overview</CardTitle>
+          <CardDescription className="text-gray">Your account status and security information</CardDescription>
         </CardHeader>
         <CardContent className="pt-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="flex items-center space-x-3">
               <div className={`flex h-12 w-12 items-center justify-center rounded-full ${
-                isVerified ? 'bg-mint/30' : 'bg-amber-100'
+                isVerified ? 'bg-mint-light' : 'bg-error/10'
               }`}>
                 {isVerified ? (
                   <CheckCircle2 className="h-6 w-6 text-mint-dark" />
                 ) : (
-                  <AlertTriangle className="h-6 w-6 text-amber-600" />
+                  <AlertTriangle className="h-6 w-6 text-error" />
                 )}
               </div>
               <div>
@@ -222,7 +222,7 @@ export default function DashboardPage() {
             </div>
 
             <div className="flex items-center space-x-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-purple-light/30">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-purple-light">
                 <Shield className="h-6 w-6 text-purple-dark" />
               </div>
               <div>
@@ -232,7 +232,7 @@ export default function DashboardPage() {
             </div>
 
             <div className="flex items-center space-x-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-periwinkle-light/30">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-periwinkle-light">
                 <Activity className="h-6 w-6 text-periwinkle-dark" />
               </div>
               <div>
@@ -254,13 +254,13 @@ export default function DashboardPage() {
             const Icon = link.icon;
             return (
               <Link key={link.href} href={link.href}>
-                <Card className={`h-full transition-all duration-200 hover:shadow-xl cursor-pointer border-purple-light/30 ${link.hoverBg}`}>
+                <Card className={`h-full transition-all duration-200 hover:shadow-xl cursor-pointer border-border bg-card ${link.hoverBg} group`}>
                   <CardHeader>
-                    <div className={`flex h-12 w-12 items-center justify-center rounded-lg ${link.bgColor} mb-2`}>
-                      <Icon className={`h-6 w-6 ${link.color}`} />
+                    <div className={`flex h-12 w-12 items-center justify-center rounded-lg ${link.bgColor} mb-2 transition-colors`}>
+                      <Icon className={`h-6 w-6 ${link.color} group-hover:text-current transition-colors`} />
                     </div>
-                    <CardTitle className="text-lg text-navy-dark">{link.title}</CardTitle>
-                    <CardDescription className="text-gray">{link.description}</CardDescription>
+                    <CardTitle className="text-lg text-navy-dark group-hover:text-current transition-colors">{link.title}</CardTitle>
+                    <CardDescription className="text-gray group-hover:text-current/80 transition-colors">{link.description}</CardDescription>
                   </CardHeader>
                 </Card>
               </Link>
@@ -276,11 +276,11 @@ export default function DashboardPage() {
           {sheSharpResources.map((resource) => {
             const Icon = resource.icon;
             return (
-              <Card key={resource.href} className="border-purple-light/30 hover:shadow-lg transition-shadow">
+              <Card key={resource.href} className="border-border bg-card hover:shadow-lg transition-shadow">
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div className="flex items-start space-x-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-purple-light/30 to-periwinkle-light/30">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-purple-light to-periwinkle-light">
                         <Icon className={`h-5 w-5 ${resource.color}`} />
                       </div>
                       <div className="flex-1">
@@ -293,7 +293,7 @@ export default function DashboardPage() {
                   </div>
                   <div className="mt-4">
                     <Link href={resource.href}>
-                      <Button size="sm" variant="outline" className="w-full border-purple-dark text-purple-dark hover:bg-purple-light/20">
+                      <Button size="sm" variant="outline" className="w-full border-2 border-purple-dark text-purple-dark hover:bg-purple-light transition-colors">
                         {resource.action}
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </Button>
@@ -313,12 +313,12 @@ export default function DashboardPage() {
           {authFeatures.map((feature) => {
             const Icon = feature.icon;
             return (
-              <Card key={feature.title} className="relative border-purple-light/30">
+              <Card key={feature.title} className="relative border-border bg-card">
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div className="flex items-start space-x-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-purple-light/30 to-periwinkle-light/30">
-                        <Icon className="h-5 w-5 text-purple-dark" />
+                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-purple-dark to-periwinkle-dark">
+                        <Icon className="h-5 w-5 text-white" />
                       </div>
                       <div className="flex-1">
                         <CardTitle className="text-base text-navy-dark">{feature.title}</CardTitle>
@@ -329,20 +329,20 @@ export default function DashboardPage() {
                     </div>
                     <div>
                       {feature.status === 'active' && (
-                        <Badge className="bg-mint/30 text-mint-dark border-mint-dark/30">Active</Badge>
+                        <Badge className="bg-mint-light border border-mint-dark text-navy-dark">Active</Badge>
                       )}
                       {feature.status === 'pending' && (
-                        <Badge className="bg-amber-100 text-amber-700 border-amber-300">Pending</Badge>
+                        <Badge className="bg-error/10 border border-error text-error">Pending</Badge>
                       )}
                       {feature.status === 'coming-soon' && (
-                        <Badge variant="secondary" className="bg-gray-100 text-gray border-gray-300">Coming Soon</Badge>
+                        <Badge variant="secondary" className="bg-periwinkle-light text-gray border-periwinkle-dark">Coming Soon</Badge>
                       )}
                     </div>
                   </div>
                   {feature.action && (
                     <div className="mt-4">
                       <Link href={feature.action}>
-                        <Button size="sm" variant="outline" className="w-full border-purple-dark text-purple-dark hover:bg-purple-light/20">
+                        <Button size="sm" className="w-full bg-purple-dark text-white hover:bg-purple-mid transition-colors">
                           {feature.status === 'pending' ? 'Complete Setup' : 'Manage'}
                           <ArrowRight className="ml-2 h-4 w-4" />
                         </Button>
