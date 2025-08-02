@@ -53,7 +53,7 @@ async function logActivity(
 const signInSchema = z.object({
   email: z.string().email().min(3).max(255),
   password: z.string().min(8).max(100),
-  rememberMe: z.boolean().optional()
+  rememberMe: z.string().optional().transform(val => val === 'on')
 });
 
 export const signIn = validatedAction(signInSchema, async (data, formData) => {
