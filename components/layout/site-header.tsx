@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/collapsible";
 import { cn } from "@/lib/utils";
 import { navigationConfig } from "@/lib/navigation-config";
+import { UserNav } from "./user-nav";
 import "./navigation-styles.css";
 
 export function SiteHeader() {
@@ -212,7 +213,7 @@ export function SiteHeader() {
           </NavigationMenuList>
         </NavigationMenu>
 
-        {/* Desktop CTA Buttons */}
+        {/* Desktop CTA Buttons and User Navigation */}
         <div className="ml-auto hidden lg:flex items-center gap-3">
           {navigationConfig.buttons.map((button) => (
             <Button
@@ -229,6 +230,11 @@ export function SiteHeader() {
               <Link href={button.href}>{button.title}</Link>
             </Button>
           ))}
+          
+          {/* User Navigation */}
+          <div className="ml-2 pl-2 border-l border-gray-200">
+            <UserNav variant="desktop" />
+          </div>
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -349,6 +355,11 @@ export function SiteHeader() {
                     <Link href={button.href}>{button.title}</Link>
                   </Button>
                 ))}
+              </div>
+              
+              {/* Mobile User Navigation */}
+              <div className="mt-6">
+                <UserNav variant="mobile" />
               </div>
             </nav>
           </SheetContent>

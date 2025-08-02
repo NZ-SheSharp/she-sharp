@@ -14,7 +14,8 @@ import {
   type NewTeamMember,
   type NewActivityLog,
   ActivityType,
-  invitations
+  invitations,
+  emailVerifications
 } from '@/lib/db/schema';
 import { comparePasswords, hashPassword, setSession } from '@/lib/auth/session';
 import { redirect } from 'next/navigation';
@@ -25,6 +26,8 @@ import {
   validatedAction,
   validatedActionWithUser
 } from '@/lib/auth/middleware';
+import { createEmailVerificationToken } from '@/lib/auth/email-verification';
+import { sendVerificationEmail } from '@/lib/email/service';
 
 async function logActivity(
   teamId: number | null | undefined,
@@ -117,9 +120,9 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
 
   if (existingUser.length > 0) {
     return {
-      error: 'Failed to create user. Please try again.',
+      error: 'An account with this email already exists. Please sign in or use a different email.',
       email,
-      password
+      password: '' // Don't return password for security
     };
   }
 
@@ -206,19 +209,33 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
     role: userRole
   };
 
+  // Create team member and log activity
   await Promise.all([
     db.insert(teamMembers).values(newTeamMember),
-    logActivity(teamId, createdUser.id, ActivityType.SIGN_UP),
-    setSession(createdUser)
+    logActivity(teamId, createdUser.id, ActivityType.SIGN_UP)
   ]);
 
+  // Create email verification token and send email
+  try {
+    const verification = await createEmailVerificationToken(createdUser.id);
+    await sendVerificationEmail(createdUser.email, verification.token);
+  } catch (error) {
+    console.error('Failed to send verification email:', error);
+    // Continue with registration even if email fails
+  }
+
+  // Don't set session immediately - redirect to verification page
   const redirectTo = formData.get('redirect') as string | null;
   if (redirectTo === 'checkout') {
+    // For checkout flow, we might want to handle differently
+    // Set session but mark as unverified
+    await setSession(createdUser);
     const priceId = formData.get('priceId') as string;
     return createCheckoutSession({ team: createdTeam, priceId });
   }
 
-  redirect('/dashboard');
+  // Redirect to email verification page
+  redirect(`/verify-email?email=${encodeURIComponent(email)}`);
 });
 
 export async function signOut() {
