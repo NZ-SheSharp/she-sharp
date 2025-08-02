@@ -163,30 +163,31 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="container mx-auto py-8 px-4 max-w-7xl">
+    <div className="container mx-auto py-4 sm:py-6 lg:py-8 px-4 sm:px-6 lg:px-8 max-w-7xl">
       {/* Welcome Section */}
-      <div className="mb-8">
-        <div className="flex items-center gap-2 mb-2">
-          <Sparkles className="h-6 w-6 text-purple-dark" />
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-dark to-purple-mid bg-clip-text text-transparent">
+      <div className="mb-6 sm:mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
+          <Sparkles className="h-5 w-5 sm:h-6 sm:w-6 text-purple-dark flex-shrink-0" />
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-purple-dark to-purple-mid bg-clip-text text-transparent">
             Welcome to She Sharp
           </h1>
         </div>
-        <p className="text-gray text-lg">
+        <p className="text-gray text-base sm:text-lg">
           {user?.name ? `Hello ${user.name}, ` : ''}Your gateway to the STEM community
         </p>
       </div>
 
       {/* Email Verification Alert */}
       {!isVerified && (
-        <Alert className="mb-8 border-error bg-error/10">
-          <AlertTriangle className="h-4 w-4 text-error" />
-          <AlertDescription className="flex items-center justify-between">
-            <span className="text-navy-dark">
-              <strong className="font-semibold">Email not verified.</strong> Please verify your email address to access all features.
+        <Alert className="mb-6 sm:mb-8 border-error bg-error/10">
+          <AlertTriangle className="h-4 w-4 text-error flex-shrink-0" />
+          <AlertDescription className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <span className="text-navy-dark text-sm sm:text-base">
+              <strong className="font-semibold">Email not verified.</strong>
+              <span className="block sm:inline"> Please verify your email address to access all features.</span>
             </span>
-            <Link href={`/verify-email?email=${encodeURIComponent(user?.email || '')}`}>
-              <Button size="sm" variant="outline" className="ml-4 border-purple-dark text-purple-dark hover:bg-purple-light transition-colors">
+            <Link href={`/verify-email?email=${encodeURIComponent(user?.email || '')}`} className="flex-shrink-0">
+              <Button size="sm" variant="outline" className="w-full sm:w-auto border-purple-dark text-purple-dark hover:bg-purple-light transition-colors">
                 Verify Email
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
@@ -196,48 +197,48 @@ export default function DashboardPage() {
       )}
 
       {/* Account Status Card */}
-      <Card className="mb-8 border-periwinkle-light shadow-lg bg-card">
-        <CardHeader className="bg-gradient-to-r from-purple-light to-periwinkle-light">
-          <CardTitle className="text-navy-dark">Account Overview</CardTitle>
-          <CardDescription className="text-gray">Your account status and security information</CardDescription>
+      <Card className="mb-6 sm:mb-8 border-periwinkle-light shadow-lg bg-card">
+        <CardHeader className="bg-gradient-to-r from-purple-light to-periwinkle-light p-4 sm:p-6">
+          <CardTitle className="text-navy-dark text-lg sm:text-xl">Account Overview</CardTitle>
+          <CardDescription className="text-gray text-sm sm:text-base">Your account status and security information</CardDescription>
         </CardHeader>
-        <CardContent className="pt-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="flex items-center space-x-3">
-              <div className={`flex h-12 w-12 items-center justify-center rounded-full ${
+        <CardContent className="p-4 sm:p-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            <div className="flex items-center space-x-3 p-3 sm:p-0 bg-white sm:bg-transparent rounded-lg sm:rounded-none">
+              <div className={`flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full flex-shrink-0 ${
                 isVerified ? 'bg-mint-light' : 'bg-error/10'
               }`}>
                 {isVerified ? (
-                  <CheckCircle2 className="h-6 w-6 text-mint-dark" />
+                  <CheckCircle2 className="h-5 w-5 sm:h-6 sm:w-6 text-mint-dark" />
                 ) : (
-                  <AlertTriangle className="h-6 w-6 text-error" />
+                  <AlertTriangle className="h-5 w-5 sm:h-6 sm:w-6 text-error" />
                 )}
               </div>
-              <div>
-                <p className="text-sm font-medium text-navy-dark">Email Status</p>
-                <p className="text-sm text-gray">
+              <div className="min-w-0">
+                <p className="text-sm font-medium text-navy-dark truncate">Email Status</p>
+                <p className="text-xs sm:text-sm text-gray">
                   {isVerified ? 'Verified' : 'Pending Verification'}
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center space-x-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-purple-light">
-                <Shield className="h-6 w-6 text-purple-dark" />
+            <div className="flex items-center space-x-3 p-3 sm:p-0 bg-white sm:bg-transparent rounded-lg sm:rounded-none">
+              <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-purple-light flex-shrink-0">
+                <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-purple-dark" />
               </div>
-              <div>
-                <p className="text-sm font-medium text-navy-dark">Account Security</p>
-                <p className="text-sm text-gray">Password Protected</p>
+              <div className="min-w-0">
+                <p className="text-sm font-medium text-navy-dark truncate">Account Security</p>
+                <p className="text-xs sm:text-sm text-gray">Password Protected</p>
               </div>
             </div>
 
-            <div className="flex items-center space-x-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-periwinkle-light">
-                <Activity className="h-6 w-6 text-periwinkle-dark" />
+            <div className="flex items-center space-x-3 p-3 sm:p-0 bg-white sm:bg-transparent rounded-lg sm:rounded-none sm:col-span-2 lg:col-span-1">
+              <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-periwinkle-light flex-shrink-0">
+                <Activity className="h-5 w-5 sm:h-6 sm:w-6 text-periwinkle-dark" />
               </div>
-              <div>
-                <p className="text-sm font-medium text-navy-dark">Member Since</p>
-                <p className="text-sm text-gray">
+              <div className="min-w-0">
+                <p className="text-sm font-medium text-navy-dark truncate">Member Since</p>
+                <p className="text-xs sm:text-sm text-gray">
                   {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'Recently'}
                 </p>
               </div>
@@ -247,20 +248,20 @@ export default function DashboardPage() {
       </Card>
 
       {/* Quick Links */}
-      <div className="mb-8">
-        <h2 className="text-2xl font-semibold mb-4 text-purple-dark">Quick Access</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="mb-6 sm:mb-8">
+        <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-purple-dark">Quick Access</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {quickLinks.map((link) => {
             const Icon = link.icon;
             return (
               <Link key={link.href} href={link.href}>
                 <Card className={`h-full transition-all duration-200 hover:shadow-xl cursor-pointer border-border bg-card ${link.hoverBg} group`}>
-                  <CardHeader>
-                    <div className={`flex h-12 w-12 items-center justify-center rounded-lg ${link.bgColor} mb-2 transition-colors`}>
-                      <Icon className={`h-6 w-6 ${link.color} group-hover:text-current transition-colors`} />
+                  <CardHeader className="p-3 sm:p-4 lg:p-6">
+                    <div className={`flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-lg ${link.bgColor} mb-2 transition-colors mx-auto sm:mx-0`}>
+                      <Icon className={`h-5 w-5 sm:h-6 sm:w-6 ${link.color} group-hover:text-current transition-colors`} />
                     </div>
-                    <CardTitle className="text-lg text-navy-dark group-hover:text-current transition-colors">{link.title}</CardTitle>
-                    <CardDescription className="text-gray group-hover:text-current/80 transition-colors">{link.description}</CardDescription>
+                    <CardTitle className="text-sm sm:text-base lg:text-lg text-navy-dark group-hover:text-current transition-colors text-center sm:text-left">{link.title}</CardTitle>
+                    <CardDescription className="text-xs sm:text-sm text-gray group-hover:text-current/80 transition-colors hidden sm:block">{link.description}</CardDescription>
                   </CardHeader>
                 </Card>
               </Link>
@@ -270,32 +271,32 @@ export default function DashboardPage() {
       </div>
 
       {/* She Sharp Resources */}
-      <div className="mb-8">
-        <h2 className="text-2xl font-semibold mb-4 text-purple-dark">She Sharp Resources</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="mb-6 sm:mb-8">
+        <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-purple-dark">She Sharp Resources</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           {sheSharpResources.map((resource) => {
             const Icon = resource.icon;
             return (
               <Card key={resource.href} className="border-border bg-card hover:shadow-lg transition-shadow">
-                <CardHeader>
+                <CardHeader className="p-4 sm:p-6">
                   <div className="flex items-start justify-between">
-                    <div className="flex items-start space-x-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-purple-light to-periwinkle-light">
+                    <div className="flex items-start space-x-3 w-full">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-purple-light to-periwinkle-light flex-shrink-0">
                         <Icon className={`h-5 w-5 ${resource.color}`} />
                       </div>
-                      <div className="flex-1">
-                        <CardTitle className="text-base text-navy-dark">{resource.title}</CardTitle>
-                        <CardDescription className="mt-1 text-gray">
+                      <div className="flex-1 min-w-0">
+                        <CardTitle className="text-sm sm:text-base text-navy-dark">{resource.title}</CardTitle>
+                        <CardDescription className="mt-1 text-xs sm:text-sm text-gray">
                           {resource.description}
                         </CardDescription>
                       </div>
                     </div>
                   </div>
-                  <div className="mt-4">
+                  <div className="mt-3 sm:mt-4">
                     <Link href={resource.href}>
-                      <Button size="sm" variant="outline" className="w-full border-2 border-purple-dark text-purple-dark hover:bg-purple-light transition-colors">
+                      <Button size="sm" variant="outline" className="w-full border-2 border-purple-dark text-purple-dark hover:bg-purple-light transition-colors text-xs sm:text-sm">
                         {resource.action}
-                        <ArrowRight className="ml-2 h-4 w-4" />
+                        <ArrowRight className="ml-2 h-3 w-3 sm:h-4 sm:w-4" />
                       </Button>
                     </Link>
                   </div>
@@ -308,43 +309,43 @@ export default function DashboardPage() {
 
       {/* Security Features */}
       <div>
-        <h2 className="text-2xl font-semibold mb-4 text-purple-dark">Security Settings</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-purple-dark">Security Settings</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           {authFeatures.map((feature) => {
             const Icon = feature.icon;
             return (
               <Card key={feature.title} className="relative border-border bg-card">
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-start space-x-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-purple-dark to-periwinkle-dark">
+                <CardHeader className="p-4 sm:p-6">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
+                    <div className="flex items-start space-x-3 flex-1">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-purple-dark to-periwinkle-dark flex-shrink-0">
                         <Icon className="h-5 w-5 text-white" />
                       </div>
-                      <div className="flex-1">
-                        <CardTitle className="text-base text-navy-dark">{feature.title}</CardTitle>
-                        <CardDescription className="mt-1 text-gray">
+                      <div className="flex-1 min-w-0">
+                        <CardTitle className="text-sm sm:text-base text-navy-dark">{feature.title}</CardTitle>
+                        <CardDescription className="mt-1 text-xs sm:text-sm text-gray">
                           {feature.description}
                         </CardDescription>
                       </div>
                     </div>
-                    <div>
+                    <div className="flex-shrink-0 self-start">
                       {feature.status === 'active' && (
-                        <Badge className="bg-mint-light border border-mint-dark text-navy-dark">Active</Badge>
+                        <Badge className="bg-mint-light border border-mint-dark text-navy-dark text-xs">Active</Badge>
                       )}
                       {feature.status === 'pending' && (
-                        <Badge className="bg-error/10 border border-error text-error">Pending</Badge>
+                        <Badge className="bg-error/10 border border-error text-error text-xs">Pending</Badge>
                       )}
                       {feature.status === 'coming-soon' && (
-                        <Badge variant="secondary" className="bg-periwinkle-light text-gray border-periwinkle-dark">Coming Soon</Badge>
+                        <Badge variant="secondary" className="bg-periwinkle-light text-gray border-periwinkle-dark text-xs">Coming Soon</Badge>
                       )}
                     </div>
                   </div>
                   {feature.action && (
-                    <div className="mt-4">
+                    <div>
                       <Link href={feature.action}>
-                        <Button size="sm" className="w-full bg-purple-dark text-white hover:bg-purple-mid transition-colors">
+                        <Button size="sm" className="w-full bg-purple-dark text-white hover:bg-purple-mid transition-colors text-xs sm:text-sm">
                           {feature.status === 'pending' ? 'Complete Setup' : 'Manage'}
-                          <ArrowRight className="ml-2 h-4 w-4" />
+                          <ArrowRight className="ml-2 h-3 w-3 sm:h-4 sm:w-4" />
                         </Button>
                       </Link>
                     </div>

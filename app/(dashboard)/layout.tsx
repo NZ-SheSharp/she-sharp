@@ -96,15 +96,15 @@ function UserMenu() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
         <div className="flex items-center gap-3 p-2">
-          <Avatar className="h-10 w-10">
+          <Avatar className="h-9 w-9 sm:h-10 sm:w-10">
             <AvatarImage src={`https://avatar.vercel.sh/${user.email}`} />
-            <AvatarFallback className="bg-purple-light text-purple-dark">
+            <AvatarFallback className="bg-gradient-to-br from-purple-dark to-periwinkle-dark text-white text-xs">
               {getUserInitials()}
             </AvatarFallback>
           </Avatar>
-          <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{user.name || 'User'}</p>
-            <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+          <div className="flex flex-col space-y-1 min-w-0">
+            <p className="text-sm font-medium leading-none truncate">{user.name || 'User'}</p>
+            <p className="text-xs leading-none text-muted-foreground truncate">{user.email}</p>
           </div>
         </div>
         <DropdownMenuSeparator />
@@ -161,8 +161,8 @@ function Header() {
         <div className="flex justify-between items-center py-4">
           {/* Logo and Brand */}
           <div className="flex items-center space-x-4">
-            <Link href="/" className="flex items-center space-x-3 group">
-              <div className="relative w-32 h-10">
+            <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group">
+              <div className="relative w-24 sm:w-32 h-8 sm:h-10">
                 <Image
                   src="/logos/she-sharp-logo.svg"
                   alt="She Sharp Logo"
@@ -173,7 +173,7 @@ function Header() {
                 />
               </div>
               <div className="flex flex-col">
-                <span className="text-xs text-gray hidden sm:block">
+                <span className="text-xs text-gray hidden lg:block">
                   Dashboard
                 </span>
               </div>
@@ -214,16 +214,20 @@ function Header() {
             </Suspense>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center">
+          {/* Mobile Menu Button and User Avatar */}
+          <div className="md:hidden flex items-center gap-2">
+            <Suspense fallback={<div className="h-8 w-8 animate-pulse bg-gray-200 rounded-full" />}>
+              <UserMenu />
+            </Suspense>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-md text-gray hover:text-purple-dark hover:bg-purple-light/20 focus:outline-none"
+              className="p-2 rounded-md text-gray hover:text-purple-dark hover:bg-purple-light focus:outline-none transition-colors"
+              aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? (
-                <X className="h-6 w-6" />
+                <X className="h-5 w-5" />
               ) : (
-                <Menu className="h-6 w-6" />
+                <Menu className="h-5 w-5" />
               )}
             </button>
           </div>
@@ -231,37 +235,45 @@ function Header() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-periwinkle-light py-4">
-            <nav className="flex flex-col space-y-2">
+          <div className="md:hidden border-t border-periwinkle-light py-3 px-2 bg-white/95 backdrop-blur-sm">
+            <nav className="flex flex-col space-y-1">
               <Link href="/dashboard" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start text-navy-dark hover:text-purple-dark hover:bg-purple-light transition-colors">
+                <Button variant="ghost" className="w-full justify-start text-navy-dark hover:text-purple-dark hover:bg-purple-light transition-colors h-10">
                   <Home className="mr-2 h-4 w-4" />
-                  Dashboard Overview
+                  <span className="text-sm">Dashboard Overview</span>
                 </Button>
               </Link>
               <Link href="/dashboard/settings/account" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start text-navy-dark hover:text-purple-dark hover:bg-purple-light transition-colors">
+                <Button variant="ghost" className="w-full justify-start text-navy-dark hover:text-purple-dark hover:bg-purple-light transition-colors h-10">
                   <Settings className="mr-2 h-4 w-4" />
-                  Account Settings
+                  <span className="text-sm">Account Settings</span>
                 </Button>
               </Link>
               <Link href="/dashboard/settings/team" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start text-navy-dark hover:text-purple-dark hover:bg-purple-light transition-colors">
+                <Button variant="ghost" className="w-full justify-start text-navy-dark hover:text-purple-dark hover:bg-purple-light transition-colors h-10">
                   <Users className="mr-2 h-4 w-4" />
-                  Team Settings
+                  <span className="text-sm">Team Settings</span>
                 </Button>
               </Link>
+              <Link href="/dashboard/settings/billing" onClick={() => setIsMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full justify-start text-navy-dark hover:text-purple-dark hover:bg-purple-light transition-colors h-10">
+                  <CreditCard className="mr-2 h-4 w-4" />
+                  <span className="text-sm">Billing</span>
+                </Button>
+              </Link>
+              <Link href="/dashboard/settings/sessions" onClick={() => setIsMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full justify-start text-navy-dark hover:text-purple-dark hover:bg-purple-light transition-colors h-10">
+                  <Activity className="mr-2 h-4 w-4" />
+                  <span className="text-sm">Active Sessions</span>
+                </Button>
+              </Link>
+              <div className="my-2 border-t border-periwinkle-light" />
               <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start text-navy-dark hover:text-purple-dark hover:bg-purple-light transition-colors">
+                <Button variant="ghost" className="w-full justify-start text-gray hover:text-blue hover:bg-purple-light transition-colors h-10">
                   <ArrowLeft className="mr-2 h-4 w-4" />
-                  Back to Main Site
+                  <span className="text-sm">Back to Main Site</span>
                 </Button>
               </Link>
-              <div className="pt-2 border-t border-periwinkle-light">
-                <Suspense fallback={<div className="h-12 animate-pulse bg-periwinkle-light rounded" />}>
-                  <UserMenu />
-                </Suspense>
-              </div>
             </nav>
           </div>
         )}
@@ -277,13 +289,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <main className="flex-1">
         {children}
       </main>
-      <footer className="bg-white border-t border-periwinkle-light py-6 mt-auto">
+      <footer className="bg-white border-t border-periwinkle-light py-4 sm:py-6 mt-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-sm text-gray">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-0">
+            <div className="text-xs sm:text-sm text-gray text-center sm:text-left">
               © {new Date().getFullYear()} She Sharp. All rights reserved.
             </div>
-            <div className="flex items-center space-x-6 text-sm">
+            <div className="flex items-center gap-4 sm:gap-6 text-xs sm:text-sm">
               <Link href="/about" className="text-gray hover:text-blue transition-colors">
                 About
               </Link>
