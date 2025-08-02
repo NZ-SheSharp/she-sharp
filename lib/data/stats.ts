@@ -1,7 +1,7 @@
 // Global statistics data management
 export const globalStats = {
   members: {
-    current: 2200,
+    current: 1000,
     label: "Members",
     description: "Active community members",
     growth: "+15% YoY",
@@ -60,16 +60,16 @@ export const pageStats = {
       { year: 2014, members: 50, events: 2 },
       { year: 2016, members: 200, events: 8 },
       { year: 2018, members: 500, events: 15 },
-      { year: 2020, members: 1000, events: 20 },
-      { year: 2022, members: 1500, events: 25 },
-      { year: 2024, members: 2200, events: 30 },
+      { year: 2020, members: 700, events: 20 },
+      { year: 2022, members: 800, events: 25 },
+      { year: 2024, members: 1000, events: 30 },
     ],
     milestones: [
       { year: 2014, event: "She Sharp Founded" },
       { year: 2016, event: "First THRIVE Conference" },
       { year: 2018, event: "Mentorship Program Launched" },
       { year: 2020, event: "Virtual Events Platform" },
-      { year: 2022, event: "1500 Members Milestone" },
+      { year: 2022, event: "1000 Members Milestone" },
       { year: 2024, event: "Global Expansion" },
     ],
   },
