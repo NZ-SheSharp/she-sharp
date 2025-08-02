@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { signOut } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -70,9 +71,14 @@ export function UserNav({ variant = 'desktop' }: UserNavProps) {
   const handleSignOut = async () => {
     setIsSigningOut(true);
     try {
+      // First try NextAuth signOut
+      await signOut({ redirect: false });
+      
+      // Then clear custom session
       const response = await fetch('/api/auth/signout', { 
         method: 'POST' 
       });
+      
       if (response.ok) {
         setUser(null);
         router.push('/');
