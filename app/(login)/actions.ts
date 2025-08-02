@@ -28,6 +28,9 @@ import {
 } from '@/lib/auth/middleware';
 import { createEmailVerificationToken } from '@/lib/auth/email-verification';
 import { sendVerificationEmail, sendInvitationEmail } from '@/lib/email/service';
+import { isAccountLocked, recordFailedLoginAttempt, clearLoginAttempts } from '@/lib/auth/account-lock';
+import { setRememberMeCookie } from '@/lib/auth/remember-me';
+import { updatePasswordWithHistory } from '@/lib/auth/password-history';
 
 async function logActivity(
   teamId: number | null | undefined,
@@ -49,11 +52,22 @@ async function logActivity(
 
 const signInSchema = z.object({
   email: z.string().email().min(3).max(255),
-  password: z.string().min(8).max(100)
+  password: z.string().min(8).max(100),
+  rememberMe: z.boolean().optional()
 });
 
 export const signIn = validatedAction(signInSchema, async (data, formData) => {
-  const { email, password } = data;
+  const { email, password, rememberMe } = data;
+
+  // Check if account is locked
+  const locked = await isAccountLocked(email);
+  if (locked) {
+    return {
+      error: 'Account is temporarily locked due to multiple failed login attempts. Please try again later.',
+      email,
+      password: ''
+    };
+  }
 
   const userWithTeam = await db
     .select({
@@ -67,14 +81,24 @@ export const signIn = validatedAction(signInSchema, async (data, formData) => {
     .limit(1);
 
   if (userWithTeam.length === 0) {
+    // Record failed attempt for existing emails
+    await recordFailedLoginAttempt(email);
     return {
       error: 'Invalid email or password. Please try again.',
       email,
-      password
+      password: ''
     };
   }
 
   const { user: foundUser, team: foundTeam } = userWithTeam[0];
+
+  if (!foundUser.passwordHash) {
+    return {
+      error: 'Invalid email or password.',
+      email,
+      password: ''
+    };
+  }
 
   const isPasswordValid = await comparePasswords(
     password,
@@ -82,15 +106,33 @@ export const signIn = validatedAction(signInSchema, async (data, formData) => {
   );
 
   if (!isPasswordValid) {
+    // Record failed login attempt
+    const { locked, remainingAttempts } = await recordFailedLoginAttempt(email);
+    
+    if (locked) {
+      return {
+        error: 'Account has been locked due to multiple failed attempts. Please try again in 15 minutes.',
+        email,
+        password: ''
+      };
+    }
+    
     return {
-      error: 'Invalid email or password. Please try again.',
+      error: remainingAttempts > 0 
+        ? `Invalid password. ${remainingAttempts} attempts remaining.`
+        : 'Invalid email or password. Please try again.',
       email,
-      password
+      password: ''
     };
   }
 
+  // Clear login attempts on successful login
+  await clearLoginAttempts(foundUser.id);
+
+  // Set session with remember me option
   await Promise.all([
     setSession(foundUser),
+    setRememberMeCookie(foundUser.id, foundUser.email, rememberMe || false),
     logActivity(foundTeam?.id, foundUser.id, ActivityType.SIGN_IN)
   ]);
 
@@ -256,6 +298,15 @@ export const updatePassword = validatedActionWithUser(
   async (data, _, user) => {
     const { currentPassword, newPassword, confirmPassword } = data;
 
+    if (!user.passwordHash) {
+      return {
+        currentPassword,
+        newPassword,
+        confirmPassword,
+        error: 'User password not found.'
+      };
+    }
+
     const isPasswordValid = await comparePasswords(
       currentPassword,
       user.passwordHash
@@ -288,16 +339,20 @@ export const updatePassword = validatedActionWithUser(
       };
     }
 
-    const newPasswordHash = await hashPassword(newPassword);
-    const userWithTeam = await getUserWithTeam(user.id);
+    // Update password with history tracking
+    const result = await updatePasswordWithHistory(user.id, newPassword);
+    
+    if (!result.success) {
+      return {
+        currentPassword,
+        newPassword,
+        confirmPassword,
+        error: result.error || 'Failed to update password.'
+      };
+    }
 
-    await Promise.all([
-      db
-        .update(users)
-        .set({ passwordHash: newPasswordHash })
-        .where(eq(users.id, user.id)),
-      logActivity(userWithTeam?.teamId, user.id, ActivityType.UPDATE_PASSWORD)
-    ]);
+    const userWithTeam = await getUserWithTeam(user.id);
+    await logActivity(userWithTeam?.teamId, user.id, ActivityType.UPDATE_PASSWORD);
 
     return {
       success: 'Password updated successfully.'
@@ -313,6 +368,13 @@ export const deleteAccount = validatedActionWithUser(
   deleteAccountSchema,
   async (data, _, user) => {
     const { password } = data;
+
+    if (!user.passwordHash) {
+      return {
+        password,
+        error: 'User password not found.'
+      };
+    }
 
     const isPasswordValid = await comparePasswords(password, user.passwordHash);
     if (!isPasswordValid) {

@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { PasswordInput } from '@/components/ui/password-strength';
+import { Checkbox } from '@/components/ui/checkbox';
+import { OAuthButtons } from '@/components/ui/oauth-buttons';
 import { CircleIcon, Loader2 } from 'lucide-react';
 import { signIn, signUp } from './actions';
 import { ActionState } from '@/lib/auth/middleware';
@@ -97,6 +99,18 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
             </div>
           </div>
 
+          {mode === 'signin' && (
+            <div className="flex items-center space-x-2">
+              <Checkbox id="rememberMe" name="rememberMe" />
+              <Label
+                htmlFor="rememberMe"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Remember me for 30 days
+              </Label>
+            </div>
+          )}
+
           {state?.error && (
             <div className="text-red-500 text-sm">{state.error}</div>
           )}
@@ -123,6 +137,21 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
 
         <div className="mt-6">
           <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300" />
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white text-gray">
+                Or continue with
+              </span>
+            </div>
+          </div>
+
+          <div className="mt-6">
+            <OAuthButtons mode={mode} />
+          </div>
+
+          <div className="relative mt-6">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-300" />
             </div>
