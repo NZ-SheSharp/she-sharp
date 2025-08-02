@@ -3,8 +3,24 @@ import { db } from './drizzle';
 import { activityLogs, teamMembers, teams, users } from './schema';
 import { cookies } from 'next/headers';
 import { verifyToken } from '@/lib/auth/session';
+import { auth } from '@/lib/auth/auth.config';
 
 export async function getUser() {
+  // First check for NextAuth session
+  const nextAuthSession = await auth();
+  if (nextAuthSession?.user?.id) {
+    const user = await db
+      .select()
+      .from(users)
+      .where(and(eq(users.id, parseInt(nextAuthSession.user.id)), isNull(users.deletedAt)))
+      .limit(1);
+    
+    if (user.length > 0) {
+      return user[0];
+    }
+  }
+
+  // Fall back to custom session
   const sessionCookie = (await cookies()).get('session');
   if (!sessionCookie || !sessionCookie.value) {
     return null;

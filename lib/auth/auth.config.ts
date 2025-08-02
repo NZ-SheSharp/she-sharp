@@ -102,27 +102,44 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return session;
     },
-    async jwt({ token, user, account }) {
+    async jwt({ token, user, account, trigger }) {
       if (user) {
         token.sub = user.id;
+        token.email = user.email;
+        token.name = user.name;
       }
       return token;
     },
     async signIn({ user, account, profile }) {
-      // Allow OAuth sign in
-      if (account?.provider !== "credentials") {
+      // Always allow OAuth sign in
+      if (account?.provider === "google" || account?.provider === "github") {
         return true;
       }
       
       // For credentials provider, check if email is verified
-      const [dbUser] = await db
-        .select()
-        .from(users)
-        .where(eq(users.email, user.email!))
-        .limit(1);
+      if (account?.provider === "credentials") {
+        const [dbUser] = await db
+          .select()
+          .from(users)
+          .where(eq(users.email, user.email!))
+          .limit(1);
         
-      // Allow sign in even if email not verified (we'll show warning in UI)
+        // Allow sign in even if email not verified (we'll show warning in UI)
+        return true;
+      }
+      
       return true;
+    },
+    async redirect({ url, baseUrl }) {
+      // Always redirect to dashboard after successful OAuth login
+      if (url.includes('/api/auth/callback')) {
+        return `${baseUrl}/dashboard`;
+      }
+      // Allows relative callback URLs
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      // Allows callback URLs on the same origin
+      else if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
     }
   },
   events: {
