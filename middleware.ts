@@ -7,9 +7,14 @@ const protectedRoutes = '/dashboard';
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const sessionCookie = request.cookies.get('session');
+  const nextAuthSessionToken = request.cookies.get('authjs.session-token') || 
+                                request.cookies.get('__Secure-authjs.session-token');
   const isProtectedRoute = pathname.startsWith(protectedRoutes);
 
-  if (isProtectedRoute && !sessionCookie) {
+  // Check for either custom session or NextAuth session
+  const hasValidSession = sessionCookie || nextAuthSessionToken;
+
+  if (isProtectedRoute && !hasValidSession) {
     return NextResponse.redirect(new URL('/sign-in', request.url));
   }
 
