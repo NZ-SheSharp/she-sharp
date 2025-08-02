@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
+import { signIn } from 'next-auth/react';
 
 interface OAuthButtonsProps {
   mode: 'signin' | 'signup';
@@ -11,10 +12,18 @@ interface OAuthButtonsProps {
 export function OAuthButtons({ mode }: OAuthButtonsProps) {
   const [isLoading, setIsLoading] = useState<string | null>(null);
 
-  const handleOAuthSignIn = (provider: 'google' | 'github') => {
-    setIsLoading(provider);
-    // NextAuth will handle the OAuth flow
-    window.location.href = `/api/auth/signin/${provider}`;
+  const handleOAuthSignIn = async (provider: 'google' | 'github') => {
+    try {
+      setIsLoading(provider);
+      // Use NextAuth's signIn method
+      await signIn(provider, { 
+        callbackUrl: '/dashboard',
+        redirect: true 
+      });
+    } catch (error) {
+      console.error('OAuth signin error:', error);
+      setIsLoading(null);
+    }
   };
 
   return (
