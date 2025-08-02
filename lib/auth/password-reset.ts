@@ -117,7 +117,7 @@ export async function resetPasswordWithToken(
       .limit(1);
 
     // Add current password to history
-    if (currentUser) {
+    if (currentUser && currentUser.passwordHash) {
       await tx
         .insert(passwordHistory)
         .values({
