@@ -25,6 +25,13 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       allowDangerousEmailAccountLinking: true,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code"
+        }
+      }
     })
   );
 }
@@ -82,10 +89,19 @@ providers.push(
   })
 );
 
+// Determine the correct URL based on environment
+const getUrl = () => {
+  if (process.env.NEXTAUTH_URL) return process.env.NEXTAUTH_URL;
+  if (process.env.AUTH_URL) return process.env.AUTH_URL;
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+  return 'http://localhost:3000';
+};
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: CustomDrizzleAdapter(),
   providers,
   secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET,
+  trustHost: true, // Important for production deployments
   session: {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days for "remember me"
