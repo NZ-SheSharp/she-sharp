@@ -82,10 +82,10 @@ function UserMenu() {
   return (
     <DropdownMenu open={isMenuOpen} onOpenChange={setIsMenuOpen}>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative flex items-center gap-2 px-2 hover:bg-purple-light/20">
+        <Button variant="ghost" className="relative flex items-center gap-2 px-2 hover:bg-purple-light transition-colors">
           <Avatar className="h-8 w-8">
             <AvatarImage src={`https://avatar.vercel.sh/${user.email}`} />
-            <AvatarFallback className="bg-purple-light text-purple-dark text-xs">
+            <AvatarFallback className="bg-gradient-to-br from-purple-dark to-periwinkle-dark text-white text-xs">
               {getUserInitials()}
             </AvatarFallback>
           </Avatar>
@@ -156,32 +156,23 @@ function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header className="bg-white border-b border-purple-light/30">
+    <header className="bg-white border-b border-periwinkle-light">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           {/* Logo and Brand */}
           <div className="flex items-center space-x-4">
             <Link href="/" className="flex items-center space-x-3 group">
-              <div className="relative w-10 h-10">
+              <div className="relative w-32 h-10">
                 <Image
-                  src="/she-sharp-logo.png"
+                  src="/logos/she-sharp-logo.svg"
                   alt="She Sharp Logo"
-                  width={40}
+                  width={128}
                   height={40}
-                  className="object-contain"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                    e.currentTarget.nextElementSibling?.classList.remove('hidden');
-                  }}
+                  className="object-contain text-purple-dark group-hover:text-purple-mid transition-colors"
+                  priority
                 />
-                <div className="hidden w-10 h-10 bg-gradient-to-br from-purple-dark to-purple-mid rounded-lg flex items-center justify-center text-white font-bold text-lg">
-                  S#
-                </div>
               </div>
               <div className="flex flex-col">
-                <span className="text-xl font-bold text-purple-dark group-hover:text-purple-mid transition-colors">
-                  She Sharp
-                </span>
                 <span className="text-xs text-gray hidden sm:block">
                   Dashboard
                 </span>
@@ -191,7 +182,7 @@ function Header() {
             {/* Back to Main Site */}
             <Link 
               href="/"
-              className="hidden md:flex items-center gap-1 text-sm text-gray hover:text-purple-dark transition-colors ml-8"
+              className="hidden md:flex items-center gap-1 text-sm text-gray hover:text-blue transition-colors ml-8"
             >
               <ArrowLeft className="h-4 w-4" />
               Back to Main Site
@@ -202,17 +193,17 @@ function Header() {
           <div className="hidden md:flex items-center space-x-4">
             <nav className="flex items-center space-x-2">
               <Link href="/dashboard">
-                <Button variant="ghost" size="sm" className="text-navy-dark hover:text-purple-dark hover:bg-purple-light/20">
+                <Button variant="ghost" size="sm" className="text-navy-dark hover:text-purple-dark hover:bg-purple-light transition-colors">
                   Overview
                 </Button>
               </Link>
               <Link href="/dashboard/settings/account">
-                <Button variant="ghost" size="sm" className="text-navy-dark hover:text-purple-dark hover:bg-purple-light/20">
+                <Button variant="ghost" size="sm" className="text-navy-dark hover:text-purple-dark hover:bg-purple-light transition-colors">
                   Settings
                 </Button>
               </Link>
               <Link href="/dashboard/settings/team">
-                <Button variant="ghost" size="sm" className="text-navy-dark hover:text-purple-dark hover:bg-purple-light/20">
+                <Button variant="ghost" size="sm" className="text-navy-dark hover:text-purple-dark hover:bg-purple-light transition-colors">
                   Team
                 </Button>
               </Link>
@@ -240,34 +231,34 @@ function Header() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-purple-light/30 py-4">
+          <div className="md:hidden border-t border-periwinkle-light py-4">
             <nav className="flex flex-col space-y-2">
               <Link href="/dashboard" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start text-navy-dark hover:text-purple-dark hover:bg-purple-light/20">
+                <Button variant="ghost" className="w-full justify-start text-navy-dark hover:text-purple-dark hover:bg-purple-light transition-colors">
                   <Home className="mr-2 h-4 w-4" />
                   Dashboard Overview
                 </Button>
               </Link>
               <Link href="/dashboard/settings/account" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start text-navy-dark hover:text-purple-dark hover:bg-purple-light/20">
+                <Button variant="ghost" className="w-full justify-start text-navy-dark hover:text-purple-dark hover:bg-purple-light transition-colors">
                   <Settings className="mr-2 h-4 w-4" />
                   Account Settings
                 </Button>
               </Link>
               <Link href="/dashboard/settings/team" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start text-navy-dark hover:text-purple-dark hover:bg-purple-light/20">
+                <Button variant="ghost" className="w-full justify-start text-navy-dark hover:text-purple-dark hover:bg-purple-light transition-colors">
                   <Users className="mr-2 h-4 w-4" />
                   Team Settings
                 </Button>
               </Link>
               <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start text-navy-dark hover:text-purple-dark hover:bg-purple-light/20">
+                <Button variant="ghost" className="w-full justify-start text-navy-dark hover:text-purple-dark hover:bg-purple-light transition-colors">
                   <ArrowLeft className="mr-2 h-4 w-4" />
                   Back to Main Site
                 </Button>
               </Link>
-              <div className="pt-2 border-t border-purple-light/30">
-                <Suspense fallback={<div className="h-12 animate-pulse bg-gray-200 rounded" />}>
+              <div className="pt-2 border-t border-periwinkle-light">
+                <Suspense fallback={<div className="h-12 animate-pulse bg-periwinkle-light rounded" />}>
                   <UserMenu />
                 </Suspense>
               </div>
@@ -281,28 +272,28 @@ function Header() {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-purple-light/10 via-white to-periwinkle-light/10">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-purple-light via-white to-periwinkle-light">
       <Header />
       <main className="flex-1">
         {children}
       </main>
-      <footer className="bg-white border-t border-purple-light/30 py-6 mt-auto">
+      <footer className="bg-white border-t border-periwinkle-light py-6 mt-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-sm text-gray">
               © {new Date().getFullYear()} She Sharp. All rights reserved.
             </div>
             <div className="flex items-center space-x-6 text-sm">
-              <Link href="/about" className="text-gray hover:text-purple-dark transition-colors">
+              <Link href="/about" className="text-gray hover:text-blue transition-colors">
                 About
               </Link>
-              <Link href="/contact" className="text-gray hover:text-purple-dark transition-colors">
+              <Link href="/contact" className="text-gray hover:text-blue transition-colors">
                 Contact
               </Link>
-              <Link href="/privacy" className="text-gray hover:text-purple-dark transition-colors">
+              <Link href="/privacy" className="text-gray hover:text-blue transition-colors">
                 Privacy
               </Link>
-              <Link href="/terms" className="text-gray hover:text-purple-dark transition-colors">
+              <Link href="/terms" className="text-gray hover:text-blue transition-colors">
                 Terms
               </Link>
             </div>
