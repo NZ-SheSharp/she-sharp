@@ -1,6 +1,6 @@
 import { db } from '@/lib/db/drizzle';
 import { emailVerifications, users } from '@/lib/db/schema';
-import { eq, and, gt } from 'drizzle-orm';
+import { eq, and, gt, lt, isNull } from 'drizzle-orm';
 import { randomBytes } from 'crypto';
 
 /**
@@ -103,8 +103,8 @@ export async function cleanupExpiredVerificationTokens() {
     .delete(emailVerifications)
     .where(
       and(
-        eq(emailVerifications.verifiedAt, null),
-        gt(new Date(), emailVerifications.expiresAt)
+        isNull(emailVerifications.verifiedAt),
+        lt(emailVerifications.expiresAt, new Date())
       )
     );
 }

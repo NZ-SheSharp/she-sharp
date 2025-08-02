@@ -9,6 +9,8 @@ import {
   UserMinus,
   Mail,
   CheckCircle,
+  ShieldCheck,
+  KeyRound,
   type LucideIcon,
 } from 'lucide-react';
 import { ActivityType } from '@/lib/db/schema';
@@ -25,6 +27,11 @@ const iconMap: Record<ActivityType, LucideIcon> = {
   [ActivityType.REMOVE_TEAM_MEMBER]: UserMinus,
   [ActivityType.INVITE_TEAM_MEMBER]: Mail,
   [ActivityType.ACCEPT_INVITATION]: CheckCircle,
+  [ActivityType.VERIFY_EMAIL]: Mail,
+  [ActivityType.REQUEST_PASSWORD_RESET]: KeyRound,
+  [ActivityType.RESET_PASSWORD]: Lock,
+  [ActivityType.ACCOUNT_LOCKED]: Lock,
+  [ActivityType.ACCOUNT_UNLOCKED]: ShieldCheck,
 };
 
 function getRelativeTime(date: Date) {
@@ -63,6 +70,16 @@ function formatAction(action: ActivityType): string {
       return 'You invited a team member';
     case ActivityType.ACCEPT_INVITATION:
       return 'You accepted an invitation';
+    case ActivityType.VERIFY_EMAIL:
+      return 'You verified your email';
+    case ActivityType.REQUEST_PASSWORD_RESET:
+      return 'You requested a password reset';
+    case ActivityType.RESET_PASSWORD:
+      return 'You reset your password';
+    case ActivityType.ACCOUNT_LOCKED:
+      return 'Your account was locked';
+    case ActivityType.ACCOUNT_UNLOCKED:
+      return 'Your account was unlocked';
     default:
       return 'Unknown action occurred';
   }
