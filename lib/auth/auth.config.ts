@@ -127,8 +127,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token;
     },
     async signIn({ user, account, profile }) {
-      // Always allow OAuth sign in
+      // For OAuth providers, check if user with same email exists
       if (account?.provider === "google" || account?.provider === "github") {
+        if (!user.email) return false;
+        
+        // Check if a user with this email already exists
+        const [existingUser] = await db
+          .select()
+          .from(users)
+          .where(eq(users.email, user.email))
+          .limit(1);
+        
+        // If user exists, allow sign in (account will be linked automatically)
+        // The allowDangerousEmailAccountLinking flag enables this
         return true;
       }
       
