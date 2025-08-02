@@ -71,23 +71,24 @@ export function UserNav({ variant = 'desktop' }: UserNavProps) {
   const handleSignOut = async () => {
     setIsSigningOut(true);
     try {
-      // First try NextAuth signOut
-      await signOut({ redirect: false });
-      
-      // Then clear custom session
-      const response = await fetch('/api/auth/signout', { 
-        method: 'POST' 
+      // Call NextAuth signOut first
+      await signOut({ 
+        redirect: false,
+        callbackUrl: '/' 
       });
       
-      if (response.ok) {
-        setUser(null);
-        router.push('/');
-        router.refresh();
-      }
+      // Clear custom session
+      await fetch('/api/auth/signout', { 
+        method: 'POST',
+        credentials: 'include'
+      });
+      
+      // Use the complete signout endpoint that clears everything and redirects
+      window.location.href = '/api/auth/signout-complete';
     } catch (error) {
       console.error('Sign out failed:', error);
-    } finally {
-      setIsSigningOut(false);
+      // Force complete signout even on error
+      window.location.href = '/api/auth/signout-complete';
     }
   };
 
