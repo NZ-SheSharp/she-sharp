@@ -1,6 +1,6 @@
 import { db } from '@/lib/db/drizzle';
 import { passwordResets, users, passwordHistory } from '@/lib/db/schema';
-import { eq, and, gt, desc } from 'drizzle-orm';
+import { eq, and, gt, lt, desc, isNull } from 'drizzle-orm';
 import { randomBytes } from 'crypto';
 import bcrypt from 'bcryptjs';
 
@@ -46,7 +46,7 @@ export async function createPasswordResetToken(
     .where(
       and(
         eq(passwordResets.userId, user.id),
-        eq(passwordResets.usedAt, null)
+        isNull(passwordResets.usedAt)
       )
     );
 
@@ -80,7 +80,7 @@ export async function resetPasswordWithToken(
       and(
         eq(passwordResets.token, token),
         gt(passwordResets.expiresAt, new Date()),
-        eq(passwordResets.usedAt, null)
+        isNull(passwordResets.usedAt)
       )
     )
     .limit(1);
@@ -158,7 +158,7 @@ export async function validateResetToken(token: string) {
       and(
         eq(passwordResets.token, token),
         gt(passwordResets.expiresAt, new Date()),
-        eq(passwordResets.usedAt, null)
+        isNull(passwordResets.usedAt)
       )
     )
     .limit(1);
@@ -174,8 +174,8 @@ export async function cleanupExpiredResetTokens() {
     .delete(passwordResets)
     .where(
       and(
-        eq(passwordResets.usedAt, null),
-        gt(new Date(), passwordResets.expiresAt)
+        isNull(passwordResets.usedAt),
+        lt(passwordResets.expiresAt, new Date())
       )
     );
 }
