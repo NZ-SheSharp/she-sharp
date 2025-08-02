@@ -27,7 +27,7 @@ import {
   validatedActionWithUser
 } from '@/lib/auth/middleware';
 import { createEmailVerificationToken } from '@/lib/auth/email-verification';
-import { sendVerificationEmail } from '@/lib/email/service';
+import { sendVerificationEmail, sendInvitationEmail } from '@/lib/email/service';
 
 async function logActivity(
   teamId: number | null | undefined,
@@ -454,13 +454,13 @@ export const inviteTeamMember = validatedActionWithUser(
     }
 
     // Create a new invitation
-    await db.insert(invitations).values({
+    const [invitation] = await db.insert(invitations).values({
       teamId: userWithTeam.teamId,
       email,
       role,
       invitedBy: user.id,
       status: 'pending'
-    });
+    }).returning();
 
     await logActivity(
       userWithTeam.teamId,
@@ -468,8 +468,14 @@ export const inviteTeamMember = validatedActionWithUser(
       ActivityType.INVITE_TEAM_MEMBER
     );
 
-    // TODO: Send invitation email and include ?inviteId={id} to sign-up URL
-    // await sendInvitationEmail(email, userWithTeam.team.name, role)
+    // Send invitation email
+    try {
+      const teamName = userWithTeam.team?.name || 'She Sharp Team';
+      await sendInvitationEmail(email, teamName, role, invitation.id);
+    } catch (error) {
+      console.error('Failed to send invitation email:', error);
+      // Continue even if email fails
+    }
 
     return { success: 'Invitation sent successfully' };
   }

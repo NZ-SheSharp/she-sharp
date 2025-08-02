@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { PasswordInput } from '@/components/ui/password-strength';
 import { CircleIcon, Loader2 } from 'lucide-react';
 import { signIn, signUp } from './actions';
 import { ActionState } from '@/lib/auth/middleware';
@@ -78,10 +79,9 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
               )}
             </div>
             <div className="mt-1">
-              <Input
+              <PasswordInput
                 id="password"
                 name="password"
-                type="password"
                 autoComplete={
                   mode === 'signin' ? 'current-password' : 'new-password'
                 }
@@ -91,6 +91,8 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
                 maxLength={100}
                 className="appearance-none rounded-full relative block w-full px-3 py-2 border border-purple-light placeholder-gray text-navy-dark focus:outline-none focus:ring-purple-dark focus:border-purple-dark focus:z-10 sm:text-sm"
                 placeholder="Enter your password"
+                showStrength={mode === 'signup'}
+                showToggle={true}
               />
             </div>
           </div>
