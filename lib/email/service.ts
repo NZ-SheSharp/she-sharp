@@ -267,3 +267,95 @@ If you didn't request this password reset, please ignore this email and your pas
     text,
   });
 }
+
+/**
+ * Send team invitation email
+ */
+export async function sendInvitationEmail(
+  email: string, 
+  teamName: string, 
+  role: string,
+  invitationId: number
+) {
+  // Use localhost in development mode when BASE_URL is production
+  const baseUrl = process.env.NODE_ENV === 'development' && process.env.BASE_URL?.includes('vercel.app') 
+    ? 'http://localhost:3000' 
+    : (process.env.BASE_URL || 'http://localhost:3000');
+  const inviteUrl = `${baseUrl}/sign-up?inviteId=${invitationId}`;
+
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <title>Team Invitation - She Sharp</title>
+      <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: linear-gradient(135deg, #9b2e83 0%, #5a1968 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+        .content { background: #f9f9f9; padding: 30px; border: 1px solid #e0e0e0; border-top: none; }
+        .button { display: inline-block; padding: 12px 30px; background: #9b2e83; color: white; text-decoration: none; border-radius: 5px; margin: 20px 0; }
+        .footer { text-align: center; padding: 20px; color: #666; font-size: 12px; }
+        .team-badge { background: #f0f0f0; padding: 10px 15px; border-radius: 5px; display: inline-block; margin: 10px 0; }
+        .role-badge { background: #e8f4f8; color: #1a73e8; padding: 5px 10px; border-radius: 3px; display: inline-block; font-weight: bold; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <h1>You're Invited to Join a Team!</h1>
+        </div>
+        <div class="content">
+          <h2>Team Invitation</h2>
+          <p>You've been invited to join <strong>${teamName}</strong> on She Sharp as a <span class="role-badge">${role.toUpperCase()}</span>.</p>
+          
+          <div class="team-badge">
+            <strong>Team:</strong> ${teamName}<br>
+            <strong>Role:</strong> ${role.charAt(0).toUpperCase() + role.slice(1)}<br>
+            <strong>Platform:</strong> She Sharp
+          </div>
+          
+          <p>Click the button below to accept this invitation and create your account:</p>
+          
+          <div style="text-align: center;">
+            <a href="${inviteUrl}" class="button" style="color: white;">Accept Invitation</a>
+          </div>
+          
+          <p style="color: #666; font-size: 14px;">Or copy and paste this link into your browser:</p>
+          <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; word-break: break-all; margin: 10px 0;">
+            <code style="font-size: 12px;">${inviteUrl}</code>
+          </div>
+          
+          <p style="color: #666; font-size: 14px;">This invitation link will expire in 7 days.</p>
+        </div>
+        <div class="footer">
+          <p>© 2025 She Sharp. Empowering women in STEM.</p>
+          <p>If you didn't expect this invitation, you can safely ignore this email.</p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  const text = `
+Team Invitation - She Sharp
+
+You've been invited to join ${teamName} on She Sharp as a ${role}.
+
+Click this link to accept the invitation and create your account:
+${inviteUrl}
+
+This invitation link will expire in 7 days.
+
+If you didn't expect this invitation, you can safely ignore this email.
+
+© 2025 She Sharp. Empowering women in STEM.
+  `;
+
+  return sendEmail({
+    to: email,
+    subject: `Invitation to join ${teamName} - She Sharp`,
+    html,
+    text,
+  });
+}
