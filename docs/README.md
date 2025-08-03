@@ -19,6 +19,7 @@ This directory contains all project documentation organized by category.
 
 ### `/deployment` - Deployment & Configuration
 - **ENV_SETUP_GUIDE.md** - Quick environment setup guide for developers
+- **ENV_CONFIG_ANALYSIS.md** - Detailed environment configuration analysis
 - **ENV_COMPARISON_REPORT.md** - Environment configuration comparison
 - **VERCEL_ENV_UPDATE.md** - Vercel environment update guide
 - **google-calendar-setup.md** - Google Calendar integration
