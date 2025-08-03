@@ -23,7 +23,7 @@ http://localhost:3000/api/auth/callback/google
 
 2. **导航到 OAuth 2.0 客户端 ID**
    - 左侧菜单选择 "APIs & Services" → "Credentials"
-   - 找到您的 OAuth 2.0 客户端 ID (805677253031-d5vboo06na716qq34edbvfbfb71rb7ht)
+   - 找到您的 OAuth 2.0 客户端 ID
 
 3. **编辑 OAuth 客户端**
    - 点击客户端 ID 进行编辑
@@ -56,7 +56,7 @@ http://localhost:3000/api/auth/callback/google
 **解决**：已在代码中修复，确保部署最新版本
 
 ## 当前配置信息
-- Client ID: `805677253031-d5vboo06na716qq34edbvfbfb71rb7ht.apps.googleusercontent.com`
-- Client Secret: `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`
+- Client ID: `[YOUR_GOOGLE_CLIENT_ID].apps.googleusercontent.com`
+- Client Secret: `[YOUR_GOOGLE_CLIENT_SECRET]`
 - 生产回调 URL: `https://she-sharp.vercel.app/api/auth/callback/google`
 - 本地回调 URL: `http://localhost:3000/api/auth/callback/google`
