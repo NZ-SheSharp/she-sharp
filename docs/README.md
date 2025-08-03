@@ -18,6 +18,7 @@ This directory contains all project documentation organized by category.
 - **she-sharp-pages-md/** - Markdown content for all website pages
 
 ### `/deployment` - Deployment & Configuration
+- **ENV_SETUP_GUIDE.md** - Quick environment setup guide for developers
 - **ENV_COMPARISON_REPORT.md** - Environment configuration comparison
 - **VERCEL_ENV_UPDATE.md** - Vercel environment update guide
 - **google-calendar-setup.md** - Google Calendar integration
@@ -42,8 +43,9 @@ This directory contains all project documentation organized by category.
 ## 📋 Quick Links
 
 ### 🚀 Getting Started
+- [Quick Environment Setup](./deployment/ENV_SETUP_GUIDE.md)
 - [Development Plan](./development/SHE_SHARP_DEVELOPMENT_PLAN.md)
-- [Environment Setup](./deployment/oauth-setup.md)
+- [OAuth Setup](./deployment/oauth-setup.md)
 - [Local Development](./deployment/oauth-local-setup.md)
 
 ### 🏗️ Architecture & Design
