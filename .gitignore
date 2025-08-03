@@ -25,11 +25,20 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# local env files
+# Environment files
 .env
+.env.local
+.env.production.local
+.env.development.local
+.env.test.local
+.env.vercel.*
+.env.backup.*
+.env.local.backup.*
+.env-backups/
 
 # vercel
 .vercel
+.vercel.json
 
 # typescript
 *.tsbuildinfo
