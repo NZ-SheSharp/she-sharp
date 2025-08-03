@@ -54,7 +54,7 @@ interface Session {
 
 function AccountPageContent() {
   const router = useRouter();
-  const defaultTab = 'profile';
+  const [activeTab, setActiveTab] = useState<'profile' | 'password' | 'sessions' | 'privacy'>('profile');
   
   const [user, setUser] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -92,10 +92,10 @@ function AccountPageContent() {
   }, []);
 
   useEffect(() => {
-    if (defaultTab === 'sessions') {
+    if (activeTab === 'sessions') {
       fetchSessions();
     }
-  }, [defaultTab]);
+  }, [activeTab]);
 
   const fetchUserData = async () => {
     try {
@@ -351,12 +351,12 @@ function AccountPageContent() {
         </Alert>
       )}
 
-      <Tabs defaultValue={defaultTab} className="w-full">
+      <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as any)} className="w-full">
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="profile">Profile</TabsTrigger>
-          <TabsTrigger value="security">Security</TabsTrigger>
+          <TabsTrigger value="password">Security</TabsTrigger>
           <TabsTrigger value="sessions">Sessions</TabsTrigger>
-          <TabsTrigger value="verification">Verification</TabsTrigger>
+          <TabsTrigger value="privacy">Verification</TabsTrigger>
         </TabsList>
 
         <TabsContent value="profile">
@@ -420,7 +420,7 @@ function AccountPageContent() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="security">
+        <TabsContent value="password">
           <Card>
             <CardHeader>
               <CardTitle>Password & Security</CardTitle>
@@ -620,7 +620,7 @@ function AccountPageContent() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="verification">
+        <TabsContent value="privacy">
           <Card>
             <CardHeader>
               <CardTitle>Email Verification</CardTitle>
