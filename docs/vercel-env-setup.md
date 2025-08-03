@@ -11,20 +11,20 @@ Please add the following environment variables to your Vercel project:
 
 ### Google OAuth
 ```
-GOOGLE_CLIENT_ID=805677253031-d5vboo06na716qq34edbvfbfb71rb7ht.apps.googleusercontent.com
-GOOGLE_CLIENT_SECRET=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
+GOOGLE_CLIENT_ID=[YOUR_GOOGLE_CLIENT_ID].apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=[YOUR_GOOGLE_CLIENT_SECRET]
 ```
 
 ### GitHub OAuth  
 ```
-GITHUB_CLIENT_ID=Ov23liX6wkCcjLXsHNvR
-GITHUB_CLIENT_SECRET=12cca699acfaba84dc8c03f72c2a352d34f5b0bc
+GITHUB_CLIENT_ID=[YOUR_GITHUB_CLIENT_ID]
+GITHUB_CLIENT_SECRET=[YOUR_GITHUB_CLIENT_SECRET]
 ```
 
 ### NextAuth Configuration
 ```
 NEXTAUTH_URL=https://she-sharp.vercel.app
-NEXTAUTH_SECRET=crdNTV2N4rkgvJjaA+tmlGMkAaXGhcvLBpGt2dHOElE=
+NEXTAUTH_SECRET=[GENERATE_WITH: openssl rand -base64 32]
 ```
 
 ## Important Notes
