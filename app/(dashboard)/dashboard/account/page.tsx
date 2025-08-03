@@ -8,6 +8,17 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import { 
   User, 
   Lock, 
@@ -18,11 +29,33 @@ import {
   AlertTriangle,
   Eye,
   EyeOff,
-  RefreshCw
+  RefreshCw,
+  Monitor, 
+  Smartphone, 
+  Tablet,
+  Globe,
+  MapPin,
+  Clock,
+  LogOut,
+  Activity
 } from 'lucide-react';
 
-export default function AccountSettingsPage() {
+interface Session {
+  id: number;
+  deviceInfo?: string;
+  deviceType?: string;
+  browser?: string;
+  os?: string;
+  ipAddress?: string;
+  lastActivity: string;
+  createdAt: string;
+  isCurrent?: boolean;
+}
+
+function AccountPageContent() {
   const router = useRouter();
+  const defaultTab = 'profile';
+  
   const [user, setUser] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -43,9 +76,26 @@ export default function AccountSettingsPage() {
   const [isVerified, setIsVerified] = useState(false);
   const [isSendingVerification, setIsSendingVerification] = useState(false);
 
+  // Sessions
+  const [sessions, setSessions] = useState<Session[]>([]);
+  const [isLoadingSessions, setIsLoadingSessions] = useState(false);
+  const [isRevoking, setIsRevoking] = useState(false);
+  const [sessionToRevoke, setSessionToRevoke] = useState<number | null>(null);
+  const [showRevokeDialog, setShowRevokeDialog] = useState(false);
+
+  // Account deletion
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [deletePassword, setDeletePassword] = useState('');
+
   useEffect(() => {
     fetchUserData();
   }, []);
+
+  useEffect(() => {
+    if (defaultTab === 'sessions') {
+      fetchSessions();
+    }
+  }, [defaultTab]);
 
   const fetchUserData = async () => {
     try {
@@ -63,6 +113,39 @@ export default function AccountSettingsPage() {
       setError('An error occurred while loading user data');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const fetchSessions = async () => {
+    setIsLoadingSessions(true);
+    try {
+      // Mock data for now - replace with actual API call
+      const mockSessions: Session[] = [
+        {
+          id: 1,
+          deviceType: 'desktop',
+          browser: 'Chrome',
+          os: 'Windows 11',
+          ipAddress: '192.168.1.1',
+          lastActivity: new Date().toISOString(),
+          createdAt: new Date(Date.now() - 86400000).toISOString(),
+          isCurrent: true,
+        },
+        {
+          id: 2,
+          deviceType: 'mobile',
+          browser: 'Safari',
+          os: 'iOS 17',
+          ipAddress: '192.168.1.2',
+          lastActivity: new Date(Date.now() - 3600000).toISOString(),
+          createdAt: new Date(Date.now() - 172800000).toISOString(),
+        },
+      ];
+      setSessions(mockSessions);
+    } catch (err) {
+      setError('Failed to load sessions');
+    } finally {
+      setIsLoadingSessions(false);
     }
   };
 
@@ -166,6 +249,47 @@ export default function AccountSettingsPage() {
     }
   };
 
+  const handleRevokeSession = async (sessionId: number) => {
+    setIsRevoking(true);
+    setError('');
+    setMessage('');
+
+    try {
+      // Mock API call - replace with actual implementation
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setMessage('Session revoked successfully');
+      setSessions(sessions.filter(s => s.id !== sessionId));
+    } catch (err) {
+      setError('Failed to revoke session');
+    } finally {
+      setIsRevoking(false);
+      setShowRevokeDialog(false);
+      setSessionToRevoke(null);
+    }
+  };
+
+  const handleRevokeAllOther = async () => {
+    setIsRevoking(true);
+    setError('');
+    setMessage('');
+
+    try {
+      // Mock API call - replace with actual implementation
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setMessage('All other sessions revoked successfully');
+      setSessions(sessions.filter(s => s.isCurrent));
+    } catch (err) {
+      setError('Failed to revoke sessions');
+    } finally {
+      setIsRevoking(false);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    // Implement account deletion logic
+    console.log('Delete account with password:', deletePassword);
+  };
+
   const passwordRequirements = [
     { label: 'At least 8 characters', met: newPassword.length >= 8 },
     { label: 'Contains uppercase letter', met: /[A-Z]/.test(newPassword) },
@@ -174,17 +298,44 @@ export default function AccountSettingsPage() {
     { label: 'Contains special character', met: /[!@#$%^&*]/.test(newPassword) },
   ];
 
+  const getDeviceIcon = (deviceType?: string) => {
+    switch (deviceType) {
+      case 'mobile':
+        return <Smartphone className="h-5 w-5" />;
+      case 'tablet':
+        return <Tablet className="h-5 w-5" />;
+      default:
+        return <Monitor className="h-5 w-5" />;
+    }
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diff = now.getTime() - date.getTime();
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    
+    if (hours < 1) return 'Just now';
+    if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    const days = Math.floor(hours / 24);
+    if (days < 7) return `${days} day${days > 1 ? 's' : ''} ago`;
+    return date.toLocaleDateString();
+  };
+
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-dark"></div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto py-8 px-4 max-w-4xl">
-      <h1 className="text-3xl font-bold mb-8">Account Settings</h1>
+    <div className="container mx-auto py-8 px-4 max-w-5xl">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-purple-dark">Account Settings</h1>
+        <p className="text-gray-600 mt-2">Manage your account settings and preferences</p>
+      </div>
 
       {message && (
         <Alert className="mb-6 border-green-200 bg-green-50">
@@ -200,10 +351,11 @@ export default function AccountSettingsPage() {
         </Alert>
       )}
 
-      <Tabs defaultValue="profile" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+      <Tabs defaultValue={defaultTab} className="w-full">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="profile">Profile</TabsTrigger>
           <TabsTrigger value="security">Security</TabsTrigger>
+          <TabsTrigger value="sessions">Sessions</TabsTrigger>
           <TabsTrigger value="verification">Verification</TabsTrigger>
         </TabsList>
 
@@ -249,7 +401,7 @@ export default function AccountSettingsPage() {
                 <Button 
                   type="submit" 
                   disabled={isUpdating}
-                  className="bg-purple-600 hover:bg-purple-700"
+                  className="bg-purple-dark hover:bg-purple-mid"
                 >
                   {isUpdating ? (
                     <>
@@ -271,9 +423,9 @@ export default function AccountSettingsPage() {
         <TabsContent value="security">
           <Card>
             <CardHeader>
-              <CardTitle>Change Password</CardTitle>
+              <CardTitle>Password & Security</CardTitle>
               <CardDescription>
-                Update your password to keep your account secure
+                Manage your password and account security settings
               </CardDescription>
             </CardHeader>
             <form onSubmit={handleUpdatePassword}>
@@ -324,7 +476,7 @@ export default function AccountSettingsPage() {
                 </div>
 
                 {newPassword && (
-                  <div className="space-y-2 rounded-lg bg-gray-50 p-3">
+                  <div className="space-y-2 rounded-lg bg-purple-light/20 p-3">
                     <p className="text-sm font-medium text-gray-700">Password Requirements:</p>
                     <ul className="space-y-1">
                       {passwordRequirements.map((req, index) => (
@@ -343,11 +495,11 @@ export default function AccountSettingsPage() {
                   </div>
                 )}
               </CardContent>
-              <CardFooter>
+              <CardFooter className="flex justify-between">
                 <Button 
                   type="submit" 
                   disabled={isUpdating || !passwordRequirements.every(req => req.met) || newPassword !== confirmPassword}
-                  className="bg-purple-600 hover:bg-purple-700"
+                  className="bg-purple-dark hover:bg-purple-mid"
                 >
                   {isUpdating ? (
                     <>
@@ -363,6 +515,108 @@ export default function AccountSettingsPage() {
                 </Button>
               </CardFooter>
             </form>
+          </Card>
+
+          <Card className="mt-6 border-red-200">
+            <CardHeader>
+              <CardTitle className="text-red-600">Danger Zone</CardTitle>
+              <CardDescription>
+                Permanent account deletion
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-gray-600">
+                Once you delete your account, there is no going back. All your data will be permanently removed.
+              </p>
+            </CardContent>
+            <CardFooter>
+              <Button 
+                variant="destructive"
+                onClick={() => setShowDeleteDialog(true)}
+              >
+                <AlertTriangle className="mr-2 h-4 w-4" />
+                Delete Account
+              </Button>
+            </CardFooter>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="sessions">
+          <Card>
+            <CardHeader>
+              <CardTitle>Active Sessions</CardTitle>
+              <CardDescription>
+                Manage devices and browsers where you're currently signed in
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {isLoadingSessions ? (
+                <div className="flex items-center justify-center py-8">
+                  <RefreshCw className="h-8 w-8 animate-spin text-purple-dark" />
+                </div>
+              ) : sessions.length === 0 ? (
+                <p className="text-center text-gray-500 py-8">No active sessions found</p>
+              ) : (
+                <div className="space-y-4">
+                  {sessions.map((session) => (
+                    <div key={session.id} className="flex items-start justify-between p-4 border rounded-lg">
+                      <div className="flex items-start space-x-4">
+                        <div className="mt-1">
+                          {getDeviceIcon(session.deviceType)}
+                        </div>
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-2">
+                            <p className="font-medium">
+                              {session.browser} on {session.os}
+                            </p>
+                            {session.isCurrent && (
+                              <Badge className="bg-green-100 text-green-700">Current</Badge>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-4 text-sm text-gray-500">
+                            <div className="flex items-center gap-1">
+                              <Globe className="h-3 w-3" />
+                              {session.ipAddress}
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Clock className="h-3 w-3" />
+                              Last active: {formatDate(session.lastActivity)}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {!session.isCurrent && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            setSessionToRevoke(session.id);
+                            setShowRevokeDialog(true);
+                          }}
+                          disabled={isRevoking}
+                        >
+                          <LogOut className="h-4 w-4" />
+                          Revoke
+                        </Button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+            {sessions.filter(s => !s.isCurrent).length > 0 && (
+              <CardFooter>
+                <Button
+                  variant="outline"
+                  onClick={handleRevokeAllOther}
+                  disabled={isRevoking}
+                  className="w-full"
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Revoke All Other Sessions
+                </Button>
+              </CardFooter>
+            )}
           </Card>
         </TabsContent>
 
@@ -439,25 +693,64 @@ export default function AccountSettingsPage() {
         </TabsContent>
       </Tabs>
 
-      <Card className="mt-8 border-red-200">
-        <CardHeader>
-          <CardTitle className="text-red-600">Danger Zone</CardTitle>
-          <CardDescription>
-            Irreversible actions for your account
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p className="text-sm text-gray-600 mb-4">
-            Once you delete your account, there is no going back. Please be certain.
-          </p>
-        </CardContent>
-        <CardFooter>
-          <Button variant="destructive">
-            <AlertTriangle className="mr-2 h-4 w-4" />
-            Delete Account
-          </Button>
-        </CardFooter>
-      </Card>
+      {/* Delete Account Dialog */}
+      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete your account
+              and remove all your data from our servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div className="my-4">
+            <Label htmlFor="delete-password">Enter your password to confirm</Label>
+            <Input
+              id="delete-password"
+              type="password"
+              value={deletePassword}
+              onChange={(e) => setDeletePassword(e.target.value)}
+              placeholder="Enter your password"
+              className="mt-2"
+            />
+          </div>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setDeletePassword('')}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteAccount}
+              disabled={!deletePassword}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              Delete Account
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Revoke Session Dialog */}
+      <AlertDialog open={showRevokeDialog} onOpenChange={setShowRevokeDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Revoke Session?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will sign out the selected device. You'll need to sign in again on that device.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => sessionToRevoke && handleRevokeSession(sessionToRevoke)}
+              className="bg-purple-dark hover:bg-purple-mid"
+            >
+              Revoke Session
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
+}
+
+export default function AccountPage() {
+  return <AccountPageContent />;
 }

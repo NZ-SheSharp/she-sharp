@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import { useState, Suspense } from 'react';
+import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Home, LogOut, Menu, X, Settings, Users, Activity, CreditCard, ArrowLeft } from 'lucide-react';
+import { Home, LogOut, Menu, X, Settings, Users, Activity, CreditCard, Shield, Layers, DollarSign, FileText, LockKeyhole, User as UserIcon, CheckCircle } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,11 +15,44 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { signOut as nextAuthSignOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { User } from '@/lib/db/schema';
+import type { User } from '@/lib/db/schema';
 import useSWR, { mutate } from 'swr';
 import Image from 'next/image';
+import { cn } from '@/lib/utils';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+// Sidebar navigation items
+const sidebarNavItems = [
+  {
+    title: 'Overview',
+    href: '/dashboard',
+    icon: Home,
+  },
+  {
+    title: 'Team',
+    icon: Users,
+    children: [
+      { title: 'Members', href: '/dashboard/team/members', icon: Users },
+      { title: 'Settings', href: '/dashboard/team/settings', icon: Settings },
+    ],
+  },
+  {
+    title: 'Account',
+    href: '/dashboard/account',
+    icon: UserIcon,
+  },
+  {
+    title: 'Activity',
+    href: '/dashboard/activity',
+    icon: Activity,
+  },
+  {
+    title: 'Billing',
+    href: '/dashboard/billing',
+    icon: CreditCard,
+  },
+];
 
 function UserMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -115,25 +149,19 @@ function UserMenu() {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild className="cursor-pointer">
-          <Link href="/dashboard/settings/account">
+          <Link href="/dashboard/account">
             <Settings className="mr-2 h-4 w-4" />
             <span>Account Settings</span>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild className="cursor-pointer">
-          <Link href="/dashboard/settings/sessions">
-            <Activity className="mr-2 h-4 w-4" />
-            <span>Active Sessions</span>
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild className="cursor-pointer">
-          <Link href="/dashboard/settings/team">
+          <Link href="/dashboard/team/settings">
             <Users className="mr-2 h-4 w-4" />
             <span>Team Settings</span>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild className="cursor-pointer">
-          <Link href="/dashboard/settings/billing">
+          <Link href="/dashboard/billing">
             <CreditCard className="mr-2 h-4 w-4" />
             <span>Billing</span>
           </Link>
@@ -152,160 +180,272 @@ function UserMenu() {
   );
 }
 
-function Header() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+// Desktop Sidebar Component
+function Sidebar() {
+  const pathname = usePathname();
+  const [expandedItems, setExpandedItems] = useState<string[]>([]);
+
+  const toggleExpanded = (title: string) => {
+    setExpandedItems(prev =>
+      prev.includes(title)
+        ? prev.filter(item => item !== title)
+        : [...prev, title]
+    );
+  };
 
   return (
-    <header className="bg-white border-b border-periwinkle-light">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
-          {/* Logo and Brand */}
-          <div className="flex items-center space-x-4">
-            <Link href="/" className="flex items-center space-x-2 sm:space-x-3 group">
-              <div className="relative w-24 sm:w-32 h-8 sm:h-10">
-                <Image
-                  src="/logos/she-sharp-logo.svg"
-                  alt="She Sharp Logo"
-                  width={128}
-                  height={40}
-                  className="object-contain text-purple-dark group-hover:text-purple-mid transition-colors"
-                  priority
-                />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs text-gray hidden lg:block">
-                  Dashboard
-                </span>
-              </div>
-            </Link>
-            
-            {/* Back to Main Site */}
-            <Link 
-              href="/"
-              className="hidden md:flex items-center gap-1 text-sm text-gray hover:text-blue transition-colors ml-8"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Back to Main Site
-            </Link>
-          </div>
-
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-4">
-            <nav className="flex items-center space-x-2">
-              <Link href="/dashboard">
-                <Button variant="ghost" size="sm" className="text-navy-dark hover:text-purple-dark hover:bg-purple-light transition-colors">
-                  Overview
-                </Button>
-              </Link>
-              <Link href="/dashboard/settings/account">
-                <Button variant="ghost" size="sm" className="text-navy-dark hover:text-purple-dark hover:bg-purple-light transition-colors">
-                  Settings
-                </Button>
-              </Link>
-              <Link href="/dashboard/settings/team">
-                <Button variant="ghost" size="sm" className="text-navy-dark hover:text-purple-dark hover:bg-purple-light transition-colors">
-                  Team
-                </Button>
-              </Link>
-            </nav>
-            <div className="h-6 w-px bg-gray-300" />
-            <Suspense fallback={<div className="h-9 w-9 animate-pulse bg-gray-200 rounded-full" />}>
-              <UserMenu />
-            </Suspense>
-          </div>
-
-          {/* Mobile Menu Button and User Avatar */}
-          <div className="md:hidden flex items-center gap-2">
-            <Suspense fallback={<div className="h-8 w-8 animate-pulse bg-gray-200 rounded-full" />}>
-              <UserMenu />
-            </Suspense>
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-md text-gray hover:text-purple-dark hover:bg-purple-light focus:outline-none transition-colors"
-              aria-label="Toggle menu"
-            >
-              {isMobileMenuOpen ? (
-                <X className="h-5 w-5" />
+    <aside className="hidden lg:flex w-64 flex-col fixed left-0 top-16 bottom-0 bg-white border-r border-gray-200">
+      <nav className="flex-1 p-4 overflow-y-auto">
+        <div className="space-y-1">
+          {sidebarNavItems.map((item) => (
+            <div key={item.title}>
+              {item.children ? (
+                <div>
+                  <button
+                    onClick={() => toggleExpanded(item.title)}
+                    className={cn(
+                      "w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                      "hover:bg-purple-light/30 hover:text-purple-dark",
+                      expandedItems.includes(item.title) ? "bg-purple-light/20 text-purple-dark" : "text-gray-700"
+                    )}
+                  >
+                    <div className="flex items-center gap-3">
+                      <item.icon className="h-4 w-4" />
+                      <span>{item.title}</span>
+                    </div>
+                    <svg
+                      className={cn(
+                        "h-4 w-4 transition-transform",
+                        expandedItems.includes(item.title) ? "rotate-180" : ""
+                      )}
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {expandedItems.includes(item.title) && (
+                    <div className="ml-4 mt-1 space-y-1">
+                      {item.children.map((child) => (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          className={cn(
+                            "flex items-center gap-3 px-3 py-2 text-sm rounded-md transition-colors",
+                            pathname === child.href
+                              ? "bg-purple-dark text-white"
+                              : "text-gray-600 hover:bg-purple-light/30 hover:text-purple-dark"
+                          )}
+                        >
+                          <child.icon className="h-3 w-3" />
+                          <span>{child.title}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ) : (
-                <Menu className="h-5 w-5" />
+                <Link
+                  href={item.href}
+                  className={cn(
+                    "flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                    pathname === item.href
+                      ? "bg-purple-dark text-white"
+                      : "text-gray-700 hover:bg-purple-light/30 hover:text-purple-dark"
+                  )}
+                >
+                  <item.icon className="h-4 w-4" />
+                  <span>{item.title}</span>
+                </Link>
               )}
-            </button>
+            </div>
+          ))}
+        </div>
+      </nav>
+    </aside>
+  );
+}
+
+// Mobile Sidebar Component
+function MobileSidebar({ onClose }: { onClose: () => void }) {
+  const pathname = usePathname();
+  const [expandedItems, setExpandedItems] = useState<string[]>([]);
+
+  const toggleExpanded = (title: string) => {
+    setExpandedItems(prev =>
+      prev.includes(title)
+        ? prev.filter(item => item !== title)
+        : [...prev, title]
+    );
+  };
+
+  return (
+    <nav className="flex-1 p-4 overflow-y-auto">
+      <div className="space-y-1">
+        {sidebarNavItems.map((item) => (
+          <div key={item.title}>
+            {item.children ? (
+              <div>
+                <button
+                  onClick={() => toggleExpanded(item.title)}
+                  className={cn(
+                    "w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                    "hover:bg-purple-light/30 hover:text-purple-dark",
+                    expandedItems.includes(item.title) ? "bg-purple-light/20 text-purple-dark" : "text-gray-700"
+                  )}
+                >
+                  <div className="flex items-center gap-3">
+                    <item.icon className="h-4 w-4" />
+                    <span>{item.title}</span>
+                  </div>
+                  <svg
+                    className={cn(
+                      "h-4 w-4 transition-transform",
+                      expandedItems.includes(item.title) ? "rotate-180" : ""
+                    )}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {expandedItems.includes(item.title) && (
+                  <div className="ml-4 mt-1 space-y-1">
+                    {item.children.map((child) => (
+                      <Link
+                        key={child.href}
+                        href={child.href}
+                        onClick={onClose}
+                        className={cn(
+                          "flex items-center gap-3 px-3 py-2 text-sm rounded-md transition-colors",
+                          pathname === child.href
+                            ? "bg-purple-dark text-white"
+                            : "text-gray-600 hover:bg-purple-light/30 hover:text-purple-dark"
+                        )}
+                      >
+                        <child.icon className="h-3 w-3" />
+                        <span>{child.title}</span>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                href={item.href}
+                onClick={onClose}
+                className={cn(
+                  "flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                  pathname === item.href
+                    ? "bg-purple-dark text-white"
+                    : "text-gray-700 hover:bg-purple-light/30 hover:text-purple-dark"
+                )}
+              >
+                <item.icon className="h-4 w-4" />
+                <span>{item.title}</span>
+              </Link>
+            )}
           </div>
+        ))}
+      </div>
+    </nav>
+  );
+}
+
+function Header() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  return (
+    <header className={cn(
+      "fixed top-0 z-50 w-full border-b bg-white transition-all duration-150",
+      scrolled ? "shadow-sm" : ""
+    )}>
+      <div className="mx-auto px-4 md:px-6 max-w-7xl flex h-16 items-center">
+        {/* Logo - Click to return home */}
+        <Link 
+          href="/" 
+          className="mr-8 flex items-center space-x-2 transition-all duration-200 group hover:opacity-80"
+        >
+          <div className="relative w-32 h-10">
+            <Image
+              src="/logos/she-sharp-logo.svg"
+              alt="She Sharp"
+              fill
+              sizes="128px"
+              className="object-contain transition-all duration-200 group-hover:brightness-110"
+              priority
+            />
+          </div>
+        </Link>
+
+        {/* Desktop User Menu */}
+        <div className="ml-auto hidden lg:flex items-center gap-3">
+          <Suspense fallback={<div className="h-9 w-9 animate-pulse bg-gray-200 rounded-full" />}>
+            <UserMenu />
+          </Suspense>
         </div>
 
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-periwinkle-light py-3 px-2 bg-white/95 backdrop-blur-sm">
-            <nav className="flex flex-col space-y-1">
-              <Link href="/dashboard" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start text-navy-dark hover:text-purple-dark hover:bg-purple-light transition-colors h-10">
-                  <Home className="mr-2 h-4 w-4" />
-                  <span className="text-sm">Dashboard Overview</span>
-                </Button>
-              </Link>
-              <Link href="/dashboard/settings/account" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start text-navy-dark hover:text-purple-dark hover:bg-purple-light transition-colors h-10">
-                  <Settings className="mr-2 h-4 w-4" />
-                  <span className="text-sm">Account Settings</span>
-                </Button>
-              </Link>
-              <Link href="/dashboard/settings/team" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start text-navy-dark hover:text-purple-dark hover:bg-purple-light transition-colors h-10">
-                  <Users className="mr-2 h-4 w-4" />
-                  <span className="text-sm">Team Settings</span>
-                </Button>
-              </Link>
-              <Link href="/dashboard/settings/billing" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start text-navy-dark hover:text-purple-dark hover:bg-purple-light transition-colors h-10">
-                  <CreditCard className="mr-2 h-4 w-4" />
-                  <span className="text-sm">Billing</span>
-                </Button>
-              </Link>
-              <Link href="/dashboard/settings/sessions" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start text-navy-dark hover:text-purple-dark hover:bg-purple-light transition-colors h-10">
-                  <Activity className="mr-2 h-4 w-4" />
-                  <span className="text-sm">Active Sessions</span>
-                </Button>
-              </Link>
-              <div className="my-2 border-t border-periwinkle-light" />
-              <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button variant="ghost" className="w-full justify-start text-gray hover:text-blue hover:bg-purple-light transition-colors h-10">
-                  <ArrowLeft className="mr-2 h-4 w-4" />
-                  <span className="text-sm">Back to Main Site</span>
-                </Button>
-              </Link>
-            </nav>
-          </div>
-        )}
+        {/* Mobile Menu Button */}
+        <div className="ml-auto lg:hidden flex items-center gap-2">
+          <Suspense fallback={<div className="h-8 w-8 animate-pulse bg-gray-200 rounded-full" />}>
+            <UserMenu />
+          </Suspense>
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="p-2 rounded-md text-gray hover:text-purple-dark hover:bg-purple-light/30 focus:outline-none transition-colors"
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
+            )}
+          </button>
+        </div>
       </div>
+
+      {/* Mobile Sidebar */}
+      {isMobileMenuOpen && (
+        <div className="lg:hidden fixed inset-0 top-16 z-40 bg-black/20" onClick={() => setIsMobileMenuOpen(false)}>
+          <div className="w-64 h-full bg-white border-r shadow-lg" onClick={(e) => e.stopPropagation()}>
+            <MobileSidebar onClose={() => setIsMobileMenuOpen(false)} />
+          </div>
+        </div>
+      )}
     </header>
   );
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-purple-light via-white to-periwinkle-light">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-purple-light/20 via-white to-periwinkle-light/20">
       <Header />
-      <main className="flex-1">
-        {children}
+      <Sidebar />
+      <main className="flex-1 lg:ml-64 pt-16">
+        <div className="h-full">
+          {children}
+        </div>
       </main>
-      <footer className="bg-white border-t border-periwinkle-light py-4 sm:py-6 mt-auto">
+      <footer className="lg:ml-64 bg-white border-t border-gray-200 py-4 sm:py-6 mt-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-0">
             <div className="text-xs sm:text-sm text-gray text-center sm:text-left">
               © {new Date().getFullYear()} She Sharp. All rights reserved.
             </div>
             <div className="flex items-center gap-4 sm:gap-6 text-xs sm:text-sm">
-              <Link href="/about" className="text-gray hover:text-blue transition-colors">
+              <Link href="/about" className="text-gray hover:text-purple-dark transition-colors">
                 About
               </Link>
-              <Link href="/contact" className="text-gray hover:text-blue transition-colors">
+              <Link href="/contact" className="text-gray hover:text-purple-dark transition-colors">
                 Contact
               </Link>
-              <Link href="/privacy" className="text-gray hover:text-blue transition-colors">
+              <Link href="/privacy-policy" className="text-gray hover:text-purple-dark transition-colors">
                 Privacy
               </Link>
-              <Link href="/terms" className="text-gray hover:text-blue transition-colors">
+              <Link href="/terms-of-service" className="text-gray hover:text-purple-dark transition-colors">
                 Terms
               </Link>
             </div>
