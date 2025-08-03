@@ -71,10 +71,27 @@ export async function GET() {
         </head>
         <body>
           <script>
-            // Clear all client-side storage
+            // Clear client-side storage but preserve cookie preferences
             try {
-              localStorage.clear();
+              // Save cookie preferences before clearing
+              const cookieConsent = localStorage.getItem('cookie-consent');
+              const cookieConsentDate = localStorage.getItem('cookie-consent-date');
+              
+              // Clear all localStorage except cookie preferences
+              const keysToKeep = ['cookie-consent', 'cookie-consent-date'];
+              const allKeys = Object.keys(localStorage);
+              for (const key of allKeys) {
+                if (!keysToKeep.includes(key)) {
+                  localStorage.removeItem(key);
+                }
+              }
+              
+              // Clear sessionStorage completely (doesn't contain cookie preferences)
               sessionStorage.clear();
+              
+              // Restore cookie preferences if they existed
+              if (cookieConsent) localStorage.setItem('cookie-consent', cookieConsent);
+              if (cookieConsentDate) localStorage.setItem('cookie-consent-date', cookieConsentDate);
             } catch (e) {}
             
             // Clear NextAuth client-side session
