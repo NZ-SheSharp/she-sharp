@@ -136,14 +136,14 @@ export default function DashboardPage() {
       description: 'Keep your account secure with a strong password',
       icon: Lock,
       status: 'active',
-      action: '/dashboard/settings/account#security',
+      action: '/dashboard/account',
     },
     {
       title: 'Session Management',
       description: 'Monitor and control active sessions',
       icon: Activity,
       status: 'active',
-      action: '/dashboard/settings/sessions',
+      action: '/dashboard/account',
     },
     {
       title: 'Two-Factor Authentication',
