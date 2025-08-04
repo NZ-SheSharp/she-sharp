@@ -6,8 +6,8 @@
 
 ## 🔴 必须立即轮换的凭据
 
-### 1. **Stripe API 密钥** (最紧急 - 这是 LIVE 密钥!)
-- **当前泄露的密钥**: `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`
+### 1. **Stripe API 密钥** (✅ 已轮换 - 2025-08-04)
+- **当前泄露的密钥**: [REDACTED - API KEY REMOVED FOR SECURITY]
 - **行动**:
   1. 立即登录 [Stripe Dashboard](https://dashboard.stripe.com/apikeys)
   2. 点击 "Roll key" 生成新密钥
@@ -16,7 +16,7 @@
 
 ### 2. **Google OAuth 凭据**
 - **Client ID**: `805677253031-d5vboo06na716qq34edbvfbfb71rb7ht`
-- **Client Secret**: `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`
+- **Client Secret**: [REDACTED]
 - **行动**:
   1. 访问 [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
   2. 找到对应的 OAuth 2.0 客户端
@@ -25,7 +25,7 @@
 
 ### 3. **GitHub OAuth 凭据**
 - **Client ID**: `Ov23liX6wkCcjLXsHNvR`
-- **Client Secret**: `12cca699acfaba84dc8c03f72c2a352d34f5b0bc`
+- **Client Secret**: [REDACTED]
 - **行动**:
   1. 访问 [GitHub Developer Settings](https://github.com/settings/developers)
   2. 找到 "She Sharp" OAuth App
@@ -33,18 +33,18 @@
   4. 保存新的 secret
 
 ### 4. **数据库密码**
-- **当前密码**: `npg_6pFr8UWAmZIf`
+- **当前密码**: [REDACTED]
 - **行动**:
   1. 在数据库管理面板中更改密码
   2. 更新所有连接字符串
 
 ### 5. **API 密钥**
-- **Google AI API**: `AIzaSyDSW1Cns_MVfVjeNv6-fH_i7crsCIFKA10`
-- **Resend API**: `re_Mmvk1cPk_6H4vFnf9kez7pTCeiyXwq2MK`
+- **Google AI API**: [REDACTED]
+- **Resend API**: [REDACTED]
 - **行动**: 在各自的平台重新生成密钥
 
 ### 6. **Auth Secrets**
-- **新的 NextAuth Secret** (已生成): `/qDlrpWHUVZ7mRaLNv6SYB8mMeTjClHaiXjqaJ8elPY=`
+- **新的 NextAuth Secret** (已生成): [REDACTED]
 - **行动**: 使用这个新生成的 secret 替换旧的
 
 ## 📋 轮换步骤

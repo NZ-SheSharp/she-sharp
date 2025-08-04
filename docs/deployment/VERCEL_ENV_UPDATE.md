@@ -6,13 +6,13 @@
 
 ### 新的 OAuth 凭据
 - **Google Client ID**: `805677253031-d5vboo06na716qq34edbvfbfb71rb7ht.apps.googleusercontent.com` (未变)
-- **Google Client Secret**: `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` ✅ (已更新)
+- **Google Client Secret**: [REDACTED] ✅ (已更新)
 - **GitHub Client ID**: `Ov23liX6wkCcjLXsHNvR` (未变)
-- **GitHub Client Secret**: `89f8abf477356321c189c97fd43ded87c6560600` ✅ (已更新)
+- **GitHub Client Secret**: [REDACTED] ✅ (已更新)
 
 ### 新的认证密钥
-- **AUTH_SECRET**: `/qDlrpWHUVZ7mRaLNv6SYB8mMeTjClHaiXjqaJ8elPY=` ✅ (已更新)
-- **NEXTAUTH_SECRET**: `/qDlrpWHUVZ7mRaLNv6SYB8mMeTjClHaiXjqaJ8elPY=` ✅ (已更新)
+- **AUTH_SECRET**: [REDACTED] ✅ (已更新)
+- **NEXTAUTH_SECRET**: [REDACTED] ✅ (已更新)
 
 ## 🚀 Vercel 部署更新步骤
 
@@ -28,12 +28,12 @@
 
 ```bash
 # OAuth 凭据 - 必须更新
-GOOGLE_CLIENT_SECRET=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
-GITHUB_CLIENT_SECRET=89f8abf477356321c189c97fd43ded87c6560600
+GOOGLE_CLIENT_SECRET=[REDACTED]
+GITHUB_CLIENT_SECRET=[REDACTED]
 
 # 认证密钥 - 必须更新
-AUTH_SECRET=/qDlrpWHUVZ7mRaLNv6SYB8mMeTjClHaiXjqaJ8elPY=
-NEXTAUTH_SECRET=/qDlrpWHUVZ7mRaLNv6SYB8mMeTjClHaiXjqaJ8elPY=
+AUTH_SECRET=[REDACTED]
+NEXTAUTH_SECRET=[REDACTED]
 
 # URL 配置 - 确认存在
 NEXTAUTH_URL=https://she-sharp.vercel.app

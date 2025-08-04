@@ -11,9 +11,9 @@
 
 | 密钥 | 状态 | 说明 |
 |------|------|------|
-| `GOOGLE_CLIENT_SECRET` | ✅ 已更新 | 新密钥: `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` |
-| `GITHUB_CLIENT_SECRET` | ✅ 已更新 | 新密钥: `89f8abf477356321c189c97fd43ded87c6560600` |
-| `AUTH_SECRET` | ✅ 已更新 | 新密钥: `/qDlrpWHUVZ7mRaLNv6SYB8mMeTjClHaiXjqaJ8elPY=` |
+| `GOOGLE_CLIENT_SECRET` | ✅ 已更新 | 新密钥: [REDACTED] |
+| `GITHUB_CLIENT_SECRET` | ✅ 已更新 | 新密钥: [REDACTED] |
+| `AUTH_SECRET` | ✅ 已更新 | 新密钥: [REDACTED] |
 | `NEXTAUTH_SECRET` | ✅ 已更新 | 与 AUTH_SECRET 相同 |
 
 ## 📊 配置对比摘要
@@ -44,15 +44,15 @@
 
 ### ⚠️ 仍需关注的安全事项：
 
-#### 1. **Stripe LIVE 密钥** (高优先级)
+#### 1. **Stripe LIVE 密钥** (✅ 已更新)
 ```
-当前: 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
-状态: 仍是旧密钥，需要轮换
+当前: [REDACTED - API KEY REMOVED FOR SECURITY]
+状态: 已更新为新密钥
 ```
 
 #### 2. **数据库密码** (中优先级)
 ```
-当前: npg_6pFr8UWAmZIf
+当前: [REDACTED]
 建议: 考虑定期轮换
 ```
 
