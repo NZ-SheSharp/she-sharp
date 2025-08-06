@@ -55,17 +55,18 @@ export class MigrationManager {
    */
   async getAppliedMigrations(): Promise<MigrationStatus[]> {
     try {
-      const result = await db.execute<MigrationStatus>(sql`
+      const result = await db.execute(sql`
         SELECT name, applied_at, checksum 
         FROM __drizzle_migrations 
         ORDER BY applied_at ASC
       `);
       // Handle both possible return types from execute
       if (Array.isArray(result)) {
-        return result;
+        return result as MigrationStatus[];
       }
       // @ts-ignore - handle different drizzle versions
-      return result.rows || [];
+      const rows = (result as any).rows || [];
+      return rows as MigrationStatus[];
     } catch (error) {
       // Table might not exist yet
       return [];
