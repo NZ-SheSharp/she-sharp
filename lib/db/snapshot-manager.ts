@@ -111,10 +111,16 @@ export class SnapshotManager {
         ORDER BY tablename, indexname
       `);
 
+      // Handle both possible return types from execute
+      const getRows = (result: any) => {
+        if (Array.isArray(result)) return result;
+        return result.rows || [];
+      };
+
       return {
-        tables: tables.rows,
-        columns: columns.rows,
-        indexes: indexes.rows,
+        tables: getRows(tables),
+        columns: getRows(columns),
+        indexes: getRows(indexes),
         capturedAt: new Date().toISOString()
       };
     } catch (error) {
