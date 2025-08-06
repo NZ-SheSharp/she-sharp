@@ -49,6 +49,10 @@ next-env.d.ts
 postgres_data/
 .env*.local
 
+# Database snapshots and backups
+lib/db/snapshots/
+lib/db/checkpoints/
+
 # Additional environment files
 .env.development
 .env.production

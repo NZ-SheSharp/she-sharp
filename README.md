@@ -223,6 +223,7 @@ We are committed to creating an inclusive environment where women in STEM can:
 **Backend Stack:**
 - **Runtime**: Node.js with Next.js API Routes
 - **Database**: PostgreSQL with Drizzle ORM
+- **Database Version Control**: Migration snapshots and checkpoints
 - **Authentication**: JWT-based with @node-rs/argon2
 - **Payments**: Stripe Checkout & Subscriptions
 - **AI Integration**: Google Gemini API
@@ -250,7 +251,8 @@ Before you begin, ensure you have the following installed:
   ```
 
 - **PostgreSQL** (v14 or higher)
-  - Local installation or cloud service (e.g., Vercel Postgres, Supabase)
+  - Local installation or cloud service (e.g., Neon, Vercel Postgres, Supabase)
+  - Note: `pg_dump` utility needed for full snapshot functionality (optional)
 
 - **Git**
   ```bash
@@ -282,6 +284,9 @@ Before you begin, ensure you have the following installed:
    pnpm db:setup
    pnpm db:migrate
    pnpm db:seed
+   
+   # Create initial snapshot for version control
+   pnpm db:snapshot "initial-setup"
    ```
 
 6. **Start the development server**
@@ -437,6 +442,9 @@ The project includes a comprehensive database version control system built on to
    ```bash
    pnpm db:version list-snapshots
    ```
+
+> [!TIP]
+> **Best Practice**: Always create snapshots before major database changes. The snapshot system works even with remote databases (like Neon) by storing migration state and schema information in JSON format.
 
 For detailed documentation, see:
 - [Database Version Control Guide](docs/database/DATABASE_VERSION_CONTROL.md)
@@ -608,9 +616,15 @@ she-sharp/
 │   │   ├── queries.ts        # Database queries
 │   │   ├── drizzle.ts        # Drizzle client
 │   │   ├── migrations/       # Database migrations
-│   │   └── migration-manager.ts # Version control
+│   │   ├── snapshots/        # Database snapshots
+│   │   ├── migration-manager.ts # Version control
+│   │   └── snapshot-manager.ts  # Snapshot management
 │   ├── data/                   # Static data
 │   └── payments/               # Stripe integration
+├── scripts/                    # Utility scripts
+│   ├── db-version.ts          # Version control CLI
+│   ├── db-snapshot.ts         # Snapshot creation
+│   └── migrate-with-backup.ts # Safe migration
 ├── public/                     # Static assets
 │   ├── images/                # Image files
 │   └── logos/                 # Logo assets
@@ -875,7 +889,11 @@ graph TB
 
 3. **Run database migrations**
    ```bash
-   pnpm db:migrate
+   # Create pre-deployment snapshot
+   pnpm db:snapshot "pre-deployment-$(date +%Y%m%d)"
+   
+   # Run migrations safely
+   pnpm db:migrate:safe
    ```
 
 4. **Start the production server**
@@ -1126,8 +1144,10 @@ pnpm db:status
 # Create backup before troubleshooting
 pnpm db:snapshot "before-fix"
 
-# Reset database (if needed)
-pnpm db:reset
+# Reset database (if needed) - Note: db:reset command not available
+# Instead, manually drop and recreate database, then:
+pnpm db:setup
+pnpm db:migrate
 
 # Regenerate migrations
 pnpm db:generate

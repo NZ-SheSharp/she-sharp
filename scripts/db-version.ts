@@ -53,7 +53,9 @@ async function main() {
           console.error('❌ Please provide a checkpoint name');
           process.exit(1);
         }
-        await manager.createCheckpoint(checkpointName);
+        const { SnapshotManager } = await import('../lib/db/snapshot-manager');
+        const snapshotManager = new SnapshotManager();
+        await snapshotManager.createCheckpoint(checkpointName);
         break;
 
       case 'rollback-sql':
