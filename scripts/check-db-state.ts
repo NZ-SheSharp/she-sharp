@@ -13,6 +13,12 @@ async function checkDatabaseState() {
   console.log('🔍 Checking database state...\n');
 
   try {
+    // Helper to extract rows from execute result
+    const getRows = (result: any): any[] => {
+      if (Array.isArray(result)) return result;
+      return result.rows || [];
+    };
+
     // Check if __drizzle_migrations table exists
     const migrationTableExists = await db.execute(sql`
       SELECT EXISTS (
@@ -22,7 +28,8 @@ async function checkDatabaseState() {
       );
     `);
 
-    const tableExists = migrationTableExists.rows?.[0]?.exists || false;
+    const rows = getRows(migrationTableExists);
+    const tableExists = rows[0]?.exists || false;
     console.log('Migration table exists:', tableExists);
 
     if (tableExists) {
@@ -32,9 +39,10 @@ async function checkDatabaseState() {
         ORDER BY created_at ASC;
       `);
       
+      const migrationRows = getRows(migrations);
       console.log('\n📋 Applied migrations:');
-      if (migrations.rows.length > 0) {
-        migrations.rows.forEach((m: any) => {
+      if (migrationRows.length > 0) {
+        migrationRows.forEach((m: any) => {
           console.log(`✅ ${m.name} - Applied at: ${m.created_at}`);
         });
       } else {
@@ -51,9 +59,10 @@ async function checkDatabaseState() {
       ORDER BY table_name;
     `);
 
+    const tableRows = getRows(tables);
     console.log('\n📊 Database tables:');
-    if (tables.rows && tables.rows.length > 0) {
-      tables.rows.forEach((t: any) => {
+    if (tableRows.length > 0) {
+      tableRows.forEach((t: any) => {
         console.log(`  - ${t.table_name}`);
       });
     } else {
