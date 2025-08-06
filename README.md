@@ -173,6 +173,7 @@ We are committed to creating an inclusive environment where women in STEM can:
 - **API Routes** - RESTful API with comprehensive endpoints
 - **Authentication** - Secure JWT-based authentication system
 - **Database ORM** - Drizzle ORM for type-safe database operations
+- **Database Version Control** - Migration tracking, snapshots, and rollback capabilities
 - **Component Library** - shadcn/ui with Radix UI primitives
 
 ## 🛠️ Tech Stack
@@ -343,8 +344,15 @@ pnpm start
 pnpm db:setup         # Initial setup
 pnpm db:generate      # Generate migrations
 pnpm db:migrate       # Apply migrations
+pnpm db:migrate:safe  # Apply migrations with automatic backup
 pnpm db:seed          # Seed sample data
 pnpm db:studio        # Open Drizzle Studio
+
+# Database version control
+pnpm db:status        # Check migration status
+pnpm db:history       # View migration history
+pnpm db:snapshot      # Create database snapshot
+pnpm db:version       # Access all version control commands
 
 # Linting and formatting
 pnpm lint             # Run ESLint
@@ -400,6 +408,39 @@ pnpm type-check       # Run TypeScript compiler
    pnpm db:generate
    pnpm db:migrate
    ```
+
+#### Database Version Control
+
+The project includes a comprehensive database version control system built on top of Drizzle ORM:
+
+1. **Before making schema changes**, create a snapshot:
+   ```bash
+   pnpm db:snapshot "before-feature-xyz"
+   ```
+
+2. **Check migration status** before deployment:
+   ```bash
+   pnpm db:status
+   ```
+
+3. **Apply migrations safely** with automatic backup:
+   ```bash
+   pnpm db:migrate:safe
+   ```
+
+4. **Create checkpoints** for stable versions:
+   ```bash
+   pnpm db:version checkpoint "v1.0-stable"
+   ```
+
+5. **View available snapshots** for rollback:
+   ```bash
+   pnpm db:version list-snapshots
+   ```
+
+For detailed documentation, see:
+- [Database Version Control Guide](docs/database/DATABASE_VERSION_CONTROL.md)
+- [Migration Quick Start](docs/database/MIGRATION_QUICK_START.md)
 
 ## 🏗️ Architecture
 
@@ -565,7 +606,9 @@ she-sharp/
 │   ├── db/                     # Database configuration
 │   │   ├── schema.ts         # Database schema
 │   │   ├── queries.ts        # Database queries
-│   │   └── drizzle.ts        # Drizzle client
+│   │   ├── drizzle.ts        # Drizzle client
+│   │   ├── migrations/       # Database migrations
+│   │   └── migration-manager.ts # Version control
 │   ├── data/                   # Static data
 │   └── payments/               # Stripe integration
 ├── public/                     # Static assets
@@ -1077,12 +1120,30 @@ pnpm dev --port 3001
 
 **Migration Errors:**
 ```bash
-# Reset database
+# Check migration status first
+pnpm db:status
+
+# Create backup before troubleshooting
+pnpm db:snapshot "before-fix"
+
+# Reset database (if needed)
 pnpm db:reset
 
 # Regenerate migrations
 pnpm db:generate
 pnpm db:migrate
+```
+
+**Version Control Issues:**
+```bash
+# View migration history
+pnpm db:history
+
+# List available snapshots
+pnpm db:version list-snapshots
+
+# Generate rollback SQL
+pnpm db:version rollback-sql <migration-tag>
 ```
 
 ### Production Issues
@@ -1126,6 +1187,21 @@ A:
 
 **Q: Can I deploy this to other platforms besides Vercel?**
 A: Yes! The project can be deployed to any platform that supports Next.js, including Railway, Render, AWS, or self-hosted servers.
+
+**Q: How do I manage database migrations safely?**
+A: The project includes a comprehensive database version control system:
+1. Always check status before migrations: `pnpm db:status`
+2. Create snapshots before major changes: `pnpm db:snapshot "description"`
+3. Use safe migration: `pnpm db:migrate:safe` (creates automatic backup)
+4. Create checkpoints for stable versions: `pnpm db:version checkpoint "v1.0"`
+5. Review the [Database Version Control Guide](docs/database/DATABASE_VERSION_CONTROL.md)
+
+**Q: How do I rollback database changes?**
+A: 
+1. List available snapshots: `pnpm db:version list-snapshots`
+2. Generate rollback SQL: `pnpm db:version rollback-sql <migration-tag>`
+3. For complex rollbacks, restore from snapshots following the guide
+4. Always test rollback procedures in staging first
 
 **Q: How do I contribute to the project?**
 A: Please read our [Contributing Guidelines](#contributing) and follow the development process. We welcome all contributions!
