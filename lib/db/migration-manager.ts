@@ -27,6 +27,7 @@ interface MigrationStatus {
 /**
  * Database migration manager for Drizzle
  * Provides version control and rollback capabilities
+ * Updated: 2025-08-06 - Fixed TypeScript build issues
  */
 export class MigrationManager {
   private migrationsPath: string;
