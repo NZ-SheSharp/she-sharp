@@ -63,11 +63,15 @@ export class MigrationManager {
       `);
       // Handle both possible return types from execute
       if (Array.isArray(result)) {
-        return result as MigrationStatus[];
+        // Convert through unknown to avoid TypeScript error
+        return result as unknown as MigrationStatus[];
       }
-      // @ts-ignore - handle different drizzle versions
-      const rows = (result as any).rows || [];
-      return rows as MigrationStatus[];
+      // Handle object with rows property
+      const resultWithRows = result as any;
+      if (resultWithRows.rows) {
+        return resultWithRows.rows as MigrationStatus[];
+      }
+      return [];
     } catch (error) {
       // Table might not exist yet
       return [];
