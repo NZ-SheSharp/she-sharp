@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useState, Suspense } from 'react';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Home, LogOut, Menu, X, Settings, Users, Activity, CreditCard, Shield, Layers, DollarSign, FileText, LockKeyhole, User as UserIcon, CheckCircle, GraduationCap, UserPlus, Sparkles, Heart } from 'lucide-react';
+import { Home, LogOut, Menu, X, Settings, Users, Activity, CreditCard, Shield, Layers, DollarSign, FileText, LockKeyhole, User as UserIcon, CheckCircle, GraduationCap, UserPlus, Sparkles, Heart, Calendar, FolderOpen, Bell } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -30,6 +30,22 @@ const sidebarNavItems = [
     icon: Home,
   },
   {
+    title: 'Events',
+    icon: Calendar,
+    children: [
+      { title: 'Browse Events', href: '/dashboard/events', icon: Calendar },
+      { title: 'My Registrations', href: '/dashboard/events/my-registrations', icon: CheckCircle },
+    ],
+  },
+  {
+    title: 'Resources',
+    icon: FolderOpen,
+    children: [
+      { title: 'Resource Library', href: '/dashboard/resources', icon: FolderOpen },
+      { title: 'My Downloads', href: '/dashboard/resources/downloads', icon: FileText },
+    ],
+  },
+  {
     title: 'Mentorship',
     icon: GraduationCap,
     children: [
@@ -46,6 +62,11 @@ const sidebarNavItems = [
       { title: 'Members', href: '/dashboard/team/members', icon: Users },
       { title: 'Settings', href: '/dashboard/team/settings', icon: Settings },
     ],
+  },
+  {
+    title: 'Notifications',
+    href: '/dashboard/notifications',
+    icon: Bell,
   },
   {
     title: 'Account',
