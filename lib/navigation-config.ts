@@ -1,4 +1,4 @@
-import { LucideIcon, Calendar, Users, Briefcase, Heart, Mic, Mail, Camera, FileText, Award, BookOpen, Sparkles, HandHeart, Building2 } from "lucide-react";
+import { LucideIcon, Calendar, Users, Briefcase, Heart, Mic, Mail, Camera, FileText, Award, BookOpen, Sparkles, HandHeart, Building2, FolderOpen, Bell } from "lucide-react";
 
 export interface NavigationItem {
   title: string;
@@ -88,6 +88,12 @@ export const navigationConfig: {
           description: "Find and connect with experienced mentors",
           icon: Sparkles,
         },
+        {
+          title: "View All Events",
+          href: "/dashboard/events",
+          description: "Browse and register for upcoming events",
+          icon: Calendar,
+        },
       ],
     },
     {
@@ -159,6 +165,12 @@ export const navigationConfig: {
           href: "/media/news-and-press",
           description: "Media coverage and press releases",
           icon: FileText,
+        },
+        {
+          title: "Resource Library",
+          href: "/dashboard/resources",
+          description: "Access learning materials and resources",
+          icon: FolderOpen,
         },
       ],
     },

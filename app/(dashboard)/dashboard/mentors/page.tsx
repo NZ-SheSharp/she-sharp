@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -179,7 +179,7 @@ export default function MentorsPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {mentors.map((mentor) => (
-            <Card key={mentor.id} className="hover:shadow-lg transition-shadow">
+            <Card key={mentor.id} className="hover:shadow-lg transition-shadow h-full overflow-hidden">
               <CardHeader>
                 <div className="flex items-start justify-between mb-4">
                   <Avatar className="h-16 w-16">
@@ -252,14 +252,14 @@ export default function MentorsPage() {
                     <Badge variant="secondary">Full</Badge>
                   )}
                 </div>
-
-                {/* Action Button */}
-                <Link href={`/dashboard/mentors/${mentor.id}`} className="block">
+              </CardContent>
+              <CardFooter className="border-t border-gray-100 bg-gray-50/50 p-4">
+                <Link href={`/dashboard/mentors/${mentor.id}`} className="block w-full">
                   <Button className="w-full" variant={mentor.isAcceptingMentees ? 'default' : 'outline'}>
                     View Profile
                   </Button>
                 </Link>
-              </CardContent>
+              </CardFooter>
             </Card>
           ))}
         </div>
