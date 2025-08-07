@@ -1,0 +1,188 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { db } from '@/lib/db/drizzle';
+import { resources, resourceAccessLogs, adminPermissions } from '@/lib/db/schema';
+import { eq, sql } from 'drizzle-orm';
+import { getUser } from '@/lib/db/queries';
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const resourceId = parseInt(id);
+
+    if (isNaN(resourceId)) {
+      return NextResponse.json(
+        { error: 'Invalid resource ID' },
+        { status: 400 }
+      );
+    }
+
+    // Get resource
+    const [resource] = await db
+      .select()
+      .from(resources)
+      .where(eq(resources.id, resourceId))
+      .limit(1);
+
+    if (!resource) {
+      return NextResponse.json(
+        { error: 'Resource not found' },
+        { status: 404 }
+      );
+    }
+
+    // Check access permissions
+    const user = await getUser();
+    
+    if (resource.accessLevel !== 'public' && !user) {
+      return NextResponse.json(
+        { error: 'Authentication required to access this resource' },
+        { status: 401 }
+      );
+    }
+
+    // Log access if user is authenticated
+    if (user) {
+      await db.insert(resourceAccessLogs).values({
+        resourceId,
+        userId: user.id,
+        action: 'view',
+      });
+
+      // Increment view count
+      await db
+        .update(resources)
+        .set({
+          viewCount: sql`${resources.viewCount} + 1`,
+        })
+        .where(eq(resources.id, resourceId));
+    }
+
+    return NextResponse.json({ resource });
+  } catch (error) {
+    console.error('Error fetching resource:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch resource' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const user = await getUser();
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Check if user is admin
+    const [adminRole] = await db
+      .select()
+      .from(adminPermissions)
+      .where(eq(adminPermissions.userId, user.id))
+      .limit(1);
+    
+    if (!adminRole || !adminRole.canManageContent) {
+      return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
+    }
+
+    const { id } = await params;
+    const resourceId = parseInt(id);
+
+    if (isNaN(resourceId)) {
+      return NextResponse.json(
+        { error: 'Invalid resource ID' },
+        { status: 400 }
+      );
+    }
+
+    const data = await request.json();
+
+    // Update resource
+    const [updatedResource] = await db
+      .update(resources)
+      .set({
+        ...data,
+        lastUpdated: new Date(),
+      })
+      .where(eq(resources.id, resourceId))
+      .returning();
+
+    if (!updatedResource) {
+      return NextResponse.json(
+        { error: 'Resource not found' },
+        { status: 404 }
+      );
+    }
+
+    // Log the update
+    await db.insert(resourceAccessLogs).values({
+      resourceId,
+      userId: user.id,
+      action: 'update',
+      metadata: { changes: Object.keys(data) },
+    });
+
+    return NextResponse.json({
+      message: 'Resource updated successfully',
+      resource: updatedResource,
+    });
+  } catch (error) {
+    console.error('Error updating resource:', error);
+    return NextResponse.json(
+      { error: 'Failed to update resource' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const user = await getUser();
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Check if user is admin
+    const [adminRole] = await db
+      .select()
+      .from(adminPermissions)
+      .where(eq(adminPermissions.userId, user.id))
+      .limit(1);
+    
+    if (!adminRole || !adminRole.canManageContent) {
+      return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
+    }
+
+    const { id } = await params;
+    const resourceId = parseInt(id);
+
+    if (isNaN(resourceId)) {
+      return NextResponse.json(
+        { error: 'Invalid resource ID' },
+        { status: 400 }
+      );
+    }
+
+    // Delete resource (access logs will cascade delete)
+    await db.delete(resources).where(eq(resources.id, resourceId));
+
+    return NextResponse.json({
+      message: 'Resource deleted successfully',
+    });
+  } catch (error) {
+    console.error('Error deleting resource:', error);
+    return NextResponse.json(
+      { error: 'Failed to delete resource' },
+      { status: 500 }
+    );
+  }
+}
