@@ -9,10 +9,12 @@ import {
   teams,
   teamMembers,
   activityLogs,
+  userMemberships,
   type NewUser,
   type NewTeam,
   type NewTeamMember,
   type NewActivityLog,
+  type NewUserMembership,
   ActivityType,
   invitations,
   emailVerifications
@@ -31,6 +33,7 @@ import { sendVerificationEmail, sendInvitationEmail } from '@/lib/email/service'
 import { isAccountLocked, recordFailedLoginAttempt, clearLoginAttempts } from '@/lib/auth/account-lock';
 import { setRememberMeCookie } from '@/lib/auth/remember-me';
 import { updatePasswordWithHistory } from '@/lib/auth/password-history';
+import { hasActiveRoles } from '@/lib/auth/check-user-roles';
 
 async function logActivity(
   teamId: number | null | undefined,
@@ -38,14 +41,14 @@ async function logActivity(
   type: ActivityType,
   ipAddress?: string
 ) {
-  if (teamId === null || teamId === undefined) {
-    return;
-  }
+  // Updated to use new activity log schema with entity fields
   const newActivity: NewActivityLog = {
-    teamId,
     userId,
     action: type,
-    ipAddress: ipAddress || ''
+    entityType: teamId ? 'team' : 'user',
+    entityId: teamId || userId,
+    ipAddress: ipAddress || '',
+    metadata: teamId ? { teamId } : undefined
   };
   await db.insert(activityLogs).values(newActivity);
 }
@@ -142,7 +145,15 @@ export const signIn = validatedAction(signInSchema, async (data, formData) => {
     return createCheckoutSession({ team: foundTeam, priceId });
   }
 
-  redirect('/dashboard');
+  // Check if user has activated any roles
+  const hasRoles = await hasActiveRoles(foundUser.id);
+  
+  // If user has no active roles, redirect to welcome page
+  if (!hasRoles) {
+    redirect('/dashboard/welcome');
+  } else {
+    redirect('/dashboard');
+  }
 });
 
 const signUpSchema = z.object({
@@ -172,8 +183,8 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
 
   const newUser: NewUser = {
     email,
-    passwordHash,
-    role: 'owner' // Default role, will be overridden if there's an invitation
+    passwordHash
+    // Removed role field - using new role activation system
   };
 
   const [createdUser] = await db.insert(users).values(newUser).returning();
@@ -185,6 +196,20 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
       password
     };
   }
+
+  // Create default free membership for new user
+  const newMembership: NewUserMembership = {
+    userId: createdUser.id,
+    tier: 'free',
+    featuresAccess: {
+      maxMentorApplications: true,  // Changed to boolean
+      accessBasicResources: true,
+      joinFreeEvents: true,
+      viewMentorProfiles: true
+    }
+  };
+  
+  await db.insert(userMemberships).values(newMembership);
 
   let teamId: number;
   let userRole: string;
@@ -213,7 +238,7 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
         .set({ status: 'accepted' })
         .where(eq(invitations.id, invitation.id));
 
-      await logActivity(teamId, createdUser.id, ActivityType.ACCEPT_INVITATION);
+      await logActivity(teamId, createdUser.id, ActivityType.SIGN_UP);
 
       [createdTeam] = await db
         .select()
@@ -242,7 +267,7 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
     teamId = createdTeam.id;
     userRole = 'owner';
 
-    await logActivity(teamId, createdUser.id, ActivityType.CREATE_TEAM);
+    await logActivity(teamId, createdUser.id, ActivityType.SIGN_UP);
   }
 
   const newTeamMember: NewTeamMember = {
@@ -276,8 +301,11 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
     return createCheckoutSession({ team: createdTeam, priceId });
   }
 
-  // Redirect to email verification page
-  redirect(`/verify-email?email=${encodeURIComponent(email)}`);
+  // Set session for the new user
+  await setSession(createdUser);
+  
+  // Redirect to welcome page for role selection
+  redirect('/dashboard/welcome');
 });
 
 export async function signOut() {
@@ -463,7 +491,7 @@ export const removeTeamMember = validatedActionWithUser(
     await logActivity(
       userWithTeam.teamId,
       user.id,
-      ActivityType.REMOVE_TEAM_MEMBER
+      ActivityType.UPDATE_ACCOUNT
     );
 
     return { success: 'Team member removed successfully' };
@@ -527,7 +555,7 @@ export const inviteTeamMember = validatedActionWithUser(
     await logActivity(
       userWithTeam.teamId,
       user.id,
-      ActivityType.INVITE_TEAM_MEMBER
+      ActivityType.UPDATE_ACCOUNT
     );
 
     // Send invitation email

@@ -159,3 +159,13 @@ Required environment variables (see `.env.example`):
 - **Code strings**: Keep all code strings and comments in English
 - **Clear explanations**: Explain actions clearly within the conversation
 - **Focused assistance**: Help with specific tasks without adding unrequested features
+
+### Documentation Management
+- **No proactive documentation**: Never generate new documentation files unless explicitly requested
+- **Documentation location**: All documentation files must be stored in `/docs/` directory, organized in appropriate subdirectories:
+  - `/docs/architecture/` - System architecture and design documents
+  - `/docs/api/` - API documentation
+  - `/docs/deployment/` - Deployment and environment configuration guides
+  - `/docs/security/` - Security-related documentation
+  - `/docs/development/` - Development guidelines and processes
+- **Never save in root**: Documentation files should never be saved directly in the project root directory

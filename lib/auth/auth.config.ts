@@ -158,8 +158,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true;
     },
     async redirect({ url, baseUrl }) {
-      // Always redirect to dashboard after successful OAuth login
+      // For OAuth callbacks, check if user needs onboarding
       if (url.includes('/api/auth/callback')) {
+        // We'll check roles in middleware and redirect appropriately
         return `${baseUrl}/dashboard`;
       }
       // Allows relative callback URLs
