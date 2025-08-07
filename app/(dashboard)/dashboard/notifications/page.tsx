@@ -46,50 +46,23 @@ export default function NotificationsPage() {
 
   const fetchNotifications = async () => {
     try {
-      // Mock notifications for now
-      const mockNotifications: Notification[] = [
-        {
-          id: 1,
-          type: 'event',
-          title: 'Event Registration Confirmed',
-          message: 'You have successfully registered for "Introduction to Cloud Computing"',
-          read: false,
-          createdAt: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
-          actionUrl: '/dashboard/events/my-registrations',
-          actionLabel: 'View Registration',
-        },
-        {
-          id: 2,
-          type: 'mentorship',
-          title: 'New Mentorship Request',
-          message: 'Sarah Chen has requested to be your mentee',
-          read: false,
-          createdAt: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(),
-          actionUrl: '/dashboard/mentorship',
-          actionLabel: 'Review Request',
-        },
-        {
-          id: 3,
-          type: 'resource',
-          title: 'New Resource Available',
-          message: 'A new Python guide has been added to the resource library',
-          read: true,
-          createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
-          actionUrl: '/dashboard/resources',
-          actionLabel: 'View Resource',
-        },
-        {
-          id: 4,
-          type: 'system',
-          title: 'Profile Update Reminder',
-          message: 'Please complete your mentor profile to start accepting mentees',
-          read: true,
-          createdAt: new Date(Date.now() - 1000 * 60 * 60 * 48).toISOString(),
-          actionUrl: '/dashboard/mentor-profile',
-          actionLabel: 'Complete Profile',
-        },
-      ];
-      setNotifications(mockNotifications);
+      const response = await fetch('/api/notifications');
+      if (response.ok) {
+        const data = await response.json();
+        const formattedNotifications = data.notifications.map((n: any) => ({
+          id: n.id,
+          type: n.type,
+          title: n.title,
+          message: n.message,
+          read: n.read,
+          createdAt: n.created_at,
+          actionUrl: n.action_url,
+          actionLabel: n.action_label,
+        }));
+        setNotifications(formattedNotifications);
+      } else {
+        console.error('Failed to fetch notifications');
+      }
     } catch (error) {
       console.error('Error fetching notifications:', error);
     } finally {
@@ -97,20 +70,64 @@ export default function NotificationsPage() {
     }
   };
 
-  const markAsRead = (id: number) => {
-    setNotifications(prev =>
-      prev.map(n => n.id === id ? { ...n, read: true } : n)
-    );
+  const markAsRead = async (id: number) => {
+    try {
+      const response = await fetch('/api/notifications', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'mark_read',
+          notificationIds: [id],
+        }),
+      });
+      
+      if (response.ok) {
+        setNotifications(prev =>
+          prev.map(n => n.id === id ? { ...n, read: true } : n)
+        );
+      }
+    } catch (error) {
+      console.error('Error marking notification as read:', error);
+    }
   };
 
-  const markAllAsRead = () => {
-    setNotifications(prev =>
-      prev.map(n => ({ ...n, read: true }))
-    );
+  const markAllAsRead = async () => {
+    try {
+      const response = await fetch('/api/notifications', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'mark_all_read',
+        }),
+      });
+      
+      if (response.ok) {
+        setNotifications(prev =>
+          prev.map(n => ({ ...n, read: true }))
+        );
+      }
+    } catch (error) {
+      console.error('Error marking all as read:', error);
+    }
   };
 
-  const deleteNotification = (id: number) => {
-    setNotifications(prev => prev.filter(n => n.id !== id));
+  const deleteNotification = async (id: number) => {
+    try {
+      const response = await fetch('/api/notifications', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'delete',
+          notificationIds: [id],
+        }),
+      });
+      
+      if (response.ok) {
+        setNotifications(prev => prev.filter(n => n.id !== id));
+      }
+    } catch (error) {
+      console.error('Error deleting notification:', error);
+    }
   };
 
   const getIcon = (type: string) => {

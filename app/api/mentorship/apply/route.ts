@@ -3,6 +3,7 @@ import { db } from '@/lib/db/drizzle';
 import { mentorshipRelationships, mentorProfiles, userRoles, activityLogs, ActivityType } from '@/lib/db/schema';
 import { eq, and } from 'drizzle-orm';
 import { getUser } from '@/lib/db/queries';
+import { NotificationService } from '@/lib/notifications/service';
 
 export async function POST(request: NextRequest) {
   try {
@@ -150,7 +151,12 @@ export async function POST(request: NextRequest) {
       metadata: { mentorId, message },
     });
 
-    // TODO: Send notification to mentor (email/in-app)
+    // Send notification to mentor
+    await NotificationService.notifyMentorshipRequest(
+      mentorId,
+      user.id,
+      user.name || 'A mentee'
+    );
 
     return NextResponse.json({
       message: 'Application sent successfully',
