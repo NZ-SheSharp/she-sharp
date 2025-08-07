@@ -31,8 +31,8 @@ async function applyMentorshipTables() {
     for (const tableName of tables) {
       try {
         const result = await db.execute(sql`SELECT COUNT(*) as count FROM ${sql.identifier(tableName)}`);
-        console.log(`✅ Table '${tableName}' exists with ${result.rows[0].count} rows`);
-      } catch (error) {
+        console.log(`✅ Table '${tableName}' exists with ${(result[0] as any).count} rows`);
+      } catch (error: any) {
         console.log(`❌ Table '${tableName}' check failed:`, error.message);
       }
     }

@@ -21,6 +21,7 @@ interface Mentor {
   expertiseAreas: string[];
   yearsExperience: number;
   currentRole?: string;
+  jobTitle?: string;
   company?: string;
   bio?: string;
   availabilityHoursPerMonth: number;

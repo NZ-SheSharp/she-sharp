@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/drizzle';
-import { events, eventRegistrations } from '@/lib/db/schema';
+import { events, eventRegistrations, adminPermissions } from '@/lib/db/schema';
 import { eq, gte, lte, and, or, desc, asc, sql } from 'drizzle-orm';
 import { getUser } from '@/lib/db/queries';
 
@@ -125,8 +125,13 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if user is admin
-    const isAdmin = user.roles?.some(r => r.roleType === 'admin' && r.isActive);
-    if (!isAdmin) {
+    const [adminRole] = await db
+      .select()
+      .from(adminPermissions)
+      .where(eq(adminPermissions.userId, user.id))
+      .limit(1);
+    
+    if (!adminRole || !adminRole.canManageEvents) {
       return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
     }
 

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/drizzle';
-import { events, eventRegistrations, users } from '@/lib/db/schema';
-import { eq, and } from 'drizzle-orm';
+import { events, eventRegistrations, users, userRoles, adminPermissions } from '@/lib/db/schema';
+import { eq, and, sql } from 'drizzle-orm';
 import { getUser } from '@/lib/db/queries';
 
 export async function GET(
@@ -112,9 +112,9 @@ export async function GET(
       isPast: eventEnd < now,
       isOngoing: eventStart <= now && eventEnd >= now,
       isUpcoming: eventStart > now,
-      isFull: event.capacity ? event.currentRegistrations >= event.capacity : false,
+      isFull: event.capacity && event.currentRegistrations ? event.currentRegistrations >= event.capacity : false,
       registrationOpen: registrationDeadline ? registrationDeadline > now : eventStart > now,
-      spotsRemaining: event.capacity ? event.capacity - event.currentRegistrations : null,
+      spotsRemaining: event.capacity && event.currentRegistrations ? event.capacity - event.currentRegistrations : null,
     };
 
     return NextResponse.json({
@@ -152,8 +152,13 @@ export async function PUT(
     }
 
     // Check if user is admin
-    const isAdmin = user.roles?.some(r => r.roleType === 'admin' && r.isActive);
-    if (!isAdmin) {
+    const [adminRole] = await db
+      .select()
+      .from(adminPermissions)
+      .where(eq(adminPermissions.userId, user.id))
+      .limit(1);
+    
+    if (!adminRole || !adminRole.canManageEvents) {
       return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
     }
 
@@ -210,8 +215,13 @@ export async function DELETE(
     }
 
     // Check if user is admin
-    const isAdmin = user.roles?.some(r => r.roleType === 'admin' && r.isActive);
-    if (!isAdmin) {
+    const [adminRole] = await db
+      .select()
+      .from(adminPermissions)
+      .where(eq(adminPermissions.userId, user.id))
+      .limit(1);
+    
+    if (!adminRole || !adminRole.canManageEvents) {
       return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
     }
 

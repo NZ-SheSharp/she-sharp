@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/drizzle';
 import { events, eventRegistrations, userMemberships } from '@/lib/db/schema';
-import { eq, and, sql } from 'drizzle-orm';
+import { eq, and, sql, or, isNull, gte } from 'drizzle-orm';
 import { getUser } from '@/lib/db/queries';
 
 export async function POST(
@@ -65,7 +65,10 @@ export async function POST(
         .where(
           and(
             eq(userMemberships.userId, user.id),
-            eq(userMemberships.status, 'active')
+            or(
+              isNull(userMemberships.expiresAt),
+              gte(userMemberships.expiresAt, new Date())
+            )
           )
         )
         .limit(1);
@@ -80,13 +83,14 @@ export async function POST(
       // Check membership tier if required
       if (event.requiredMembershipTier) {
         const tierLevels = {
+          free: 0,
           basic: 1,
           premium: 2,
           lifetime: 3,
         };
 
         const requiredLevel = tierLevels[event.requiredMembershipTier as keyof typeof tierLevels] || 0;
-        const userLevel = tierLevels[membership.membershipTier as keyof typeof tierLevels] || 0;
+        const userLevel = tierLevels[membership.tier as keyof typeof tierLevels] || 0;
 
         if (userLevel < requiredLevel) {
           return NextResponse.json(
@@ -117,7 +121,7 @@ export async function POST(
     }
 
     // Check capacity
-    if (event.capacity && event.currentRegistrations >= event.capacity) {
+    if (event.capacity && event.currentRegistrations && event.currentRegistrations >= event.capacity) {
       if (!event.waitlistEnabled) {
         return NextResponse.json(
           { error: 'Event is full' },

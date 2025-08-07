@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
         .set({
           status: 'active',
           startedAt: new Date(),
-          mentorFeedback: feedback ? { approvalNote: feedback } : null,
+          mentorNotes: feedback || null,
           updatedAt: new Date(),
         })
         .where(eq(mentorshipRelationships.id, relationshipId))
@@ -77,7 +77,6 @@ export async function POST(request: NextRequest) {
         .update(mentorProfiles)
         .set({
           currentMenteesCount: sql`${mentorProfiles.currentMenteesCount} + 1`,
-          updatedAt: new Date(),
         })
         .where(eq(mentorProfiles.userId, user.id));
 
@@ -88,12 +87,11 @@ export async function POST(request: NextRequest) {
         .where(eq(mentorProfiles.userId, user.id))
         .limit(1);
 
-      if (mentorProfile && mentorProfile.currentMenteesCount >= mentorProfile.maxMentees) {
+      if (mentorProfile && mentorProfile.currentMenteesCount && mentorProfile.maxMentees && mentorProfile.currentMenteesCount >= mentorProfile.maxMentees) {
         await db
           .update(mentorProfiles)
           .set({
             isAcceptingMentees: false,
-            updatedAt: new Date(),
           })
           .where(eq(mentorProfiles.userId, user.id));
       }
@@ -101,10 +99,10 @@ export async function POST(request: NextRequest) {
       // Log activity
       await db.insert(activityLogs).values({
         userId: user.id,
-        action: ActivityType.APPROVE_MENTEE,
+        action: ActivityType.ACCEPT_MENTEE,
         entityType: 'relationship',
         entityId: relationshipId,
-        metadata: { menteeId: relationship.menteeId, feedback },
+        metadata: { menteeId: relationship.menteeUserId, feedback },
       });
 
     } else {
@@ -113,7 +111,7 @@ export async function POST(request: NextRequest) {
         .update(mentorshipRelationships)
         .set({
           status: 'rejected',
-          mentorFeedback: feedback ? { rejectionReason: feedback } : null,
+          mentorNotes: feedback || null,
           updatedAt: new Date(),
         })
         .where(eq(mentorshipRelationships.id, relationshipId))
@@ -125,7 +123,7 @@ export async function POST(request: NextRequest) {
         action: ActivityType.REJECT_MENTEE,
         entityType: 'relationship',
         entityId: relationshipId,
-        metadata: { menteeId: relationship.menteeId, feedback },
+        metadata: { menteeId: relationship.menteeUserId, feedback },
       });
     }
 

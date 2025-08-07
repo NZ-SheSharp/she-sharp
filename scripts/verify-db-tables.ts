@@ -31,15 +31,15 @@ async function verifyTables() {
           WHERE table_name = ${tableName}
         `);
         
-        const exists = result.rows[0].count > 0;
+        const exists = (result[0] as any).count > 0;
         console.log(`✅ Table '${tableName}': ${exists ? 'EXISTS' : 'NOT FOUND'}`);
         
         if (exists) {
           // Get row count
           const countResult = await db.execute(sql`SELECT COUNT(*) as count FROM ${sql.identifier(tableName)}`);
-          console.log(`   Rows: ${countResult.rows[0].count}`);
+          console.log(`   Rows: ${(countResult[0] as any).count}`);
         }
-      } catch (error) {
+      } catch (error: any) {
         console.log(`❌ Table '${tableName}': ERROR - ${error.message}`);
       }
     }
@@ -51,12 +51,12 @@ async function verifyTables() {
         SELECT * FROM user_roles LIMIT 1
       `);
       console.log('✅ user_roles table is accessible');
-      console.log('   Sample data:', rolesResult.rows);
-    } catch (error) {
+      console.log('   Sample data:', rolesResult);
+    } catch (error: any) {
       console.log('❌ user_roles table error:', error.message);
     }
     
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error verifying tables:', error);
   } finally {
     process.exit(0);
