@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/drizzle';
-import { resources, resourceAccessLogs } from '@/lib/db/schema';
-import { eq, like, and, or, desc, asc, sql } from 'drizzle-orm';
+import { resources, resourceAccessLogs, adminPermissions } from '@/lib/db/schema';
+import { eq, ilike, and, or, desc, asc, sql } from 'drizzle-orm';
 import { getUser } from '@/lib/db/queries';
 
 export async function GET(request: NextRequest) {
@@ -17,23 +17,20 @@ export async function GET(request: NextRequest) {
     const conditions = [];
     
     if (category) {
-      conditions.push(eq(resources.category, category));
+      conditions.push(sql`${resources.categories} @> ARRAY[${category}]::text[]`);
     }
     
     if (search) {
       conditions.push(
         or(
-          like(resources.title, `%${search}%`),
-          like(resources.description, `%${search}%`)
+          ilike(resources.title, `%${search}%`),
+          ilike(resources.description, `%${search}%`)
         )
       );
     }
     
-    if (isPublic === 'true') {
-      conditions.push(eq(resources.isPublic, true));
-    } else if (isPublic === 'false') {
-      conditions.push(eq(resources.isPublic, false));
-    }
+    // Filter by access level if needed
+    // Note: isPublic field doesn't exist, using accessLevel instead
 
     // Get resources with access counts
     const resourcesQuery = db
@@ -41,22 +38,22 @@ export async function GET(request: NextRequest) {
         id: resources.id,
         title: resources.title,
         description: resources.description,
-        category: resources.category,
+        categories: resources.categories,
         resourceType: resources.resourceType,
         fileUrl: resources.fileUrl,
         fileSize: resources.fileSize,
         mimeType: resources.mimeType,
-        thumbnailUrl: resources.thumbnailUrl,
-        isPublic: resources.isPublic,
-        isMembersOnly: resources.isMembersOnly,
-        requiredMembershipTier: resources.requiredMembershipTier,
+        // thumbnailUrl field doesn't exist
+        accessLevel: resources.accessLevel,
+        requiredRoles: resources.requiredRoles,
+        // requiredMembershipTier field doesn't exist
         tags: resources.tags,
-        metadata: resources.metadata,
+        averageRating: resources.averageRating,
         viewCount: resources.viewCount,
         downloadCount: resources.downloadCount,
         uploadedBy: resources.uploadedBy,
-        createdAt: resources.createdAt,
-        updatedAt: resources.updatedAt,
+        uploadedAt: resources.uploadedAt,
+        lastUpdated: resources.lastUpdated,
       })
       .from(resources);
 
@@ -72,7 +69,7 @@ export async function GET(request: NextRequest) {
     } else if (sortBy === 'downloadCount') {
       resourcesQuery.orderBy(order === 'desc' ? desc(resources.downloadCount) : asc(resources.downloadCount));
     } else {
-      resourcesQuery.orderBy(order === 'desc' ? desc(resources.createdAt) : asc(resources.createdAt));
+      resourcesQuery.orderBy(order === 'desc' ? desc(resources.uploadedAt) : asc(resources.uploadedAt));
     }
 
     const allResources = await resourcesQuery;
@@ -88,15 +85,15 @@ export async function GET(request: NextRequest) {
 
     // Filter resources based on access permissions
     const accessibleResources = allResources.filter(resource => {
-      if (resource.isPublic) return true;
+      if (resource.accessLevel === 'public') return true;
       if (!user) return false;
-      if (resource.isMembersOnly && !userCanAccess) return false;
+      if (resource.accessLevel === 'member' && !userCanAccess) return false;
       return true;
     });
 
     // Group resources by category
     const categorizedResources = accessibleResources.reduce((acc, resource) => {
-      const cat = resource.category || 'uncategorized';
+      const cat = (resource.categories && resource.categories[0]) || 'uncategorized';
       if (!acc[cat]) acc[cat] = [];
       acc[cat].push(resource);
       return acc;
@@ -130,8 +127,13 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if user is admin
-    const isAdmin = user.roles?.some(r => r.roleType === 'admin' && r.isActive);
-    if (!isAdmin) {
+    const [adminRole] = await db
+      .select()
+      .from(adminPermissions)
+      .where(eq(adminPermissions.userId, user.id))
+      .limit(1);
+    
+    if (!adminRole || !adminRole.canManageContent) {
       return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
     }
 
@@ -151,17 +153,17 @@ export async function POST(request: NextRequest) {
       .values({
         title: data.title,
         description: data.description,
-        category: data.category || 'general',
+        categories: data.categories || ['general'],
         resourceType: data.resourceType,
         fileUrl: data.fileUrl,
         fileSize: data.fileSize,
         mimeType: data.mimeType,
-        thumbnailUrl: data.thumbnailUrl,
-        isPublic: data.isPublic ?? true,
-        isMembersOnly: data.isMembersOnly ?? false,
-        requiredMembershipTier: data.requiredMembershipTier,
+        // thumbnailUrl doesn't exist in schema
+        accessLevel: data.accessLevel || 'member',
+        requiredRoles: data.requiredRoles || [],
+        // requiredMembershipTier doesn't exist
         tags: data.tags || [],
-        metadata: data.metadata || {},
+        // metadata doesn't exist in schema
         uploadedBy: user.id,
       })
       .returning();

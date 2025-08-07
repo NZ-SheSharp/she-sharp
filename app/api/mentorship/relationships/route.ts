@@ -105,11 +105,12 @@ export async function GET(request: NextRequest) {
           status: rel.status,
           startedAt: rel.startedAt,
           endedAt: rel.endedAt,
-          totalMeetings: rel.totalMeetings,
+          pausedAt: rel.pausedAt,
           nextMeetingDate: rel.nextMeetingDate,
-          notes: rel.notes,
-          mentorFeedback: rel.mentorFeedback,
-          menteeFeedback: rel.menteeFeedback,
+          meetingFrequency: rel.meetingFrequency,
+          relationshipGoals: rel.relationshipGoals,
+          mentorNotes: rel.mentorNotes,
+          menteeNotes: rel.menteeNotes,
           createdAt: rel.createdAt,
           updatedAt: rel.updatedAt,
           mentorName: mentorData?.name || null,
@@ -127,7 +128,7 @@ export async function GET(request: NextRequest) {
     // Separate by status
     const active = enrichedRelationships.filter(r => r.status === 'active');
     const pending = enrichedRelationships.filter(r => r.status === 'pending');
-    const ended = enrichedRelationships.filter(r => r.status === 'ended' || r.status === 'completed');
+    const ended = enrichedRelationships.filter(r => r.status === 'completed');
     const rejected = enrichedRelationships.filter(r => r.status === 'rejected');
 
     return NextResponse.json({

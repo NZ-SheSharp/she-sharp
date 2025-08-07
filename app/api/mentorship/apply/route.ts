@@ -62,7 +62,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if mentor has available spots
-    if (mentor.currentMenteesCount >= mentor.maxMentees) {
+    const currentCount = mentor.currentMenteesCount || 0;
+    const maxCount = mentor.maxMentees || 3;
+    if (currentCount >= maxCount) {
       return NextResponse.json(
         { error: 'This mentor has no available spots' },
         { status: 400 }
@@ -116,7 +118,7 @@ export async function POST(request: NextRequest) {
         .update(mentorshipRelationships)
         .set({
           status: 'pending',
-          notes: message,
+          menteeNotes: message,
           updatedAt: new Date(),
         })
         .where(
@@ -134,7 +136,7 @@ export async function POST(request: NextRequest) {
           mentorUserId: mentorId,
           menteeUserId: user.id,
           status: 'pending',
-          notes: message,
+          menteeNotes: message,
         })
         .returning();
     }
@@ -142,7 +144,7 @@ export async function POST(request: NextRequest) {
     // Log activity
     await db.insert(activityLogs).values({
       userId: user.id,
-      action: ActivityType.APPLY_FOR_MENTOR,
+      action: ActivityType.REQUEST_MENTOR,
       entityType: 'relationship',
       entityId: relationship.id,
       metadata: { mentorId, message },

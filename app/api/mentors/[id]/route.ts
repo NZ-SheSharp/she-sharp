@@ -86,7 +86,6 @@ export async function GET(
       isAcceptingMentees: mentorProfile.isAcceptingMentees || false,
       profileCompletedAt: mentorProfile.profileCompletedAt || null,
       verifiedAt: mentorProfile.verifiedAt || null,
-      createdAt: mentorProfile.createdAt || new Date(),
     };
 
     // Check if current user has a relationship with this mentor

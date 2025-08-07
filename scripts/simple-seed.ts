@@ -18,8 +18,8 @@ async function simpleSeed() {
       SELECT id FROM users WHERE email = 'mentor1@example.com'
     `);
     
-    if (result && result.rows && result.rows.length > 0) {
-      const userId = result.rows[0].id;
+    if (result && result.length > 0) {
+      const userId = (result[0] as any).id;
       console.log(`Found/created user with ID: ${userId}`);
       
       // Create user membership if not exists
@@ -86,8 +86,8 @@ async function simpleSeed() {
       SELECT id FROM users WHERE email = 'mentee1@example.com'
     `);
     
-    if (menteeResult && menteeResult.rows && menteeResult.rows.length > 0) {
-      const menteeId = menteeResult.rows[0].id;
+    if (menteeResult && menteeResult.length > 0) {
+      const menteeId = (menteeResult[0] as any).id;
       
       await db.execute(sql`
         INSERT INTO user_memberships (user_id, tier)

@@ -10,7 +10,7 @@ async function verifyTables() {
     try {
       const result = await db.execute(sql`SELECT * FROM user_roles LIMIT 1`);
       console.log('✅ user_roles table exists and is accessible');
-      console.log('   Columns:', Object.keys(result.rows[0] || {}));
+      console.log('   Columns:', Object.keys((result[0] as any) || {}));
     } catch (error: any) {
       console.log('❌ user_roles table error:', error.message);
     }
@@ -20,7 +20,7 @@ async function verifyTables() {
     try {
       const result = await db.execute(sql`SELECT * FROM user_memberships LIMIT 1`);
       console.log('✅ user_memberships table exists and is accessible');
-      console.log('   Columns:', Object.keys(result.rows[0] || {}));
+      console.log('   Columns:', Object.keys((result[0] as any) || {}));
     } catch (error: any) {
       console.log('❌ user_memberships table error:', error.message);
     }
@@ -30,7 +30,7 @@ async function verifyTables() {
     try {
       const result = await db.execute(sql`SELECT * FROM mentor_profiles LIMIT 1`);
       console.log('✅ mentor_profiles table exists and is accessible');
-      console.log('   Columns:', Object.keys(result.rows[0] || {}));
+      console.log('   Columns:', Object.keys((result[0] as any) || {}));
     } catch (error: any) {
       console.log('❌ mentor_profiles table error:', error.message);
     }
@@ -40,7 +40,7 @@ async function verifyTables() {
     try {
       const result = await db.execute(sql`SELECT * FROM mentee_profiles LIMIT 1`);
       console.log('✅ mentee_profiles table exists and is accessible');
-      console.log('   Columns:', Object.keys(result.rows[0] || {}));
+      console.log('   Columns:', Object.keys((result[0] as any) || {}));
     } catch (error: any) {
       console.log('❌ mentee_profiles table error:', error.message);
     }
@@ -62,7 +62,7 @@ async function verifyTables() {
     for (const tableName of tables) {
       try {
         const result = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM "${tableName}"`));
-        console.log(`✅ ${tableName}: ${result.rows[0].count} rows`);
+        console.log(`✅ ${tableName}: ${(result[0] as any).count} rows`);
       } catch (error: any) {
         console.log(`❌ ${tableName}: ${error.message}`);
       }

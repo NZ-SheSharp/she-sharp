@@ -83,12 +83,13 @@ async function verifyPhase2Tables() {
     for (const tableName of foundTables) {
       console.log(`\n   📋 ${tableName}:`);
       
-      const columns = await db.execute(sql`
+      const columnsResult = await db.execute(sql`
         SELECT column_name, data_type, is_nullable, column_default
         FROM information_schema.columns 
         WHERE table_schema = 'public' AND table_name = ${tableName}
         ORDER BY ordinal_position
-      `) as TableInfo[];
+      `);
+      const columns = columnsResult as unknown as TableInfo[];
 
       columns.forEach(col => {
         const nullable = col.is_nullable === 'YES' ? 'NULL' : 'NOT NULL';
@@ -145,7 +146,7 @@ async function verifyPhase2Tables() {
     // 3. Check foreign key relationships
     console.log('\n3. Verifying foreign key relationships:');
     
-    const foreignKeys = await db.execute(sql`
+    const foreignKeysResult = await db.execute(sql`
       SELECT 
         tc.constraint_name,
         tc.table_name,
@@ -162,7 +163,8 @@ async function verifyPhase2Tables() {
         tc.constraint_type = 'FOREIGN KEY' 
         AND tc.table_name IN ('mentor_profiles', 'mentee_profiles', 'mentorship_relationships', 'meetings')
       ORDER BY tc.table_name, tc.constraint_name
-    `) as ForeignKeyInfo[];
+    `);
+    const foreignKeys = foreignKeysResult as unknown as ForeignKeyInfo[];
 
     const expectedForeignKeys = [
       { table: 'mentor_profiles', column: 'user_id', references: 'users.id' },
@@ -191,7 +193,7 @@ async function verifyPhase2Tables() {
     // 4. Check indexes
     console.log('\n4. Verifying indexes:');
     
-    const indexes = await db.execute(sql`
+    const indexesResult = await db.execute(sql`
       SELECT 
         t.relname AS table_name,
         i.relname AS index_name,
@@ -210,7 +212,8 @@ async function verifyPhase2Tables() {
         AND t.relname IN ('mentor_profiles', 'mentee_profiles', 'mentorship_relationships', 'meetings')
         AND i.relname NOT LIKE '%_pkey'
       ORDER BY t.relname, i.relname
-    `) as IndexInfo[];
+    `);
+    const indexes = indexesResult as unknown as IndexInfo[];
 
     const expectedIndexes = [
       { table: 'mentor_profiles', column: 'user_id' },

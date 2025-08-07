@@ -35,8 +35,28 @@ export async function GET(request: NextRequest) {
       conditions.push(lte(mentorProfiles.yearsExperience, parseInt(maxExperience)));
     }
 
+    // Add search filter to conditions
+    if (search) {
+      conditions.push(
+        or(
+          ilike(users.name, `%${search}%`),
+          ilike(mentorProfiles.bio, `%${search}%`),
+          ilike(mentorProfiles.jobTitle, `%${search}%`),
+          ilike(mentorProfiles.company, `%${search}%`),
+          sql`${mentorProfiles.expertiseAreas}::text ILIKE ${'%' + search + '%'}`
+        )
+      );
+    }
+    
+    // Add expertise filter to conditions
+    if (expertise) {
+      conditions.push(
+        sql`${mentorProfiles.expertiseAreas} @> ARRAY[${expertise}]::text[]`
+      );
+    }
+
     // Get mentors with their user info
-    const mentorsQuery = db
+    const mentors = await db
       .select({
         id: mentorProfiles.id,
         userId: mentorProfiles.userId,
@@ -63,30 +83,6 @@ export async function GET(request: NextRequest) {
       .limit(limit)
       .offset(offset)
       .orderBy(sql`${mentorProfiles.yearsExperience} DESC NULLS LAST`);
-
-    // Apply search filter if provided
-    let mentors;
-    if (search) {
-      // Search in user name, bio, expertise areas, current role, and company
-      const searchResults = await mentorsQuery.where(
-        or(
-          ilike(users.name, `%${search}%`),
-          ilike(mentorProfiles.bio, `%${search}%`),
-          ilike(mentorProfiles.jobTitle, `%${search}%`),
-          ilike(mentorProfiles.company, `%${search}%`),
-          sql`${mentorProfiles.expertiseAreas}::text ILIKE ${'%' + search + '%'}`
-        )
-      );
-      mentors = searchResults;
-    } else if (expertise) {
-      // Filter by specific expertise area
-      const expertiseResults = await mentorsQuery.where(
-        sql`${mentorProfiles.expertiseAreas} @> ARRAY[${expertise}]::text[]`
-      );
-      mentors = expertiseResults;
-    } else {
-      mentors = await mentorsQuery;
-    }
 
     // Get total count for pagination
     const countQuery = await db
