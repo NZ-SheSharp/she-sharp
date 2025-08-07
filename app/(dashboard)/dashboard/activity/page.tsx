@@ -11,6 +11,17 @@ import {
   CheckCircle,
   ShieldCheck,
   KeyRound,
+  GraduationCap,
+  Users,
+  UserCheck,
+  UserX,
+  Calendar,
+  CalendarCheck,
+  CalendarX,
+  FileUp,
+  Download,
+  CreditCard,
+  XCircle,
   type LucideIcon,
 } from 'lucide-react';
 import { ActivityType } from '@/lib/db/schema';
@@ -23,15 +34,29 @@ const iconMap: Record<ActivityType, LucideIcon> = {
   [ActivityType.UPDATE_PASSWORD]: Lock,
   [ActivityType.DELETE_ACCOUNT]: UserMinus,
   [ActivityType.UPDATE_ACCOUNT]: Settings,
-  [ActivityType.CREATE_TEAM]: UserPlus,
-  [ActivityType.REMOVE_TEAM_MEMBER]: UserMinus,
-  [ActivityType.INVITE_TEAM_MEMBER]: Mail,
-  [ActivityType.ACCEPT_INVITATION]: CheckCircle,
   [ActivityType.VERIFY_EMAIL]: Mail,
   [ActivityType.REQUEST_PASSWORD_RESET]: KeyRound,
   [ActivityType.RESET_PASSWORD]: Lock,
   [ActivityType.ACCOUNT_LOCKED]: Lock,
   [ActivityType.ACCOUNT_UNLOCKED]: ShieldCheck,
+  // New mentorship activity types
+  [ActivityType.ACTIVATE_MENTOR_ROLE]: Users,
+  [ActivityType.ACTIVATE_MENTEE_ROLE]: GraduationCap,
+  [ActivityType.UPDATE_MENTOR_PROFILE]: Users,
+  [ActivityType.UPDATE_MENTEE_PROFILE]: GraduationCap,
+  [ActivityType.REQUEST_MENTOR]: UserCheck,
+  [ActivityType.ACCEPT_MENTEE]: UserCheck,
+  [ActivityType.REJECT_MENTEE]: UserX,
+  [ActivityType.END_MENTORSHIP]: UserMinus,
+  [ActivityType.SCHEDULE_MEETING]: Calendar,
+  [ActivityType.COMPLETE_MEETING]: CalendarCheck,
+  [ActivityType.CANCEL_MEETING]: CalendarX,
+  [ActivityType.REGISTER_EVENT]: Calendar,
+  [ActivityType.ATTEND_EVENT]: CalendarCheck,
+  [ActivityType.UPLOAD_RESOURCE]: FileUp,
+  [ActivityType.ACCESS_RESOURCE]: Download,
+  [ActivityType.UPGRADE_MEMBERSHIP]: CreditCard,
+  [ActivityType.CANCEL_MEMBERSHIP]: XCircle,
 };
 
 function getRelativeTime(date: Date) {
@@ -62,14 +87,6 @@ function formatAction(action: ActivityType): string {
       return 'You deleted your account';
     case ActivityType.UPDATE_ACCOUNT:
       return 'You updated your account';
-    case ActivityType.CREATE_TEAM:
-      return 'You created a new team';
-    case ActivityType.REMOVE_TEAM_MEMBER:
-      return 'You removed a team member';
-    case ActivityType.INVITE_TEAM_MEMBER:
-      return 'You invited a team member';
-    case ActivityType.ACCEPT_INVITATION:
-      return 'You accepted an invitation';
     case ActivityType.VERIFY_EMAIL:
       return 'You verified your email';
     case ActivityType.REQUEST_PASSWORD_RESET:
@@ -80,6 +97,41 @@ function formatAction(action: ActivityType): string {
       return 'Your account was locked';
     case ActivityType.ACCOUNT_UNLOCKED:
       return 'Your account was unlocked';
+    // New mentorship activity types
+    case ActivityType.ACTIVATE_MENTOR_ROLE:
+      return 'You activated your mentor role';
+    case ActivityType.ACTIVATE_MENTEE_ROLE:
+      return 'You activated your mentee role';
+    case ActivityType.UPDATE_MENTOR_PROFILE:
+      return 'You updated your mentor profile';
+    case ActivityType.UPDATE_MENTEE_PROFILE:
+      return 'You updated your mentee profile';
+    case ActivityType.REQUEST_MENTOR:
+      return 'You requested a mentor';
+    case ActivityType.ACCEPT_MENTEE:
+      return 'You accepted a mentee';
+    case ActivityType.REJECT_MENTEE:
+      return 'You rejected a mentee request';
+    case ActivityType.END_MENTORSHIP:
+      return 'You ended a mentorship';
+    case ActivityType.SCHEDULE_MEETING:
+      return 'You scheduled a meeting';
+    case ActivityType.COMPLETE_MEETING:
+      return 'You completed a meeting';
+    case ActivityType.CANCEL_MEETING:
+      return 'You cancelled a meeting';
+    case ActivityType.REGISTER_EVENT:
+      return 'You registered for an event';
+    case ActivityType.ATTEND_EVENT:
+      return 'You attended an event';
+    case ActivityType.UPLOAD_RESOURCE:
+      return 'You uploaded a resource';
+    case ActivityType.ACCESS_RESOURCE:
+      return 'You accessed a resource';
+    case ActivityType.UPGRADE_MEMBERSHIP:
+      return 'You upgraded your membership';
+    case ActivityType.CANCEL_MEMBERSHIP:
+      return 'You cancelled your membership';
     default:
       return 'Unknown action occurred';
   }

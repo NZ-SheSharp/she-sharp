@@ -1,6 +1,6 @@
 import { Adapter } from "next-auth/adapters";
 import { db } from "@/lib/db/drizzle";
-import { users, accounts, sessions, verificationTokens } from "@/lib/db/schema";
+import { users, accounts, sessions, verificationTokens, userMemberships } from "@/lib/db/schema";
 import { eq, and } from "drizzle-orm";
 
 export function CustomDrizzleAdapter(): Adapter {
@@ -15,6 +15,18 @@ export function CustomDrizzleAdapter(): Adapter {
           emailVerified: data.emailVerified,
         })
         .returning();
+      
+      // Create default free membership for OAuth users
+      await db.insert(userMemberships).values({
+        userId: user.id,
+        tier: 'free',
+        featuresAccess: {
+          maxMentorApplications: true,
+          accessBasicResources: true,
+          joinFreeEvents: true,
+          viewMentorProfiles: true
+        }
+      });
       
       return {
         ...user,

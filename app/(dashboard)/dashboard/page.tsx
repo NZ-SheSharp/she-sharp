@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -26,9 +27,11 @@ import {
 } from 'lucide-react';
 
 export default function DashboardPage() {
+  const router = useRouter();
   const [user, setUser] = useState<any>(null);
   const [isVerified, setIsVerified] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [activeRoles, setActiveRoles] = useState<string[]>([]);
 
   useEffect(() => {
     fetchUserData();
@@ -41,6 +44,20 @@ export default function DashboardPage() {
         const userData = await response.json();
         setUser(userData);
         setIsVerified(!!userData.emailVerifiedAt);
+        
+        // Check user roles
+        const rolesResponse = await fetch('/api/user/roles');
+        if (rolesResponse.ok) {
+          const rolesData = await rolesResponse.json();
+          const roles = rolesData.activeRoles || [];
+          setActiveRoles(roles);
+          
+          // If user has no active roles, redirect to welcome page
+          if (roles.length === 0) {
+            router.push('/dashboard/welcome');
+            return;
+          }
+        }
       }
     } catch (err) {
       console.error('Failed to fetch user data:', err);
@@ -88,7 +105,57 @@ export default function DashboardPage() {
     },
   ];
 
+  // Add role-based mentorship links
+  const getMentorshipLinks = () => {
+    const links = [];
+    
+    if (activeRoles.includes('mentor') || activeRoles.includes('mentee')) {
+      links.push({
+        title: 'Mentorship Dashboard',
+        description: 'Manage your mentorship relationships',
+        icon: Users,
+        href: '/dashboard/mentorship',
+        color: 'text-purple-dark',
+        action: 'View Dashboard',
+      });
+    }
+    
+    if (activeRoles.includes('mentee')) {
+      links.push({
+        title: 'Browse Mentors',
+        description: 'Find and connect with experienced mentors',
+        icon: Sparkles,
+        href: '/dashboard/mentors',
+        color: 'text-periwinkle-dark',
+        action: 'Find Mentors',
+      });
+      
+      links.push({
+        title: 'Mentee Profile',
+        description: 'Update your learning goals and preferences',
+        icon: Target,
+        href: '/dashboard/mentee-profile',
+        color: 'text-navy-dark',
+        action: 'Edit Profile',
+      });
+    }
+    
+    if (activeRoles.includes('mentor')) {
+      links.push({
+        title: 'Mentor Profile',
+        description: 'Update your mentor profile and availability',
+        icon: Shield,
+        href: '/dashboard/mentor-profile',
+        color: 'text-mint-dark',
+        action: 'Edit Profile',
+      });
+    }
+    
+    return links;
+  };
+
   const sheSharpResources = [
+    ...(getMentorshipLinks()),
     {
       title: 'Mentorship Program',
       description: 'Connect with experienced women in STEM',

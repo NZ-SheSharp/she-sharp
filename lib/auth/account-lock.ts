@@ -82,9 +82,11 @@ export async function recordFailedLoginAttempt(
   // Log the failed attempt
   await db.insert(activityLogs).values({
     userId: user.id,
-    teamId: null,
     action: shouldLock ? ActivityType.ACCOUNT_LOCKED : ActivityType.SIGN_IN,
+    entityType: 'user',
+    entityId: user.id,
     ipAddress: ipAddress || '',
+    metadata: { reason: 'Failed login attempt', attempts: currentAttempts }
   });
 
   return {
@@ -127,9 +129,11 @@ export async function lockAccount(
   // Log the lock action
   await db.insert(activityLogs).values({
     userId,
-    teamId: null,
     action: ActivityType.ACCOUNT_LOCKED,
-    ipAddress: reason || 'Manual lock',
+    entityType: 'user',
+    entityId: userId,
+    ipAddress: 'Manual lock',
+    metadata: { reason: reason || 'Manual lock' }
   });
 }
 
@@ -148,9 +152,11 @@ export async function unlockAccount(userId: number): Promise<void> {
   // Log the unlock action
   await db.insert(activityLogs).values({
     userId,
-    teamId: null,
     action: ActivityType.ACCOUNT_UNLOCKED,
+    entityType: 'user',
+    entityId: userId,
     ipAddress: 'Manual unlock',
+    metadata: { reason: 'Manual unlock' }
   });
 }
 

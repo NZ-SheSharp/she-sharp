@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useState, Suspense } from 'react';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Home, LogOut, Menu, X, Settings, Users, Activity, CreditCard, Shield, Layers, DollarSign, FileText, LockKeyhole, User as UserIcon, CheckCircle } from 'lucide-react';
+import { Home, LogOut, Menu, X, Settings, Users, Activity, CreditCard, Shield, Layers, DollarSign, FileText, LockKeyhole, User as UserIcon, CheckCircle, GraduationCap, UserPlus, Sparkles, Heart } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,12 +22,22 @@ import { cn } from '@/lib/utils';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-// Sidebar navigation items
+// Sidebar navigation items - will be dynamically filtered based on user roles
 const sidebarNavItems = [
   {
     title: 'Overview',
     href: '/dashboard',
     icon: Home,
+  },
+  {
+    title: 'Mentorship',
+    icon: GraduationCap,
+    children: [
+      { title: 'Dashboard', href: '/dashboard/mentorship', icon: Heart },
+      { title: 'Browse Mentors', href: '/dashboard/mentors', icon: Sparkles },
+      { title: 'Mentor Profile', href: '/dashboard/mentor-profile', icon: UserPlus, roleRequired: 'mentor' },
+      { title: 'Mentee Profile', href: '/dashboard/mentee-profile', icon: UserIcon, roleRequired: 'mentee' },
+    ],
   },
   {
     title: 'Team',

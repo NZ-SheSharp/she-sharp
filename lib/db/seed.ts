@@ -1,6 +1,6 @@
 import { stripe } from '../payments/stripe';
 import { db } from './drizzle';
-import { users, teams, teamMembers } from './schema';
+import { users, teams, teamMembers, userMemberships, userRoles, adminPermissions } from './schema';
 import { hashPassword } from '@/lib/auth/session';
 
 async function createStripeProducts() {
@@ -50,12 +50,43 @@ async function seed() {
       {
         email: email,
         passwordHash: passwordHash,
-        role: "owner",
+        // Removed role field - using new role activation system
       },
     ])
     .returning();
 
   console.log('Initial user created.');
+
+  // Create default free membership
+  await db.insert(userMemberships).values({
+    userId: user.id,
+    tier: 'free',
+    featuresAccess: {
+      accessBasicResources: true,
+      joinFreeEvents: true,
+      viewMentorProfiles: true
+    }
+  });
+
+  // Activate admin role for seed user
+  await db.insert(userRoles).values({
+    userId: user.id,
+    roleType: 'admin',
+    isActive: true,
+    activationStep: 0
+  });
+
+  // Grant admin permissions
+  await db.insert(adminPermissions).values({
+    userId: user.id,
+    canViewAllData: true,
+    canEditUsers: true,
+    canManageRelationships: true,
+    canAccessAnalytics: true,
+    canManageContent: true,
+    canVerifyMentors: true,
+    canManageEvents: true
+  });
 
   const [team] = await db
     .insert(teams)
