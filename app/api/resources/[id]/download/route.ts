@@ -117,10 +117,7 @@ export async function GET(
         resourceId,
         userId: user.id,
         action: 'download',
-        metadata: {
-          fileSize: resource.fileSize,
-          mimeType: resource.mimeType,
-        },
+        ipAddress: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || undefined,
       });
 
       // Increment download count
