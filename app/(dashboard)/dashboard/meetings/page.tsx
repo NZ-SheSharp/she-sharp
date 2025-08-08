@@ -178,7 +178,7 @@ export default function MeetingsPage() {
           </div>
           <Badge variant={
             meeting.status === 'scheduled' ? 'default' :
-            meeting.status === 'completed' ? 'success' : 'secondary'
+            meeting.status === 'completed' ? 'outline' : 'secondary'
           }>
             {meeting.status}
           </Badge>
