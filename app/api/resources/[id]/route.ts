@@ -125,7 +125,7 @@ export async function PUT(
       resourceId,
       userId: user.id,
       action: 'update',
-      metadata: { changes: Object.keys(data) },
+      ipAddress: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || undefined,
     });
 
     return NextResponse.json({
