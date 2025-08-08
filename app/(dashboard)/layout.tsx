@@ -1,10 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, Suspense } from 'react';
+import { useState, Suspense, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Home, LogOut, Menu, X, Settings, Users, Activity, CreditCard, Shield, Layers, DollarSign, FileText, LockKeyhole, User as UserIcon, CheckCircle, GraduationCap, UserPlus, Sparkles, Heart, Calendar, FolderOpen, Bell } from 'lucide-react';
+import { Home, LogOut, Menu, X, Settings, Users, Activity, CreditCard, Shield, Layers, DollarSign, FileText, LockKeyhole, User as UserIcon, CheckCircle, GraduationCap, UserPlus, Sparkles, Heart, Calendar, FolderOpen, Bell, LayoutDashboard, BarChart3, ChevronDown, ChevronRight, UserCheck, CalendarPlus, CalendarClock, Archive, BookOpen, Image as ImageIcon, Mail, FileEdit, Cog, MessageSquare, FileSearch } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -215,6 +215,27 @@ function UserMenu() {
 function Sidebar() {
   const pathname = usePathname();
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [roleLoading, setRoleLoading] = useState(true);
+  const { data: user } = useSWR<User>('/api/user', fetcher);
+
+  useEffect(() => {
+    // Check if user is admin
+    if (user) {
+      fetch('/api/user/role')
+        .then(res => res.json())
+        .then(data => {
+          setIsAdmin(data.roles?.includes('admin') || false);
+          setRoleLoading(false);
+        })
+        .catch(err => {
+          console.error('Failed to fetch user role:', err);
+          setRoleLoading(false);
+        });
+    } else if (user === null) {
+      setRoleLoading(false);
+    }
+  }, [user]);
 
   const toggleExpanded = (title: string) => {
     setExpandedItems(prev =>
@@ -224,11 +245,100 @@ function Sidebar() {
     );
   };
 
+  // Admin navigation items
+  const adminNavItems = [
+    {
+      title: 'Overview',
+      href: '/dashboard/admin',
+      icon: LayoutDashboard,
+    },
+    {
+      title: 'User Management',
+      icon: Users,
+      children: [
+        { title: 'All Users', href: '/dashboard/admin/users', icon: Users },
+        { title: 'Role Management', href: '/dashboard/admin/users/roles', icon: Shield },
+        { title: 'Access Control', href: '/dashboard/admin/users/permissions', icon: UserCheck },
+        { title: 'Activity Logs', href: '/dashboard/admin/users/activity', icon: Activity },
+      ],
+    },
+    {
+      title: 'Mentorship',
+      icon: GraduationCap,
+      children: [
+        { title: 'Mentor Applications', href: '/dashboard/admin/mentors/applications', icon: UserPlus },
+        { title: 'Verified Mentors', href: '/dashboard/admin/mentors/verified', icon: CheckCircle },
+        { title: 'Active Relationships', href: '/dashboard/admin/mentors/relationships', icon: Users },
+        { title: 'Meeting Analytics', href: '/dashboard/admin/mentors/meetings', icon: BarChart3 },
+      ],
+    },
+    {
+      title: 'Events',
+      icon: Calendar,
+      children: [
+        { title: 'Upcoming Events', href: '/dashboard/admin/events/upcoming', icon: CalendarClock },
+        { title: 'Create Event', href: '/dashboard/admin/events/new', icon: CalendarPlus },
+        { title: 'Registrations', href: '/dashboard/admin/events/registrations', icon: UserCheck },
+        { title: 'Past Events', href: '/dashboard/admin/events/archive', icon: Archive },
+      ],
+    },
+    {
+      title: 'Content',
+      icon: FileText,
+      children: [
+        { title: 'Resources Library', href: '/dashboard/admin/content/resources', icon: BookOpen },
+        { title: 'Media Gallery', href: '/dashboard/admin/content/media', icon: ImageIcon },
+        { title: 'Newsletters', href: '/dashboard/admin/content/newsletters', icon: Mail },
+        { title: 'Blog Posts', href: '/dashboard/admin/content/blog', icon: FileEdit },
+      ],
+    },
+    {
+      title: 'Analytics',
+      icon: BarChart3,
+      href: '/dashboard/admin/analytics',
+    },
+    {
+      title: 'Settings',
+      icon: Settings,
+      children: [
+        { title: 'System Configuration', href: '/dashboard/admin/settings/system', icon: Cog },
+        { title: 'Email Templates', href: '/dashboard/admin/settings/emails', icon: MessageSquare },
+        { title: 'Membership Tiers', href: '/dashboard/admin/settings/membership', icon: CreditCard },
+        { title: 'Audit Logs', href: '/dashboard/admin/settings/audit', icon: FileSearch },
+      ],
+    },
+  ];
+
+  const navItems = isAdmin ? adminNavItems : sidebarNavItems;
+
+  // Show loading state or default nav while checking role
+  if (roleLoading) {
+    return (
+      <aside className="hidden lg:flex w-64 flex-col fixed left-0 top-16 bottom-0 bg-white border-r border-gray-200">
+        <nav className="flex-1 p-4 overflow-y-auto">
+          <div className="space-y-2">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="h-10 bg-gray-100 rounded-md animate-pulse" />
+            ))}
+          </div>
+        </nav>
+      </aside>
+    );
+  }
+
   return (
     <aside className="hidden lg:flex w-64 flex-col fixed left-0 top-16 bottom-0 bg-white border-r border-gray-200">
       <nav className="flex-1 p-4 overflow-y-auto">
+        {isAdmin && (
+          <div className="mb-4 px-3 py-2 bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg border border-purple-200">
+            <div className="flex items-center justify-between">
+              <p className="text-xs font-semibold text-purple-700 uppercase tracking-wider">Admin Panel</p>
+              <Shield className="w-4 h-4 text-purple-600" />
+            </div>
+          </div>
+        )}
         <div className="space-y-1">
-          {sidebarNavItems.map((item) => (
+          {navItems.map((item) => (
             <div key={item.title}>
               {item.children ? (
                 <div>
@@ -302,6 +412,27 @@ function Sidebar() {
 function MobileSidebar({ onClose }: { onClose: () => void }) {
   const pathname = usePathname();
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [roleLoading, setRoleLoading] = useState(true);
+  const { data: user } = useSWR<User>('/api/user', fetcher);
+
+  useEffect(() => {
+    // Check if user is admin
+    if (user) {
+      fetch('/api/user/role')
+        .then(res => res.json())
+        .then(data => {
+          setIsAdmin(data.roles?.includes('admin') || false);
+          setRoleLoading(false);
+        })
+        .catch(err => {
+          console.error('Failed to fetch user role:', err);
+          setRoleLoading(false);
+        });
+    } else if (user === null) {
+      setRoleLoading(false);
+    }
+  }, [user]);
 
   const toggleExpanded = (title: string) => {
     setExpandedItems(prev =>
@@ -311,10 +442,97 @@ function MobileSidebar({ onClose }: { onClose: () => void }) {
     );
   };
 
+  // Reuse admin navigation items from desktop sidebar
+  const adminNavItems = [
+    {
+      title: 'Overview',
+      href: '/dashboard/admin',
+      icon: LayoutDashboard,
+    },
+    {
+      title: 'User Management',
+      icon: Users,
+      children: [
+        { title: 'All Users', href: '/dashboard/admin/users', icon: Users },
+        { title: 'Role Management', href: '/dashboard/admin/users/roles', icon: Shield },
+        { title: 'Access Control', href: '/dashboard/admin/users/permissions', icon: UserCheck },
+        { title: 'Activity Logs', href: '/dashboard/admin/users/activity', icon: Activity },
+      ],
+    },
+    {
+      title: 'Mentorship',
+      icon: GraduationCap,
+      children: [
+        { title: 'Mentor Applications', href: '/dashboard/admin/mentors/applications', icon: UserPlus },
+        { title: 'Verified Mentors', href: '/dashboard/admin/mentors/verified', icon: CheckCircle },
+        { title: 'Active Relationships', href: '/dashboard/admin/mentors/relationships', icon: Users },
+        { title: 'Meeting Analytics', href: '/dashboard/admin/mentors/meetings', icon: BarChart3 },
+      ],
+    },
+    {
+      title: 'Events',
+      icon: Calendar,
+      children: [
+        { title: 'Upcoming Events', href: '/dashboard/admin/events/upcoming', icon: CalendarClock },
+        { title: 'Create Event', href: '/dashboard/admin/events/new', icon: CalendarPlus },
+        { title: 'Registrations', href: '/dashboard/admin/events/registrations', icon: UserCheck },
+        { title: 'Past Events', href: '/dashboard/admin/events/archive', icon: Archive },
+      ],
+    },
+    {
+      title: 'Content',
+      icon: FileText,
+      children: [
+        { title: 'Resources Library', href: '/dashboard/admin/content/resources', icon: BookOpen },
+        { title: 'Media Gallery', href: '/dashboard/admin/content/media', icon: ImageIcon },
+        { title: 'Newsletters', href: '/dashboard/admin/content/newsletters', icon: Mail },
+        { title: 'Blog Posts', href: '/dashboard/admin/content/blog', icon: FileEdit },
+      ],
+    },
+    {
+      title: 'Analytics',
+      icon: BarChart3,
+      href: '/dashboard/admin/analytics',
+    },
+    {
+      title: 'Settings',
+      icon: Settings,
+      children: [
+        { title: 'System Configuration', href: '/dashboard/admin/settings/system', icon: Cog },
+        { title: 'Email Templates', href: '/dashboard/admin/settings/emails', icon: MessageSquare },
+        { title: 'Membership Tiers', href: '/dashboard/admin/settings/membership', icon: CreditCard },
+        { title: 'Audit Logs', href: '/dashboard/admin/settings/audit', icon: FileSearch },
+      ],
+    },
+  ];
+
+  const navItems = isAdmin ? adminNavItems : sidebarNavItems;
+
+  // Show loading state while checking role
+  if (roleLoading) {
+    return (
+      <nav className="flex-1 p-4 overflow-y-auto">
+        <div className="space-y-2">
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className="h-10 bg-gray-100 rounded-md animate-pulse" />
+          ))}
+        </div>
+      </nav>
+    );
+  }
+
   return (
     <nav className="flex-1 p-4 overflow-y-auto">
+      {isAdmin && (
+        <div className="mb-4 px-3 py-2 bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg border border-purple-200">
+          <div className="flex items-center justify-between">
+            <p className="text-xs font-semibold text-purple-700 uppercase tracking-wider">Admin Panel</p>
+            <Shield className="w-4 h-4 text-purple-600" />
+          </div>
+        </div>
+      )}
       <div className="space-y-1">
-        {sidebarNavItems.map((item) => (
+        {navItems.map((item) => (
           <div key={item.title}>
             {item.children ? (
               <div>
