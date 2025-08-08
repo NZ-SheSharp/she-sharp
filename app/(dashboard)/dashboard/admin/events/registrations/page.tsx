@@ -480,7 +480,9 @@ export default function EventRegistrationsPage() {
                         {new Date(registration.registrationDate).toLocaleDateString()}
                       </p>
                       {(registration.dietaryRestrictions || registration.specialNeeds) && (
-                        <FileText className="w-3 h-3 text-yellow-600" title="Has special requirements" />
+                        <div title="Has special requirements">
+                          <FileText className="w-3 h-3 text-yellow-600" />
+                        </div>
                       )}
                     </div>
                   </TableCell>
