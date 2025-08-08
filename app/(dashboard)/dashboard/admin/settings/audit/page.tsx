@@ -1,0 +1,18 @@
+export default function AuditLogsPage() {
+  return (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Audit Logs</h1>
+          <p className="text-gray-600 mt-2">
+            View system activity and security logs
+          </p>
+        </div>
+      </div>
+
+      <div className="bg-white rounded-lg shadow p-6">
+        <p className="text-gray-500">Audit logs viewer coming soon...</p>
+      </div>
+    </div>
+  );
+}
