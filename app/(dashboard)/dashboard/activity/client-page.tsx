@@ -104,14 +104,12 @@ const actionColors: Record<string, string> = {
 interface ActivityLog {
   id: number;
   userId: number;
-  teamId?: number;
   action: string;
   entityType?: string;
   entityId?: number;
   metadata?: any;
   ipAddress?: string;
-  userAgent?: string;
-  createdAt: string;
+  timestamp: string;
   userName?: string;
   userEmail?: string;
   userImage?: string;
