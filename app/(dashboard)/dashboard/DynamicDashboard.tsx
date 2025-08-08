@@ -58,16 +58,6 @@ interface DashboardData {
     mentors: any[];
     upcomingMeetings: any[];
   };
-  admin?: {
-    permissions: any;
-    systemStats: {
-      totalUsers: number;
-      totalMentors: number;
-      totalMentees: number;
-      activeRelationships: number;
-      upcomingEvents: number;
-    };
-  };
   upcomingEvents: any[];
   recentResources: any[];
   quickActions: any[];
@@ -116,7 +106,7 @@ export default function DynamicDashboard() {
     );
   }
 
-  const { user, stats, mentor, mentee, admin, upcomingEvents, recentResources, quickActions } = data;
+  const { user, stats, mentor, mentee, upcomingEvents, recentResources, quickActions } = data;
 
   return (
     <div className="container mx-auto py-8 px-4 sm:px-6 lg:px-8 max-w-7xl">
@@ -344,69 +334,6 @@ export default function DynamicDashboard() {
           </div>
         )}
 
-        {/* Admin Section */}
-        {admin && (
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-navy-dark">Admin Overview</h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardDescription>Total Users</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold text-mint-dark">
-                    {admin.systemStats.totalUsers}
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardDescription>Total Mentors</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold text-mint-dark">
-                    {admin.systemStats.totalMentors}
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardDescription>Total Mentees</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold text-mint-dark">
-                    {admin.systemStats.totalMentees}
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardDescription>Active Relationships</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold text-mint-dark">
-                    {admin.systemStats.activeRelationships}
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardDescription>Upcoming Events</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold text-mint-dark">
-                    {admin.systemStats.upcomingEvents}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        )}
 
         {/* Common Sections */}
         {/* Upcoming Events */}

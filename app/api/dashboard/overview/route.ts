@@ -231,64 +231,8 @@ export async function GET() {
       });
     }
 
-    // Admin-specific data
-    if (isAdmin) {
-      const [adminPerms] = await db
-        .select()
-        .from(adminPermissions)
-        .where(eq(adminPermissions.userId, user.id))
-        .limit(1);
-
-      if (adminPerms?.canAccessAnalytics) {
-        // Get system-wide statistics
-        const totalUsers = await db
-          .select({ count: sql<number>`count(*)` })
-          .from(userRoles);
-
-        const totalMentors = await db
-          .select({ count: sql<number>`count(*)` })
-          .from(userRoles)
-          .where(eq(userRoles.roleType, 'mentor'));
-
-        const totalMentees = await db
-          .select({ count: sql<number>`count(*)` })
-          .from(userRoles)
-          .where(eq(userRoles.roleType, 'mentee'));
-
-        const activeRelationships = await db
-          .select({ count: sql<number>`count(*)` })
-          .from(mentorshipRelationships)
-          .where(eq(mentorshipRelationships.status, 'active'));
-
-        const totalEvents = await db
-          .select({ count: sql<number>`count(*)` })
-          .from(events)
-          .where(gte(events.startTime, new Date()));
-
-        dashboardData.admin = {
-          permissions: adminPerms,
-          systemStats: {
-            totalUsers: totalUsers[0]?.count || 0,
-            totalMentors: totalMentors[0]?.count || 0,
-            totalMentees: totalMentees[0]?.count || 0,
-            activeRelationships: activeRelationships[0]?.count || 0,
-            upcomingEvents: totalEvents[0]?.count || 0
-          }
-        };
-
-        dashboardData.quickActions.push(
-          { label: 'Analytics', href: '/dashboard/admin/analytics', icon: 'BarChart' },
-          { label: 'Manage Users', href: '/dashboard/admin/users', icon: 'Users' },
-          { label: 'Manage Events', href: '/dashboard/admin/events', icon: 'Calendar' }
-        );
-
-        dashboardData.sections.push({
-          id: 'admin-overview',
-          title: 'Admin Dashboard',
-          type: 'admin'
-        });
-      }
-    }
+    // Admin-specific data removed - admins are redirected to /dashboard/admin
+    // This endpoint now only serves mentor/mentee dashboard data
 
     // Common data for all users
     // Upcoming events
