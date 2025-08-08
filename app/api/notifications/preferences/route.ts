@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
+import { getUser } from '@/lib/db/queries';
 import { db } from '@/lib/db/drizzle';
 import { sql } from 'drizzle-orm';
-import { getUser } from '@/lib/db/queries';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const user = await getUser();
     if (!user) {
@@ -12,24 +12,36 @@ export async function GET(request: NextRequest) {
 
     // Get user's notification preferences
     const result = await db.execute(sql`
-      SELECT * FROM notification_preferences
+      SELECT * FROM notification_preferences 
       WHERE user_id = ${user.id}
-      LIMIT 1
     `);
 
-    let preferences = result[0];
-
-    // If no preferences exist, create default ones
-    if (!preferences) {
-      const [newPrefs] = await db.execute(sql`
-        INSERT INTO notification_preferences (user_id)
-        VALUES (${user.id})
-        RETURNING *
-      `);
-      preferences = newPrefs;
+    if (result.rows.length === 0) {
+      // Return default preferences if none exist
+      return NextResponse.json({
+        preferences: {
+          user_id: user.id,
+          email_enabled: true,
+          email_events: true,
+          email_mentorship: true,
+          email_resources: true,
+          email_meetings: true,
+          email_system: true,
+          inapp_enabled: true,
+          inapp_events: true,
+          inapp_mentorship: true,
+          inapp_resources: true,
+          inapp_meetings: true,
+          inapp_system: true,
+          email_frequency: 'immediate',
+          quiet_hours_start: null,
+          quiet_hours_end: null,
+          timezone: 'America/Los_Angeles',
+        },
+      });
     }
 
-    return NextResponse.json({ preferences });
+    return NextResponse.json({ preferences: result.rows[0] });
   } catch (error) {
     console.error('Error fetching notification preferences:', error);
     return NextResponse.json(
@@ -39,7 +51,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export async function PUT(request: NextRequest) {
+export async function PUT(request: Request) {
   try {
     const user = await getUser();
     if (!user) {
@@ -48,107 +60,47 @@ export async function PUT(request: NextRequest) {
 
     const data = await request.json();
 
-    // Build update query dynamically
-    const updates: string[] = [];
-    const values: any[] = [];
-    let paramIndex = 2; // Starting at $2 since $1 is user_id
-
-    // Email preferences
-    if (data.email_enabled !== undefined) {
-      updates.push(`email_enabled = $${paramIndex++}`);
-      values.push(data.email_enabled);
-    }
-    if (data.email_events !== undefined) {
-      updates.push(`email_events = $${paramIndex++}`);
-      values.push(data.email_events);
-    }
-    if (data.email_mentorship !== undefined) {
-      updates.push(`email_mentorship = $${paramIndex++}`);
-      values.push(data.email_mentorship);
-    }
-    if (data.email_resources !== undefined) {
-      updates.push(`email_resources = $${paramIndex++}`);
-      values.push(data.email_resources);
-    }
-    if (data.email_meetings !== undefined) {
-      updates.push(`email_meetings = $${paramIndex++}`);
-      values.push(data.email_meetings);
-    }
-    if (data.email_system !== undefined) {
-      updates.push(`email_system = $${paramIndex++}`);
-      values.push(data.email_system);
-    }
-
-    // In-app preferences
-    if (data.inapp_enabled !== undefined) {
-      updates.push(`inapp_enabled = $${paramIndex++}`);
-      values.push(data.inapp_enabled);
-    }
-    if (data.inapp_events !== undefined) {
-      updates.push(`inapp_events = $${paramIndex++}`);
-      values.push(data.inapp_events);
-    }
-    if (data.inapp_mentorship !== undefined) {
-      updates.push(`inapp_mentorship = $${paramIndex++}`);
-      values.push(data.inapp_mentorship);
-    }
-    if (data.inapp_resources !== undefined) {
-      updates.push(`inapp_resources = $${paramIndex++}`);
-      values.push(data.inapp_resources);
-    }
-    if (data.inapp_meetings !== undefined) {
-      updates.push(`inapp_meetings = $${paramIndex++}`);
-      values.push(data.inapp_meetings);
-    }
-    if (data.inapp_system !== undefined) {
-      updates.push(`inapp_system = $${paramIndex++}`);
-      values.push(data.inapp_system);
-    }
-
-    // Frequency settings
-    if (data.email_frequency !== undefined) {
-      updates.push(`email_frequency = $${paramIndex++}`);
-      values.push(data.email_frequency);
-    }
-    if (data.quiet_hours_start !== undefined) {
-      updates.push(`quiet_hours_start = $${paramIndex++}`);
-      values.push(data.quiet_hours_start);
-    }
-    if (data.quiet_hours_end !== undefined) {
-      updates.push(`quiet_hours_end = $${paramIndex++}`);
-      values.push(data.quiet_hours_end);
-    }
-    if (data.timezone !== undefined) {
-      updates.push(`timezone = $${paramIndex++}`);
-      values.push(data.timezone);
-    }
-
-    if (updates.length === 0) {
+    // Validate email_frequency if provided
+    if (data.email_frequency && !['immediate', 'daily', 'weekly'].includes(data.email_frequency)) {
       return NextResponse.json(
-        { error: 'No valid fields to update' },
+        { error: 'Invalid email frequency' },
         { status: 400 }
       );
     }
 
-    updates.push('updated_at = NOW()');
-
-    // Update preferences or create if not exists
-    const query = `
-      INSERT INTO notification_preferences (user_id, ${updates.map((_, i) => {
-        const field = updates[i].split(' = ')[0];
-        return field;
-      }).join(', ')})
-      VALUES ($1, ${values.map((_, i) => `$${i + 2}`).join(', ')})
+    // Simple upsert with only the most important fields
+    const result = await db.execute(sql`
+      INSERT INTO notification_preferences (
+        user_id,
+        email_enabled,
+        inapp_enabled,
+        email_frequency,
+        timezone,
+        created_at,
+        updated_at
+      )
+      VALUES (
+        ${user.id},
+        ${data.email_enabled ?? true},
+        ${data.inapp_enabled ?? true},
+        ${data.email_frequency ?? 'immediate'},
+        ${data.timezone ?? 'America/Los_Angeles'},
+        NOW(),
+        NOW()
+      )
       ON CONFLICT (user_id) DO UPDATE
-      SET ${updates.join(', ')}
+      SET 
+        email_enabled = EXCLUDED.email_enabled,
+        inapp_enabled = EXCLUDED.inapp_enabled,
+        email_frequency = EXCLUDED.email_frequency,
+        timezone = EXCLUDED.timezone,
+        updated_at = NOW()
       RETURNING *
-    `;
-
-    const [updatedPrefs] = await db.execute(sql.raw(query, [user.id, ...values]));
+    `);
 
     return NextResponse.json({
       message: 'Preferences updated successfully',
-      preferences: updatedPrefs,
+      preferences: result.rows[0],
     });
   } catch (error) {
     console.error('Error updating notification preferences:', error);
