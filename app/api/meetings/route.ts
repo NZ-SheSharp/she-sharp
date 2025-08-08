@@ -79,7 +79,7 @@ export async function GET(request: NextRequest) {
     const enrichedMeetings = await Promise.all(
       allMeetings.map(async (meeting) => {
         const relationship = relationships.find(r => r.id === meeting.relationshipId);
-        if (!relationship) return meeting;
+        if (!relationship) return { ...meeting, userRole: undefined };
 
         const isMentor = relationship.mentorUserId === user.id;
         const otherUserId = isMentor ? relationship.menteeUserId : relationship.mentorUserId;
@@ -96,7 +96,7 @@ export async function GET(request: NextRequest) {
 
         return {
           ...meeting,
-          userRole: isMentor ? 'mentor' : 'mentee',
+          userRole: isMentor ? 'mentor' : 'mentee' as 'mentor' | 'mentee',
           otherUser,
           relationship: {
             id: relationship.id,
@@ -108,7 +108,7 @@ export async function GET(request: NextRequest) {
 
     // Filter by role if specified
     const filteredMeetings = role
-      ? enrichedMeetings.filter(m => m.userRole === role)
+      ? enrichedMeetings.filter(m => m.userRole && m.userRole === role)
       : enrichedMeetings;
 
     // Separate by status
