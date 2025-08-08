@@ -1,260 +1,106 @@
 # Database Version Control Guide
 
-## Overview
+## Current Version
+- **Version**: 2.0
+- **Date**: January 9, 2025
+- **Migration Level**: 0012
+- **Status**: Production-ready
 
-This guide explains how to use the database version control system built on top of Drizzle ORM for the She Sharp project. The system provides migration tracking, snapshots, rollback capabilities, and checkpoint management.
+## Version History
 
-## Architecture
+### v2.0 (2025-01-09)
+- Fixed admin dashboard functionality
+- Cleaned up test accounts
+- Full admin permissions implemented
+- Backup: `schema_2025_01_09_v2.sql`
 
-### Components
+### v1.0 (2025-01-08)
+- Initial comprehensive implementation
+- Mentorship system complete
+- Role-based dashboards
+- Backup: `schema_2025_01_08.sql`
 
-1. **Drizzle Migrations** (`/lib/db/migrations/`)
-   - SQL migration files (e.g., `0001_flat_starjammers.sql`)
-   - Metadata files in `/meta/` directory
-   - Journal file (`_journal.json`) tracking migration history
+## How to Rollback
 
-2. **Migration Manager** (`/lib/db/migration-manager.ts`)
-   - Core class handling version control operations
-   - Snapshot creation and management
-   - Migration status tracking
-
-3. **CLI Tools** (`/scripts/`)
-   - `db-version.ts` - Main version control CLI
-   - `migrate-with-backup.ts` - Safe migration with automatic backups
-
-## Available Commands
-
-### Basic Migration Commands
-
+### To Previous Version (v1.0)
 ```bash
-# Generate new migration from schema changes
-pnpm db:generate
+# 1. Restore database from backup
+psql $DATABASE_URL < docs/database/backups/schema_2025_01_08.sql
 
-# Apply pending migrations
-pnpm db:migrate
+# 2. Reset git to previous commit
+git reset --hard 27533ff
 
-# Apply migrations with automatic backup
-pnpm db:migrate:safe
+# 3. Re-deploy application
+pnpm build && pnpm start
 ```
 
-### Version Control Commands
-
+### To Current Version (v2.0)
 ```bash
-# Check migration status
-pnpm db:status
+# 1. Restore database from backup
+psql $DATABASE_URL < docs/database/backups/schema_2025_01_09_v2.sql
 
-# View migration history
-pnpm db:history
-
-# Create a snapshot
-pnpm db:snapshot "description"
-
-# List all snapshots
-pnpm db:version list-snapshots
-
-# Create a named checkpoint
-pnpm db:version checkpoint "stable-v1"
-
-# Generate rollback SQL
-pnpm db:version rollback-sql 0004_keen_mandarin
+# 2. Or apply migrations incrementally
+psql $DATABASE_URL < lib/db/migrations/0012_fix_admin_permissions.sql
 ```
 
-## Best Practices
+## Migration Files
 
-### 1. Pre-Migration Checklist
+All migrations are stored in `/lib/db/migrations/`:
+- `0001_initial_setup.sql` - Base tables
+- `0002_add_she_sharp_tables.sql` - Organization tables
+- `0003_add_contact_form.sql` - Contact system
+- `0004_add_subscription_plans.sql` - Payment integration
+- `0005_add_mentorship_tables.sql` - Mentorship system
+- `0006_add_admin_analytics.sql` - Analytics
+- `0007_add_membership_tiers.sql` - Membership system
+- `0008_add_notifications_table.sql` - Notifications
+- `0009_add_statistics_and_features.sql` - Stats caching
+- `0010_update_meetings_table.sql` - Meeting enhancements
+- `0011_fix_resources_table.sql` - Resources completion
+- `0012_fix_admin_permissions.sql` - Admin dashboard fix
 
-Before running migrations in production:
+## Database State
 
-- [ ] Review all pending migrations with `pnpm db:status`
-- [ ] Create a snapshot: `pnpm db:snapshot "pre-deployment"`
-- [ ] Test migrations in staging environment
-- [ ] Have rollback plan ready
+### Active Users
+- 8 legitimate user accounts
+- 1 admin user (chanmeng.career@gmail.com)
+- 0 test accounts (all cleaned)
 
-### 2. Migration Workflow
+### Tables Created
+- Core: users, teams, team_members, activity_logs
+- Auth: sessions, password_resets, email_verifications
+- Mentorship: mentor_profiles, mentee_profiles, relationships, meetings
+- Events: events, registrations, role_assignments
+- Resources: resources, access_logs
+- Admin: admin_permissions, analytics_settings
+- Features: membership_tiers, membership_features
+- Stats: user_mentorship_stats
 
+## Backup Strategy
+
+### Manual Backup
 ```bash
-# 1. Make schema changes in /lib/db/schema.ts
-
-# 2. Generate migration
-pnpm db:generate
-
-# 3. Review generated SQL in /lib/db/migrations/
-
-# 4. Test locally
-pnpm db:migrate
-
-# 5. Create checkpoint if stable
-pnpm db:version checkpoint "feature-complete"
-
-# 6. Deploy to production with backup
-pnpm db:migrate:safe
+# Create new backup
+pg_dump $DATABASE_URL > docs/database/backups/schema_$(date +%Y_%m_%d).sql
 ```
 
-### 3. Snapshot Strategy
-
-Create snapshots at key points:
-
-- Before major migrations
-- After successful deployments
-- Before schema refactoring
-- Weekly automated snapshots (if applicable)
-
-### 4. Naming Conventions
-
-- **Snapshots**: Use descriptive names like `pre-auth-refactor`, `post-v2-release`
-- **Checkpoints**: Use version tags like `v1.0-stable`, `beta-release`
-- **Migration descriptions**: Be specific in schema change descriptions
-
-## Rollback Procedures
-
-### Method 1: Using Snapshots (Recommended)
-
+### Restore from Backup
 ```bash
-# 1. List available snapshots
-pnpm db:version list-snapshots
-
-# 2. Identify the snapshot to restore
-# snapshot_2025-01-03T10-30-00_pre-migration
-
-# 3. Restore from snapshot (manual process)
-# - Drop current database
-# - Restore schema from snapshot file
-# - Apply data if included
+# Restore specific version
+psql $DATABASE_URL < docs/database/backups/[backup_file].sql
 ```
 
-### Method 2: Manual Rollback
+## Important Notes
 
-```bash
-# 1. Generate rollback SQL
-pnpm db:version rollback-sql 0004_keen_mandarin
+1. **Always backup before migrations**
+2. **Test migrations in development first**
+3. **Document all schema changes**
+4. **Keep migration files idempotent**
+5. **Version control all database changes**
 
-# 2. Review and modify the generated SQL
+## Emergency Contacts
 
-# 3. Apply rollback manually
-# psql $DATABASE_URL < rollback.sql
-```
-
-## Directory Structure
-
-```
-lib/db/
-├── migrations/           # Drizzle migrations
-│   ├── 0001_*.sql
-│   ├── 0002_*.sql
-│   └── meta/
-│       ├── 0001_snapshot.json
-│       └── _journal.json
-├── snapshots/           # Database snapshots
-│   ├── snapshot_*_schema.sql
-│   ├── snapshot_*_data.sql
-│   └── snapshot_*_state.json
-├── checkpoints/         # Named checkpoints
-│   └── stable-v1.json
-└── schema.ts           # Database schema definition
-```
-
-## Environment Variables
-
-```env
-# Required
-DATABASE_URL=postgresql://...
-POSTGRES_URL=postgresql://...
-
-# Optional
-SNAPSHOT_INCLUDE_DATA=true  # Include data in snapshots (default: false)
-```
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Migration Conflicts**
-   ```bash
-   # Check current status
-   pnpm db:status
-   
-   # Regenerate migrations if needed
-   rm -rf lib/db/migrations
-   pnpm db:generate
-   ```
-
-2. **Snapshot Failures**
-   - Ensure `pg_dump` is installed
-   - Check database connection string
-   - Verify sufficient disk space
-
-3. **Rollback Issues**
-   - Always test rollback procedures in staging
-   - Keep manual rollback scripts for complex changes
-   - Document any data migrations separately
-
-## Advanced Usage
-
-### Automated Snapshots
-
-Add to your CI/CD pipeline:
-
-```yaml
-# .github/workflows/backup.yml
-- name: Create weekly snapshot
-  run: |
-    pnpm db:snapshot "weekly-$(date +%Y%m%d)"
-```
-
-### Migration Hooks
-
-The system supports pre/post migration hooks:
-
-```typescript
-// In your migration files
-export async function up(db: Database) {
-  // Pre-migration logic
-  await createBackupTable();
-  
-  // Migration
-  await db.schema.alterTable(...);
-  
-  // Post-migration logic
-  await validateMigration();
-}
-```
-
-## Security Considerations
-
-1. **Snapshot Storage**
-   - Store snapshots in secure, encrypted storage
-   - Implement retention policies
-   - Never commit snapshots to git
-
-2. **Access Control**
-   - Limit production database access
-   - Use read-only credentials for snapshots
-   - Audit migration activities
-
-3. **Sensitive Data**
-   - Be cautious with data snapshots
-   - Consider data masking for non-production environments
-   - Follow GDPR/compliance requirements
-
-## Maintenance
-
-### Regular Tasks
-
-- Weekly: Review and clean old snapshots
-- Monthly: Test rollback procedures
-- Quarterly: Audit migration history
-- Yearly: Archive old migrations
-
-### Monitoring
-
-Monitor these metrics:
-- Migration execution time
-- Database size growth
-- Snapshot storage usage
-- Failed migration attempts
-
-## References
-
-- [Drizzle ORM Documentation](https://orm.drizzle.team/)
-- [PostgreSQL Backup Best Practices](https://www.postgresql.org/docs/current/backup.html)
-- Internal: `/lib/db/migration-manager.ts`
+For database emergencies:
+- Check `/docs/admin/ADMIN_SETUP_GUIDE.md` for admin access
+- Review `/docs/admin/USER_CLEANUP_LOG.md` for user management
+- See `/scripts/` directory for database utilities
