@@ -12,10 +12,8 @@ CREATE TABLE IF NOT EXISTS notifications (
   created_at TIMESTAMP DEFAULT NOW(),
   read_at TIMESTAMP,
   
-  -- Indexes
-  INDEX idx_notifications_user_id (user_id),
-  INDEX idx_notifications_read (read),
-  INDEX idx_notifications_created_at (created_at DESC)
+  -- Add column constraints
+  CHECK (type IN ('event', 'mentorship', 'resource', 'system', 'meeting'))
 );
 
 -- Create notification preferences table
@@ -46,9 +44,7 @@ CREATE TABLE IF NOT EXISTS notification_preferences (
   timezone VARCHAR(50) DEFAULT 'America/Los_Angeles',
   
   created_at TIMESTAMP DEFAULT NOW(),
-  updated_at TIMESTAMP DEFAULT NOW(),
-  
-  INDEX idx_notification_preferences_user_id (user_id)
+  updated_at TIMESTAMP DEFAULT NOW()
 );
 
 -- Create email queue table for async email sending
@@ -66,9 +62,18 @@ CREATE TABLE IF NOT EXISTS email_queue (
   sent_at TIMESTAMP,
   error_message TEXT,
   metadata JSONB,
-  created_at TIMESTAMP DEFAULT NOW(),
-  
-  INDEX idx_email_queue_status (status),
-  INDEX idx_email_queue_priority (priority),
-  INDEX idx_email_queue_created_at (created_at)
+  created_at TIMESTAMP DEFAULT NOW()
 );
+
+-- Create indexes for notifications table
+CREATE INDEX IF NOT EXISTS idx_notifications_user_id ON notifications(user_id);
+CREATE INDEX IF NOT EXISTS idx_notifications_read ON notifications(read);
+CREATE INDEX IF NOT EXISTS idx_notifications_created_at ON notifications(created_at DESC);
+
+-- Create indexes for notification_preferences table
+CREATE INDEX IF NOT EXISTS idx_notification_preferences_user_id ON notification_preferences(user_id);
+
+-- Create indexes for email_queue table
+CREATE INDEX IF NOT EXISTS idx_email_queue_status ON email_queue(status);
+CREATE INDEX IF NOT EXISTS idx_email_queue_priority ON email_queue(priority);
+CREATE INDEX IF NOT EXISTS idx_email_queue_created_at ON email_queue(created_at);

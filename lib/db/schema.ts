@@ -321,6 +321,56 @@ export const adminPermissions = pgTable('admin_permissions', {
   userIdIdx: index('admin_permissions_user_id_idx').on(table.userId),
 }));
 
+// Event role assignments for activity-specific roles
+export const eventRoleAssignments = pgTable('event_role_assignments', {
+  id: serial('id').primaryKey(),
+  eventId: integer('event_id').notNull().references(() => events.id, { onDelete: 'cascade' }),
+  userId: integer('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  roleType: varchar('role_type', { length: 50 }).notNull(), // 'mentor', 'mentee', 'facilitator', 'speaker'
+  assignedAt: timestamp('assigned_at').notNull().defaultNow(),
+  assignedBy: integer('assigned_by').references(() => users.id),
+  notes: text('notes'),
+}, (table) => ({
+  uniqueEventUserRole: unique().on(table.eventId, table.userId, table.roleType),
+  eventIdx: index('event_role_assignments_event_idx').on(table.eventId),
+  userIdx: index('event_role_assignments_user_idx').on(table.userId),
+  roleTypeIdx: index('event_role_assignments_role_type_idx').on(table.roleType),
+}));
+
+// Membership features configuration
+export const membershipFeatures = pgTable('membership_features', {
+  id: serial('id').primaryKey(),
+  tier: membershipTierEnum('tier').notNull(),
+  featureName: varchar('feature_name', { length: 100 }).notNull(),
+  featureValue: jsonb('feature_value'),
+  description: text('description'),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+}, (table) => ({
+  uniqueTierFeature: unique().on(table.tier, table.featureName),
+  tierIdx: index('membership_features_tier_idx').on(table.tier),
+}));
+
+// User mentorship statistics cache
+export const userMentorshipStats = pgTable('user_mentorship_stats', {
+  id: serial('id').primaryKey(),
+  userId: integer('user_id').notNull().unique().references(() => users.id, { onDelete: 'cascade' }),
+  menteesCount: integer('mentees_count').default(0),
+  mentorsCount: integer('mentors_count').default(0),
+  totalMeetings: integer('total_meetings').default(0),
+  completedMeetings: integer('completed_meetings').default(0),
+  totalMeetingHours: decimal('total_meeting_hours', { precision: 10, scale: 2 }).default('0'),
+  eventsAttended: integer('events_attended').default(0),
+  eventsRegistered: integer('events_registered').default(0),
+  resourcesUploaded: integer('resources_uploaded').default(0),
+  resourcesAccessed: integer('resources_accessed').default(0),
+  lastActivityAt: timestamp('last_activity_at'),
+  statsUpdatedAt: timestamp('stats_updated_at').notNull().defaultNow(),
+}, (table) => ({
+  userIdIdx: index('user_mentorship_stats_user_id_idx').on(table.userId),
+  updatedIdx: index('user_mentorship_stats_updated_idx').on(table.statsUpdatedAt),
+}));
+
 // Keep existing auth-related tables
 export const emailVerifications = pgTable('email_verifications', {
   id: serial('id').primaryKey(),
@@ -413,10 +463,12 @@ export const usersRelations = relations(users, ({ many, one }) => ({
     relationName: 'mentee',
   }),
   eventRegistrations: many(eventRegistrations),
+  eventRoleAssignments: many(eventRoleAssignments),
   uploadedResources: many(resources),
   resourceAccessLogs: many(resourceAccessLogs),
   membership: one(userMemberships),
   adminPermissions: one(adminPermissions),
+  mentorshipStats: one(userMentorshipStats),
   activityLogs: many(activityLogs),
   emailVerifications: many(emailVerifications),
   passwordResets: many(passwordResets),
@@ -477,6 +529,7 @@ export const eventsRelations = relations(events, ({ one, many }) => ({
     references: [users.id],
   }),
   registrations: many(eventRegistrations),
+  roleAssignments: many(eventRoleAssignments),
 }));
 
 export const eventRegistrationsRelations = relations(eventRegistrations, ({ one }) => ({
@@ -556,6 +609,33 @@ export const passwordHistoryRelations = relations(passwordHistory, ({ one }) => 
   }),
 }));
 
+export const eventRoleAssignmentsRelations = relations(eventRoleAssignments, ({ one }) => ({
+  event: one(events, {
+    fields: [eventRoleAssignments.eventId],
+    references: [events.id],
+  }),
+  user: one(users, {
+    fields: [eventRoleAssignments.userId],
+    references: [users.id],
+  }),
+  assignedBy: one(users, {
+    fields: [eventRoleAssignments.assignedBy],
+    references: [users.id],
+    relationName: 'assigner',
+  }),
+}));
+
+export const membershipFeaturesRelations = relations(membershipFeatures, ({ }) => ({
+  // No direct relations, this is a configuration table
+}));
+
+export const userMentorshipStatsRelations = relations(userMentorshipStats, ({ one }) => ({
+  user: one(users, {
+    fields: [userMentorshipStats.userId],
+    references: [users.id],
+  }),
+}));
+
 // Type exports
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
@@ -581,6 +661,12 @@ export type UserMembership = typeof userMemberships.$inferSelect;
 export type NewUserMembership = typeof userMemberships.$inferInsert;
 export type AdminPermission = typeof adminPermissions.$inferSelect;
 export type NewAdminPermission = typeof adminPermissions.$inferInsert;
+export type EventRoleAssignment = typeof eventRoleAssignments.$inferSelect;
+export type NewEventRoleAssignment = typeof eventRoleAssignments.$inferInsert;
+export type MembershipFeature = typeof membershipFeatures.$inferSelect;
+export type NewMembershipFeature = typeof membershipFeatures.$inferInsert;
+export type UserMentorshipStat = typeof userMentorshipStats.$inferSelect;
+export type NewUserMentorshipStat = typeof userMentorshipStats.$inferInsert;
 export type ActivityLog = typeof activityLogs.$inferSelect;
 export type NewActivityLog = typeof activityLogs.$inferInsert;
 export type EmailVerification = typeof emailVerifications.$inferSelect;
