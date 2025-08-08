@@ -1,6 +1,6 @@
 export default function MediaGalleryPage() {
   return (
-    <div className="space-y-6">
+    <div className="container mx-auto px-4 py-8 space-y-6">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Media Gallery</h1>
