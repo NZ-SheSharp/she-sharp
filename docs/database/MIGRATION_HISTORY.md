@@ -5,8 +5,13 @@ This document tracks all database migrations applied to the She Sharp platform.
 
 ## Migration Version Control
 
+### Version: 2025-01-09 (Current)
+**Commit Hash**: 7daedfb
+**Applied Migrations**: 0001 through 0012
+**Status**: Production-ready with admin dashboard fully functional
+
 ### Version: 2025-01-08
-**Commit Hash**: (to be generated)
+**Commit Hash**: 27533ff  
 **Applied Migrations**: 0001 through 0011
 
 ### Migration Details
@@ -67,10 +72,19 @@ This document tracks all database migrations applied to the She Sharp platform.
   - Added metadata: categories, tags, upload tracking
   - Added engagement metrics: download_count, view_count, average_rating
 
-## Database Schema Backup
+#### 0012_fix_admin_permissions.sql
+- Fixed admin_permissions table for dashboard functionality:
+  - Added can_manage_content column
+  - Added can_verify_mentors column
+  - Added granted_by and granted_at columns
+  - Created admin permissions for user ID 1 (chanmeng.career@gmail.com)
+  - Ensured all admin features are accessible
 
-The complete database schema as of this version is backed up in:
-- `/docs/database/backups/schema_2025_01_08.sql`
+## Database Schema Backups
+
+The complete database schema backups are available in:
+- `/docs/database/backups/schema_2025_01_08.sql` - Initial comprehensive implementation
+- `/docs/database/backups/schema_2025_01_09_v2.sql` - After admin fixes and test user cleanup
 
 ## Rollback Instructions
 
