@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db/drizzle';
-import { activityLogs, users, teams, adminPermissions } from '@/lib/db/schema';
+import { activityLogs, users, teams, teamMembers, adminPermissions } from '@/lib/db/schema';
 import { eq, and, or, gte, lte, desc, asc, sql, isNull } from 'drizzle-orm';
 import { getUser } from '@/lib/db/queries';
 
@@ -47,22 +47,25 @@ export async function GET(request: NextRequest) {
     if (scope === 'personal' || !scope) {
       conditions.push(eq(activityLogs.userId, user.id));
     } else if (scope === 'team') {
-      // Get user's team IDs
+      // Get user's team IDs from teamMembers table
       const userTeams = await db
-        .select({ teamId: teams.id })
-        .from(teams)
-        .where(
-          or(
-            eq(teams.createdBy, user.id),
-            // TODO: Add team members check when teamMembers table is available
-          )
-        );
+        .select({ teamId: teamMembers.teamId })
+        .from(teamMembers)
+        .where(eq(teamMembers.userId, user.id));
       
       if (userTeams.length > 0) {
-        const teamIds = userTeams.map(t => t.teamId);
-        conditions.push(
-          or(...teamIds.map(id => eq(activityLogs.teamId, id)))
-        );
+        // Get all team members' user IDs
+        const teamMemberIds = await db
+          .select({ userId: teamMembers.userId })
+          .from(teamMembers)
+          .where(or(...userTeams.map(t => eq(teamMembers.teamId, t.teamId))));
+        
+        const userIds = teamMemberIds.map(m => m.userId);
+        if (userIds.length > 0) {
+          conditions.push(
+            or(...userIds.map(id => eq(activityLogs.userId, id)))
+          );
+        }
       } else {
         // User has no teams, return empty result
         return NextResponse.json({
@@ -81,10 +84,10 @@ export async function GET(request: NextRequest) {
 
     // Date filtering
     if (startDate) {
-      conditions.push(gte(activityLogs.createdAt, new Date(startDate)));
+      conditions.push(gte(activityLogs.timestamp, new Date(startDate)));
     }
     if (endDate) {
-      conditions.push(lte(activityLogs.createdAt, new Date(endDate)));
+      conditions.push(lte(activityLogs.timestamp, new Date(endDate)));
     }
 
     // Action filtering
@@ -102,14 +105,12 @@ export async function GET(request: NextRequest) {
       .select({
         id: activityLogs.id,
         userId: activityLogs.userId,
-        teamId: activityLogs.teamId,
         action: activityLogs.action,
         entityType: activityLogs.entityType,
         entityId: activityLogs.entityId,
         metadata: activityLogs.metadata,
         ipAddress: activityLogs.ipAddress,
-        userAgent: activityLogs.userAgent,
-        createdAt: activityLogs.createdAt,
+        timestamp: activityLogs.timestamp,
         userName: users.name,
         userEmail: users.email,
         userImage: users.image,
@@ -132,7 +133,7 @@ export async function GET(request: NextRequest) {
 
     // Get paginated logs
     const logs = await logsQuery
-      .orderBy(desc(activityLogs.createdAt))
+      .orderBy(desc(activityLogs.timestamp))
       .limit(limit)
       .offset(offset);
 
@@ -194,10 +195,10 @@ export async function POST(request: NextRequest) {
     // Build query
     const conditions = [];
     if (startDate) {
-      conditions.push(gte(activityLogs.createdAt, new Date(startDate)));
+      conditions.push(gte(activityLogs.timestamp, new Date(startDate)));
     }
     if (endDate) {
-      conditions.push(lte(activityLogs.createdAt, new Date(endDate)));
+      conditions.push(lte(activityLogs.timestamp, new Date(endDate)));
     }
 
     // Get all logs in date range
@@ -205,21 +206,19 @@ export async function POST(request: NextRequest) {
       .select({
         id: activityLogs.id,
         userId: activityLogs.userId,
-        teamId: activityLogs.teamId,
         action: activityLogs.action,
         entityType: activityLogs.entityType,
         entityId: activityLogs.entityId,
         metadata: activityLogs.metadata,
         ipAddress: activityLogs.ipAddress,
-        userAgent: activityLogs.userAgent,
-        createdAt: activityLogs.createdAt,
+        timestamp: activityLogs.timestamp,
         userName: users.name,
         userEmail: users.email,
       })
       .from(activityLogs)
       .leftJoin(users, eq(activityLogs.userId, users.id))
       .where(conditions.length > 0 ? and(...conditions) : undefined)
-      .orderBy(desc(activityLogs.createdAt));
+      .orderBy(desc(activityLogs.timestamp));
 
     if (format === 'csv') {
       // Convert to CSV format
