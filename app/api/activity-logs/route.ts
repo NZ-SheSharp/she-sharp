@@ -139,7 +139,7 @@ export async function GET(request: NextRequest) {
 
     // Group logs by date for better visualization
     const groupedLogs = logs.reduce((acc, log) => {
-      const date = new Date(log.createdAt).toLocaleDateString();
+      const date = new Date(log.timestamp).toLocaleDateString();
       if (!acc[date]) {
         acc[date] = [];
       }
@@ -237,15 +237,15 @@ export async function POST(request: NextRequest) {
 
       const rows = logs.map(log => [
         log.id,
-        new Date(log.createdAt).toLocaleDateString(),
-        new Date(log.createdAt).toLocaleTimeString(),
+        new Date(log.timestamp).toLocaleDateString(),
+        new Date(log.timestamp).toLocaleTimeString(),
         log.userName || 'Unknown',
         log.userEmail || '',
         log.action,
         log.entityType || '',
         log.entityId || '',
         log.ipAddress || '',
-        log.userAgent || '',
+        '', // userAgent field doesn't exist in activityLogs table
       ]);
 
       const csv = [
