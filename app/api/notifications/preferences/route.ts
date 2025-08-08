@@ -16,7 +16,10 @@ export async function GET() {
       WHERE user_id = ${user.id}
     `);
 
-    if (result.rows.length === 0) {
+    // Check if result is an array or has rows property
+    const rows = Array.isArray(result) ? result : (result as any).rows || [];
+    
+    if (rows.length === 0) {
       // Return default preferences if none exist
       return NextResponse.json({
         preferences: {
@@ -41,7 +44,7 @@ export async function GET() {
       });
     }
 
-    return NextResponse.json({ preferences: result.rows[0] });
+    return NextResponse.json({ preferences: rows[0] });
   } catch (error) {
     console.error('Error fetching notification preferences:', error);
     return NextResponse.json(
@@ -98,9 +101,12 @@ export async function PUT(request: Request) {
       RETURNING *
     `);
 
+    // Handle result structure
+    const rows = Array.isArray(result) ? result : (result as any).rows || [];
+    
     return NextResponse.json({
       message: 'Preferences updated successfully',
-      preferences: result.rows[0],
+      preferences: rows[0],
     });
   } catch (error) {
     console.error('Error updating notification preferences:', error);
