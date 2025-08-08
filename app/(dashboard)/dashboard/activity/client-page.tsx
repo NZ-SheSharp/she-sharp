@@ -380,7 +380,7 @@ export default function ActivityPageClient() {
                             </div>
                             <div className="flex items-center gap-4 mt-1">
                               <p className="text-xs text-gray-500">
-                                {getRelativeTime(new Date(log.createdAt))}
+                                {getRelativeTime(new Date(log.timestamp))}
                               </p>
                               {log.ipAddress && (
                                 <p className="text-xs text-gray-400">
