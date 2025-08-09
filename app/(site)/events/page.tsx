@@ -19,7 +19,7 @@ import { layoutSystem, layoutClasses } from '@/lib/layout-system';
 // Mock data - replace with actual API calls
 const mockEvents = [
   {
-    id: '1',
+    id: 'thrive-your-career-your-story',
     title: 'THRIVE: Your Career, Your Story',
     date: new Date('2025-03-15'),
     dateString: 'March 15, 2025',
@@ -34,7 +34,7 @@ const mockEvents = [
     description: 'Join us for an inspiring evening of career stories and networking.'
   },
   {
-    id: '2',
+    id: 'tech-talk-ai-healthcare',
     title: 'Tech Talk: AI in Healthcare',
     date: new Date('2025-03-22'),
     dateString: 'March 22, 2025',
@@ -48,7 +48,7 @@ const mockEvents = [
     description: 'Explore the latest developments in AI applications for healthcare.'
   },
   {
-    id: '3',
+    id: 'coding-workshop-react-fundamentals',
     title: 'Coding Workshop: React Fundamentals',
     date: new Date('2025-03-29'),
     dateString: 'March 29, 2025',
@@ -61,7 +61,7 @@ const mockEvents = [
     description: 'Hands-on workshop to learn React from scratch.'
   },
   {
-    id: '4',
+    id: 'women-in-leadership-panel',
     title: 'Women in Leadership Panel',
     date: new Date('2025-04-05'),
     dateString: 'April 5, 2025',
@@ -74,7 +74,7 @@ const mockEvents = [
     description: 'Hear from successful women leaders in tech.'
   },
   {
-    id: '5',
+    id: 'cybersecurity-basics',
     title: 'Cybersecurity Basics',
     date: new Date('2025-04-12'),
     dateString: 'April 12, 2025',
@@ -89,6 +89,18 @@ const mockEvents = [
 ];
 
 const mockPastEvents = [
+  {
+    id: 'thrive-july-2025',
+    title: 'THRIVE: Your Career, Your Story',
+    date: 'July 30, 2025',
+    attendees: 90,
+    images: [
+      'https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg',
+      'https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg',
+      'https://lxd4dc8r8oetlgua.public.blob.vercel-storage.com/670c6faa065093d7fd557a81_66b08c577a2a3900c4c635f8_GEC23%20%281%29.jpg'
+    ],
+    description: 'Career development evening with keynote, panel discussion, and speed mentoring sessions. A collaboration between She Sharp and TechBabesNZ.'
+  },
   {
     id: 'p1',
     title: 'International Women\'s Day 2024',

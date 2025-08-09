@@ -5,8 +5,9 @@ import Image from 'next/image';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight, X, Calendar, Users } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X, Calendar, Users, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 interface PastEvent {
   id: string;
@@ -187,9 +188,17 @@ export function PastEventsGallery({ events }: PastEventsGalleryProps) {
                   </span>
                 </div>
                 {selectedEvent.description && (
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <p className="text-gray-600 dark:text-gray-400 mb-4">
                     {selectedEvent.description}
                   </p>
+                )}
+                {selectedEvent.id === 'thrive-july-2025' && (
+                  <Button asChild variant="outline" className="gap-2">
+                    <Link href="/events/thrive-your-career-your-story">
+                      View Event Details
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </Button>
                 )}
               </div>
             </div>
