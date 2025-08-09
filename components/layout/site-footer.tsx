@@ -70,15 +70,31 @@ export function SiteFooter() {
       {/* Background Pattern */}
       <div className="footer-pattern" />
 
-      <div className="relative mx-auto px-4 md:px-6 max-w-7xl py-16">
+      <div className="relative px-4 md:px-6 lg:px-8 xl:px-12 2xl:px-16 py-12 md:py-16 lg:py-20">
+        {/* Stats Section */}
+        <div className="grid grid-cols-3 gap-4 md:gap-8 lg:gap-12 max-w-4xl mx-auto mb-12 lg:mb-16">
+          {footerConfig.stats.map((stat, index) => (
+            <div key={stat.label} className="text-center">
+              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-purple-mid mb-1 md:mb-2">
+                {stat.value}
+              </div>
+              <div className="text-xs md:text-sm text-white/70">
+                {stat.label}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <Separator className="mb-12 lg:mb-16 bg-white/20 max-w-4xl mx-auto" />
+
         {/* Top Section - Newsletter */}
-        <div className="mb-16">
+        <div className="mb-12 lg:mb-16">
           {/* Newsletter */}
           <div className="max-w-2xl mx-auto text-center">
-            <h3 className="text-2xl md:text-3xl font-bold mb-4 text-white">
+            <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-white">
               Stay Connected with She Sharp
             </h3>
-            <p className="text-white/80 mb-6">
+            <p className="text-sm md:text-base text-white/80 mb-6 lg:mb-8">
               Get the latest updates on events, mentorship opportunities, and inspiring stories.
             </p>
             <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
@@ -107,22 +123,22 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <Separator className="mb-12 bg-white/20" />
+        <Separator className="mb-8 lg:mb-12 bg-white/20" />
 
         {/* Main Content Grid */}
-        <div className="grid gap-12 mb-12">
-          {/* Desktop Links */}
-          <div className="hidden lg:grid lg:grid-cols-5 gap-8">
+        <div className="mb-8 lg:mb-12">
+          {/* Desktop Links - Full Width Container */}
+          <div className="hidden lg:flex lg:justify-between lg:max-w-full xl:px-8 2xl:px-16">
             {footerConfig.sections.map((section) => (
-              <div key={section.title}>
-                <h4 className="font-semibold mb-4 text-mint-dark">{section.title}</h4>
-                <ul className="space-y-3">
+              <div key={section.title} className="min-w-[140px] lg:min-w-[160px] xl:min-w-[180px]">
+                <h4 className="font-semibold mb-4 text-mint-dark text-sm lg:text-base">{section.title}</h4>
+                <ul className="space-y-2 lg:space-y-3">
                   {section.links.map((link) => (
                     <li key={link.name}>
                       <Link
                         href={link.href}
                         onClick={(e) => handleSmoothScroll(e, link.href)}
-                        className="text-sm text-white/80 hover:text-purple-mid transition-colors footer-link"
+                        className="text-xs lg:text-sm text-white/80 hover:text-purple-mid transition-colors footer-link inline-block"
                       >
                         {link.name}
                       </Link>
@@ -134,31 +150,32 @@ export function SiteFooter() {
           </div>
 
           {/* Mobile Accordion */}
-          <div className="lg:hidden space-y-4">
+          <div className="lg:hidden space-y-2 md:space-y-3">
             {footerConfig.sections.map((section) => (
               <Collapsible
                 key={section.title}
                 open={openSections.includes(section.title)}
                 onOpenChange={() => toggleSection(section.title)}
+                className="border-b border-white/10 last:border-0"
               >
-                <CollapsibleTrigger className="flex w-full items-center justify-between py-3 text-left">
-                  <h4 className="font-semibold text-mint-dark">{section.title}</h4>
+                <CollapsibleTrigger className="flex w-full items-center justify-between py-3 md:py-4 text-left">
+                  <h4 className="font-semibold text-mint-dark text-sm md:text-base">{section.title}</h4>
                   <ChevronDown
                     className={cn(
-                      "h-4 w-4 transition-transform duration-150",
+                      "h-4 w-4 transition-transform duration-150 text-white/60",
                       openSections.includes(section.title) && "rotate-180"
                     )}
                   />
                 </CollapsibleTrigger>
                 <CollapsibleContent className="footer-accordion-content">
-                  <div className="pb-4">
-                    <ul className="space-y-3">
+                  <div className="pb-3 md:pb-4">
+                    <ul className="space-y-2 md:space-y-3 ml-4">
                       {section.links.map((link) => (
                         <li key={link.name}>
                           <Link
                             href={link.href}
                             onClick={(e) => handleSmoothScroll(e, link.href)}
-                            className="text-sm text-white/80 hover:text-purple-mid transition-colors block py-1"
+                            className="text-xs md:text-sm text-white/80 hover:text-purple-mid transition-colors block py-1"
                           >
                             {link.name}
                           </Link>
@@ -172,9 +189,9 @@ export function SiteFooter() {
           </div>
 
           {/* Social Media */}
-          <div className="text-center">
-            <h4 className="font-semibold mb-6 text-mint-dark">Connect With Us</h4>
-            <div className="flex flex-wrap justify-center gap-4">
+          <div className="text-center lg:mt-8">
+            <h4 className="font-semibold mb-4 lg:mb-6 text-mint-dark">Connect With Us</h4>
+            <div className="flex flex-wrap justify-center gap-3 lg:gap-4">
               {footerConfig.socialLinks.map((social) => {
                 const Icon = socialIcons[social.icon as keyof typeof socialIcons];
                 return (
@@ -183,7 +200,7 @@ export function SiteFooter() {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="social-icon p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all"
+                    className="social-icon p-2.5 lg:p-3 rounded-full bg-white/10 hover:bg-white/20 transition-all"
                     aria-label={`Follow us on ${social.name}`}
                   >
                     <Icon className="h-5 w-5" />
@@ -194,12 +211,12 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <Separator className="mb-8 bg-white/20" />
+        <Separator className="mb-6 lg:mb-8 bg-white/20" />
 
         {/* Bottom Section */}
         <div className="space-y-6">
           {/* Legal Links */}
-          <div className="flex flex-wrap justify-center gap-4 text-sm">
+          <div className="flex flex-wrap justify-center gap-2 md:gap-4 text-xs md:text-sm">
             {footerConfig.legalLinks.map((link, index) => (
               <div key={link.name} className="flex items-center">
                 <Link
@@ -209,60 +226,39 @@ export function SiteFooter() {
                   {link.name}
                 </Link>
                 {index < footerConfig.legalLinks.length - 1 && (
-                  <span className="mx-2 text-white/30">•</span>
+                  <span className="mx-1 md:mx-2 text-white/30">•</span>
                 )}
               </div>
             ))}
           </div>
 
-          {/* Logo Display - Above Copyright */}
-          <div className="flex justify-center mb-8">
-            <Link href="/" className="group">
-              <div className="relative w-20 h-20">
-                <Image
-                  src="/logos/she-sharp-logo-purple-mid-130x130.svg"
-                  alt="She Sharp"
-                  fill
-                  sizes="80px"
-                  className="object-contain transition-all duration-300 group-hover:scale-110 opacity-80 group-hover:opacity-100"
-                />
-                {/* Subtle glow effect */}
-                <div 
-                  className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-300 pointer-events-none blur-xl"
-                  style={{
-                    background: 'radial-gradient(circle, #f7e5f3, transparent)',
-                  }}
-                />
-              </div>
-            </Link>
-          </div>
 
           {/* Copyright & Charity Info */}
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/60">
-            <div className="flex items-center gap-2">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 text-xs md:text-sm text-white/60">
+            <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
               <Link href="/" className="group">
-                <div className="relative w-24 h-8">
+                <div className="relative w-20 sm:w-24 h-6 sm:h-8">
                   <Image
                     src="/logos/she-sharp-logo.svg"
                     alt="She Sharp"
                     fill
                     sizes="96px"
-                    className="object-contain brightness-0 invert opacity-90 group-hover:opacity-100 transition-opacity duration-150"
+                    className="object-contain brightness-0 invert opacity-80 group-hover:opacity-100 transition-opacity duration-150"
                   />
                 </div>
               </Link>
-              <span className="text-white/40">|</span>
+              <span className="hidden sm:inline text-white/40">|</span>
               <Link
                 href={footerConfig.charityInfo.registrationLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-purple-mid transition-colors duration-150 flex items-center gap-1"
+                className="hover:text-purple-mid transition-colors duration-150 flex items-center gap-1 text-center sm:text-left"
               >
                 Registered NZ Charity #{footerConfig.charityInfo.registrationNumber}
                 <ExternalLink className="h-3 w-3" />
               </Link>
             </div>
-            <div>
+            <div className="text-center sm:text-right">
               © {new Date().getFullYear()} She Sharp. All rights reserved.
             </div>
           </div>
