@@ -95,11 +95,11 @@ export function SiteHeader() {
       scrolled ? "shadow-sm" : "",
       visible ? "translate-y-0" : "-translate-y-full"
     )}>
-      <div className="mx-auto px-4 md:px-6 max-w-7xl flex h-16 items-center">
+      <div className="flex h-16 items-center px-4 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
         {/* Logo */}
         <Link 
           href="/" 
-          className="mr-8 flex items-center space-x-2 transition-all duration-200 group hover:opacity-80"
+          className="flex items-center space-x-2 transition-all duration-200 group hover:opacity-80"
         >
           <div className="relative w-32 h-10">
             <Image
@@ -131,7 +131,7 @@ export function SiteHeader() {
         </Link>
 
         {/* Desktop Navigation */}
-        <NavigationMenu className="hidden lg:flex">
+        <NavigationMenu className="hidden lg:flex mx-auto">
           <NavigationMenuList>
             {navigationConfig.items.map((item) => (
               <NavigationMenuItem key={item.title}>
@@ -214,7 +214,7 @@ export function SiteHeader() {
         </NavigationMenu>
 
         {/* Desktop CTA Buttons and User Navigation */}
-        <div className="ml-auto hidden lg:flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-3">
           {navigationConfig.buttons.map((button) => (
             <Button
               key={button.title}
