@@ -108,6 +108,8 @@ export const footerConfig = {
     { name: "Cookie Policy", href: "/cookie-policy" },
     { name: "Terms of Service", href: "/terms-of-service" },
     { name: "Accessibility", href: "/accessibility" },
+    { name: "Security Policy", href: "/security-policy" },
+    { name: "Code of Conduct", href: "/code-of-conduct" },
   ] as FooterLink[],
 
   charityInfo: {

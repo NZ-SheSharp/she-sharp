@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ChevronRight, FileText, Shield, Cookie, Heart } from "lucide-react";
+import { ChevronRight, FileText, Shield, Cookie, Heart, Lock, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { layoutSystem, getContainer } from "@/lib/layout-system";
 import { SiteHeader } from "@/components/layout/site-header";
@@ -44,6 +44,18 @@ const legalPages: LegalNavItem[] = [
     href: "/accessibility",
     icon: <Heart className="h-5 w-5" />,
     description: "Our commitment to accessibility",
+  },
+  {
+    title: "Security Policy",
+    href: "/security-policy",
+    icon: <Lock className="h-5 w-5" />,
+    description: "Security practices & reporting",
+  },
+  {
+    title: "Code of Conduct",
+    href: "/code-of-conduct",
+    icon: <Users className="h-5 w-5" />,
+    description: "Community guidelines",
   },
 ];
 
