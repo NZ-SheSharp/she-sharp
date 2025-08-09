@@ -19,6 +19,15 @@
   .text-5xl { font-size: var(--font-size-5xl); }
   .text-6xl { font-size: var(--font-size-6xl); }
   
+  /* Scrollbar hide utility */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
   /* Responsive text utilities */
   @media (min-width: 640px) {
     .sm\:text-2xl { font-size: var(--font-size-2xl); }
