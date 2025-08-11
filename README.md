@@ -87,7 +87,9 @@ Supports mentorship programs, networking events, and career development with AI-
   <img src="public/images/homepage-hero.png" alt="She Sharp Homepage" width="800"/>
 </div>
 
-She Sharp is a comprehensive non-profit platform dedicated to bridging the gender gap in STEM fields. Founded in 2014, we've built a thriving community of over 1000+ women in technology, supported by 50+ corporate partners, and have hosted 84+ events to empower women in their STEM careers.
+She Sharp is a comprehensive mentorship platform dedicated to bridging the gender gap in STEM fields. Founded in 2014, we've built a thriving community of over 1000+ women in technology, supported by 50+ corporate partners, and have hosted 84+ events to empower women in their STEM careers.
+
+**🚀 Revolutionary Dual-Role System**: Users can seamlessly switch between mentor and mentee roles, enabling them to both guide others and learn from experienced professionals simultaneously - a unique approach that maximizes growth opportunities and creates a dynamic learning ecosystem.
 
 > [!NOTE]
 > - Node.js >= 20.0 required
@@ -145,11 +147,19 @@ We are committed to creating an inclusive environment where women in STEM can:
 - **24/7 Availability** - Always available to answer questions
 - **Multilingual Support** - Assists users in their preferred language
 
-#### 👥 **Community Features**
-- **Member Profiles** - Create and manage your professional profile
-- **Networking** - Connect with other women in STEM
-- **Resource Library** - Access career development materials
-- **Newsletter** - Stay updated with latest news and opportunities
+#### 👥 **Advanced Mentorship System**
+- **Dual-Role Capability** - Simultaneously act as both mentor and mentee
+- **Smart Matching** - AI-powered mentor-mentee pairing based on expertise and goals
+- **Dynamic Role Switching** - Seamlessly transition between mentor and mentee roles
+- **Relationship Management** - Track mentorship progress with detailed analytics
+- **Meeting Scheduler** - Integrated scheduling with automated reminders
+- **Progress Tracking** - Monitor learning goals and professional development
+
+#### 🔄 **Flexible Role System**
+- **Multi-Role Activation** - Users can activate mentor, mentee, or admin roles independently
+- **Role Verification** - Mentor verification process ensures quality mentorship
+- **Capacity Management** - Mentors set their availability and maximum mentee count
+- **Role Analytics** - Detailed statistics for both mentoring and learning activities
 
 ### For Organizations
 
@@ -167,14 +177,17 @@ We are committed to creating an inclusive environment where women in STEM can:
 
 ### For Developers
 
-#### 🛠️ **Technical Features**
-- **Modern Stack** - Next.js 15.4, TypeScript, PostgreSQL
-- **Type Safety** - Full TypeScript with strict mode
-- **API Routes** - RESTful API with comprehensive endpoints
-- **Authentication** - Secure JWT-based authentication system
-- **Database ORM** - Drizzle ORM for type-safe database operations
-- **Database Version Control** - Migration tracking, snapshots, and rollback capabilities
-- **Component Library** - shadcn/ui with Radix UI primitives
+#### 🛠️ **Advanced Technical Features**
+- **Modern Full-Stack Architecture** - Next.js 15.4 with App Router, TypeScript, PostgreSQL
+- **Type-Safe Development** - End-to-end TypeScript with Drizzle ORM for database operations
+- **Comprehensive API Layer** - RESTful API with 25+ specialized endpoints
+- **Multi-Role Authentication** - JWT-based with role-based access control (RBAC)
+- **Advanced Database Management** - Migration versioning, automatic snapshots, rollback capabilities
+- **Real-time Features** - Dynamic dashboards with live data synchronization
+- **Component Architecture** - shadcn/ui with custom design system and Radix UI primitives
+- **Payment Integration** - Full Stripe implementation for subscriptions and donations
+- **AI Integration** - Google Gemini-powered intelligent assistant
+- **Performance Optimization** - Edge deployment with CDN and intelligent caching
 
 ## 🛠️ Tech Stack
 
@@ -450,6 +463,77 @@ For detailed documentation, see:
 - [Database Version Control Guide](docs/database/DATABASE_VERSION_CONTROL.md)
 - [Migration Quick Start](docs/database/MIGRATION_QUICK_START.md)
 
+## 🧠 Core Business Logic
+
+### Revolutionary Dual-Role Mentorship System
+
+She Sharp introduces a groundbreaking approach to mentorship where users can seamlessly operate in multiple roles simultaneously. This innovative system recognizes that learning and teaching often go hand-in-hand, especially in the dynamic STEM field.
+
+#### 🔄 **Flexible Role Activation**
+```typescript
+// Users can activate multiple roles independently
+const userRoles = {
+  mentor: true,    // Guide junior professionals
+  mentee: true,    // Learn from senior experts
+  admin: false     // Platform administration (by invitation)
+}
+```
+
+#### 🎯 **Smart Role Switching Benefits**
+- **Mentors** can learn advanced skills while teaching fundamentals
+- **Mentees** can mentor others in areas where they excel
+- **Continuous Growth** through both teaching and learning experiences
+- **Network Expansion** across different experience levels
+- **Skill Diversification** by engaging with various expertise areas
+
+#### 📈 **Mentorship Relationship Lifecycle**
+1. **Discovery Phase**: Browse mentor profiles with detailed expertise and availability
+2. **Application Process**: Mentees apply with specific learning goals and challenges
+3. **Matching & Approval**: Mentors review and approve/reject applications based on fit
+4. **Active Mentorship**: Regular meetings with goal tracking and progress monitoring
+5. **Relationship Management**: Pause, resume, or complete relationships as needed
+
+#### 🎪 **Meeting Management System**
+- **Meeting Types**: Intro sessions, regular check-ins, milestone reviews, final evaluations
+- **Smart Scheduling**: Integrated calendar with automated reminders
+- **Progress Tracking**: Action items, goals, and feedback collection
+- **Quality Assurance**: Rating system and continuous improvement feedback
+
+#### 🏆 **Comprehensive Analytics**
+- **Personal Stats**: Meeting hours, mentorship count, goal achievement rates
+- **Relationship Insights**: Satisfaction scores, progress metrics, outcome tracking
+- **Platform Metrics**: Success rates, engagement levels, community growth
+
+### 🎫 **Event & Resource Ecosystem**
+
+#### 📅 **Dynamic Event System**
+- **Multi-Format Events**: Online, in-person, and hybrid options
+- **Event Categories**: Workshops, networking, training, social gatherings, THRIVE programs
+- **Smart Registration**: Capacity management with waitlist functionality
+- **Member Benefits**: Tiered access based on membership level
+- **Engagement Tracking**: Attendance, feedback, and certificate issuance
+
+#### 📚 **Intelligent Resource Management**
+- **Content Categories**: Documents, videos, links, templates, guides
+- **Access Control**: Role-based and membership-tier permissions
+- **Usage Analytics**: Download tracking and engagement metrics
+- **Quality Curation**: Community ratings and admin moderation
+
+### 💎 **Membership Tiers & Benefits**
+
+#### 🆓 **Free Tier**
+- Basic mentor browsing and application
+- Access to public resources
+- Free event participation
+- Community networking
+
+#### ⭐ **Premium Tiers (Basic/Premium)**
+- Priority mentor matching
+- Exclusive events and workshops
+- Advanced resources and templates
+- Extended meeting durations
+- Detailed analytics and insights
+
 ## 🏗️ Architecture
 
 ### System Architecture
@@ -662,25 +746,162 @@ Authenticate user
 #### POST `/api/auth/sign-out`
 Sign out current user
 
-### User Management
+### User Role Management
 
-#### GET `/api/user`
-Get current user profile
-
-#### DELETE `/api/user`
-Delete user account
-
-### Team Management
-
-#### GET `/api/team`
-Get current team information
-
-#### POST `/api/team/invite`
-Invite member to team
+#### GET `/api/user/roles`
+Get user's active roles and role details
 ```json
 {
-  "email": "member@example.com",
-  "role": "member"
+  "activeRoles": ["mentor", "mentee"],
+  "roles": [
+    {
+      "type": "mentor",
+      "isActive": true,
+      "activatedAt": "2024-01-01T00:00:00Z",
+      "verifiedAt": "2024-01-02T00:00:00Z"
+    }
+  ]
+}
+```
+
+#### POST `/api/user/roles`
+Activate a new role for the user
+```json
+{
+  "roleType": "mentor"
+}
+```
+
+#### DELETE `/api/user/roles`
+Deactivate a role
+```json
+{
+  "roleType": "mentee"
+}
+```
+
+### Profile Management
+
+#### GET/POST `/api/user/mentor-profile`
+Manage mentor profile with expertise, availability, and verification status
+```json
+{
+  "expertiseAreas": ["Software Engineering", "Data Science"],
+  "yearsExperience": 5,
+  "company": "Tech Corp",
+  "jobTitle": "Senior Engineer",
+  "bio": "Passionate about helping others grow",
+  "maxMentees": 3,
+  "isAcceptingMentees": true
+}
+```
+
+#### GET/POST `/api/user/mentee-profile`
+Manage mentee profile with learning goals and preferences
+```json
+{
+  "learningGoals": ["Career advancement", "Technical skills"],
+  "careerStage": "mid-level",
+  "preferredExpertiseAreas": ["Machine Learning", "Leadership"],
+  "currentChallenge": "Transitioning to management role"
+}
+```
+
+### Mentorship System
+
+#### GET `/api/mentors`
+Browse available mentors with filtering options
+
+#### GET `/api/mentors/[id]`
+Get detailed mentor information
+
+#### POST `/api/mentorship/apply`
+Apply for mentorship relationship
+```json
+{
+  "mentorId": 123,
+  "message": "I would love to learn from your experience",
+  "goals": "Improve technical leadership skills"
+}
+```
+
+#### POST `/api/mentorship/approve`
+Approve or reject mentorship application (mentors only)
+```json
+{
+  "relationshipId": 456,
+  "action": "approve",
+  "feedback": "Looking forward to working together"
+}
+```
+
+#### GET `/api/mentorship/relationships`
+Get user's mentorship relationships (as mentor or mentee)
+
+### Meeting Management
+
+#### GET `/api/meetings`
+Get user's meetings with filtering options
+
+#### POST `/api/meetings`
+Schedule a new meeting
+```json
+{
+  "relationshipId": 789,
+  "scheduledAt": "2024-12-01T10:00:00Z",
+  "meetingType": "regular",
+  "agenda": "Discuss career progression"
+}
+```
+
+#### GET/PUT `/api/meetings/[id]`
+Get or update meeting details, add notes and feedback
+
+### Events System
+
+#### GET `/api/events`
+Browse upcoming events with filtering
+
+#### GET `/api/events/[id]`
+Get detailed event information
+
+#### POST `/api/events/[id]/register`
+Register for an event
+
+#### GET `/api/events/my-registrations`
+Get user's event registrations
+
+### Resources
+
+#### GET `/api/resources`
+Browse learning resources with access control
+
+#### GET `/api/resources/[id]/download`
+Download resource (with permission checks)
+
+### Dashboard & Analytics
+
+#### GET `/api/dashboard/overview`
+Get comprehensive dashboard data including role-specific metrics
+```json
+{
+  "user": {
+    "roles": ["mentor", "mentee"],
+    "emailVerified": true
+  },
+  "stats": {
+    "totalMeetings": 15,
+    "completedMeetings": 12,
+    "totalMeetingHours": 18.5
+  },
+  "mentor": {
+    "currentMentees": 2,
+    "maxMentees": 3,
+    "isAcceptingMentees": true
+  },
+  "mentee": {
+    "activeMentors": 1
+  }
 }
 ```
 
@@ -693,7 +914,7 @@ Send message to AI assistant
   "messages": [
     {
       "role": "user",
-      "content": "Your question here"
+      "content": "How do I become a better mentor?"
     }
   ]
 }
@@ -702,74 +923,125 @@ Send message to AI assistant
 ### Payment Processing
 
 #### POST `/api/stripe/checkout`
-Create Stripe checkout session
-```json
-{
-  "priceId": "price_xxx",
-  "quantity": 1
-}
-```
+Create Stripe checkout session for membership upgrade
 
 #### POST `/api/stripe/webhook`
-Handle Stripe webhook events
+Handle Stripe webhook events for subscription management
 
 ## 💾 Database Schema
 
 ### Entity Relationship Diagram
 
+The database architecture supports a sophisticated mentorship platform with flexible role management and comprehensive tracking capabilities.
+
 ```mermaid
 erDiagram
-    USERS ||--o{ TEAM_MEMBERS : "belongs to"
-    TEAMS ||--o{ TEAM_MEMBERS : "has"
-    USERS ||--o{ ACTIVITY_LOGS : "generates"
-    TEAMS ||--o{ INVITATIONS : "sends"
-    TEAMS ||--|| STRIPE_CUSTOMERS : "has"
+    USERS ||--o{ USER_ROLES : "has"
+    USERS ||--o{ MENTOR_PROFILES : "can have"
+    USERS ||--o{ MENTEE_PROFILES : "can have"
+    USERS ||--o{ USER_MEMBERSHIPS : "has"
+    USERS ||--o{ ADMIN_PERMISSIONS : "may have"
+    USERS ||--o{ USER_MENTORSHIP_STATS : "has"
+    
+    MENTOR_PROFILES ||--o{ MENTORSHIP_RELATIONSHIPS : "mentors"
+    MENTEE_PROFILES ||--o{ MENTORSHIP_RELATIONSHIPS : "learns from"
+    MENTORSHIP_RELATIONSHIPS ||--o{ MEETINGS : "includes"
+    
+    USERS ||--o{ EVENT_REGISTRATIONS : "registers for"
+    EVENTS ||--o{ EVENT_REGISTRATIONS : "has"
+    USERS ||--o{ RESOURCES : "uploads"
+    USERS ||--o{ RESOURCE_ACCESS_LOGS : "accesses"
     
     USERS {
         int id PK
         string email UK
-        string password_hash
-        string role
-        datetime created_at
-        datetime updated_at
-        datetime deleted_at
-    }
-    
-    TEAMS {
-        int id PK
         string name
-        string stripe_customer_id FK
-        string stripe_subscription_id
-        string stripe_subscription_status
+        string password_hash
         datetime created_at
-        datetime updated_at
+        datetime email_verified_at
+        datetime last_login_at
     }
     
-    TEAM_MEMBERS {
+    USER_ROLES {
         int id PK
         int user_id FK
-        int team_id FK
-        string role
-        datetime joined_at
+        enum role_type "mentor|mentee|admin"
+        boolean is_active
+        datetime activated_at
+        datetime verified_at
+        int activation_step
     }
     
-    ACTIVITY_LOGS {
+    MENTOR_PROFILES {
         int id PK
-        int team_id FK
         int user_id FK
-        string action
-        datetime timestamp
-        string ip_address
+        json expertise_areas
+        int years_experience
+        string company
+        string job_title
+        text bio
+        int max_mentees
+        int current_mentees_count
+        boolean is_accepting_mentees
+        datetime verified_at
     }
     
-    INVITATIONS {
+    MENTEE_PROFILES {
         int id PK
-        int team_id FK
-        string email
-        string role
-        string token UK
-        string status
+        int user_id FK
+        json learning_goals
+        string career_stage
+        json preferred_expertise_areas
+        string preferred_meeting_frequency
+        text current_challenge
+    }
+    
+    MENTORSHIP_RELATIONSHIPS {
+        int id PK
+        int mentor_user_id FK
+        int mentee_user_id FK
+        enum status "pending|active|paused|completed|rejected"
+        datetime started_at
+        datetime ended_at
+        text relationship_goals
+        text mentor_notes
+        text mentee_notes
+    }
+    
+    MEETINGS {
+        int id PK
+        int relationship_id FK
+        datetime scheduled_at
+        int duration_minutes
+        enum meeting_type "intro|regular|milestone|final"
+        enum status "scheduled|completed|cancelled|no_show"
+        json topics_discussed
+        json action_items
+        text mentor_notes
+        text mentee_feedback
+        int rating
+    }
+    
+    EVENTS {
+        int id PK
+        string title
+        text description
+        enum event_type "workshop|networking|training|social|thrive"
+        datetime start_time
+        datetime end_time
+        enum location_type "online|in_person|hybrid"
+        int capacity
+        boolean is_members_only
+        enum required_membership_tier
+    }
+    
+    USER_MEMBERSHIPS {
+        int id PK
+        int user_id FK
+        enum tier "free|basic|premium"
         datetime expires_at
+        string stripe_subscription_id
+        json features_access
     }
 ```
 
@@ -778,52 +1050,135 @@ erDiagram
 <details>
 <summary><kbd>📊 View SQL Schema</kbd></summary>
 
-#### Users Table
+#### Core User Table (Role-Agnostic)
 ```sql
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
+  name VARCHAR(100),
   email VARCHAR(255) UNIQUE NOT NULL,
-  password_hash TEXT NOT NULL,
-  role VARCHAR(50) DEFAULT 'member',
+  password_hash TEXT,
   created_at TIMESTAMP DEFAULT NOW(),
-  updated_at TIMESTAMP DEFAULT NOW(),
-  deleted_at TIMESTAMP
+  email_verified_at TIMESTAMP,
+  last_login_at TIMESTAMP,
+  login_attempts INTEGER DEFAULT 0,
+  locked_until TIMESTAMP
 );
 ```
 
-#### Teams Table
+#### Multi-Role Activation System
 ```sql
-CREATE TABLE teams (
+CREATE TABLE user_roles (
   id SERIAL PRIMARY KEY,
-  name VARCHAR(255) NOT NULL,
-  stripe_customer_id VARCHAR(255),
-  stripe_subscription_id VARCHAR(255),
-  stripe_subscription_status VARCHAR(50),
-  created_at TIMESTAMP DEFAULT NOW(),
-  updated_at TIMESTAMP DEFAULT NOW()
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  role_type user_role_type NOT NULL, -- 'mentor', 'mentee', 'admin'
+  is_active BOOLEAN DEFAULT TRUE,
+  activated_at TIMESTAMP DEFAULT NOW(),
+  verified_at TIMESTAMP,
+  activation_step INTEGER DEFAULT 0,
+  UNIQUE(user_id, role_type)
 );
 ```
 
-#### Team Members Table
+#### Comprehensive Mentor Profiles
 ```sql
-CREATE TABLE team_members (
+CREATE TABLE mentor_profiles (
   id SERIAL PRIMARY KEY,
-  user_id INTEGER REFERENCES users(id),
-  team_id INTEGER REFERENCES teams(id),
-  role VARCHAR(50) DEFAULT 'member',
-  joined_at TIMESTAMP DEFAULT NOW()
+  user_id INTEGER UNIQUE REFERENCES users(id) ON DELETE CASCADE,
+  expertise_areas JSONB, -- Array of expertise areas
+  years_experience INTEGER,
+  company VARCHAR(200),
+  job_title VARCHAR(200),
+  bio TEXT,
+  max_mentees INTEGER DEFAULT 3,
+  current_mentees_count INTEGER DEFAULT 0,
+  is_accepting_mentees BOOLEAN DEFAULT TRUE,
+  verified_at TIMESTAMP,
+  verified_by INTEGER REFERENCES users(id)
 );
 ```
 
-#### Activity Logs Table
+#### Dynamic Mentee Profiles
 ```sql
-CREATE TABLE activity_logs (
+CREATE TABLE mentee_profiles (
   id SERIAL PRIMARY KEY,
-  team_id INTEGER REFERENCES teams(id),
-  user_id INTEGER REFERENCES users(id),
-  action VARCHAR(255) NOT NULL,
-  timestamp TIMESTAMP DEFAULT NOW(),
-  ip_address VARCHAR(45)
+  user_id INTEGER UNIQUE REFERENCES users(id) ON DELETE CASCADE,
+  learning_goals JSONB, -- Array of learning objectives
+  career_stage VARCHAR(100),
+  preferred_expertise_areas JSONB,
+  preferred_meeting_frequency VARCHAR(50),
+  current_challenge TEXT,
+  profile_completed_at TIMESTAMP
+);
+```
+
+#### Advanced Mentorship Relationships
+```sql
+CREATE TABLE mentorship_relationships (
+  id SERIAL PRIMARY KEY,
+  mentor_user_id INTEGER REFERENCES users(id),
+  mentee_user_id INTEGER REFERENCES users(id),
+  status relationship_status DEFAULT 'pending', -- 'pending', 'active', 'paused', 'completed', 'rejected'
+  started_at TIMESTAMP,
+  ended_at TIMESTAMP,
+  paused_at TIMESTAMP,
+  meeting_frequency VARCHAR(50),
+  next_meeting_date TIMESTAMP,
+  relationship_goals TEXT,
+  mentor_notes TEXT,
+  mentee_notes TEXT,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+#### Sophisticated Meeting Management
+```sql
+CREATE TABLE meetings (
+  id SERIAL PRIMARY KEY,
+  relationship_id INTEGER REFERENCES mentorship_relationships(id),
+  scheduled_at TIMESTAMP NOT NULL,
+  duration_minutes INTEGER DEFAULT 60,
+  meeting_type meeting_type DEFAULT 'regular', -- 'intro', 'regular', 'milestone', 'final'
+  status meeting_status DEFAULT 'scheduled', -- 'scheduled', 'completed', 'cancelled', 'no_show'
+  topics_discussed JSONB, -- Array of discussion topics
+  goals_set JSONB, -- Array of goals established
+  action_items JSONB, -- Array of action items with deadlines
+  mentor_notes TEXT,
+  mentee_feedback TEXT,
+  rating INTEGER,
+  actual_start_time TIMESTAMP,
+  actual_end_time TIMESTAMP
+);
+```
+
+#### Flexible Event System
+```sql
+CREATE TABLE events (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(200) NOT NULL,
+  description TEXT,
+  event_type event_type NOT NULL, -- 'workshop', 'networking', 'training', 'social', 'thrive'
+  start_time TIMESTAMP NOT NULL,
+  end_time TIMESTAMP NOT NULL,
+  location_type location_type NOT NULL, -- 'online', 'in_person', 'hybrid'
+  capacity INTEGER,
+  current_registrations INTEGER DEFAULT 0,
+  is_members_only BOOLEAN DEFAULT FALSE,
+  required_membership_tier membership_tier,
+  created_by INTEGER REFERENCES users(id)
+);
+```
+
+#### Membership & Access Control
+```sql
+CREATE TABLE user_memberships (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER UNIQUE REFERENCES users(id) ON DELETE CASCADE,
+  tier membership_tier DEFAULT 'free', -- 'free', 'basic', 'premium'
+  expires_at TIMESTAMP,
+  stripe_subscription_id TEXT UNIQUE,
+  features_access JSONB, -- Dynamic feature permissions
+  last_payment_at TIMESTAMP,
+  next_billing_date TIMESTAMP
 );
 ```
 
@@ -1191,6 +1546,22 @@ pnpm build
 **Q: Can I use this project for my organization?**
 A: Yes! This project is open source under MIT license. Feel free to fork and customize it for your needs.
 
+**Q: How does the dual-role system work?**
+A: Users can independently activate mentor and mentee roles. For example, a mid-level engineer can mentor junior developers while being mentored by senior architects. This creates a dynamic learning ecosystem where everyone both teaches and learns.
+
+**Q: Can someone be both a mentor and mentee simultaneously?**
+A: Absolutely! This is one of our platform's unique features. Users can guide others in areas where they excel while learning from experts in different domains. The dashboard automatically adapts to show relevant information for each active role.
+
+**Q: How does the mentor-mentee matching process work?**
+A: 
+1. Mentees browse verified mentor profiles with detailed expertise and availability
+2. Mentees apply with specific goals and challenges they want to address
+3. Mentors review applications and can approve or decline based on fit and capacity
+4. Once approved, both parties can schedule their first meeting and set relationship goals
+
+**Q: What happens if I want to switch from mentee to mentor role?**
+A: You can activate the mentor role at any time through your dashboard. You'll need to complete your mentor profile with expertise areas, experience, and availability. After verification, you can start accepting mentee applications while maintaining any existing mentee relationships.
+
 **Q: How do I add custom branding?**
 A: Update the colors in `tailwind.config.ts`, replace logos in `/public/logos`, and modify the site metadata in `app/layout.tsx`.
 
@@ -1204,6 +1575,11 @@ A:
 3. Add them to your `.env.local` file
 4. Configure your products in Stripe
 5. Update the price IDs in your code
+
+**Q: What's the difference between membership tiers?**
+A: 
+- **Free**: Basic access to mentors, public resources, and free events
+- **Basic/Premium**: Priority matching, exclusive events, advanced resources, extended meeting features, and detailed analytics
 
 **Q: Can I deploy this to other platforms besides Vercel?**
 A: Yes! The project can be deployed to any platform that supports Next.js, including Railway, Render, AWS, or self-hosted servers.
