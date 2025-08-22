@@ -1,18 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/container";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
+import GridDistortion from "@/components/effects/grid-distortion";
 
 const heroImages = [
   {
@@ -40,45 +31,21 @@ const heroImages = [
 export function HeroSection() {
   return (
     <section className="relative min-h-[80vh] sm:min-h-[85vh] flex items-center justify-center overflow-hidden">
-      {/* Background Carousel */}
+      {/* Background Grid Distortion */}
       <div className="absolute inset-0">
-        <Carousel
+        <GridDistortion
+          imageSrc={heroImages[0].src}
+          grid={12}
+          mouse={0.12}
+          strength={0.18}
+          relaxation={0.85}
           className="w-full h-full"
-          opts={{
-            align: "start",
-            loop: true,
-          }}
-          plugins={[
-            Autoplay({
-              delay: 5000,
-            }),
-          ]}
-        >
-          <CarouselContent className="h-full">
-            {heroImages.map((image, index) => (
-              <CarouselItem key={index} className="h-full">
-                <div className="relative w-full h-full">
-                  <AspectRatio ratio={16 / 9} className="h-full">
-                    <Image
-                      src={image.src}
-                      alt={image.alt}
-                      fill
-                      className="object-cover"
-                      priority={index === 0}
-                    />
-                  </AspectRatio>
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/80 via-navy-dark/40 to-transparent" />
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="left-2 sm:left-4 h-10 w-10 sm:h-12 sm:w-12 bg-white/30 backdrop-blur-sm border-2 border-white/40 text-white hover:bg-white/50 hover:border-white/60 transition-all duration-200 z-20" />
-          <CarouselNext className="right-2 sm:right-4 h-10 w-10 sm:h-12 sm:w-12 bg-white/30 backdrop-blur-sm border-2 border-white/40 text-white hover:bg-white/50 hover:border-white/60 transition-all duration-200 z-20" />
-        </Carousel>
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/80 via-navy-dark/40 to-transparent pointer-events-none" />
       </div>
       
       {/* Content Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-dark/20 via-transparent to-periwinkle-dark/20" />,
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-dark/20 via-transparent to-periwinkle-dark/20 pointer-events-none" />
 
       <Container className="relative z-10">
         <div className="max-w-4xl mx-auto text-center">
