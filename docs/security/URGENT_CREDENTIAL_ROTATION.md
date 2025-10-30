@@ -15,8 +15,8 @@
   4. 检查是否有未授权的交易
 
 ### 2. **Google OAuth 凭据**
-- **Client ID**: `805677253031-d5vboo06na716qq34edbvfbfb71rb7ht`
-- **Client Secret**: [REDACTED]
+- **Client ID**: `YOUR_GOOGLE_CLIENT_ID` ✅ (已轮换)
+- **Client Secret**: [REDACTED] ✅ (已轮换)
 - **行动**:
   1. 访问 [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
   2. 找到对应的 OAuth 2.0 客户端
@@ -24,8 +24,8 @@
   4. 保存新的 secret
 
 ### 3. **GitHub OAuth 凭据**
-- **Client ID**: `Ov23liX6wkCcjLXsHNvR`
-- **Client Secret**: [REDACTED]
+- **Client ID**: `Ov23liXXXXXXXXXXXXXX` ✅ (已轮换)
+- **Client Secret**: [REDACTED] ✅ (已轮换)
 - **行动**:
   1. 访问 [GitHub Developer Settings](https://github.com/settings/developers)
   2. 找到 "She Sharp" OAuth App
@@ -61,11 +61,13 @@
 1. 登录 [Vercel Dashboard](https://vercel.com/dashboard)
 2. 进入项目设置 → Environment Variables
 3. 更新所有凭据：
-   - [ ] GOOGLE_CLIENT_SECRET (新的)
-   - [ ] GITHUB_CLIENT_SECRET (新的)
-   - [ ] NEXTAUTH_SECRET = `/qDlrpWHUVZ7mRaLNv6SYB8mMeTjClHaiXjqaJ8elPY=`
-   - [ ] AUTH_SECRET = `/qDlrpWHUVZ7mRaLNv6SYB8mMeTjClHaiXjqaJ8elPY=`
-   - [ ] STRIPE_SECRET_KEY (新的)
+   - [x] GOOGLE_CLIENT_ID (已轮换)
+   - [x] GOOGLE_CLIENT_SECRET (已轮换)
+   - [x] GITHUB_CLIENT_ID (已轮换)
+   - [x] GITHUB_CLIENT_SECRET (已轮换)
+   - [x] NEXTAUTH_SECRET (已轮换)
+   - [x] AUTH_SECRET (已轮换)
+   - [x] STRIPE_SECRET_KEY (已轮换)
    - [ ] 其他所有 API 密钥
 
 ### 第三步：验证

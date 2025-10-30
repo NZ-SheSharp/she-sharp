@@ -5,9 +5,9 @@
 以下凭据已在本地 `.env` 和 `.env.local` 文件中更新：
 
 ### 新的 OAuth 凭据
-- **Google Client ID**: `805677253031-d5vboo06na716qq34edbvfbfb71rb7ht.apps.googleusercontent.com` (未变)
+- **Google Client ID**: `YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com` ✅ (已更新)
 - **Google Client Secret**: [REDACTED] ✅ (已更新)
-- **GitHub Client ID**: `Ov23liX6wkCcjLXsHNvR` (未变)
+- **GitHub Client ID**: `Ov23liXXXXXXXXXXXXXX` ✅ (已更新)
 - **GitHub Client Secret**: [REDACTED] ✅ (已更新)
 
 ### 新的认证密钥
@@ -39,9 +39,9 @@ NEXTAUTH_SECRET=[REDACTED]
 NEXTAUTH_URL=https://she-sharp.vercel.app
 AUTH_URL=https://she-sharp.vercel.app
 
-# Client IDs - 保持不变
-GOOGLE_CLIENT_ID=805677253031-d5vboo06na716qq34edbvfbfb71rb7ht.apps.googleusercontent.com
-GITHUB_CLIENT_ID=Ov23liX6wkCcjLXsHNvR
+# Client IDs - 使用你的实际值
+GOOGLE_CLIENT_ID=YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com
+GITHUB_CLIENT_ID=Ov23liXXXXXXXXXXXXXX
 ```
 
 ### 4. 重新部署
