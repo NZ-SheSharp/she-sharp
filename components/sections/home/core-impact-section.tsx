@@ -1,0 +1,173 @@
+"use client";
+
+import React from "react";
+import Image from "next/image";
+import { Container } from "@/components/layout/container";
+import { Section } from "@/components/layout/section";
+import { useInView } from "@/hooks/use-in-view";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
+import { AnimateOnScroll } from "@/components/ui/animate-on-scroll";
+
+type ImpactItem = {
+  title: string;
+  value: string;
+  desc: string;
+  icon: string;
+};
+
+const impactData: ImpactItem[] = [
+  {
+    title: "Active Members",
+    value: "2200+",
+    desc: "Women in tech building connections and advancing careers.",
+    icon: "/icons/members.svg",
+  },
+  {
+    title: "Events Since 2014",
+    value: "84+",
+    desc: "Workshops and conferences empowering women in tech.",
+    icon: "/icons/events.svg",
+  },
+  {
+    title: "Partner Companies",
+    value: "50+",
+    desc: "Leading tech companies supporting our mission.",
+    icon: "/icons/parnership.svg",
+  },
+  {
+    title: "Career Success Stories",
+    value: "500+",
+    desc: "Women advancing careers through mentorship and networking.",
+    icon: "/icons/success.svg",
+  },
+];
+
+const parseTargetValue = (
+  value: string
+): { target: number; suffix: string } => {
+  const digits = value.match(/\d+/g);
+  const target = digits ? Number(digits.join("")) : 0;
+  const suffix = value.replace(/\d/g, "");
+  return { target, suffix };
+};
+
+const formatNumber = (num: number) =>
+  new Intl.NumberFormat(undefined).format(num);
+
+const AnimatedNumber: React.FC<{ target: number; animate: boolean }> = ({
+  target,
+  animate,
+}) => {
+  const [current, setCurrent] = React.useState(animate ? 0 : target);
+
+  React.useEffect(() => {
+    if (!animate) {
+      setCurrent(target);
+      return;
+    }
+    let raf = 0;
+    const durationMs = 2400; // a touch snappier
+    const start = performance.now();
+
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / durationMs);
+      const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
+      setCurrent(Math.round(target * eased));
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [animate, target]);
+
+  return <>{formatNumber(current)}</>;
+};
+
+function StatCard({
+  item,
+  animate,
+  className,
+}: {
+  item: ImpactItem;
+  animate: boolean;
+  className?: string;
+}) {
+  return (
+    <div
+      role="group"
+      tabIndex={0}
+      className={`rounded-xl overflow-hidden border border-gray-700/50 hover:border-purple-dark/50 transition-transform duration-200 hover:-translate-y-0.5 shadow-[0_0_10px_rgba(155,46,131,0.3),0_0_30px_rgba(155,46,131,0.15)] hover:shadow-[0_0_20px_rgba(155,46,131,0.4),0_0_40px_rgba(155,46,131,0.2)] focus-within:-translate-y-0.5 focus-within:shadow-[0_0_20px_rgba(155,46,131,0.4),0_0_40px_rgba(155,46,131,0.2)] ${className ?? ""}`}
+    >
+      <div className="p-5 w-full h-80 flex flex-col justify-between text-ghost-white">
+        <div className="relative w-10 h-10 flex-shrink-0">
+          <Image
+            src={item.icon}
+            alt={`${item.title} icon`}
+            fill
+            className="object-contain"
+            style={{
+              filter: 'brightness(0) saturate(100%) invert(27%) sepia(89%) saturate(1234%) hue-rotate(280deg) brightness(0.9) contrast(0.85)'
+            }}
+          />
+        </div>
+
+        <div>
+          <div className="text-6xl font-extrabold tabular-nums tracking-tight mb-4 text-ghost-white">
+            {(() => {
+              const { target, suffix } = parseTargetValue(item.value);
+              return (
+                <>
+                  <AnimatedNumber target={target} animate={animate} /> {suffix}
+                </>
+              );
+            })()}
+          </div>
+          <div className="flex items-center gap-3">
+            <h3 className="text-lg font-bold text-ghost-white">{item.title}</h3>
+          </div>
+          <div className="h-px w-full mb-4 bg-gradient-to-r from-transparent via-purple-dark/50 to-transparent" />
+          <p className="text-gray-300 text-sm leading-relaxed">
+            {item.desc}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function CoreImpactSection() {
+  const { ref, inView } = useInView();
+  const reduceMotion = usePrefersReducedMotion();
+
+  return (
+    <Section className="bg-gradient-to-b from-gray-950/95 via-black/95 to-gray-950/95">
+      <div ref={ref} className="relative ">
+        <Container size="full">
+          {/* Header */}
+          <AnimateOnScroll variant="fade-up" className=" mb-8 md:mb-20 ">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-ghost-white">
+              A Decade of Measurable Impact
+            </h2>
+          </AnimateOnScroll>
+
+          {/* Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+            {impactData.map((item, i) => (
+              <AnimateOnScroll
+                key={i}
+                variant="fade-up"
+                delay={i * 100}
+              >
+                <StatCard
+                  item={item}
+                  animate={inView && !reduceMotion}
+                  className=" bg-gray-800/50 backdrop-blur-sm hover:scale-105 hover:bg-gray-800/70 hover:border-purple-dark/70 transition-all duration-300"
+                />
+              </AnimateOnScroll>
+            ))}
+          </div>
+        </Container>
+      </div>
+    </Section>
+  );
+}
