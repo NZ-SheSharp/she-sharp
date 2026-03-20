@@ -70,10 +70,10 @@ export function PricingComparison({
   const categories = buildComparisonData(paths);
 
   return (
-    <section className="w-full py-16 md:py-24 bg-white text-foreground">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="w-full py-16 md:py-20 lg:py-24 bg-white text-foreground">
+      <div className="mx-auto max-w-8xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-12 md:mb-16">
+        <div className="text-center mb-8 sm:mb-10 md:mb-12 lg:mb-16">
           <Badge
             variant="outline"
             className="mb-4 px-4 py-1.5 text-sm font-medium border-brand/30 text-brand"
@@ -90,12 +90,12 @@ export function PricingComparison({
         </div>
 
         {/* Mobile cards (visible below lg) */}
-        <div className="lg:hidden space-y-6">
+        <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
           {paths.map((path, index) => (
             <div
               key={path.id}
               className={cn(
-                "rounded-2xl border p-6",
+                "card-sm border p-4 sm:p-5 md:p-6 transition-all duration-300 hover:shadow-md",
                 index === 0 ? "border-brand/30" : "border-border"
               )}
             >
@@ -168,7 +168,7 @@ export function PricingComparison({
 
         {/* Desktop comparison table (visible at lg+) */}
         <div className="hidden lg:block">
-          <div className="rounded-2xl border border-border overflow-hidden">
+          <div className="card-sm border border-border">
             {/* Column headers */}
             <div className="grid grid-cols-4 divide-x divide-border">
               {/* Empty top-left cell */}
