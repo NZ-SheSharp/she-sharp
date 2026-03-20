@@ -24,7 +24,7 @@ export function ImpactReportsCard({ reports }: ImpactReportsCardProps) {
       />
 
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/5" />
 
       <div className="relative z-10 p-4 sm:p-5 md:p-6 lg:p-8 flex flex-col h-full">
         {/* Header */}
