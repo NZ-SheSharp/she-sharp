@@ -37,32 +37,42 @@ export function Login({ mode = "signin" }: { mode?: "signin" | "signup" }) {
   }, [state, router]);
 
   return (
-    <div className="min-h-screen flex">
-      {/* Left side - Form */}
-      <div className="flex-1 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="w-full max-w-md">
-          {/* Logo */}
-          <div className="mb-8 flex justify-center">
+    <div className="relative min-h-screen flex items-center justify-center py-8 px-4 sm:py-10 sm:px-6 md:py-12">
+      {/* Background Image */}
+      <Image
+        src="/img/signup.png"
+        alt=""
+        fill
+        className="object-cover"
+        priority
+      />
+      {/* Overlay for readability */}
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+
+      {/* Centered Form */}
+      <div className="relative z-10 w-full max-w-md">
+        {/* Logo */}
+        <div className="mb-6 sm:mb-8 flex justify-center">
             <Link
               href="/"
               className="flex items-center space-x-2 transition-all duration-200 group hover:opacity-80"
             >
-              <div className="relative w-32 h-10">
+              <div className="relative w-28 h-9 sm:w-32 sm:h-10">
                 <Image
                   src="/logos/she-sharp-logo.svg"
                   alt="She Sharp"
                   fill
                   sizes="128px"
-                  className="object-contain transition-all duration-200 group-hover:brightness-0 group-hover:saturate-100 group-active:scale-95"
+                  className="object-contain transition-all duration-200 group-active:scale-95"
                   style={{
-                    filter: 'brightness(1) saturate(1)',
+                    filter: 'brightness(0) invert(1)',
                   }}
                   priority
                 />
                 <div
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none"
                   style={{
-                    background: '#9B2E83',
+                    background: '#ffffff',
                     maskImage: 'url(/logos/she-sharp-logo.svg)',
                     maskSize: 'contain',
                     maskRepeat: 'no-repeat',
@@ -80,30 +90,30 @@ export function Login({ mode = "signin" }: { mode?: "signin" | "signup" }) {
           {/* Tab Navigation */}
           <Tabs
             defaultValue={mode === "signin" ? "signin" : "signup"}
-            className="mb-6"
+            className="mb-4 sm:mb-6"
           >
-            <TabsList className="grid w-full grid-cols-2 h-14 rounded-[50px] p-1.5">
-              <TabsTrigger value="signin" asChild className="h-full rounded-[40px]">
+            <TabsList className="grid w-full grid-cols-2 h-12 sm:h-14 rounded-[var(--radius-card-lg)] p-1.5 bg-white/20 backdrop-blur-md">
+              <TabsTrigger value="signin" asChild className="h-full rounded-[var(--radius-card-md)] text-white/70 data-[state=active]:bg-white data-[state=active]:text-foreground">
                 <Link href="/sign-in">Log in</Link>
               </TabsTrigger>
-              <TabsTrigger value="signup" asChild className="h-full rounded-[40px]">
+              <TabsTrigger value="signup" asChild className="h-full rounded-[var(--radius-card-md)] text-white/70 data-[state=active]:bg-white data-[state=active]:text-foreground">
                 <Link href="/sign-up">Create account</Link>
               </TabsTrigger>
             </TabsList>
           </Tabs>
 
           {/* Form Card */}
-          <Card className="rounded-[32px] border-0 shadow-lg">
-            <CardContent className="p-8">
+          <Card className="card-md border-0 shadow-2xl bg-white/95 backdrop-blur-sm">
+            <CardContent className="p-5 sm:p-6 md:p-8">
               <div className="mb-6">
-                <h2 className="text-lg font-medium text-foreground mb-2">
+                <h2 className="text-base sm:text-lg font-medium text-foreground mb-2">
                   {mode === "signin"
                     ? "Welcome back"
                     : "Create your account and start empowering your tech career"}
                 </h2>
               </div>
 
-              <form className="space-y-4" action={formAction}>
+              <form className="space-y-3 sm:space-y-4" action={formAction}>
                 <input type="hidden" name="redirect" value={redirect || ""} />
                 <input type="hidden" name="priceId" value={priceId || ""} />
                 <input type="hidden" name="inviteId" value={inviteId || ""} />
@@ -206,7 +216,7 @@ export function Login({ mode = "signin" }: { mode?: "signin" | "signup" }) {
                 )}
 
                 {state?.error && (
-                  <div className="p-3 bg-red-50 border border-red-200 rounded-md">
+                  <div className="p-3 bg-red-50 border border-red-200 rounded-xl">
                     <div className="text-red-700 text-sm">{state.error}</div>
                   </div>
                 )}
@@ -235,7 +245,7 @@ export function Login({ mode = "signin" }: { mode?: "signin" | "signup" }) {
                     <div className="w-full border-t border-border" />
                   </div>
                   <div className="relative flex justify-center text-sm">
-                    <span className="px-2 bg-white text-gray-500">
+                    <span className="px-2 bg-white/95 text-gray-500">
                       Or continue with
                     </span>
                   </div>
@@ -247,20 +257,6 @@ export function Login({ mode = "signin" }: { mode?: "signin" | "signup" }) {
               </div>
             </CardContent>
           </Card>
-        </div>
-      </div>
-
-      {/* Right side - Image (hidden on mobile) */}
-      <div className="hidden lg:block lg:flex-1 relative">
-        <Image
-          src="/img/signup.png"
-          alt="She Sharp Community"
-          fill
-          className="object-cover"
-          priority
-        />
-        {/* Optional gradient overlay for better aesthetics */}
-        <div className="absolute inset-0 bg-linear-to-r from-white/20 to-transparent" />
       </div>
     </div>
   );

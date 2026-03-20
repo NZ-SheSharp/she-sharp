@@ -21,7 +21,7 @@ export function FeaturedAlbumCard({ album }: FeaturedAlbumCardProps) {
       className="block h-full group"
       aria-label={`View ${album.title} album in Google Photos`}
     >
-      <Card className="relative h-full w-full overflow-hidden border-0 shadow-lg transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 rounded-[var(--radius-card-sm)] md:rounded-[var(--radius-card-md)] lg:rounded-[var(--radius-card-lg)]">
+      <Card className="relative h-full w-full border-0 shadow-lg transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 card-lg">
         {/* Cover Image */}
         <img
           src={album.coverImage}
@@ -47,7 +47,7 @@ export function FeaturedAlbumCard({ album }: FeaturedAlbumCardProps) {
         </div>
 
         {/* Content Overlay */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 md:p-6 lg:p-8 z-10">
+        <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 z-10">
           <p className="text-xs font-medium text-white/80 uppercase tracking-wider mb-2">
             {album.date}
           </p>

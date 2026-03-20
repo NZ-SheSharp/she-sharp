@@ -14,7 +14,7 @@ export function PhotoGalleryPreviewCard() {
 
   return (
     <Link href="/resources/photo-gallery" className="block h-full group">
-      <Card className="relative h-full w-full min-h-[280px] sm:min-h-[340px] md:min-h-[400px] lg:min-h-[500px] overflow-hidden border-0 shadow-lg transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 rounded-[var(--radius-card-sm)] md:rounded-[var(--radius-card-md)] lg:rounded-[var(--radius-card-lg)] bg-black">
+      <Card className="relative h-full w-full min-h-[300px] sm:min-h-[400px] md:min-h-[500px] border-0 shadow-lg transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 card-lg bg-black">
         {/* Background image */}
         {featured && (
           <img
@@ -53,4 +53,3 @@ export function PhotoGalleryPreviewCard() {
     </Link>
   );
 }
-

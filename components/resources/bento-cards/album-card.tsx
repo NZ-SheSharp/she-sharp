@@ -34,7 +34,7 @@ export function AlbumCard({ album, compact = false }: AlbumCardProps) {
         <div className="absolute inset-0 bg-linear-to-t from-black/50 via-black/15 to-transparent" />
 
         {/* View Photos Badge */}
-        <div className="absolute top-6 right-6 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="absolute top-4 right-4 sm:top-5 sm:right-5 md:top-6 md:right-6 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <div className="glass-pill bg-white px-3 py-1.5 flex items-center gap-1.5">
             <Images className="h-3.5 w-3.5 text-purple-dark" />
             <span className="text-xs font-medium text-purple-dark">View Photos</span>
@@ -48,7 +48,7 @@ export function AlbumCard({ album, compact = false }: AlbumCardProps) {
               {album.date}
             </p>
           )}
-          <h3 className={`font-bold text-white line-clamp-2 ${compact ? "text-base" : "text-lg"}`}>
+          <h3 className={`font-bold text-white line-clamp-2 ${compact ? "text-base" : "text-base sm:text-lg"}`}>
             {album.title}
           </h3>
         </div>
