@@ -33,7 +33,7 @@ export default function PodcastsPage() {
 
         {/* Show embed */}
         <div className="mb-12">
-          <div className="overflow-hidden rounded-3xl shadow-lg">
+          <div className="overflow-hidden rounded-[var(--radius-card-sm)] shadow-lg">
             <iframe
               src={showEmbedUrl}
               width="100%"
@@ -51,11 +51,11 @@ export default function PodcastsPage() {
           <h2 className="text-xl md:text-2xl font-semibold">
             Featured episodes
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
             {FEATURED_EPISODES.map((episode) => (
               <div
                 key={episode.id}
-                className="overflow-hidden rounded-3xl shadow-md bg-background"
+                className="overflow-hidden rounded-[var(--radius-card-sm)] shadow-md bg-background"
               >
                 <iframe
                   src={getSpotifyEpisodeEmbedUrl(episode.id)}

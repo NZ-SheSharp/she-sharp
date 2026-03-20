@@ -109,7 +109,7 @@ export function GalleryAlbumsGrid() {
 
         {/* Search and Filter Controls */}
         <div className="space-y-4 mb-8">
-          <div className="flex flex-col md:flex-row gap-6 md:gap-16 md:items-center">
+          <div className="flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-12 md:items-center">
             {/* Search Bar */}
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -202,7 +202,7 @@ export function GalleryAlbumsGrid() {
 
         {/* Albums Grid */}
         {displayedAlbums.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
             {displayedAlbums.map((album) => (
               <AlbumCard key={album.googlePhotosUrl} album={album} />
             ))}
