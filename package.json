@@ -85,7 +85,7 @@
     "@types/react": "19.1.4",
     "@types/react-dom": "19.1.5",
     "baseline-browser-mapping": "^2.9.4",
-    "csv-parse": "^6.2.0",
+    "csv-parse": "^7.0.2",
     "drizzle-kit": "^0.31.1",
     "eslint": "^9.39.5",
     "eslint-config-next": "15.6.0-canary.58",
