@@ -318,14 +318,20 @@ campaign, to the reader and to a spam filter alike.
 **Gate.** The deck already exists at `/present/<slug>`, and the change is small:
 a word, a photo, a QR slide, a late speaker on the panel slide.
 
-**Hand to.** `/tweak-event-slides`. Straight to `main`, no branch, no PR, no
-preview pass — speed is the feature, and the narrowness is what pays for it.
+**Hand to.** `/tweak-event-slides`. One branch, one self-merged pull request, no
+reviewer and no preview pass — speed is still the feature, and the narrowness is
+what pays for it. It pushed straight to `main` until 2026-09-10; the ruleset that
+has forbidden that since 2026-09-06 has no bypass actors, so it had stopped
+working. That ruleset also asks for no approvals, so this remains a one-person job.
 
-**Leaves behind.** A commit on `main`, live about three minutes later.
+**Leaves behind.** A squashed commit on `main`, live about five minutes later —
+two for `verify`, three for the deploy.
 
 **Then check.** Its Step 3 — three offline commands, under a minute between them.
-`verify.yml` runs on **pull requests only**, so a push to `main` has no CI at
-all. Those three commands are the entire review.
+`verify` runs on the pull request as well, so they are no longer the entire
+review, but run them first anyway: a failure you can see in ten seconds beats one
+you queue two minutes for, and they are the only checks that read the deck the
+way the room will. Nobody else looks at the change.
 
 **What goes wrong.** The scope creeps. If satisfying a check would mean
 restructuring the deck, that is the signal the change was never small: revert and

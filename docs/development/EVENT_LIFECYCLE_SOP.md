@@ -254,7 +254,7 @@ email: no sentence reaches it, because nothing here sends it.
 **Two warnings that go with the two easy ones.**
 
 *Changing slides is live immediately.* `/tweak-event-slides` puts your change on
-the real website in about three minutes, with no review step and no undo button.
+the real website in about five minutes, with nobody reviewing it and no undo button.
 That is the whole point of it an hour before the doors open, and it is why it
 only ever makes **one small change** — a word, a photograph, a name. Anything
 larger goes back through building the deck properly.
@@ -930,7 +930,7 @@ drawn in colour in section 1, and listed skill by skill under it.
 | Email to the mailing list | **Len Estioko** — Marketing Lead; holds the current mailing platform | See section 7 for why the new path is blocked | `/promote-event` · **Comms runs it** · blocked |
 | Email to people who registered | **Events or Comms** — whoever has the Humanitix login | Nikita Kumari, Nirmala Chinnappan, Moksha Shah, Len Estioko, Sara Ghafoor | Humanitix → Email campaigns · **not this repo** |
 | The slide deck | **Whoever is running the evening** decides every word; **Chan Meng** operates the tooling | Len Estioko has built decks too | `/build-event-slides` · **joint** |
-| A change to the slides, any time up to the doors | **whoever spots it** | Live in about three minutes, with no review step | `/tweak-event-slides` · **anyone runs it** |
+| A change to the slides, any time up to the doors | **whoever spots it** | Live in about five minutes, with nobody reviewing it | `/tweak-event-slides` · **anyone runs it** |
 | Photography on the night | **Mike McCauley** — Finance and Assets Manager | Anyone with a phone; see the rule below | human work |
 | Badges, gifts, printing, gear | **Mike McCauley**; **Moksha Shah** sources merchandise | Paid or reimbursed through the Chair | human work |
 | The album | **Event Manager** for that event | Screened against the photography rule below | human work |
@@ -1202,7 +1202,7 @@ One page for whoever is clicking.
   thank-you email: `shesharp.org.nz/f/<code>`. Everyone who was looking at their
   phone when the QR was on screen, or who left early, can still answer.
 - A last-minute copy change is `/tweak-event-slides`, not a hand edit — live in
-  about three minutes.
+  about five minutes.
 - Photographs: the rule in section 6 applies from the first frame, not at
   selection time. It is easier not to take the picture than to explain later why
   it was published.
@@ -1450,7 +1450,7 @@ reaches a projector or a poster.
 | T-1w | a run sheet in the event data | `/build-event-slides` | you drive, developer operates | skill | `/present/<slug>` |
 | T-7d | agenda, parking and transport known | the week-before mail in **Humanitix -> Email campaigns** | Events or Comms | **human, outside this repo** | nothing here |
 | T-1d | room, level or the join link known | the day-before mail in **Humanitix -> Email campaigns** | Events or Comms | **human, outside this repo** | nothing here |
-| T-1h | the deck already exists | `/tweak-event-slides` | anyone | skill | pushed to `main`, live in ~3 min |
+| T-1h | the deck already exists | `/tweak-event-slides` | anyone | skill | self-merged pull request, live in ~5 min |
 | **T+0** | — | project the deck; the `/f/<code>` QR is on the feedback slide | whoever is clicking | human | — |
 | T+1d | a feedback form URL, the album if it exists, and **under 14 days since the event ended** | the thank-you in **Humanitix -> Email campaigns** | Events or Comms | **human, outside this repo** | nothing here |
 | T+3d | — | **nothing — it happens by itself** | — | automatic | the feedback digest in Slack |
@@ -1587,9 +1587,12 @@ leaves no trace here by design.
 
 ## 15. What fails the build
 
-CI (`.github/workflows/verify.yml`) runs on pull requests to `main` only.
-**Pushing straight to `main` bypasses every one of these** — which is the entire
-reason `/tweak-event-slides` runs its three checks locally before it pushes.
+CI (`.github/workflows/verify.yml`) runs on pull requests to `main` only, and
+since 2026-09-06 there is no other way in: the ruleset on `main` has no bypass
+actors. Every skill therefore gets these checks, `/tweak-event-slides` included —
+it ran three of them locally and pushed straight past the rest until 2026-09-10,
+and it still runs those three first, because a failure you see in ten seconds is
+cheaper than one you queue two minutes for.
 
 - `scripts/verify-image-paths.ts` — every referenced image resolves, every file
   is referenced, every event image sits in its own event's folder
