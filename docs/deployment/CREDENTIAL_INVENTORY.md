@@ -695,20 +695,49 @@ wrong surface, and three of the four were caught only by a positive control.
 
 ## 6. Rotation, in dependency order
 
-Rotate in this order. It is a dependency order, not a priority order: several
-of these are the login for the ones below them, and doing them out of order locks
-you out of the console you need for the next step.
+### First: whose credential is it?
+
+**Revised 2026-09-10.** This section used to open by rotating the
+`website@shesharp.org.nz` Google password, on the ordinary offboarding logic that
+a leaving maintainer knew it. Once the ownership of all fourteen accounts was
+actually established, that turned out to be the wrong instruction for this
+organisation — and wrong in the direction that looks responsible, which is the
+hardest kind to notice.
+
+Ask of each credential: **was it issued to a person, or to the organisation?**
+
+| | Rotate on departure? |
+|---|---|
+| Issued to a person — a fine-grained PAT, a Slack **user** token, a named Neon role, a named OpenAI or Resend key | **Yes.** It stops being legitimate the day they stop being a maintainer |
+| An organisational account's password — Vercel, Neon, Resend, OpenAI, Google Cloud, Stripe, Mailchimp, Humanitix, Slack | **No.** All of these are the founder's or genuinely shared; Vercel has **no team seats at all** and everyone signs in as `website@`. Rotating a shared password locks out the people who legitimately share it and defends against nothing, because the departing maintainer was never the account holder |
+| A shared secret with no per-person form — `CRON_SECRET`, the Slack webhook URLs, `EMAIL_UNSUBSCRIBE_SECRET`, `RESEND_WEBHOOK_SECRET`, `SLACK_SIGNING_SECRET`, `BLOB_READ_WRITE_TOKEN` | **On its own schedule**, not because somebody left. There is no per-person version to revoke, so a departure changes nothing about them |
+
+That is a judgement about what a *departure* should trigger. It says nothing
+about whether these credentials are well handled — a password that reaches four
+systems and circulates in plain text is a problem whoever is or is not leaving,
+and it will not be fixed by rotating it, because the exposure is the sharing.
+Those belong on a standing list with their own review date.
+
+### The order, when a rotation does happen
+
+It is a dependency order, not a priority order: several of these are the login
+for the ones below them, and doing them out of order locks you out of the console
+you need for the next step.
 
 A `confirm-first` row **keeps its place in this queue and simply does not start**
 until the ownership question behind it is answered. Skipping past a block is not
 the same as clearing it.
 
-1. **The `website@shesharp.org.nz` Google account password.** First, not third.
-   It is the login for **Resend, Neon, OpenAI and Google Cloud**, and it reaches
-   the mailbox and the legacy Webflow back end. Rotating anything below it before
-   this one means doing the work twice.
+1. **The `website@shesharp.org.nz` Google account password** — *only if the
+   founder is changing it for their own reasons.* It is the login for **Resend,
+   Neon, OpenAI and Google Cloud**, and it reaches the mailbox and the legacy
+   Webflow back end, so if it moves, everything below it must be re-reached
+   afterwards. Not a departure item.
 2. **Resend API key.** `full_access`, not `sending_access` — the lesser scope
-   fails list operations silently. Reachable only once step 1 is done.
+   fails list operations silently, and `resend api-keys create` will hand you a
+   `sending_access` key while documenting the opposite (footnote [5]). On a
+   departure this is not a rotation but a **revocation**: delete that person's
+   named key and leave everyone else's alone.
 3. **`VERCEL_TOKEN`.** Then **verify with `gh workflow run deploy.yml` before
    going any further.** This is the only credential that can deploy the site; if
    it is wrong, every subsequent change in this list becomes unshippable, and you

@@ -473,11 +473,18 @@ Sign your name and the date against each row. Two columns, on purpose.
 | c | **Run one skill end to end**, including whatever it publishes or proposes | | |
 | d | **Rotated one credential** — set it with `--value`, verified it byte-for-byte, shipped it with `gh workflow run deploy.yml`, and confirmed the site still works | | |
 
-(d) is the one people skip, and it is the one that matters most. The rotation
-list is `MAINTAINER_HANDOVER.md` §3, "Rotate on departure": Vercel, the
-`website@` Google account, Stripe API keys, the Resend API key,
-`GITHUB_BOT_TOKEN`, `CRON_SECRET`, and the Slack bot tokens. Pick a low-stakes
-one for the exercise.
+(d) is the one people skip, and it is the one that matters most. Note that it
+says *rotate one credential*, not *rotate the departure list* — the point is that
+you have done the `--value` / verify / `gh workflow run deploy.yml` loop once
+with your own hands before you have to do it under pressure. `CRON_SECRET` is a
+good choice: it is genuinely used, its failure mode is visible within a week, and
+nothing about it is irreversible.
+
+The actual departure list is much shorter than it used to be, and
+`MAINTAINER_HANDOVER.md` §3 explains why: almost every account here is the
+founder's or genuinely shared, so **account passwords are not rotated for a
+departure**. Only what was issued to a person is — a GitHub PAT, a Slack user
+token, a named Neon role or API key.
 
 **Do not use `AUTH_SECRET` / `NEXTAUTH_SECRET` as your practice rotation.**
 Rotating it signs every existing user out *and* invalidates outstanding mentee
