@@ -18,6 +18,7 @@
  */
 
 import assert from "node:assert";
+import { readFileSync } from "node:fs";
 
 import {
   carryReadReceipt,
@@ -27,6 +28,7 @@ import {
   mergeThreadState,
   scannedPosition,
   shouldInheritMapping,
+  STATE_PATH,
   threadHasUnread,
   unreadConversations,
   type ChannelState,
@@ -552,6 +554,66 @@ check("an unqualified prior receipt stays unqualified", () => {
   assert.strictEqual(r.readAt, plain.readAt);
   assert.ok(!("readAtSource" in r), "no caveat invented where there was none");
 });
+
+/*
+ * ---------------------------------------------------------------------------
+ * What may be committed, 2026-09-10.
+ *
+ * This repository went public on 2026-09-06. The tracked manifest was already
+ * carrying 28 direct-message and group-DM rows, 13 of them with a prose digest,
+ * and the row NAMES alone published a dozen people's Slack handles and the
+ * membership of private group DMs. None of it was a credential, which is why
+ * the audit before publication did not find it — that audit asked "is there a
+ * secret in here", and the question nobody asked was "who can read this now".
+ *
+ * The rules below are cheap and mechanical, which is the only kind worth
+ * putting in CI. They cannot detect a person's name in prose; the skill's own
+ * instructions carry that rule, and this carries the two that a machine can
+ * actually decide.
+ */
+const MANIFEST = JSON.parse(readFileSync(STATE_PATH, "utf8")) as {
+  channels: Record<string, { name?: string; type?: string; digest?: string }>;
+};
+
+/** A row that belongs to somebody's private conversation rather than the project. */
+function isPrivateRow(c: { name?: string; type?: string }): boolean {
+  return c.type === "dm" || /^dm:/.test(c.name ?? "") || /^mpdm-/i.test(c.name ?? "");
+}
+
+/** Any address that is not a placeholder or one of the organisation's own. */
+function offDomainAddresses(text: string): string[] {
+  const all = text.match(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g) ?? [];
+  return [...new Set(all)].filter((a) => !/@(example\.|shesharp\.org\.nz)/i.test(a));
+}
+
+check("the committed manifest holds no direct-message rows", () => {
+  const leaked = Object.values(MANIFEST.channels).filter(isPrivateRow).map((c) => c.name);
+  assert.deepStrictEqual(
+    leaked,
+    [],
+    `DM rows must live in sync-state.local.json, which is gitignored. Found: ${leaked.join(", ")}`,
+  );
+});
+
+check("the committed manifest holds no off-domain email address", () => {
+  const found = offDomainAddresses(readFileSync(STATE_PATH, "utf8"));
+  assert.deepStrictEqual(
+    found,
+    [],
+    `a real address in git is permanent — see .gitignore on the reviewer roster. Found: ${found.join(", ")}`,
+  );
+});
+
+check("both rules actually reject what they are for (positive control)", () => {
+  // A guard that has never refused anything has not been shown to refuse
+  // anything. Hand each rule the input it exists to catch.
+  assert.strictEqual(isPrivateRow({ name: "dm:Someone", type: "general" }), true, "a dm: name must be caught even when the type says otherwise");
+  assert.strictEqual(isPrivateRow({ name: "mpdm-a--b--c-1" }), true, "a group DM must be caught by name alone");
+  assert.strictEqual(isPrivateRow({ name: "event-lesmills-03-september-2026", type: "event" }), false, "an ordinary channel must not be");
+  assert.deepStrictEqual(offDomainAddresses("write to someone@gmail.com please"), ["someone@gmail.com"]);
+  assert.deepStrictEqual(offDomainAddresses("write to events@shesharp.org.nz or a@example.com"), [], "the organisation's own and placeholders are not findings");
+});
+
 
 console.log(
   failures === 0

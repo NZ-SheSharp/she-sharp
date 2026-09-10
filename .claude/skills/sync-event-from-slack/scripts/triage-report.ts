@@ -138,20 +138,30 @@ function cell(s: string): string {
 }
 
 /**
- * How much of a digest goes in the issue.
+ * No digest text goes in the issue. This function used to put the first 480
+ * characters of one in each row, and stopped on **2026-09-10**.
  *
- * Digests are written to be re-read by a model and run to several thousand
- * characters — the Xero one is 4.5k. Pasted whole, eight rows bury the table
- * that is the reason anyone opened the issue. The opening sentences are the part
- * a human needs ("what is this event, and what is outstanding"); the rest is
- * carried into the next sync by `_meta.priorDigest` regardless of what is here.
+ * The reason is not length, it is audience. This repository became **public** on
+ * 2026-09-06, and its issues went public with it — verified by fetching the
+ * standing triage issue with no credentials at all and getting HTTP 200. A
+ * digest is prose a model wrote about a Slack conversation, and the excerpts
+ * being published included a named person's movements and a quoted `@channel`
+ * message. Nobody re-read what this already did through the new question of who
+ * can see it now, which is a different question from "is there a credential in
+ * here" and was not asked before the repository was published.
+ *
+ * Nothing is lost operationally. The digest's actual job is to let the next sync
+ * re-orient without re-reading the channel, and that happens through
+ * `_meta.priorDigest` in `fetch-channel.ts`, not through this issue. What the
+ * issue is for is **"there is a backlog here, and these are the two commands
+ * that show you it"** — and the commands put the real content in front of
+ * whoever runs them, locally, where it belongs.
  */
-const DIGEST_CHARS = 480;
-
-function digestExcerpt(digest: string): string {
-  const flat = cell(digest);
-  if (flat.length <= DIGEST_CHARS) return flat;
-  return flat.slice(0, DIGEST_CHARS).replace(/\s+\S*$/, "") + " […]";
+function detailPointer(): string {
+  return (
+    "Run the two commands below to see what is unread. " +
+    "The channel's own notes are in the local state file, not here: this issue is public."
+  );
 }
 
 const SYNC = ".claude/skills/sync-event-from-slack/scripts";
@@ -242,10 +252,8 @@ function buildBody(t: Triage): { body: string; hash: string; actionable: Row[] }
     for (const r of actionable) {
       L.push(`<details><summary><code>${cell(r.name)}</code> — ${cell(r.action)}</summary>`);
       L.push("");
-      if (r.digest) {
-        L.push(`**Last understood as:** ${digestExcerpt(r.digest)}`);
-        L.push("");
-      }
+      L.push(detailPointer());
+      L.push("");
       L.push("```bash");
       L.push(commandsFor(r));
       L.push("```");

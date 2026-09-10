@@ -636,28 +636,63 @@ went public on **2026-09-06**. Nobody re-read what was already committed through
 the new question of *who can see this now* — which is the general lesson, and it
 is a different question from *is there a credential in here*.
 
-**What it would take to fix, and why that is a decision rather than a task.**
+**What was actually in it was worse than the first reading.** Of the 208 rows in
+that file, **28 were direct messages and group DMs**, 13 of them with a digest.
+The row *names alone* published a dozen people's Slack handles and the membership
+of private group chats — `mpdm-<handle>--<handle>--<handle>-1` is a list of who
+talks to whom. That is not the organisation's operational data. It is a dozen
+individuals' private correspondence, and they did not agree to publish it.
 
-The current file can be scrubbed in one commit. **The history cannot**, and this
-repository already knows what that costs: §12 of `MAINTAINER_HANDOVER.md` records
-that a history rewrite on 2026-06-11 *did not work and was never verified*, and
-that GitHub keeps serving orphaned commits by SHA until Support purges them. So
-the honest options are:
+### The decision, taken 2026-09-10
 
-| | |
-|---|---|
-| **Stop the bleeding** | Make the triage report structural only — conversation, action, unread count, the two commands — and keep the `digest` prose out of both the committed state and the issue. That is a change to what the skill *writes*, and it is the part that is genuinely worth doing, because otherwise every future run adds more |
-| **Scrub the current file** | One commit. Removes it from the tip, not from history. Cheap, partial, and honest about being partial |
-| **Rewrite history** | Expensive, previously failed here, and still leaves GitHub serving orphans until Support acts |
-| **Accept and record** | The content is four days public. Judge what is actually in it — one personal address and some scheduling — and decide it is not worth the other three |
+Three of the four possible responses were taken and one was refused.
 
-**Do not start any of them without deciding which, and do not let the choice
-default to "scrub the file and feel finished".** That is the option that most
-looks like a fix and least is one.
+**Stopped the bleeding.** Three changes, and the second is the one that matters
+most:
 
-The one thing that should not wait on the decision: **tell the person whose Gmail
-address it is.** That is theirs to know regardless of what the organisation
-decides to do about the rest.
+1. `triage-report.ts` no longer puts any digest text in the issue. It prints the
+   row, the action, the unread count and the two commands, and says the detail is
+   local. The digest's real job — letting the next sync re-orient without
+   re-reading a channel — happens through `_meta.priorDigest`, not through a
+   public issue.
+2. **DM and group-DM state no longer reaches the tracked file at all.**
+   `saveManifest()` routes it to `sync-state.local.json`, which the standing
+   `**/*.local.json` rule already gitignores. This follows the convention the
+   newsletter reviewer roster set: the shareable half committed, the personal
+   half local. And it is right on its own merits, separately from the privacy
+   question — **a DM read position is personal to whoever holds the user token
+   and is meaningless to anybody else**, so sharing it was never useful, only
+   exposing.
+3. `update-state.ts` now states what a digest may contain: state and open items,
+   never a person's movements, never a quoted message, never an address. Naming
+   somebody in an operational note is fine; recounting what they said is not.
+
+**Scrubbed the tip.** The 28 private rows moved to the local file. The one real
+off-domain address and the one itinerary in the remaining 180 were removed by
+hand, keeping the operational sentence each sat in — the Xero digest still says a
+date change was requested and never answered, which is the thing
+[#292](https://github.com/NZ-SheSharp/she-sharp/issues/292) exists for.
+
+**Added a guard, and broke it on purpose.** `state-lib.test.ts` — already in CI —
+now fails if the tracked manifest gains a DM row or any off-domain address. It
+was verified by injecting exactly that and watching it exit 1, then restoring.
+A rule a machine can decide is the only kind worth putting in CI; "does this
+prose name a person" is not one, which is why that rule lives in the skill's
+instructions instead.
+
+**Refused: a history rewrite.** §12 of `MAINTAINER_HANDOVER.md` records that the
+one attempted here on 2026-06-11 *did not work and was never verified*, and that
+GitHub serves orphaned commits by SHA until Support purges them. The content is
+not a credential, so the payoff is smaller than the risk of a botched rewrite on
+a repository two people are about to inherit.
+
+**So be honest about what remains.** The tip is clean; the history is not. Anyone
+who knows to look can still read the old commits. That is the cost of the four
+days between going public and noticing, and no commit undoes it.
+
+**Still owed, and not blocked on anything:** tell the people whose DMs were
+summarised, and the person whose address it was. That is theirs to know whatever
+the organisation decides about the rest.
 
 ---
 

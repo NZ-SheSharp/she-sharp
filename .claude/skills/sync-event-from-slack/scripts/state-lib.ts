@@ -18,6 +18,29 @@ const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 /** …/.claude/skills/sync-event-from-slack */
 export const SKILL_ROOT = resolve(SCRIPT_DIR, "..");
 export const STATE_PATH = resolve(SKILL_ROOT, "state", "sync-state.json");
+/**
+ * Direct-message and group-DM state lives here instead, and this file is
+ * gitignored by the standing `**\/*.local.json` rule.
+ *
+ * Two reasons, and the second one holds even on a private repository.
+ *
+ * 1. It is other people's private conversation. Until 2026-09-10 the tracked
+ *    manifest carried 28 DM and group-DM entries, 13 of them with a prose
+ *    digest — and the entry NAMES alone published a dozen individuals' handles
+ *    and the membership of private group DMs. This repository went public on
+ *    2026-09-06. Nobody re-read what was already committed through the new
+ *    question of who can see it now, which is a different question from "is
+ *    there a credential in here".
+ * 2. **A DM read position is not shared state.** Where one maintainer has read
+ *    to in her own DMs is meaningless to the other, who holds a different user
+ *    token and sees a different set of conversations. Sharing it was never
+ *    useful, only exposing.
+ *
+ * The split follows the convention already set by the newsletter reviewer
+ * roster: the shareable half is committed, the personal half is `.local.json`.
+ * `.gitignore` explains why an address in git is permanent.
+ */
+export const LOCAL_STATE_PATH = resolve(SKILL_ROOT, "state", "sync-state.local.json");
 export const CACHE_DIR = resolve(SKILL_ROOT, ".cache");
 /** repo root (three levels above the skill root: …/.claude/skills/<skill>) */
 export const REPO_ROOT = resolve(SKILL_ROOT, "..", "..", "..");
@@ -636,16 +659,34 @@ export interface Manifest {
 
 const EMPTY_MANIFEST: Manifest = { version: 1, channels: {} };
 
-export function loadManifest(): Manifest {
-  if (!existsSync(STATE_PATH)) return structuredClone(EMPTY_MANIFEST);
+function readManifestFile(path: string): Manifest | null {
+  if (!existsSync(path)) return null;
   try {
-    const parsed = JSON.parse(readFileSync(STATE_PATH, "utf8")) as Manifest;
+    const parsed = JSON.parse(readFileSync(path, "utf8")) as Manifest;
     if (!parsed.channels) parsed.channels = {};
     if (!parsed.version) parsed.version = 1;
     return parsed;
   } catch {
-    return structuredClone(EMPTY_MANIFEST);
+    return null;
   }
+}
+
+/**
+ * The shared manifest plus this machine's own DM state, merged into the one
+ * object every caller already expects. Nothing downstream knows about the
+ * split, which is the point: the classification, triage and audit logic sees
+ * exactly what it saw before.
+ *
+ * A missing local file is the normal case for anyone who has never run this
+ * with a user token, and is not an error.
+ */
+export function loadManifest(): Manifest {
+  const shared = readManifestFile(STATE_PATH) ?? structuredClone(EMPTY_MANIFEST);
+  const local = readManifestFile(LOCAL_STATE_PATH);
+  if (local) {
+    for (const [id, c] of Object.entries(local.channels)) shared.channels[id] = c;
+  }
+  return shared;
 }
 
 /**
@@ -656,6 +697,7 @@ export function loadManifest(): Manifest {
 export function saveManifest(m: Manifest): void {
   mkdirSync(dirname(STATE_PATH), { recursive: true });
   const ordered: Manifest = { version: m.version ?? 1, channels: {} };
+  const local: Manifest = { version: m.version ?? 1, channels: {} };
   for (const id of Object.keys(m.channels).sort()) {
     const c = m.channels[id];
     const entry: ChannelState = {
@@ -703,11 +745,26 @@ export function saveManifest(m: Manifest): void {
       entry.digest = c.digest;
       entry.digestAt = c.digestAt ?? "";
     }
-    ordered.channels[id] = entry;
+    // A DM or group DM goes to the gitignored sidecar, never to the tracked
+    // manifest. Both the declared type and the name shape are checked: a row
+    // whose type was never classified but whose name is `dm:`/`mpdm-` is still
+    // somebody's private conversation, and the cost of the two tests being
+    // redundant is nothing next to the cost of one of them being the only one.
+    const isPrivate = c.type === "dm" || /^dm:/.test(c.name ?? "") || /^mpdm-/i.test(c.name ?? "");
+    (isPrivate ? local : ordered).channels[id] = entry;
   }
-  const tmp = `${STATE_PATH}.tmp`;
-  writeFileSync(tmp, JSON.stringify(ordered, null, 2) + "\n");
-  renameSync(tmp, STATE_PATH);
+
+  writeAtomic(STATE_PATH, ordered);
+  // Only write the sidecar when there is something to put in it, so a machine
+  // that has never used a user token does not grow an empty file it then has to
+  // wonder about.
+  if (Object.keys(local.channels).length > 0) writeAtomic(LOCAL_STATE_PATH, local);
+}
+
+function writeAtomic(path: string, m: Manifest): void {
+  const tmp = `${path}.tmp`;
+  writeFileSync(tmp, JSON.stringify(m, null, 2) + "\n");
+  renameSync(tmp, path);
 }
 
 function sortThreads(threads: Record<string, ThreadState>): Record<string, ThreadState> {
