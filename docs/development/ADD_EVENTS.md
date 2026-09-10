@@ -260,7 +260,7 @@ purposes.
 | Mentor profiles | `lib/data/mentors.ts` | Mentorship page mentor list |
 | Team members | `lib/data/team.ts` | About page team section |
 | Impact reports | `lib/data/impact-reports.ts` | Resources page |
-| Newsletter config | `lib/data/newsletters.ts` | Footer newsletter links |
+| Newsletter footer link | `lib/config/footer.ts` → `footerConfig.newsletterArchive` | The footer's "Read past issues" |
 
 ---
 

@@ -39,6 +39,27 @@
  *                                Slack isn't re-read. Repeat to read from a file
  *                                with --digest-file <path> instead. Omit to keep
  *                                the prior digest; --digest "" clears it.
+ *
+ * WHAT A DIGEST MAY CONTAIN. For a public channel it is committed to a **public
+ * repository**, so write the state, not the conversation:
+ *
+ *   - state and open items       what the event is, what is decided, what is
+ *                                outstanding, what to check first next run
+ *   - NOT a person's movements   "cannot make the 8th" is state; where they are
+ *                                instead is not
+ *   - NOT a quoted message       paraphrase the decision, never the sentence
+ *   - NOT an email address       anyone's, including a partner organisation's.
+ *                                `state-lib.test.ts` fails CI on one
+ *   - NOT an access or door code the standing redaction rule, unchanged
+ *
+ * Naming somebody in an operational note is fine — the founder's name is on the
+ * website. Recounting what they said in a channel is not, and the line between
+ * those two is the whole rule.
+ *
+ * A DM or group DM never reaches the tracked file at all: `saveManifest()`
+ * routes it to the gitignored `sync-state.local.json`, because a DM read
+ * position is personal to whoever holds the user token and is meaningless to
+ * anybody else. See the note on `LOCAL_STATE_PATH` in state-lib.ts.
  */
 
 import {
