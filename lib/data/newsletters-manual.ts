@@ -62,12 +62,12 @@ export const NEWSLETTER_MANUAL: NewsletterIssue[] = [
   // wherever there is one, because the other two registry fixtures are drafts
   // of issues that did go out from Mailchimp. The route stays `noindex` and out
   // of `app/sitemap.ts` — it is linked from here, not published to search.
-  {
-    id: "2026-09",
-    month: 9,
-    year: 2026,
-    url: "/resources/newsletters/2026-09",
-  },
+  // {
+  //   id: "2026-09",
+  //   month: 9,
+  //   year: 2026,
+  //   url: "/resources/newsletters/2026-09",
+  // },
   {
     id: "2026-08",
     month: 8,
