@@ -48,6 +48,55 @@ function extractYouTubeId(input: string): string | null {
 }
 
 
+/**
+ * Turns `[label](https://…)` into an underlined in-sentence link, and
+ * `**phrase**` into bold. The trailing `text :https://…` form below dumps
+ * the raw URL beside the sentence, which is right for a portal; a phrase
+ * like "this short intro video" has to stay inside the sentence.
+ */
+function renderInlineMarkdown(content: string) {
+  const pattern =
+    /\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)|\*\*(.+?)\*\*/g;
+  const nodes = [];
+  let lastIndex = 0;
+  let match = pattern.exec(content);
+
+  while (match) {
+    if (match.index > lastIndex) {
+      nodes.push(content.slice(lastIndex, match.index));
+    }
+    if (match[1] !== undefined) {
+      nodes.push(
+        <a
+          key={match.index}
+          href={match[2]}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-brand underline underline-offset-2 hover:text-brand-hover"
+        >
+          {match[1]}
+        </a>
+      );
+    } else {
+      nodes.push(
+        <strong key={match.index} className="font-semibold text-foreground">
+          {match[3]}
+        </strong>
+      );
+    }
+    lastIndex = match.index + match[0].length;
+    match = pattern.exec(content);
+  }
+
+  if (nodes.length === 0) {
+    return content;
+  }
+  if (lastIndex < content.length) {
+    nodes.push(content.slice(lastIndex));
+  }
+  return nodes;
+}
+
 function BulletList({ items }: { items: string[] }) {
   return (
     <ul className="space-y-2 list-disc pl-5 marker:text-brand">
@@ -95,7 +144,11 @@ function SpecialSectionContent({ content }: { content: string }) {
     );
   }
 
-  return <p className="text-muted-foreground leading-relaxed text-pretty">{content}</p>;
+  return (
+    <p className="text-muted-foreground leading-relaxed text-pretty">
+      {renderInlineMarkdown(content)}
+    </p>
+  );
 }
 
 function YouTubeEmbeds({
@@ -279,7 +332,9 @@ function RelatedLinks({ items }: { items: string[] }) {
 }
 
 function normalizeTitle(title: string): string {
-  if (title === title.toUpperCase() && title.length > 3) {
+  // Single-word labels such as TOURNAMENTS are intentional; only shouty
+  // multi-word titles (legacy scraped ALL CAPS) get title-cased.
+  if (title === title.toUpperCase() && title.length > 3 && /\s/.test(title)) {
     return title.toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase());
   }
   return title;

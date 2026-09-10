@@ -2402,15 +2402,15 @@
           "Around the tournament, women leaders will join a panel discussion on **The Critical Role of Cybersecurity in AI**, sharing their own journeys and the pathways that took them into cybersecurity and AI. There are prizes for whoever finishes on top. Bring a laptop and a charger."
         ],
         "speakers": {
-          "guest_speakers": {
-            "heading": "Meet the Speaker",
+          "keynote_speakers": {
+            "heading": "Meet Our Keynote Speaker",
             "speakers": [
               {
                 "name": "Fatemah Beydoun",
-                "title": "",
-                "company": "Secure Code Warrior",
-                "bio": "",
-                "image": "",
+                "title": "Secure Code Warrior - Co-Founder & Chief Customer Officer",
+                "company": "",
+                "bio": "Fatemah Beydoun is a founding team member of Secure Code Warrior and has been integral to the company since 2014. As Chief Customer Officer, she is responsible for turning customers into advocates, improving Customer Success maturity, and leading global Customer Success teams. Prior to Secure Code Warrior, Fatemah held roles in security analysis, operations management, and as National Director at BAE Systems Applied Intelligence and the Australian Information Security Association (AISA), a not-for-profit working to improve cybersecurity across Government, Industry, and the Community in Australia. She holds a BSc in Computing and Information Systems from Macquarie University.",
+                "image": "/img/legacy-site/speakers/68b6d4469334d9d88ba87f63_Copy_of_Fatemah_Beydoun_90431fe5.jpg",
                 "linkedin": ""
               }
             ]
@@ -2444,11 +2444,32 @@
           },
           {
             "type": "workshop_preparation",
-            "title": "Before You Come",
+            "title": "About the SCW Platform",
             "content": [
-              "Bring a laptop and a charger — the tournament runs on your own machine",
-              "No cybersecurity experience is needed, and no preparation is required",
-              "Pick a language beforehand if you like, or decide on the night — the pseudocode option needs none"
+              "**Access the Secure Code Warrior Platform before Tournament Day**",
+              "Visit the SCW Portal using this link: [SCW Portal](https://portal.securecodewarrior.com/#/register/957508922937)",
+              "Please use your **personal email address** (not your work email) to create your password to log in. This helps us avoid login issues that can occur if your workplace is already a Secure Code Warrior customer.",
+              "Once you're in, take a moment to get familiar with the platform's learning options and prepare for the event at your own pace."
+            ]
+          },
+          {
+            "type": "workshop_preparation",
+            "title": "Prepare for the TOURNAMENT using EXPLORE",
+            "content": [
+              "Check out [this short intro video](https://secure-code-warrior.wistia.com/medias/kf5ramnhpd) to get started with the EXPLORE module.",
+              "You can dive into the two types of activities you'll experience during the tournament:",
+              "**VIDEOS** – Build your foundation by learning software security fundamentals and key concepts.",
+              "**CHALLENGES** – Practice spotting, understanding, and fixing common security vulnerabilities."
+            ]
+          },
+          {
+            "type": "workshop_preparation",
+            "title": "TOURNAMENTS",
+            "content": [
+              "Your tournament goes live on **October 8th** — but you can already hit the **Join** button and get ready!",
+              "The Secure Code Warrior team will be there on the day with a **LIVE demo** and all the support you need.",
+              "Want a sneak peek? Watch this demo video: [How to Play in a Tournament](https://secure-code-warrior.wistia.com/medias/iuwtu89k00)",
+              "**All skill levels welcome! Whether you're just starting or already coding like a pro, we can't wait to see you there!**"
             ]
           }
         ],
