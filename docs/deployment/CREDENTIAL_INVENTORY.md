@@ -142,7 +142,7 @@ been wrong about ownership before.
 | Google Cloud, project `146130765065` | `website@shesharp.org.nz` | `DOMAIN_MIGRATION_2026-06-19.md` §5 | §7 |
 | OpenAI | `website@shesharp.org.nz` | `MAINTAINER_HANDOVER.md` §3, verified 2026-09-05 | §7 |
 | Stripe, `acct_1NHkCPFH4SQKCLLp` | the founder, `mahsa@shesharp.org.nz` | Stripe API `GET /v1/account` with the live key on 2026-09-10 — it returns the account id, the business name "She Sharp" and that address, so no one had to be asked | §7 |
-| Slack, She Sharp workspace, four apps | workspace owner is the founder | `MAINTAINER_HANDOVER.md` §7 | §7 |
+| Slack, She Sharp workspace, **seven** apps | workspace owner is the founder; app management was the outgoing maintainer's, and both incoming maintainers were added as collaborators on 2026-09-10 | ownership worksheet + the app list read from api.slack.com/apps | §7 |
 | Humanitix | `events@shesharp.org.nz`, a shared login | `HUMANITIX_INTEGRATION_SHUTDOWN.md` | §7 |
 | Mailchimp, `us3` | the founder, who is also the cardholder | ownership worksheet, 2026-09-10; corroborates `MAILCHIMP_CANCELLATION.md` | §7 |
 | Upstash `upstash-kv-cerise-leaf` | none of its own — reached through the Vercel team | Vercel marketplace integration | follows Vercel |
@@ -338,6 +338,30 @@ donation alert lands somewhere visible rather than vanishing. The same is true o
 [14] **It lives in two places** — Vercel production *and* the repository's
 Actions secrets — and rotating only one leaves `slack-triage.yml` silently
 broken. It is one of only two Actions secrets on the repository.
+
+**And it is one variable name for two different Slack apps**, which is worse than
+it sounds and was found on 2026-09-10 only because two `auth.test` calls made
+minutes apart disagreed about the bot's name:
+
+| Where | App | Why that one |
+|---|---|---|
+| Vercel production | **She Sharp Event Bot** `A0AU1CWP9DY` | production serves the `/event` slash command |
+| a local `.env` | **She Sharp Event Collector** `A0AJB2DTKNU` | locally the readers are `sync-event-from-slack` and `reply-to-contact-messages` |
+
+Measured the same day: the Collector is a member of **82** channels, the Event
+Bot of **2**, and the Event Bot is not in `#contact-form-notifications` at all.
+So holding the wrong one does not fail — **it quietly reads almost nothing**,
+because neither skill errors on a channel its bot is not in.
+
+The trap has a specific trigger, and it is an action this document otherwise
+recommends: **`vercel env pull` overwrites a local Collector token with
+production's Event Bot token.** Anyone refreshing their environment the correct
+way loses those two skills without a message. Check afterwards with
+`POST https://slack.com/api/auth.test`; locally the `user` field must read
+`she_sharp_event_colle`.
+
+There are **seven** Slack apps, not the four every document here claimed until
+2026-09-10. `MAINTAINER_ONBOARDING.md` §2.1 lists all seven with their ids.
 
 [15] This one is genuinely untransferable rather than merely unconfirmed. A bot
 token can read only public channels it joined plus private channels it was
@@ -804,7 +828,7 @@ be believed at the worst possible moment.
 | **OpenAI** | Reduces to `website@`. |
 | **Google Cloud** | Reduces to `website@`. Losing it means the OAuth clients cannot be edited, and Google sign-in cannot be repaired. |
 | **Stripe** | **Unknown.** The login has never been recorded, and the CLI on the outgoing maintainer's workstation points at a different, personal account. This is the account that holds live payments. |
-| **Slack** | The workspace's only owner is the founder. The four apps survive a person leaving, but the tokens' **scopes** were granted by one named human, and re-granting them needs app-management access. Who holds that is **unknown**. |
+| **Slack** | The workspace's only owner is the founder. The **seven** apps survive a person leaving, and app-management access is no longer one person's: both incoming maintainers were added as collaborators on all seven on 2026-09-10, so a scope can be re-granted without the outgoing maintainer. |
 | **Humanitix** | A shared `events@shesharp.org.nz` login. Who else knows the password, and where its recovery address points, are both **unknown**. |
 | **Mailchimp** | **Unknown.** The card on the account is the founder's. The account is to be paused or downgraded, never deleted. |
 | **Upstash** | No login of its own — it is reached through the Vercel team, so it reduces to the Vercel row. |

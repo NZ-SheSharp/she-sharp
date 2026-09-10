@@ -68,7 +68,7 @@ Access, in the order it is needed:
 | 3 | **The `website@shesharp.org.nz` Google account** | It is the login for Resend, and the Reply-To identity for the `internal` mail stream. See the warning in §3 |
 | 4 | **Stripe dashboard** | Live payments. Confirm `STRIPE_MODE` in production before assuming which key set is in use |
 | 5 | **Neon** | Migrations, and the only copy of the mailing-list consent record |
-| 6 | **Slack** — workspace member, plus the app-management pages for the four apps in §3 | The bots post nowhere else |
+| 6 | **Slack** — workspace member, plus app-management on the **seven** apps in §3 | The bots post nowhere else |
 
 A maintainer who has 1 and 2 can keep the site alive. One who has all six can
 actually operate it.
@@ -106,7 +106,7 @@ two, plus the GitHub Actions secrets and what reads each variable, is
 | **Vercel KV / Redis** | Chatbot rate limiting | Same Vercel team | Nothing |
 | **Humanitix** | Ticketing, and the "Sold out" badge on event pages | `events@shesharp.org.nz` | The API key is read-only and also set in production |
 | **Mailchimp** | Nothing live — archive only since 2026-09-02 | The founder, who is also the cardholder | One key per account. See §7; the key expires **2027-08-27** |
-| **Slack apps** (4) | Contact-form alerts, donation alerts, the weekly mentorship digest, the `/event` bot | She Sharp workspace | Tokens live in Vercel; the apps survive a person leaving, the tokens' *scopes* were granted by one |
+| **Slack apps** (**7**, not the four this row claimed until 2026-09-10) | Contact-form alerts, volunteer applications, event feedback, the funding digest, the mentorship digest, the read-only Event Collector, and the `/event` bot | She Sharp workspace | Tokens live in Vercel; the apps survive a person leaving, the tokens' *scopes* were granted by one. Both incoming maintainers were added as collaborators on all seven on 2026-09-10 |
 | **Domain** `shesharp.org.nz` | The site, and DKIM/DMARC alignment for every email | Registrar **1stdomains.nz**, held by the founder. **DNS is a Cloudflare zone in a personal account** — `DNS_ACCOUNT_MIGRATION.md` | The registrar was never the exposure; the DNS zone is. Do not delete the `_gh-…` TXT record — `docs/deployment/GITHUB_ACTIONS_AND_ACCOUNT.md` says what it is for |
 
 ### Rotate on departure — and what deliberately is not on that list
