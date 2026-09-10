@@ -426,19 +426,29 @@ this as an open loop and it is still open.
 **Add at least one more workspace owner.** It is a two-minute change that only
 the founder can make, and it unblocks a category of work rather than one task.
 
-### 6.2 The four apps
+### 6.2 The seven apps
 
-| App | What it does | Reaches Slack via |
-|---|---|---|
-| **Form-notification app** | Contact-form and volunteer/ambassador submission alerts | Incoming webhooks: `SLACK_CONTACT_WEBHOOK_URL`, `SLACK_VOLUNTEER_WEBHOOK_URL` |
-| **Donation alerts** | "New donation received", fired by the Stripe webhook | `SLACK_DONATION_WEBHOOK_URL`, falling back to the contact webhook |
-| **Mentorship weekly stats** | The Monday pipeline digest from `/api/cron/weekly-mentorship-stats` | `SLACK_MENTORSHIP_STATS_WEBHOOK_URL` → `#mentorships` |
-| **She Sharp Event Bot** (`/event`) | Slash command: describes an event change in plain English, previews a patch in Block Kit, opens a GitHub pull request | Bot token `SLACK_BOT_TOKEN` + `SLACK_SIGNING_SECRET`, at `/api/slack/events` and `/api/slack/events/interactive` |
+**Seven, not the four this section listed until 2026-09-10.** Read from
+<https://api.slack.com/apps> for the `She#` workspace (`T06Q96RGA`). The old
+list was assembled from the variables rather than from the console, which is why
+it merged several apps and invented a donation app that does not exist.
 
-Plus two more webhooks with no app of their own: `SLACK_FUNDING_WEBHOOK_URL`
-(→ `#funding-opportunities`), `SLACK_EVENT_FEEDBACK_WEBHOOK_URL`
-(→ `#event-feedback-notifications`) and `SLACK_NEWSLETTER_WEBHOOK_URL`, the last
-two of which fall back to the contact webhook when unset (§2.2).
+| App | ID | What it does | Reaches Slack via |
+|---|---|---|---|
+| `contact-form-notifications` | `A0AGNRP35D3` | Contact-form alerts, and the fallback destination for four other kinds | `SLACK_CONTACT_WEBHOOK_URL` |
+| `ambassador-volunteer-application` | `A0ADYECRLCE` | Volunteer and ambassador submissions | `SLACK_VOLUNTEER_WEBHOOK_URL` |
+| `event-feedback-notifications` | `A0BM5AQ09RV` | Post-event attendee feedback from `/f/<code>` | `SLACK_EVENT_FEEDBACK_WEBHOOK_URL` |
+| `funding-digest` | `A0B2UFKQQLA` | The Monday funding digest | `SLACK_FUNDING_WEBHOOK_URL` → `#funding-opportunities` |
+| `mentorship-weekly-stats` | `A0AVAH24SJG` | The Monday pipeline digest | `SLACK_MENTORSHIP_STATS_WEBHOOK_URL` → `#mentorships` |
+| **She Sharp Event Collector** | `A0AJB2DTKNU` | Read-only. The bot behind `sync-event-from-slack` and `slack-triage.yml`, and the app a maintainer installs to get her own user token | `SLACK_BOT_TOKEN` *locally*, and the Actions secret |
+| **She Sharp Event Bot** | `A0AU1CWP9DY` | The `/event` slash command: describes a change in plain English, previews a patch in Block Kit, opens a pull request | `SLACK_BOT_TOKEN` *in production* + `SLACK_SIGNING_SECRET` |
+
+**There is no donation app.** `SLACK_DONATION_WEBHOOK_URL` is unset in
+production and donation alerts fall back to the contact webhook — by design, not
+by accident. `SLACK_NEWSLETTER_WEBHOOK_URL` is the same (§2.2).
+
+Both incoming maintainers were added as collaborators on all seven on
+2026-09-10, so app management is no longer one person's.
 
 The `/event` bot's `GITHUB_BOT_TOKEN` is a fine-grained PAT **issued against a
 person**, not the organisation. When that person leaves it must be reissued or
@@ -480,6 +490,45 @@ honest behaviour, but reporting a blind spot does not close it. Closing it needs
 a **user token** (`SLACK_USER_TOKEN`), which acts as the authorising human and
 which exactly one person holds. Even that cannot read a DM between two other
 people — that needs Slack's Discovery API, Enterprise Grid only.
+
+### 6.5 Check the triage is still alive — once, a week after the departure
+
+**This is the item most likely to be forgotten, because forgetting it looks
+exactly like success.**
+
+`slack-triage.yml` runs on the **Collector's bot token**, held as a repository
+Actions secret. That app was installed by the outgoing maintainer. A Slack bot
+token normally survives the installing user being deactivated — the token belongs
+to the app's installation, not to the person — but *normally* is not *always*,
+and Slack has revoked tokens on deactivation before.
+
+If it is revoked, the workflow does not shout. `discover-channels.ts` gets
+`invalid_auth`, the run fails, and the standing issue simply stops changing. And
+because that issue only comments **when the count changes**, a silent issue and a
+clear backlog are the same observation. It is the same failure shape as the three
+crons in §2, one level further out: not a job that stops, but a *watcher* that
+stops.
+
+A week after the departing account is deactivated:
+
+```bash
+gh workflow run slack-triage.yml
+gh run list --workflow=slack-triage.yml --limit 1     # must be success, not failure
+```
+
+Then open the issue and check the scan timestamp in its first paragraph is
+today's. **The run going green is not enough** — a green run that scanned nothing
+would still be green.
+
+The positive control, if you want one: the issue body says how many
+conversations were scanned. It has been around 180. A number far below that means
+the token is authenticating but has lost its channel membership, which is a
+different fault with the same symptom.
+
+If it *is* revoked, reinstall the Collector app (§6.2, `A0AJB2DTKNU`) and put the
+new bot token in **both** places — the Actions secret and any local `.env`
+(§6.3). Do not put it in Vercel; production's `SLACK_BOT_TOKEN` is the Event
+Bot's and must stay that way.
 
 ---
 
@@ -557,6 +606,58 @@ Superhero Daughter Day) run under the host school's media consent, which is a
 procedure, not an exemption. Ten photographs were already published before any of
 this existed; they are enumerated in
 [`PHOTOGRAPHING_MINORS.md`](../development/PHOTOGRAPHING_MINORS.md).
+
+### 7.5 Private Slack content is in this public repository — open
+
+**Found 2026-09-10. Not fixed. This is the one open item in this document that
+is a live disclosure rather than a risk.**
+
+The root `CLAUDE.md` rule is unambiguous: *"Never commit a credential, **a real
+email address**, an attendee row, or anything from the private archive repo."*
+Two things break it, and neither is a credential, which is why the audit before
+going public did not catch them — it was looking for secrets.
+
+**1. `.claude/skills/sync-event-from-slack/state/sync-state.json` is tracked.**
+It is 562 KB and holds a `digest` field per conversation: **69 KB of prose across
+63 conversations**, up to 11,279 characters in a single one. Measured that day:
+
+- **15 conversations** whose stored text names a person or describes an itinerary
+- **one real personal Gmail address** (the other two addresses in the file are
+  published `@shesharp.org.nz` ones and are fine)
+
+**2. The standing triage issue renders a slice of the same prose**, and issues on
+a public repository are public. Verified by fetching
+`https://api.github.com/repos/NZ-SheSharp/she-sharp/issues/254` **unauthenticated**:
+HTTP 200, and the body contains the founder's name and where she was travelling.
+
+Neither was a mistake at the time. `slack-triage.yml` shipped on **2026-08-31**,
+when this repository was private, and the state file predates it. The repository
+went public on **2026-09-06**. Nobody re-read what was already committed through
+the new question of *who can see this now* — which is the general lesson, and it
+is a different question from *is there a credential in here*.
+
+**What it would take to fix, and why that is a decision rather than a task.**
+
+The current file can be scrubbed in one commit. **The history cannot**, and this
+repository already knows what that costs: §12 of `MAINTAINER_HANDOVER.md` records
+that a history rewrite on 2026-06-11 *did not work and was never verified*, and
+that GitHub keeps serving orphaned commits by SHA until Support purges them. So
+the honest options are:
+
+| | |
+|---|---|
+| **Stop the bleeding** | Make the triage report structural only — conversation, action, unread count, the two commands — and keep the `digest` prose out of both the committed state and the issue. That is a change to what the skill *writes*, and it is the part that is genuinely worth doing, because otherwise every future run adds more |
+| **Scrub the current file** | One commit. Removes it from the tip, not from history. Cheap, partial, and honest about being partial |
+| **Rewrite history** | Expensive, previously failed here, and still leaves GitHub serving orphans until Support acts |
+| **Accept and record** | The content is four days public. Judge what is actually in it — one personal address and some scheduling — and decide it is not worth the other three |
+
+**Do not start any of them without deciding which, and do not let the choice
+default to "scrub the file and feel finished".** That is the option that most
+looks like a fix and least is one.
+
+The one thing that should not wait on the decision: **tell the person whose Gmail
+address it is.** That is theirs to know regardless of what the organisation
+decides to do about the rest.
 
 ---
 
