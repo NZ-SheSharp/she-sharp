@@ -132,4 +132,16 @@ scripts/__pycache__/
 .recommendations/
 /scripts/slack-recommendations
 .playwright-cli/
+
+# Every dotenv file, at the root and at any depth. Verified with
+# `git check-ignore -v` on 2026-09-10, against a control that must NOT match.
 .env*
+# Per-person environment files handed to an incoming maintainer. Covered by the
+# line above; named here so the pattern is not an accident, because these carry
+# live production credentials and this repository is public.
+.env.handover-*
+# .env.example is documentation and IS tracked. It survives only because a
+# gitignore never applies to an already-tracked file, so `git rm --cached` on it
+# would make it silently invisible and uncommittable. This negation makes that
+# safe rather than lucky.
+!.env.example

@@ -115,7 +115,7 @@ vercel env add VAR_NAME production --value 'new_value' --no-sensitive --force --
 
 > **Note:** Changing an environment variable does **not** affect the running deployment. Vercel binds environment variables to a deployment at **build time**, so the live site keeps serving the values that were present when it was built — which is also why the dashboard's "Redeploy" button is no help: it reuses the previous build's environment. A new value only goes live with a new build.
 >
-> `.github/workflows/deploy.yml` triggers on `push` to `main` and nothing else — there is no `workflow_dispatch`, so it cannot be re-run from the Actions tab. In practice that means **pushing a commit to `main` is how a new value gets rolled out** (re-verified 2026-08-28). The only alternative is building and deploying by hand from your own machine: `vercel pull && vercel build --prod && vercel deploy --prebuilt --prod`.
+> `.github/workflows/deploy.yml` triggers on `push` to `main` **and on `workflow_dispatch`**, which was added on 2026-09-06. So an environment-only change ships with `gh workflow run deploy.yml` — no invented commit, and no hand-building from a workstation. (Until that date there was no dispatch trigger and pushing a commit to `main` was the only route; this paragraph said so until 2026-09-10, three days after it stopped being true. It is quoted in the database-migration runbook, `MAINTAINER_HANDOVER.md` §10 step 6, which had the current version.) Deploying by hand — `vercel pull && vercel build --prod && vercel deploy --prebuilt --prod` — still works, but `vercel deploy --prod` on its own returns `Not authorized`, because that asks Vercel to build remotely and this account cannot.
 
 ### Pull to Local
 
