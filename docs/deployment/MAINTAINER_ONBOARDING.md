@@ -97,7 +97,7 @@ do it have not been onboarded.
 | 3 | **Neon** | Connect with **your own role** (`tharanee` / `lesley`) and count **41 tables** |
 | 4 | **The `website@shesharp.org.nz` Google account** | Sign in, and from there reach the **Resend** dashboard — that account *is* the Resend login |
 | 5 | **Stripe** | Open the dashboard and confirm which key set production is using before assuming — check `STRIPE_MODE` |
-| 6 | **Slack** — workspace member, plus app-management on the four apps | Open the app-management page for each of the four apps in `MAINTAINER_HANDOVER.md` §3 |
+| 6 | **Slack** — workspace member, plus app-management on the **seven** apps | Open <https://api.slack.com/apps> and confirm all seven are listed for the **She#** workspace. The table in §2.1 below names them |
 
 Notes that will save you the afternoon:
 
@@ -139,6 +139,117 @@ every REST endpoint**, including `/v2/user`, so team membership and the
 API-token list cannot be checked from a command line. **Check it in the Vercel
 console during week 1** and write the answer into
 `MAINTAINER_HANDOVER.md` §3. This is a blind surface, not a clean result.
+
+### 2.1 The seven Slack apps
+
+Read from <https://api.slack.com/apps> on 2026-09-10. Every document in this
+repository said **four** until that day; there are seven, and you were both added
+as collaborators on all of them.
+
+| App | ID | What it is |
+|---|---|---|
+| `contact-form-notifications` | `A0AGNRP35D3` | `SLACK_CONTACT_WEBHOOK_URL` — and the fallback four other alerts use |
+| `ambassador-volunteer-application` | `A0ADYECRLCE` | `SLACK_VOLUNTEER_WEBHOOK_URL` |
+| `event-feedback-notifications` | `A0BM5AQ09RV` | `SLACK_EVENT_FEEDBACK_WEBHOOK_URL` |
+| `funding-digest` | `A0B2UFKQQLA` | `SLACK_FUNDING_WEBHOOK_URL`, the Monday funding cron |
+| `mentorship-weekly-stats` | `A0AVAH24SJG` | `SLACK_MENTORSHIP_STATS_WEBHOOK_URL`, the Monday mentorship cron |
+| **She Sharp Event Collector** | `A0AJB2DTKNU` | Read-only. The bot behind `sync-event-from-slack` and the `slack-triage` workflow, and the app you install to get your own user token (§2.2) |
+| **She Sharp Event Bot** | `A0AU1CWP9DY` | The `/event` slash command. Opens pull requests with `GITHUB_BOT_TOKEN` |
+
+> **`SLACK_BOT_TOKEN` is one variable name for two of these apps, and it matters.**
+> Vercel production holds the **Event Bot**'s token, because production serves the
+> `/event` slash command. Your local file holds the **Collector**'s, because
+> locally the readers are `sync-event-from-slack` and
+> `reply-to-contact-messages`.
+>
+> Measured on 2026-09-10: the Collector is a member of **82** channels, the Event
+> Bot of **2**, and the Event Bot is not in `#contact-form-notifications` at all.
+> So the wrong one does not fail — **it quietly reads almost nothing**, because
+> neither skill errors on a channel its bot is not in.
+>
+> This bites specifically when you refresh your environment with
+> `vercel env pull`, which is otherwise the right thing to do: you will get
+> production's value and those two skills will go quiet. Check with
+> `POST https://slack.com/api/auth.test` and read the `user` field — locally it
+> must say `she_sharp_event_colle`.
+
+### 2.2 The two credentials only you can create
+
+Everything else in your environment file was issued for you. These two cannot be:
+they are **you**, and somebody else creating them defeats the point of having
+them per person. Do these on your own machine, signed in as yourself. Neither
+takes more than five minutes.
+
+#### Your Slack user token → `SLACK_USER_TOKEN`
+
+A bot token can only read public channels it has joined, plus private channels it
+was invited to, and can **never** read a direct message. A user token acts as the
+authorising human, so it reads your DMs, your group DMs and every private channel
+you are in. That is exactly why it cannot be shared: a shared user token is an
+impersonation, and it also carries the wrong blind spots — the `slack-triage`
+workflow reports 28 conversations as unseen precisely because a bot cannot list
+DMs at all.
+
+1. Open <https://api.slack.com/apps/A0AJB2DTKNU/oauth> — the **She Sharp Event
+   Collector**.
+2. Under **User Token Scopes**, check that all thirteen are present. They are the
+   list `.env.example` carries:
+
+   ```
+   channels:history  channels:read  groups:history  groups:read
+   im:history  im:read  mpim:history  mpim:read
+   users:read  files:read  pins:read  bookmarks:read  search:read
+   ```
+
+3. **Reinstall to Workspace**, at the top of that page, and approve.
+4. Copy the **User OAuth Token**. It starts `xoxp-`. If what you copied starts
+   `xoxb-` you have taken the bot token, which is already in your file.
+5. Paste it over the `PLACEHOLDER__…` line for `SLACK_USER_TOKEN`.
+
+**Prove it is yours**, which is a different question from whether it works:
+
+```bash
+curl -s -H "Authorization: Bearer <your xoxp- token>" https://slack.com/api/auth.test
+```
+
+The `user_id` must be **your** ID — `U0AGDT08DE1` for Tharanee, `U09FLLHK8DV`
+for Lesley. If it comes back `U094QBSBVGD` you were signed in as the outgoing
+maintainer, and the token is his. That is the situation this step exists to end.
+
+> A reinstall replaces the user token of whoever performs it, and only that
+> person's. You two doing this in turn does not revoke each other.
+
+#### Your GitHub token → `GITHUB_BOT_TOKEN`
+
+Only needed to run the `/event` Slack bot **locally**. Production has its own,
+and that one is issued against the outgoing maintainer and is being reissued
+separately — this is not that.
+
+1. <https://github.com/settings/personal-access-tokens/new>
+2. Name it `she-sharp-event-bot-<your first name>`.
+3. **Resource owner: `NZ-SheSharp`.** This is the step people miss. The default
+   is your personal account, and a token issued there can see nothing in the
+   organisation. You are both organisation owners as of 2026-09-10, so you can
+   approve each other's request if GitHub asks for one.
+4. Repository access: **Only select repositories → `she-sharp`**.
+5. Repository permissions, and nothing beyond these two:
+   - **Contents: Read and write** — the bot pushes a branch
+   - **Pull requests: Read and write** — the bot opens the pull request
+6. Set an expiry. Ninety days is reasonable. Write the date into
+   `docs/deployment/CREDENTIAL_INVENTORY.md` so it is found by a calendar rather
+   than by a failure.
+
+**Prove it:**
+
+```bash
+curl -s -H "Authorization: Bearer <your token>" \
+  https://api.github.com/repos/NZ-SheSharp/she-sharp | grep '"full_name"'
+```
+
+`NZ-SheSharp/she-sharp` means it works. **A 404 almost always means step 3 was
+missed** — GitHub returns not-found rather than forbidden for a resource your
+token cannot see, so "wrong owner" and "wrong permission" look identical from
+outside.
 
 ---
 
@@ -473,11 +584,18 @@ Sign your name and the date against each row. Two columns, on purpose.
 | c | **Run one skill end to end**, including whatever it publishes or proposes | | |
 | d | **Rotated one credential** — set it with `--value`, verified it byte-for-byte, shipped it with `gh workflow run deploy.yml`, and confirmed the site still works | | |
 
-(d) is the one people skip, and it is the one that matters most. The rotation
-list is `MAINTAINER_HANDOVER.md` §3, "Rotate on departure": Vercel, the
-`website@` Google account, Stripe API keys, the Resend API key,
-`GITHUB_BOT_TOKEN`, `CRON_SECRET`, and the Slack bot tokens. Pick a low-stakes
-one for the exercise.
+(d) is the one people skip, and it is the one that matters most. Note that it
+says *rotate one credential*, not *rotate the departure list* — the point is that
+you have done the `--value` / verify / `gh workflow run deploy.yml` loop once
+with your own hands before you have to do it under pressure. `CRON_SECRET` is a
+good choice: it is genuinely used, its failure mode is visible within a week, and
+nothing about it is irreversible.
+
+The actual departure list is much shorter than it used to be, and
+`MAINTAINER_HANDOVER.md` §3 explains why: almost every account here is the
+founder's or genuinely shared, so **account passwords are not rotated for a
+departure**. Only what was issued to a person is — a GitHub PAT, a Slack user
+token, a named Neon role or API key.
 
 **Do not use `AUTH_SECRET` / `NEXTAUTH_SECRET` as your practice rotation.**
 Rotating it signs every existing user out *and* invalidates outstanding mentee

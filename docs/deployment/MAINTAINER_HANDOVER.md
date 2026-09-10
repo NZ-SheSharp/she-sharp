@@ -29,12 +29,14 @@ maintained site and a site that merely keeps running until something changes.
    §5 is a recurring obligation with a date attached, and an unassigned
    obligation is an unmet one. **Answered on 2026-09-10 in §14:** Tharanee and
    Lesley, both with full access, and each §5 obligation carrying exactly one of
-   their names. §14 also carries the one urgent item — neither of them is a
-   GitHub organisation owner yet, and today only the departing account and a
-   shared login are.
-2. **Rotate the shared account passwords**, because a leaving maintainer had them.
-   The list is §3, "Rotate on departure". This is routine offboarding hygiene and
-   implies nothing about anybody; do it for every departure, not just this one.
+   their names. The urgent item §14 carried is **done**: both were promoted to
+   GitHub organisation owner on 2026-09-10, so the organisation no longer depends
+   on the departing account and a shared login.
+2. **Rotate what was issued to a person** — not the shared account passwords.
+   The distinction is §3, and it was settled on 2026-09-10 once the ownership of
+   every account was actually established rather than assumed. Almost nothing
+   here belongs to a maintainer; it belongs to the founder or to the team, and
+   the maintainer was a guest on it.
 3. **Read §12 before anything else if you are reading this in the first week
    after 2026-09-06.** Two live credentials were found in this repository's git
    history and rotated on that date. The section says what is still owed.
@@ -66,7 +68,7 @@ Access, in the order it is needed:
 | 3 | **The `website@shesharp.org.nz` Google account** | It is the login for Resend, and the Reply-To identity for the `internal` mail stream. See the warning in §3 |
 | 4 | **Stripe dashboard** | Live payments. Confirm `STRIPE_MODE` in production before assuming which key set is in use |
 | 5 | **Neon** | Migrations, and the only copy of the mailing-list consent record |
-| 6 | **Slack** — workspace member, plus the app-management pages for the four apps in §3 | The bots post nowhere else |
+| 6 | **Slack** — workspace member, plus app-management on the **seven** apps in §3 | The bots post nowhere else |
 
 A maintainer who has 1 and 2 can keep the site alive. One who has all six can
 actually operate it.
@@ -93,32 +95,68 @@ two, plus the GitHub Actions secrets and what reads each variable, is
 
 | Service | What breaks without it | Held under | Handover action |
 |---|---|---|---|
-| **Vercel** | Everything | `shesharpnz`, team `she-sharp1`, Pro | Rotate on departure |
+| **Vercel** | Everything | `shesharpnz`, team `she-sharp1`, Pro. **No team seats — everyone signs in as `website@`** | Nothing on departure; the password is the founder's |
 | **GitHub org** `NZ-SheSharp` | Deploys, the `/event` Slack bot's PRs | Org | Remove the departing member; the bot's PAT (`GITHUB_BOT_TOKEN`) is issued against a person and must be reissued |
 | **Neon (PostgreSQL)** | The whole dashboard, applications, donations, the subscriber list | **The organisation.** Project `she-sharp-production` (`lively-night-18220962`) in the native Neon org "She Sharp", under `website@shesharp.org.nz`. Moved 2026-09-06 | The superseded personal project is kept read-only until **2026-09-20**, then deleted by its owner. **§10** |
-| **Stripe** | Donations and membership payments | She Sharp | Rotate keys on departure; re-point the webhook only if the domain changes |
-| **Resend** | All outbound mail — transactional *and* the newsletter | Signed in via `website@shesharp.org.nz` | Rotate that Google password, then the API key |
+| **Stripe** | Donations and membership payments | `acct_1NHkCPFH4SQKCLLp`, the founder — read from `GET /v1/account`, not asked | One key per account, so there is nothing per-person to revoke. Re-point the webhook only if the domain changes |
+| **Resend** | All outbound mail — transactional *and* the newsletter | Signed in via `website@shesharp.org.nz` | Revoke the departing person's **named** key. The account password is the founder's and is not rotated for a departure |
 | ~~Cloudinary~~ | Nothing — **removed 2026-09-06**. Uploads now go to the organisation's Vercel Blob store | — | None. Kept as a row so nobody re-adds it without reading **§11** |
-| **OpenAI** | The visitor chatbot and mentor matching | `website@shesharp.org.nz` — organisation-owned, verified 2026-09-05 | Nothing. Rotate the API key on departure like any other |
+| **OpenAI** | The visitor chatbot and mentor matching | `website@shesharp.org.nz` — organisation-owned, verified 2026-09-05 | Revoke the departing person's **named** key; the plan allows one per person. The account is the founder's |
 | **Vercel Blob** | The impact-report PDFs and the event videos `/resources` links | Same Vercel team | Nothing, but read the immutability rule in §6 |
 | **Vercel KV / Redis** | Chatbot rate limiting | Same Vercel team | Nothing |
 | **Humanitix** | Ticketing, and the "Sold out" badge on event pages | `events@shesharp.org.nz` | The API key is read-only and also set in production |
-| **Mailchimp** | Nothing live — archive only since 2026-09-02 | Shared account | See §7; the API key expires **2027-08-27** |
-| **Slack apps** (4) | Contact-form alerts, donation alerts, the weekly mentorship digest, the `/event` bot | She Sharp workspace | Tokens live in Vercel; the apps survive a person leaving, the tokens' *scopes* were granted by one |
-| **Domain** `shesharp.org.nz` | The site, and DKIM/DMARC alignment for every email | Transferred 2026-06-18 | Confirm the registrar login is org-held. Do not delete the `_gh-…` TXT record — `docs/deployment/GITHUB_ACTIONS_AND_ACCOUNT.md` says what it is for |
+| **Mailchimp** | Nothing live — archive only since 2026-09-02 | The founder, who is also the cardholder | One key per account. See §7; the key expires **2027-08-27** |
+| **Slack apps** (**7**, not the four this row claimed until 2026-09-10) | Contact-form alerts, volunteer applications, event feedback, the funding digest, the mentorship digest, the read-only Event Collector, and the `/event` bot | She Sharp workspace | Tokens live in Vercel; the apps survive a person leaving, the tokens' *scopes* were granted by one. Both incoming maintainers were added as collaborators on all seven on 2026-09-10 |
+| **Domain** `shesharp.org.nz` | The site, and DKIM/DMARC alignment for every email | Registrar **1stdomains.nz**, held by the founder. **DNS is a Cloudflare zone in a personal account** — `DNS_ACCOUNT_MIGRATION.md` | The registrar was never the exposure; the DNS zone is. Do not delete the `_gh-…` TXT record — `docs/deployment/GITHUB_ACTIONS_AND_ACCOUNT.md` says what it is for |
 
-**Rotate on departure:** Vercel, the `website@` Google account, Stripe API keys,
-Resend API key, `GITHUB_BOT_TOKEN`, `CRON_SECRET`, and the Slack bot tokens.
-`AUTH_SECRET` / `NEXTAUTH_SECRET` rotation signs every existing user out — do it
-deliberately, not as part of a sweep. **Both were rotated on 2026-09-06** because
-the previous value was found in this repository's git history (§12); rotating
-them now also invalidates outstanding mentee payment links, not just sessions.
+### Rotate on departure — and what deliberately is not on that list
 
-**One warning that is bigger than a password.** The `website@shesharp.org.nz`
-account reaches the mailbox, the legacy Webflow back end, *and* Resend, which
-sends to the mailing list. One credential, three systems, one of which can mail
-1,500 people from a domain they trust. When rotating it, rotate it as the highest
-item on the list, not the third.
+**Revised 2026-09-10**, after the ownership of all fourteen accounts was
+established rather than assumed. This paragraph previously opened with "rotate
+the `website@` Google account". That instruction was wrong for this
+organisation, and being wrong in the safe-looking direction made it hard to
+notice.
+
+**Rotate:** `GITHUB_BOT_TOKEN`, `SLACK_USER_TOKEN`, and the departing person's
+own Neon role and named API keys.
+
+That is the whole list, and the test that produces it is: **was this credential
+issued to a person, or to the organisation?** A fine-grained PAT is issued
+against an individual. A Slack user token *is* an individual. A named Neon role
+and a named OpenAI or Resend key are one person's by construction. All of those
+stop being legitimate the day that person stops being a maintainer.
+
+**Do not rotate the account passwords.** Vercel, Neon, Resend, OpenAI and Google
+Cloud are all registered to `website@shesharp.org.nz`, whose password the founder
+holds. Stripe, Mailchimp, Humanitix and the Slack workspace are the founder's or
+a shared login. **Vercel has no team seats at all** — everyone who uses it signs
+in as `website@`. Rotating a shared password locks out the people who legitimately
+share it, and it defends against nothing, because a departing maintainer was
+never the account holder. Those passwords are the founder's to change, on the
+founder's schedule, for the founder's reasons.
+
+This is not a new judgement. It is the same reasoning already recorded against
+the Mailchimp account on 2026-08-28: a shared credential rotated without a
+shared-credential replacement is an outage, not a control.
+
+**And it settles nothing about how those credentials are handled.** A password
+that reaches four systems and circulates in plain text is a problem whoever is
+or is not leaving. That belongs on a standing list, reviewed on its own schedule,
+rather than being attached to one person's last day — and it will not be fixed by
+a rotation, because the exposure is the sharing, not the value.
+
+**`AUTH_SECRET` / `NEXTAUTH_SECRET` are explicitly excluded.** Rotating either
+signs every existing user out *and* invalidates outstanding mentee payment links.
+Both were rotated on 2026-09-06 because the previous value was in this
+repository's git history (§12). "Rotate everything" is exactly the instinct that
+gets this one wrong.
+
+**One warning that outlives the rotation question.** The
+`website@shesharp.org.nz` account reaches the mailbox, the legacy Webflow back
+end, *and* Resend, which sends to the mailing list. One credential, three
+systems, one of which can mail 1,500 people from a domain they trust. Nothing
+above reduces that; it only says whose problem it is and when. It is a standing
+concentration of risk, and it is the founder's to weigh.
 
 ---
 
