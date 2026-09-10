@@ -370,7 +370,7 @@ export function tsToMs(ts: string): number {
   return Number(ts) * 1000;
 }
 
-/** Mask an address for console/report output: `chanmeng6666@gmail.com` → `c***@gmail.com`. */
+/** Mask an address for console/report output: `someone@example.com` → `s***@example.com`. */
 export function maskEmail(email: string | null): string {
   if (!email) return "—";
   const at = email.indexOf("@");

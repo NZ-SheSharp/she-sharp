@@ -329,7 +329,7 @@ Quick round-trip checklist for the report author. All URLs are relative to `http
 - [ ] `/resources` → nav submenu includes **Newsletters** and **Impact Reports**.
 - [ ] `/resources/newsletters` — Mailchimp archive + subscribe cards.
 - [ ] `/resources/in-the-press` — no broken diversityworksnz link; entries without URLs are badged as **Press mention**.
-- [ ] `/forgot-password` — submit a valid email; check inbox. Verified 2026-04-25 via Resend CLI + live POST; delivery ID `9f98fd80` delivered to `chanmeng6666@gmail.com`.
+- [ ] `/forgot-password` — submit a valid email; check inbox. Verified 2026-04-25 via Resend CLI + live POST; delivery ID `9f98fd80` delivered to `the maintainer`.
 - [ ] `/events/shesharp-techweek-envision-the-future` — four bullets under "Topics to be discussed" render with brand-colored markers.
 - [ ] `/events/shesharp-future-ready` — four keynote speakers (Nicole Yue Lin, Shruti Sherekar, Amrit Kaur, Zainab Manasawala) with photos and bios.
 - [ ] `/events/google-educator-conference-2024` — **Meet the Demo Facilitators** section with 7 speakers including Catherine Frost, Dr. Kathryn MacCallum, Dr. Mahsa McCauley.
@@ -348,7 +348,7 @@ Quick round-trip checklist for the report author. All URLs are relative to `http
 
 | Item | Owner action |
 |---|---|
-| ~~Password reset email delivery~~ | ✅ Verified end-to-end on 2026-04-25 via Resend CLI (`resend emails send --to chanmeng6666@gmail.com`) and a live production `POST /api/auth/forgot-password` call. Delivery ID `9f98fd80`. `shesharp.org.nz` is verified in Resend with SPF and DKIM. No outstanding action. |
+| ~~Password reset email delivery~~ | ✅ Verified end-to-end on 2026-04-25 via Resend CLI (`resend emails send --to the maintainer`) and a live production `POST /api/auth/forgot-password` call. Delivery ID `9f98fd80`. `shesharp.org.nz` is verified in Resend with SPF and DKIM. No outstanding action. |
 | Dashboard perceived load time | The `/api/dashboard/overview` endpoint now uses `Promise.all`. Validate subjectively on production with Chrome DevTools Network tab; the endpoint's server time should drop noticeably. |
 
 ---

@@ -468,7 +468,7 @@ team issued another **1024-bit** RSA key. Everything above is still outstanding.
 ## Resend account migration (2026-08-28)
 
 `shesharp.org.nz` moved out of the maintainer's personal Resend team
-(`chanmeng6666@gmail.com`) into the She Sharp–owned team **shesharp**
+(a personal one) into the She Sharp–owned team **shesharp**
 (`website@shesharp.org.nz`, **Pro** — Transactional 50,000/month renewing on the
 27th; Marketing still on the Free plan). The organisation now owns its own
 sending account, which was the point.

@@ -849,7 +849,7 @@ closed **with evidence**, not with a tick.
   marked `revoked` on GitHub alert #3, but that resolution is a claim somebody
   typed, not a check. `GET /v1/account` with the leaked value returns
   `401 Expired API Key provided`, so Stripe itself refuses it. Its account prefix
-  is `51Rn…`, which is the departing maintainer's *other* account, not She
+  does not match She Sharp's. It belongs to the departing maintainer's *other* account, not She
   Sharp's `51NH…`. `MAINTAINER_HANDOVER.md` §12 lists rolling it as still owed;
   it is not. **Deleting the branches is still not remediation** — orphaned commits
   stay fetchable by SHA through GitHub's API until Support purges them — but
