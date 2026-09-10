@@ -111,12 +111,18 @@ A closed list: `Vercel she-sharp1`, `GitHub NZ-SheSharp`, `Neon website@`,
 `self-generated`, `n-a`, and **`UNCONFIRMED`**.
 
 `self-generated` means there is no issuing account: the value is a random string
-anyone with write access to the environment can mint. `UNCONFIRMED` means the
-repository does not prove it. **A separate ownership worksheet is being filled in
-by the outgoing maintainer and will supply those values**; until it comes back,
-`UNCONFIRMED` stays, and the rows carrying it are `confirm-first`. A list that
-fills every cell by assumption is less useful than one that honestly shows its
-three holes.
+anyone with write access to the environment can mint. `UNCONFIRMED` means neither
+the repository nor a provider proves it.
+
+**The ownership worksheet came back on 2026-09-10** and lifted almost all of
+these, so most `Issuer` cells now name a real account. Where a cell could be
+settled by *asking the provider* rather than a person, it was: the Stripe account
+came from `GET /v1/account`, the Neon account from `/users/me`, the Google OAuth
+clients from Google's token endpoint. Exactly one row is still `UNCONFIRMED`
+— `VERCEL_TOKEN` — and it stays that way because Vercel's OAuth token cannot read
+any REST endpoint from a workstation. §8 says what to do about it, which is to
+make the question moot rather than answer it. A list that fills every cell by
+assumption is less useful than one that honestly shows its last hole.
 
 ---
 
@@ -129,19 +135,19 @@ been wrong about ownership before.
 | Account | Login | How established | Break-glass |
 |---|---|---|---|
 | Vercel, team `she-sharp1` | `shesharpnz` | `vercel whoami` on 2026-09-10 | §7 |
-| GitHub org `NZ-SheSharp` | two owners: `ChanMeng666` and the shared `SheSharpNZ` | GitHub API, 2026-09-10 | §7 |
+| GitHub org `NZ-SheSharp` | **four** owners since 2026-09-10: `Tharaneetharan7`, `lesley-gao`, `ChanMeng666` (leaving) and the shared `SheSharpNZ` | GitHub API, read back after the change rather than assumed from it | §7 |
 | Neon, org "She Sharp" `org-dark-moon-42071634` | `website@shesharp.org.nz` | Neon API `/users/me`, 2026-09-10 | §7 |
 | Resend, team `shesharp` | `website@shesharp.org.nz` | `EMAIL_OPERATIONS.md`; moved off the maintainer's personal team by Domain Claim, 2026-08-28 | §7 |
 | Google Workspace | `website@shesharp.org.nz` | the mailbox itself | §7 |
 | Google Cloud, project `146130765065` | `website@shesharp.org.nz` | `DOMAIN_MIGRATION_2026-06-19.md` §5 | §7 |
 | OpenAI | `website@shesharp.org.nz` | `MAINTAINER_HANDOVER.md` §3, verified 2026-09-05 | §7 |
-| Stripe, `acct_1NHkCPFH4SQKCLLp` | **UNCONFIRMED** | — | §7 |
+| Stripe, `acct_1NHkCPFH4SQKCLLp` | the founder, `mahsa@shesharp.org.nz` | Stripe API `GET /v1/account` with the live key on 2026-09-10 — it returns the account id, the business name "She Sharp" and that address, so no one had to be asked | §7 |
 | Slack, She Sharp workspace, four apps | workspace owner is the founder | `MAINTAINER_HANDOVER.md` §7 | §7 |
 | Humanitix | `events@shesharp.org.nz`, a shared login | `HUMANITIX_INTEGRATION_SHUTDOWN.md` | §7 |
-| Mailchimp, `us3` | **UNCONFIRMED** | — | §7 |
+| Mailchimp, `us3` | the founder, who is also the cardholder | ownership worksheet, 2026-09-10; corroborates `MAILCHIMP_CANCELLATION.md` | §7 |
 | Upstash `upstash-kv-cerise-leaf` | none of its own — reached through the Vercel team | Vercel marketplace integration | follows Vercel |
-| Domain registrar for `shesharp.org.nz` | **UNCONFIRMED** | never recorded anywhere in this repository | §7 |
-| Cloudflare, DNS for `shesharp.org.nz` | **UNCONFIRMED** | never recorded anywhere in this repository | §7 |
+| **Cloudflare**, zone `shesharp.org.nz` | **a personal account** — not the organisation's | Cloudflare API, 2026-09-10 | none. **`DNS_ACCOUNT_MIGRATION.md`** |
+| Registrar, 1stdomains.nz | the founder | ownership worksheet; corroborated by the zone's pre-Cloudflare nameservers `ns1`/`ns2.1stdomains.net.nz` | no working login today |
 
 **One warning that is bigger than any row in this file.** The
 `website@shesharp.org.nz` Google account is the login for Resend, Neon, OpenAI
@@ -233,7 +239,7 @@ third Google account turns up, that is where to look.
 
 | Variable | What it is | Reader | Scope | Class | Ownership | Issuer | Action |
 |---|---|---|---|---|---|---|---|
-| `RESEND_API_KEY` | Sends all mail, transactional and newsletter | `lib/email/service.ts` | `vercel-prod+local` | secret | shared | Resend website@ | `rotate` [5] |
+| `RESEND_API_KEY` | Sends all mail, transactional and newsletter | `lib/email/service.ts` | `vercel-prod+local` | secret | **per-person** | Resend website@ | `issue-per-person` [5] |
 | `EMAIL_FROM` | Overrides the transactional From header only | `lib/email/senders.ts` | `vercel-prod+local` | config | n-a | n-a | `keep` [6] |
 | `EMAIL_UNSUBSCRIBE_SECRET` | Signs one-click unsubscribe tokens (RFC 8058) | `lib/email/unsubscribe-token.ts` | `vercel-prod` | secret | shared | self-generated | `keep` [7] |
 | `EMAIL_UNSUBSCRIBE_MAILTO` | Optional mailto alternative to the unsubscribe URL | `lib/email/unsubscribe-headers.ts` | `none` | config | n-a | n-a | `keep` [8] |
@@ -242,10 +248,24 @@ third Google account turns up, that is where to look.
 
 [5] The key must be `full_access`. A `sending_access` key **silently fails list
 operations** rather than erroring (`AI_SKILLS_GUIDE.md` §2-G), which is the worst
-possible failure shape for a mailing list. Whether the current Resend plan can
-mint a *second* `full_access` key — and therefore whether this row could ever be
-`per-person` rather than `shared` — is unanswered on the ownership worksheet and
-is listed in §8.
+possible failure shape for a mailing list.
+
+**The plan does allow more than one key, so this row is `per-person`.** Two named
+keys, `she-sharp-tharanee` and `she-sharp-lesley`, were created on 2026-09-10
+alongside the existing `she-sharp-vercel` and `she-sharp-resend-cli`. A leak is
+now attributable and revocable in isolation instead of costing everybody a
+rotation.
+
+> **The trap that nearly shipped, and will catch the next person too.**
+> `resend api-keys create --help` states that `full_access` is the default. It is
+> not, at least non-interactively: both keys came back **`sending_access`**, and
+> both looked completely normal — right prefix, right length, `resend emails
+> send` would have worked perfectly. The only symptom would have been list work
+> failing, weeks later, in the hands of somebody who had no reason to suspect
+> their key. **Always pass `--permission full_access` explicitly, and then prove
+> it** by calling something a send-only key cannot do:
+> `resend api-keys list --api-key <the new key>`. A `sending_access` key answers
+> that with `This API key is restricted to only send emails`.
 
 [6] Must stay on `shesharp.org.nz`. Resend DKIM-signs with `d=shesharp.org.nz`,
 so any other domain loses DMARC alignment and is dropped without a bounce once
@@ -300,13 +320,13 @@ closed rather than writing somewhere unexpected. It replaced the three
 
 | Variable | What it is | Reader | Scope | Class | Ownership | Issuer | Action |
 |---|---|---|---|---|---|---|---|
-| `SLACK_VOLUNTEER_WEBHOOK_URL` | Volunteer form alerts | `lib/slack/service.ts` | `vercel-prod+local` | secret | shared | UNCONFIRMED | `confirm-first` |
-| `SLACK_CONTACT_WEBHOOK_URL` | Contact form alerts, and the fallback for four others | `lib/slack/service.ts` | `vercel-prod+local` | secret | shared | UNCONFIRMED | `confirm-first` |
-| `SLACK_DONATION_WEBHOOK_URL` | Donation alerts | `lib/slack/service.ts` | `none` | secret | shared | UNCONFIRMED | `keep` [13] |
-| `SLACK_EVENT_FEEDBACK_WEBHOOK_URL` | Post-event attendee feedback | `lib/slack/service.ts` | `vercel-prod+local` | secret | shared | UNCONFIRMED | `confirm-first` |
-| `SLACK_MENTORSHIP_STATS_WEBHOOK_URL` | Weekly mentorship digest | `lib/slack/mentorship-stats-service.ts` | `vercel-prod` | secret | shared | UNCONFIRMED | `confirm-first` |
-| `SLACK_FUNDING_WEBHOOK_URL` | Weekly NZ funding digest | `lib/slack/funding-digest-service.ts` | `vercel-prod+local` | secret | shared | UNCONFIRMED | `confirm-first` |
-| `SLACK_BOT_TOKEN` | Bot token for the `/event` bot and Slack triage | `lib/slack-bot/slack-client.ts` | `all-three` | secret | shared | UNCONFIRMED | `confirm-first` [14] |
+| `SLACK_VOLUNTEER_WEBHOOK_URL` | Volunteer form alerts | `lib/slack/service.ts` | `vercel-prod+local` | secret | shared | Slack app admin | `confirm-first` |
+| `SLACK_CONTACT_WEBHOOK_URL` | Contact form alerts, and the fallback for four others | `lib/slack/service.ts` | `vercel-prod+local` | secret | shared | Slack app admin | `confirm-first` |
+| `SLACK_DONATION_WEBHOOK_URL` | Donation alerts | `lib/slack/service.ts` | `none` | secret | shared | Slack app admin | `keep` [13] |
+| `SLACK_EVENT_FEEDBACK_WEBHOOK_URL` | Post-event attendee feedback | `lib/slack/service.ts` | `vercel-prod+local` | secret | shared | Slack app admin | `confirm-first` |
+| `SLACK_MENTORSHIP_STATS_WEBHOOK_URL` | Weekly mentorship digest | `lib/slack/mentorship-stats-service.ts` | `vercel-prod` | secret | shared | Slack app admin | `confirm-first` |
+| `SLACK_FUNDING_WEBHOOK_URL` | Weekly NZ funding digest | `lib/slack/funding-digest-service.ts` | `vercel-prod+local` | secret | shared | Slack app admin | `confirm-first` |
+| `SLACK_BOT_TOKEN` | Bot token for the `/event` bot and Slack triage | `lib/slack-bot/slack-client.ts` | `all-three` | secret | shared | Slack app admin | `confirm-first` [14] |
 | `SLACK_USER_TOKEN` | A named human's own Slack read access | `.claude/skills/sync-event-from-slack/scripts/slack-client.ts` | `local` | secret | **personal-not-transferred** | n-a | `issue-per-person` [15] |
 | `SLACK_ARCHIVE_DIR` | Path to the private Slack archive checkout | `.claude/skills/sync-event-from-slack/scripts/refresh-archive.ts` | `local` | config | n-a | n-a | `keep` [16] |
 | `SLACK_USERS_CACHE_TTL_MIN` | Skill-local user-cache lifetime | `.claude/skills/sync-event-from-slack/scripts/slack-client.ts` | `none` | config | n-a | n-a | `keep` |
@@ -336,7 +356,7 @@ on it. The same applies to `MAILCHIMP_VAULT_DIR`, `HUMANITIX_VAULT_DIR` and
 
 | Variable | What it is | Reader | Scope | Class | Ownership | Issuer | Action |
 |---|---|---|---|---|---|---|---|
-| `SLACK_SIGNING_SECRET` | HMAC secret verifying inbound Slack requests | `app/api/slack/events/interactive/route.ts` | `vercel-prod` | secret | shared | UNCONFIRMED | `confirm-first` |
+| `SLACK_SIGNING_SECRET` | HMAC secret verifying inbound Slack requests | `app/api/slack/events/interactive/route.ts` | `vercel-prod` | secret | shared | Slack app admin | `confirm-first` |
 | `SLACK_ALLOWED_USER_IDS` | Slack user IDs permitted to trigger the bot | `lib/slack-bot/allowlist.ts` | `vercel-prod` | config | n-a | n-a | `create` [17] |
 | `GITHUB_BOT_TOKEN` | Fine-grained PAT the bot opens its pull requests with | `lib/slack-bot/github-client.ts` | `vercel-prod` | secret | **per-person** | GitHub NZ-SheSharp | `rotate` [18] |
 | `GITHUB_REPO` | Target repository, `owner/repo` | `app/api/slack/events/route.ts` | `vercel-prod` | config | n-a | n-a | `keep` |
@@ -356,7 +376,7 @@ bot — which is what makes this `rotate` and not `keep`. Scope is
 
 | Variable | What it is | Reader | Scope | Class | Ownership | Issuer | Action |
 |---|---|---|---|---|---|---|---|
-| `SLACK_NEWSLETTER_WEBHOOK_URL` | "Issue approved" Slack post | `lib/newsletter/notify.ts` | `none` | secret | shared | UNCONFIRMED | `keep` [13] |
+| `SLACK_NEWSLETTER_WEBHOOK_URL` | "Issue approved" Slack post | `lib/newsletter/notify.ts` | `none` | secret | shared | Slack app admin | `keep` [13] |
 
 The subscriber list is not a variable. It is the `newsletter_subscribers` table,
 and since Resend's Marketing objects were deleted on 2026-08-29 it is **the only
@@ -367,7 +387,7 @@ with any credential here.
 
 | Variable | What it is | Reader | Scope | Class | Ownership | Issuer | Action |
 |---|---|---|---|---|---|---|---|
-| `MAILCHIMP_API_KEY` | Read access to the archived `She#` audience | `lib/mailchimp/client.ts` | `local` | secret | shared | UNCONFIRMED | `confirm-first` [19] |
+| `MAILCHIMP_API_KEY` | Read access to the archived `She#` audience | `lib/mailchimp/client.ts` | `local` | secret | shared | Mailchimp | `confirm-first` [19] |
 | `MAILCHIMP_SERVER_PREFIX` | Shard override for a key with no `<dc>` suffix | `lib/mailchimp/client.ts` | `local` | config | n-a | n-a | `keep` |
 | `MAILCHIMP_LIST_ID` | The `She#` audience id — **not a secret** | `scripts/email/suppression.ts` | `local` | config | n-a | n-a | `keep` |
 | `MAILCHIMP_VAULT_DIR` | Path to the raw export vault | `scripts/mailchimp/fetch-api.ts` | `local` | config | n-a | n-a | `keep` [16] |
@@ -416,27 +436,39 @@ locally today. See §6 for the verification step that must follow the rotation.
 | Variable | What it is | Reader | Scope | Class | Ownership | Issuer | Action |
 |---|---|---|---|---|---|---|---|
 | `STRIPE_MODE` | Selects the test or live key set | `lib/stripe/config.ts` | `vercel-prod+local` | config | n-a | n-a | `keep` [22] |
-| `STRIPE_LIVE_SECRET_KEY` | Live Stripe secret key | `lib/stripe/config.ts` | `vercel-prod+local` | secret | shared | UNCONFIRMED | `confirm-first` [23] |
-| `STRIPE_LIVE_WEBHOOK_SECRET` | Verifies live Stripe webhooks | `lib/stripe/config.ts` | `vercel-prod+local` | secret | shared | UNCONFIRMED | `confirm-first` [23] |
-| `STRIPE_LIVE_ANNUAL_PRICE_ID` | Price object for the annual membership | `lib/stripe/config.ts` | `vercel-prod+local` | config | n-a | UNCONFIRMED | `keep` |
-| `STRIPE_LIVE_PUBLISHABLE_KEY` | Live publishable key — **no reader** | — | `vercel-prod+local` | config | n-a | UNCONFIRMED | `confirm-first` [24] |
-| `STRIPE_TEST_SECRET_KEY` | Test Stripe secret key | `lib/stripe/config.ts` | `vercel-prod+local` | secret | shared | UNCONFIRMED | `confirm-first` [23] |
-| `STRIPE_TEST_WEBHOOK_SECRET` | Verifies test Stripe webhooks | `lib/stripe/config.ts` | `vercel-prod+local` | secret | shared | UNCONFIRMED | `confirm-first` [23] |
-| `STRIPE_TEST_ANNUAL_PRICE_ID` | Test price object | `lib/stripe/config.ts` | `vercel-prod+local` | config | n-a | UNCONFIRMED | `keep` |
-| `STRIPE_TEST_PUBLISHABLE_KEY` | Test publishable key — **no reader** | — | `vercel-prod+local` | config | n-a | UNCONFIRMED | `confirm-first` [24] |
+| `STRIPE_LIVE_SECRET_KEY` | Live Stripe secret key | `lib/stripe/config.ts` | `vercel-prod+local` | secret | shared | Stripe console | `rotate` [23] |
+| `STRIPE_LIVE_WEBHOOK_SECRET` | Verifies live Stripe webhooks | `lib/stripe/config.ts` | `vercel-prod+local` | secret | shared | Stripe console | `rotate` [23] |
+| `STRIPE_LIVE_ANNUAL_PRICE_ID` | Price object for the annual membership | `lib/stripe/config.ts` | `vercel-prod+local` | config | n-a | Stripe console | `keep` |
+| `STRIPE_LIVE_PUBLISHABLE_KEY` | Live publishable key — **no reader** | — | `vercel-prod+local` | config | n-a | Stripe console | `confirm-first` [24] |
+| `STRIPE_TEST_SECRET_KEY` | Test Stripe secret key — **expired** | `lib/stripe/config.ts` | `vercel-prod+local` | secret | shared | Stripe console | `rotate` [23a] |
+| `STRIPE_TEST_WEBHOOK_SECRET` | Verifies test Stripe webhooks | `lib/stripe/config.ts` | `vercel-prod+local` | secret | shared | Stripe console | `rotate` [23] |
+| `STRIPE_TEST_ANNUAL_PRICE_ID` | Test price object | `lib/stripe/config.ts` | `vercel-prod+local` | config | n-a | Stripe console | `keep` |
+| `STRIPE_TEST_PUBLISHABLE_KEY` | Test publishable key — **no reader** | — | `vercel-prod+local` | config | n-a | Stripe console | `confirm-first` [24] |
 
 [22] It defaults to **`live`** when unset. Confirm what production actually holds
 before assuming which key set is in use; do not infer it from `.env`, which says
 `test`.
 
-[23] Every Stripe row is blocked because the Stripe block of the ownership
-worksheet is entirely unfilled: nobody has confirmed which login owns
-`acct_1NHkCPFH4SQKCLLp`, and the Stripe CLI on the outgoing maintainer's
-workstation points at a **different, personal** account. Rotating a live key
-while unsure which account you are in is precisely the mistake this document
-exists to prevent. Stripe has no key-management CLI or API — `/v1/api_keys`,
-`/v1/apikeys` and `/v1/account/api_keys` all return "Unrecognized request URL" —
-so listing and rotating are **console-only**.
+[23] **Ownership resolved 2026-09-10, and not by asking.** `GET /v1/account` with
+the live key returns `acct_1NHkCPFH4SQKCLLp`, business name **She Sharp**, email
+`mahsa@shesharp.org.nz` — the founder's. So the account is the organisation's and
+the founder holds it; the outgoing maintainer's personal address was only ever an
+admin *role* on it, and removing that role does not invalidate keys the dashboard
+has already issued. One key per account: **there is no per-person Stripe key**, so
+a leak here is an all-hands rotation. The Stripe CLI on that workstation still
+points at a **different, personal** account — check which account you are in
+before you touch anything. Stripe has no key-management CLI or API —
+`/v1/api_keys`, `/v1/apikeys` and `/v1/account/api_keys` all return "Unrecognized
+request URL" — so listing and rotating are **console-only**.
+
+[23a] **`STRIPE_TEST_SECRET_KEY` in production is expired.** Verified 2026-09-10
+by using it: `GET /v1/balance` returns `401 Expired API Key provided`. It has been
+rolled in the dashboard at some point and Vercel's copy was never updated. It
+harms nothing today — production runs `STRIPE_MODE=live` and the live key works —
+but the moment anyone switches to test mode they get a 401 that explains nothing.
+Reissue it in the Stripe dashboard under test mode and set it with `--value`,
+never stdin. This is also the argument for [22] in miniature: the variable that
+says which key set is live matters more than either key set.
 
 [24] These two are set in every environment and read by nothing. `getStripeEnv()`
 is called for the secret key, the webhook secret and the price id, and nowhere in
@@ -752,41 +784,81 @@ be believed at the worst possible moment.
 
 ---
 
-## 8. Open, and deliberately unresolved
+## 8. Open, and closed
 
 Left visible rather than tidied away. A list that shows its holes is more useful
-than one that fills them by assumption.
+than one that fills them by assumption — and a hole that gets closed should be
+closed **with evidence**, not with a tick.
 
-- **`VERCEL_TOKEN`'s owner.** Unverifiable from a workstation: Vercel's `vca_`
-  OAuth token returns 403 for every REST endpoint, `/v2/user` included. It must
-  be checked in the console — or, more cheaply, made moot by rotating it (§6
-  step 3).
-- **The domain registrar for `shesharp.org.nz`.** Never recorded anywhere in this
-  repository.
-- **The Cloudflare account holding DNS.** Never recorded anywhere in this
-  repository.
+### Closed on 2026-09-10, each by asking the provider rather than the console
+
+- **The `sk_live_` Stripe key on three stale branches is dead.** It was already
+  marked `revoked` on GitHub alert #3, but that resolution is a claim somebody
+  typed, not a check. `GET /v1/account` with the leaked value returns
+  `401 Expired API Key provided`, so Stripe itself refuses it. Its account prefix
+  is `51Rn…`, which is the departing maintainer's *other* account, not She
+  Sharp's `51NH…`. `MAINTAINER_HANDOVER.md` §12 lists rolling it as still owed;
+  it is not. **Deleting the branches is still not remediation** — orphaned commits
+  stay fetchable by SHA through GitHub's API until Support purges them — but
+  there is nothing left in them to use.
+- **Both open Google OAuth client-secret alerts are inert.** §13 left them open on
+  the honest grounds that *"no account I can see holds it"* is not *"no account
+  holds it"*. Google's token endpoint answers what a console cannot: both secrets
+  belong to client `805677253031-*`, and posting them there returns
+  `deleted_client — The OAuth client was deleted.` That project is **not** the one
+  production uses (`146130765065`); it is the "third Google account" §13 said to
+  go looking for, and its client no longer exists. A control call with an invented
+  client id returns `invalid_request` instead, so the reading distinguishes rather
+  than merely refuses. Alerts #2 and #5 were resolved with that evidence recorded
+  on them; the repository now has **zero open** secret-scanning alerts.
+- **Whether Resend, OpenAI and Humanitix can issue a key per person.** Resend
+  **can** — two named keys now exist and this document's §3 row says
+  `per-person`. OpenAI **can**, by named key under the organisation project.
+  Humanitix **cannot**: one key per account, so its row is
+  `shared-by-plan-limit`. Mailchimp and Stripe cannot either.
+- **Who owns the Stripe account.** `acct_1NHkCPFH4SQKCLLp`, business name "She
+  Sharp", `mahsa@shesharp.org.nz` — read from `GET /v1/account`, not asked.
+- **The domain registrar.** 1stdomains.nz, held by the founder. Corroborated
+  independently: the Cloudflare zone records its pre-Cloudflare nameservers as
+  `ns1`/`ns2.1stdomains.net.nz`.
+- **The GitHub organisation had two owners, one of whom is leaving.** It now has
+  four: both incoming maintainers were promoted on 2026-09-10 and the change was
+  read back rather than assumed from the write succeeding.
+
+### Still open
+
+- **The Cloudflare account holding DNS is a personal one.** This is the largest
+  ownership gap in the project and it is worse than the registrar question this
+  document used to ask: whoever holds that zone controls where the site points
+  *and* every piece of email authentication, without needing any other
+  credential. Blocked on a 1stdomains.nz login. **`DNS_ACCOUNT_MIGRATION.md`**
+  carries the finding, the runbook and the reason it must not be started yet.
+- **`VERCEL_TOKEN`'s owner.** Vercel's `vca_` OAuth token returns 403 for every
+  REST endpoint, `/v2/user` included, so a workstation cannot answer it — that is
+  a blind surface, not a negative result. The ownership worksheet says the Vercel
+  account is registered to `website@shesharp.org.nz` and has **no team seats at
+  all**, which makes it very likely the token is the organisation's; "very likely"
+  is not "checked". Rotating it (§6 step 3) makes the question moot and is
+  cheaper than answering it.
+- **`STRIPE_TEST_SECRET_KEY` in production is expired.** Harmless today because
+  production runs `STRIPE_MODE=live`, but it means test mode is broken for
+  everyone and says nothing about why. Console-only to fix; footnote [23a].
 - **`aihackathon-2026`** — a live She Sharp deployment on the same Vercel team,
   serving `hackathon.shesharp.org.nz`, created 2026-07-02 and updated within the
-  last week. **No document mentions it and its source repository is in neither
-  `NZ-SheSharp` nor the departing maintainer's account.** It is a production
-  service with no known owner, no known code, and no entry in this inventory
-  beyond this line.
-- **Two GitHub secret-scanning alerts on Google OAuth client secrets** that match
-  no account anyone here can reach. Left open on purpose: *"no account I can see
-  holds it"* is not *"no account holds it"*.
+  week. The ownership worksheet says the source is in the departing maintainer's
+  personal GitHub and is deliberately **not** being transferred. So the
+  organisation's Vercel team will keep serving a production subdomain whose code
+  nobody on the team can reach. That is a decision, recorded, not a gap — but it
+  should be a decision the committee has actually seen.
 - **The 2020-vintage Mailchimp API key** that never expires and has never been
   revoked. It was kept alive to work out whether the now-disconnected Humanitix
   integration used it; that question was never closed and somebody needs to close
-  it.
-- **A `sk_live_` Stripe key on three stale remote branches** of a now-public
-  repository. It belongs to the departing maintainer's *other* Stripe account and
-  is theirs to roll. **Deleting the branches is not remediation** — orphaned
-  commits stay fetchable by SHA through GitHub's API until Support purges them.
-- **Whether Resend, OpenAI and Humanitix can issue a second key per person.**
-  Three unanswered boxes on the ownership worksheet, and the difference between
-  `shared` and `shared-by-plan-limit` on three rows of §3. Until they are
-  answered, "one key each" is an aspiration, not a plan.
+  it. The current key expires **2027-08-27** regardless.
 - **`STRIPE_LIVE_PUBLISHABLE_KEY` and `STRIPE_TEST_PUBLISHABLE_KEY` have no
   reader** anywhere in this repository, but are set in every environment. Almost
-  certainly retirable; blocked behind the same Stripe ownership question as every
-  other Stripe row.
+  certainly retirable. Now that the Stripe account is identified, the only thing
+  still wanted is somebody with the dashboard confirming nothing outside this
+  repository consumes them.
+- **Google Workspace has one super-admin.** The founder. `website@` is not one,
+  so the account that is the login for Neon, Resend, OpenAI and Google Cloud
+  cannot administer itself. §7.

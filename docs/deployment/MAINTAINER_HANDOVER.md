@@ -599,12 +599,15 @@ links in flight. The module says so at the call site too.
 
 ### Still owed
 
-1. **Roll the leaked Stripe key** — the other account's owner, in the Stripe
-   dashboard. There is no CLI or API path: `stripe keys` has no subcommands and
-   Stripe exposes no key-management endpoint (`/v1/api_keys`, `/v1/apikeys` and
-   `/v1/account/api_keys` all return "Unrecognized request URL"). Dashboard only.
+1. ~~**Roll the leaked Stripe key**~~ — **done, and confirmed on 2026-09-10 by
+   the provider rather than by anybody's say-so.** `GET /v1/account` with the
+   leaked value returns `401 Expired API Key provided`, so Stripe itself refuses
+   it. Worth noting how nearly this was left open: GitHub's alert had been marked
+   `revoked` all along, and that resolution is a claim a person typed into a form,
+   not a check. The key is `sk_live_51Rn…L71x` — account prefix `51Rn`, which is
+   the departing maintainer's *other* account, not She Sharp's `51NH`.
 2. **Delete the three stale remote branches**, understanding that this is tidying
-   rather than remediation.
+   rather than remediation. Lower priority now that the key in them is dead.
 3. **Decide about making the repository public.** The audit's verdict was *safe
    after remediation*, and the remediation above is the substance of it. Public
    would bring free branch protection on `main` — impossible today, because
@@ -658,14 +661,33 @@ evidence, not to tidy the list:
 | Google OAuth **client ID** | false positive | A public identifier that ships in the browser on every sign-in |
 | Google API key | revoked | The only project in the She Sharp Google Cloud account holds no API keys |
 | Stripe live key | revoked | Not She Sharp's, and absent from all three of the maintainer's Stripe accounts |
-| Google OAuth **client secret** ×2 | **left open** | See below |
+| Google OAuth **client secret** ×2 | **closed 2026-09-10** | See below |
 
-**The two open alerts are open on purpose.** The leaked Google client secrets are
-demonstrably not production's, and no OAuth client matching them exists in either
-Google account anyone here can reach — but *"no account I can see holds it"* is
-not *"no account holds it"*. That is the one thing from this work that could not
-be closed honestly, so it is visible rather than tidied away. If a third Google
-account turns up, that is where to look.
+**Those two alerts were open on purpose, and are now closed on evidence.** They
+were left open because the leaked Google client secrets were demonstrably not
+production's, and no OAuth client matching them existed in either Google account
+anyone here could reach — but *"no account I can see holds it"* is not *"no
+account holds it"*. This paragraph ended: *"If a third Google account turns up,
+that is where to look."*
+
+It did not need a third account. **Google's token endpoint answers what a console
+cannot**, because it needs no login at all — only the client id, which was
+leaked in the same file as each secret. Posting both to
+`https://oauth2.googleapis.com/token` returns `deleted_client — The OAuth client
+was deleted.` for client `805677253031-*`, which is a Google Cloud project that
+is **not** the one production uses (`146130765065`). So the "third account" was
+an older project of this same site, and the client in it no longer exists.
+
+The reading is a real one rather than a generic refusal: the same call with an
+invented client id returns `invalid_request` instead. Both alerts were resolved
+with that evidence recorded on them, and the repository now has **zero open**
+secret-scanning alerts.
+
+The lesson generalises past this case. The check that had been missing was not a
+better console search — it was **asking the party that would have to honour the
+credential**. That is available for more things than it looks: Stripe answered
+whether its own key was dead, and Neon answered which project an endpoint belongs
+to, both without anyone's dashboard.
 
 ### The habit worth keeping
 
@@ -746,6 +768,41 @@ page.
   line to a real entry. It is the string `lib/db/drizzle.ts` throws without, so
   anyone configuring a machine from that file used to get a crash and no
   explanation.
+
+### Done on 2026-09-10, after the ownership worksheet came back
+
+- **Both maintainers are now GitHub organisation owners**, and Tharanee is a
+  repository admin. The organisation had two owners that morning — the departing
+  account and a shared login — and has four now. Read back from the API rather
+  than assumed from the write succeeding.
+- **Per-person credentials issued and proved.** Own Neon role each, own
+  `full_access` Resend key each. The Resend step is the one worth repeating:
+  `resend api-keys create` documents `full_access` as its default and produced
+  **`sending_access`** both times. Those keys send mail perfectly and silently
+  cannot touch the list — the exact failure `AI_SKILLS_GUIDE.md` §2-G warns
+  about, and it would have surfaced weeks later in the hands of somebody with no
+  reason to suspect their key. Always pass `--permission full_access`, then prove
+  it with `resend api-keys list --api-key <the new key>`.
+- **Two environment files handed over**, each carrying 44 values, seven
+  deliberate blanks and three placeholders the recipient mints herself. Each
+  credential in them was *used* once before delivery, not merely inspected. They
+  are not copies of production: no Stripe live secret, and a freshly generated
+  `AUTH_SECRET` rather than production's, which would forge a session for any
+  account including admin.
+- **Two open questions closed by asking a provider** — the leaked Stripe key
+  (§12) and both Google OAuth alerts (§13).
+
+### Still owed, and now the largest one
+
+**DNS.** `shesharp.org.nz` is served from a Cloudflare zone in a **personal**
+account, beside seven unrelated personal domains. Whoever holds that zone
+controls where the site points and every piece of email authentication, without
+needing any other credential — so it outranks every row of
+`CREDENTIAL_INVENTORY.md`. §3 of this document has always said "confirm the
+registrar login is org-held"; that was the right instruction pointed one layer
+too high. The registrar is fine. **`docs/deployment/DNS_ACCOUNT_MIGRATION.md`**
+carries the finding, the runbook, and why the move must not be started until
+somebody can sign in to 1stdomains.nz.
 
 ### When this handover is finished
 
