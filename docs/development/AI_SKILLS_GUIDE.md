@@ -37,7 +37,7 @@ run next, so you never have to hold the order in your head.
 | `/run-event-playbook` | Works out where an event has got to and what comes next | *"what's left to do for Thursday's panel"* | anyone |
 | `/make-event-poster` | The artwork — ticketing banner, social posts, print poster, one graphic per speaker | *"make a poster for the AUT night"* | Marketing |
 | `/make-event-video` | A short social video — promo before the night or recap after — in four sizes (Reels, feed, square, YouTube) | *"make a Reels for Thursday's panel"* | Marketing |
-| `/tweak-event-slides` | Changes one small thing on slides that already exist, and publishes it in about three minutes | *"fix the typo on the Les Mills deck"* | anyone |
+| `/tweak-event-slides` | Changes one small thing on slides that already exist, and publishes it in about five minutes | *"fix the typo on the Les Mills deck"* | anyone |
 | `/promote-event` | Tells the mailing list about an event that has not happened yet | *"tell the list about next month's event"* | Comms |
 | `/email-the-community` | Sends one announcement to the whole mailing list | *"email everyone about the new mentoring round"* | Comms |
 | `/update-mailing-list` | Shows who is on the mailing list, and adds people who agreed to join | *"who's on our email list?"* | Comms |
@@ -65,8 +65,10 @@ order, with every gate and what goes wrong, is in
 `docs/development/EVENT_LIFECYCLE_SOP.md`.
 
 `/tweak-event-slides` is the odd one out: it is the only skill here that changes
-the live website without stopping to ask, which is deliberate, and it is only for
-the small change you need on screen in the next five minutes.
+the live website without stopping to ask a person, which is deliberate, and it is
+only for the small change you need on screen in the next five minutes. It still
+opens a pull request and merges it itself — nobody reviews it, but the automatic
+checks do run, which since 2026-09-10 they finally can.
 
 **The mailing list is no longer in Resend, and this paragraph used to say it
 was.** `/promote-event` and `/email-the-community` send to the
@@ -388,7 +390,7 @@ exception is on purpose and is named in the box at the end of this section.
 | `/make-event-poster` | **Yes** — the artwork files are new, and the website needs them |
 | `/make-event-video` | **No** — the MP4s live in a sibling Remotion project, not in this repo. Only propose a change here if you later add a file to `public/` |
 | `/build-event-slides` | **Yes**, but the developer working with you does it |
-| `/tweak-event-slides` | **No** — this one publishes itself, on purpose. See the box below |
+| `/tweak-event-slides` | **No** — this one opens and merges its own pull request, on purpose. See the box below |
 | `/promote-event`, `/email-the-community`, `/update-mailing-list` | **Yes, but only the record.** The email has already gone; the project keeps a small note of what was sent to whom, and that note is worth sharing so nobody sends it twice |
 | `/reply-to-contact-messages` | **Yes** — same, just the record |
 | `/run-event-playbook` | **No** — it only reads |
@@ -468,12 +470,18 @@ the live website was never touched.
   one exception has its own skill, and it is the next box.
 
 > **The one exception: `/tweak-event-slides`.**
-> Changing a word on slides that already exist publishes itself, straight away,
-> with no review and no undo button. That is deliberate — it exists for the hour
+> Changing a word on slides that already exist publishes itself, with nobody
+> reviewing it and no undo button. That is deliberate — it exists for the hour
 > before the doors open, when a speaker's title is wrong on the screen behind
 > them. It is safe because it only ever changes **one small thing**: a word, a
 > photograph, a name. Anything bigger than that goes back through
-> `/build-event-slides` and a normal pull request.
+> `/build-event-slides` and a reviewed pull request.
+>
+> It does open a pull request and merge it on its own, which it did not used to.
+> Until 2026-09-10 it pushed to `main` directly, and that had quietly stopped
+> being possible on 2026-09-06 when `main` became protected — so the skill was
+> broken for four days and nobody hit it. Nothing you type changes; it takes
+> about five minutes now instead of three.
 
 ### The commands, for the one time you need them
 

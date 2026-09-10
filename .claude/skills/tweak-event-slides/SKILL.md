@@ -1,6 +1,6 @@
 ---
 name: tweak-event-slides
-description: Make one small, low-risk change to an existing She Sharp slide deck and ship it straight to `main` — no branch, no PR, no preview pass. Use when a deck already exists at `/present/<slug>` and someone wants a word changed, a photo swapped, a QR slide added for a link, or a late speaker put on the panel slide — phrases like "change the title on slide 12", "fix the typo on the hackathon deck", "swap the photo on the closing slide", "add a QR slide for the signup link", "add the new speaker to the Les Mills deck", "the founder wants the subtitle reworded", "quick change to the slides", "改一下幻灯片的文案", "给幻灯片加一页二维码", "换掉那张图", "临时加个嘉宾", "幻灯片改个标题", "小改动，直接上线". Built for the hour before the doors open: it runs three offline checks (about a minute) and pushes, so the change is live in roughly three more. Deliberately narrow — it refuses anything that touches a component, a stylesheet, a skin, a slide type or the deck's structure, and hands those to `build-event-slides`, which is also where a NEW deck is built. Assumes the deck already exists; `build-event-slides` puts it there.
+description: Make one small, low-risk change to an existing She Sharp slide deck and ship it in a single pass — one branch, one self-merged pull request, no reviewer and no preview pass. Use when a deck already exists at `/present/<slug>` and someone wants a word changed, a photo swapped, a QR slide added for a link, or a late speaker put on the panel slide — phrases like "change the title on slide 12", "fix the typo on the hackathon deck", "swap the photo on the closing slide", "add a QR slide for the signup link", "add the new speaker to the Les Mills deck", "the founder wants the subtitle reworded", "quick change to the slides", "改一下幻灯片的文案", "给幻灯片加一页二维码", "换掉那张图", "临时加个嘉宾", "幻灯片改个标题", "小改动，直接上线". Built for the hour before the doors open: three offline checks (about a minute), then CI and the deploy, so the change is live in roughly six. Deliberately narrow — it refuses anything that touches a component, a stylesheet, a skin, a slide type or the deck's structure, and hands those to `build-event-slides`, which is also where a NEW deck is built. Assumes the deck already exists; `build-event-slides` puts it there.
 ---
 
 # Change one thing on a deck that already exists
@@ -9,14 +9,22 @@ Three facts shape everything below.
 
 - **Speed is the feature.** This skill exists because a founder changes their
   mind about a line of copy an hour before the room fills, and `build-event-slides`
-  is a nine-step process ending in a pull request. That is the right shape for
-  building a deck and the wrong shape for changing a word. Here there is no
-  branch, no PR, no reviewer and no preview pass.
-- **There is no reviewer, so the checks in Step 3 are the review.** `verify.yml`
-  runs on `pull_request` only. Pushing to `main` bypasses **every** CI job this
-  repo has. The three commands in Step 3 are not a formality left over from a
-  slower process — with the PR gone they are the entire remaining safety net,
-  and they take under a minute between them.
+  is a nine-step process ending in a reviewed pull request. That is the right
+  shape for building a deck and the wrong shape for changing a word. Here there
+  is still no reviewer, no design pass and no preview pass — but there is a
+  branch and a pull request, because since **2026-09-06** there is no other way.
+- **Why the pull request is not the slow part.** The `protect main` ruleset
+  requires one, forbids force-push, and has **zero bypass actors** — an
+  organisation owner cannot push to `main` either, so the old Step 4 in this file
+  simply failed with `GH013` for three months without anybody hitting it. What it
+  does *not* require is an approving review: `required_approving_review_count` is
+  **0**. So you open the pull request and merge it yourself, alone, and the whole
+  cost is the two minutes `verify` takes. Read from the API on 2026-09-10.
+- **You now get CI, which you did not before.** The old flow bypassed every check
+  this repository has; the three commands in Step 3 were the entire safety net.
+  They still run first — a linter failure you can see in ten seconds is worth
+  more than one you wait two minutes for — but `verify` is now a real second
+  gate rather than something the skill stepped around.
 - **The scope gate is the whole safety model.** Everything else here assumes the
   change is genuinely small. Step 0 is what makes that true, and it runs *before*
   you open a file, not after.
@@ -210,21 +218,22 @@ judging works'."*
 signal the change was never small. Revert with `git checkout -- <file>` and hand
 over to `build-event-slides`.
 
-## Step 4 — Ship straight to main
+## Step 4 — Branch, pull request, merge it yourself
 
-No approval prompt — shipping without one is the point of this skill. Print what
-changed, then push.
+No approval prompt and no second person — shipping without either is the point of
+this skill. The branch and the pull request are mechanics, not review. Print what
+changed first.
 
 ```powershell
-git branch --show-current       # must be `main`
 git status --short              # stage only the deck files if anything else is dirty
 git diff --stat
 ```
 
 ```powershell
+git checkout -b tweak/<slug>-<what-changed>
 git add lib/deck/decks/<slug>.ts lib/deck/index-meta.ts
 git commit -m "fix(deck): shorten the judging title on the hackathon deck"
-git push origin main
+git push -u origin HEAD
 ```
 
 Conventional Commits: `fix(deck):` for a correction to an existing deck,
@@ -239,10 +248,30 @@ Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
 **If the working tree has unrelated changes, stage only the deck files.** Never
 `git add -A` here, and never `git commit -a`.
 
+Then open it and let it merge as soon as `verify` is green. `--auto` means you do
+not sit and watch:
+
+```powershell
+gh pr create --fill --base main
+gh pr merge --squash --auto --delete-branch
+```
+
+**If `--auto` is refused** (auto-merge can be switched off on the repository),
+wait for the check and merge by hand — same result, one more command:
+
+```powershell
+gh pr checks --watch
+gh pr merge --squash --delete-branch
+```
+
+`verify` takes about two minutes. Nobody needs to approve it: the ruleset asks
+for a pull request, not for a reviewer.
+
 ## Step 5 — Watch the deploy
 
-Pushing to `main` triggers `.github/workflows/deploy.yml`, which prebuilds and
-deploys to production. About three minutes.
+The merge commit lands on `main`, which triggers
+`.github/workflows/deploy.yml` — it prebuilds and deploys to production. About
+three minutes on top of the two `verify` took.
 
 ```powershell
 gh run list --workflow=deploy.yml --limit 1
@@ -263,11 +292,15 @@ failure table below. Do not leave `main` red; the next person to push inherits i
 
 ## Guardrails (USER-APPROVED — hard rules)
 
-1. **Never skip Step 3.** *Why:* `verify.yml` runs on pull requests only, so a
-   push to `main` has no CI at all. These three commands are the entire review.
+1. **Never skip Step 3.** *Why:* `verify` will catch the same things two minutes
+   later, but you are doing this an hour before doors. A failure you can see in
+   ten seconds is cheaper than one you queue for. These three commands are also
+   the only ones that read the deck the way the room will.
 2. **Never leave `main` red.** If the deploy build fails, fix forward at once or
-   revert the commit. *Why:* this repo deploys from `main` on every push, so a
-   broken `main` is a site that cannot ship anything until it is fixed.
+   revert with a new pull request. *Why:* this repo deploys from `main` on every
+   push, so a broken `main` is a site that cannot ship anything until it is
+   fixed — and you cannot force-push the mistake away, because the ruleset
+   forbids it.
 3. **Only the files on the Step 0 allow-list.** *Why:* the whole justification
    for skipping the PR is that the blast radius is one deck's copy. Touch a
    component and it is the site.
@@ -275,7 +308,9 @@ failure table below. Do not leave `main` red; the next person to push inherits i
    `npx tsx scripts/deck/sync-registry.ts`. *Why:* both are generated whole, and
    `deck.test.ts` fails when they disagree with `decks/`.
 5. **Never `git push --force`, never rewrite `main`'s history.** *Why:* other
-   people and the deploy workflow are on this branch.
+   people and the deploy workflow are on this branch — and the ruleset blocks
+   both force-push and deletion anyway, so the attempt only costs you time you
+   do not have.
 6. **Never paste an event fact into a deck file.** *Why:* the deck is a view of
    `events-custom.json`; a pasted fact makes the projector and the website
    disagree silently.
@@ -314,9 +349,22 @@ almost everywhere) and that the file was actually added, not just referenced.
 against a stale `.next`. Fix the type, push again. If `.next` is producing
 phantom errors about `app/api/**/route.js`, delete it: `rm -rf .next`.
 
-**`git push` rejected, non-fast-forward** — someone else pushed first. Run
-`git pull --rebase origin main`, re-run `npx tsx lib/deck/deck.test.ts`, push
-again. Never force.
+**`git push` rejected with `GH013`** — you are on `main`. The ruleset has no
+bypass actors, so this happens to everybody including organisation owners. You
+have not lost the work: `git checkout -b tweak/<slug>-<what-changed>` moves the
+commit onto a branch, and Step 4 carries on from the `git push -u origin HEAD`.
+
+**`gh pr merge --auto` says auto-merge is not enabled** — merge by hand instead:
+`gh pr checks --watch`, then `gh pr merge --squash --delete-branch`. Same result.
+
+**The pull request will not merge, "required status check `verify` is expected"**
+— the check has not reported yet, or it failed. `gh pr checks` says which. Do not
+look for a way around it: that check is the branch protection, and its context
+name is matched literally.
+
+**`git push` rejected, non-fast-forward** — someone else pushed to your branch,
+which is rare for a branch you just created. Run `git pull --rebase`, re-run
+`npx tsx lib/deck/deck.test.ts`, push again. Never force.
 
 **The change is live but the deck still looks old** — the deck preloads every
 image and makes no network calls after first load. Whoever has it open needs to
