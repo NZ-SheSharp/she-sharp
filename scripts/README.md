@@ -66,6 +66,7 @@ nothing at all.
 | `assets/` | Moving image assets without breaking the ~1,400 references to them. `refs.ts` is the single definition of "a reference", shared with the CI gate so the two cannot drift; `event-assets.ts` decides which event owns a file and has its own adversarial test. | `plan-move.ts --scope events\|scraped` to generate a map, `apply-move.ts --plan <file>` (dry run; `--apply` to execute). `migrate-cloudinary-to-blob.ts` is the one-time rehost of the user uploads off the retired Cloudinary account (dry run by default; `--apply` to write). |
 | `lib/` | Shared helpers for scripts. | `destructive.ts` — the dry-run / host-confirmation gate the two database-wiping scripts go through. |
 | `data/` | One-off corrections to `events-custom.json` / `shesharp_events_v3.json`, each carrying its finding id and its authority. | `json-format.ts` is the shared safe read/write; each fix script is its own entry point and is idempotent. |
+| `db/` | Answering questions about the database that a working page cannot answer. | `which-database.ts` — is the database at `POSTGRES_URL` the one the live site is really using? Every copy serves pages identically, so the only honest test is to make production do a read you are sure of and watch `pg_stat_database.xact_commit` on the candidate. It refuses to report anything unless its own control queries move that counter and the stimulus returns HTTP 200, because both have already produced clean, confident, wrong answers here — `pg_stat_activity` is blind through Neon's pooler, and `/api/auth/csrf` on production returns a stub token that made 25 scripted sign-ins die as `MissingCSRF` before reaching a query. `--self-test` inverts the expectation, for pointing at a throwaway Neon branch to prove the check can say "no". Exits 2 for a finding, 1 if it could not run. Takes about 40 seconds and sends 21 harmless password-reset requests for addresses that do not exist. |
 | `deck/` | Building and checking `/present/<slug>` slide decks. | `new-deck.ts` to scaffold, `lint-deck.ts` for the organiser-readable report, `sync-registry.ts` to regenerate `registry.ts` + `index-meta.ts`. |
 | `email/` | The outbound-mail pipeline behind the four email skills: audience inventory, recipient normalisation, render, gate, batch. | `render-message.ts` (spec → HTML), `build-batch.ts` (list → chunked JSON). `suppression.ts` is the do-not-contact register; its `pull-mailchimp` subcommand syncs new unsubscribes and cleaned addresses straight from the Mailchimp API rather than waiting for the next manual export — run it before any import. `probe-mailboxes.ts` answers which `@shesharp.org.nz` addresses exist — it found seven published ones that did not. Two scripts write **into** `newsletter_subscribers` and both are in the danger table above: `import-mailchimp-subscribers.ts` (the one-off 2026-08-29 carry-over) and `import-optin-subscribers.ts`, which takes a `normalize-recipients.ts --for-import` file and writes the rows that ticked a registration form's opt-in — consent route 2, the only one of routes 2–4 whose evidence is a column rather than a recollection. Its rules live in `optin-rows.ts` with no database attached so they can be tested; `optin-rows.test.ts` covers them. `content-lint.ts` is the pre-send copy check — see its own row below. |
 | `events/` | The event lifecycle report, event poster generation (plate → the event's five layouts, or a per-speaker campaign set) and feedback tooling. | `event-status.ts` — offline, read-only, writes nothing: for each event it prints where the Slack channel, event record, artwork, deck, feedback code, announcement, attendee emails and photos have got to, and names the command or skill that fixes every gap (`--slug`, `--upcoming`, `--past [N]`, `--all`, `--json`; CI runs `event-status.test.ts`). Then `generate-poster-plate.ts` → `build-event-poster.ts` (`--speaker`/`--lineup` for the campaign set); design lives in `poster-formats.ts`, `poster-speaker-formats.ts` and `poster-type.ts`; `poster-speaker.test.ts` checks the layouts without a plate. |
@@ -146,13 +147,28 @@ nothing at all.
 
 `.github/workflows/verify.yml`, on pull requests to `main`:
 
-| Job | Runs |
+**One job, named `verify`, with 37 steps** — not the five jobs this table listed
+until 2026-09-10. They were merged into a single job on 2026-09-01 so that one
+checkout and one install serve all of them, and the name is now load-bearing:
+the `protect main` ruleset requires a status check whose context is literally
+`verify`, so renaming or re-splitting the job silently removes branch protection
+rather than failing loudly.
+
+| Group | Runs |
 | --- | --- |
-| `verify-image-paths` | `scripts/verify-image-paths.ts`, `scripts/newsletter/email-covers.ts --check`, `scripts/assets/event-assets.test.ts`, `scripts/check-hackathon-facts.ts`, `.claude/skills/sync-event-from-slack/scripts/state-lib.test.ts`, `.claude/skills/sync-event-from-slack/scripts/audit-read-state.ts`, `scripts/events/event-status.test.ts`, `lib/docs/playbook.test.ts`, `scripts/events/poster-assets.test.ts`, `lib/data/humanitix.test.ts`, `lib/data/mailchimp.test.ts`, `scripts/mailchimp/archive-guard.test.ts`, `scripts/email/content-lint.ts --all`, `scripts/email/content-lint.test.ts`, `scripts/verify-panel-contrast.test.ts` |
-| `typecheck-scripts` | `pnpm typecheck:scripts` — covers this directory and `.claude/`, which the root tsconfig skips |
-| `typecheck` | `pnpm typecheck` |
-| `lint` | `pnpm lint` (errors only) |
-| `deck-checks` | `lib/deck/deck.test.ts` |
+| install | `pnpm install --frozen-lockfile` |
+| compilers | `pnpm typecheck`, then `pnpm typecheck:scripts` — the second covers this directory and `.claude/`, which the root tsconfig skips |
+| lint | `pnpm lint` (errors only; warnings do not gate) |
+| decks | `lib/deck/deck.test.ts` |
+| assets | `scripts/verify-image-paths.ts`, `scripts/assets/event-assets.test.ts`, `scripts/events/poster-assets.test.ts`, `scripts/events/poster-speaker.test.ts`, `scripts/events/fonts.test.ts` |
+| email | `scripts/newsletter/email-covers.ts --check`, `scripts/email/content-lint.ts --all`, `scripts/email/content-lint.test.ts`, `scripts/email/event-announcement-spec.test.ts`, `scripts/email/published-addresses.test.ts`, `lib/email/localhost-links.test.ts`, `lib/email/reply-to.test.ts` |
+| data and archives | `lib/data/humanitix.test.ts`, `lib/data/mailchimp.test.ts`, `scripts/humanitix/optin-orders.test.ts`, `scripts/mailchimp/archive-guard.test.ts`, `scripts/check-hackathon-facts.ts` |
+| skills | `.claude/skills/sync-event-from-slack/scripts/state-lib.test.ts`, `.../audit-read-state.ts`, `.claude/skills/email-the-community/scripts/marketing-frequency-check.test.ts` |
+| the rest | `scripts/events/event-status.test.ts`, `scripts/verify-panel-contrast.test.ts`, `lib/docs/playbook.test.ts`, `lib/docs/email-playbook.test.ts`, `lib/forms/submission-token.test.ts`, `lib/stripe/api-shape.test.ts`, `lib/blob/uploads.test.ts` |
+
+Every step is guarded by `!cancelled() && install success`, so one red check does
+not hide the next. `.github/workflows/verify.yml` is the only authority for the
+list; a grouping in prose goes stale, and this one did.
 
 Nothing else here runs automatically. Run these locally before pushing:
 `npx tsx lib/email/hardening.test.ts`, `npx tsx lib/deck/deck.test.ts`,

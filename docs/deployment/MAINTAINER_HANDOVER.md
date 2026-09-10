@@ -25,10 +25,13 @@ disagree with itself within a year.
 In priority order. Items 1–3 are the ones that make the difference between a
 maintained site and a site that merely keeps running until something changes.
 
-1. **Name a maintainer.** Not a committee, not "the website team" — one person
-   with the Vercel login and the ability to merge to `main`. Everything in §5 is
-   a recurring obligation with a date attached, and an unassigned obligation is
-   an unmet one.
+1. **Name a maintainer.** Not a committee, not "the website team" — everything in
+   §5 is a recurring obligation with a date attached, and an unassigned
+   obligation is an unmet one. **Answered on 2026-09-10 in §14:** Tharanee and
+   Lesley, both with full access, and each §5 obligation carrying exactly one of
+   their names. §14 also carries the one urgent item — neither of them is a
+   GitHub organisation owner yet, and today only the departing account and a
+   shared login are.
 2. **Rotate the shared account passwords**, because a leaving maintainer had them.
    The list is §3, "Rotate on departure". This is routine offboarding hygiene and
    implies nothing about anybody; do it for every departure, not just this one.
@@ -74,9 +77,19 @@ actually operate it.
 
 `.env.example` is the authoritative explanation of every environment variable —
 what it does, and the incident that produced the comment above it. The
-authoritative *list* is `npx vercel env ls production` (**46** variables as at
-2026-09-06, down from 66 that morning — see §10.1 and §11), not this table and not `.env.example`, which documents local
-tooling variables that production does not have.
+authoritative *list* is the command, not a number in a document:
+
+```bash
+npx vercel env ls production --scope she-sharp1
+```
+
+**45 variables**, counted that way on **2026-09-10**. This paragraph said 46 and
+§10.1 said 48, and both were hand-typed and wrong; a bare count in prose is a
+claim nobody re-checks. Write the count, the command and the date together or
+not at all. That list is also not the same set as `.env.example`, which documents
+local tooling variables production does not have — the full reconciliation of the
+two, plus the GitHub Actions secrets and what reads each variable, is
+**`docs/deployment/CREDENTIAL_INVENTORY.md`**.
 
 | Service | What breaks without it | Held under | Handover action |
 |---|---|---|---|
@@ -141,11 +154,25 @@ for speed and consistency rather than cost.
 passing `verify` check, and forbids force-push and deletion. Verified by
 attempting a direct push, which was rejected with `GH013` citing both rules.
 
-Two things follow that are easy to trip over:
+Read back from the API on 2026-09-10: ruleset `protect main`, active, on the
+default branch, rules `deletion`, `non_fast_forward`, `pull_request` and
+`required_status_checks`, with **zero bypass actors** and
+**`required_approving_review_count: 0`**. Those last two numbers are the whole
+character of it — nobody is exempt, not an organisation owner and not a
+repository admin, and equally nobody has to wait for a second person. A
+maintainer opens a pull request and merges it themselves once `verify` is green.
+
+Three things follow that are easy to trip over:
 
 - **The job name `verify` is load-bearing.** The ruleset matches the status check
   by name. Renaming or splitting that job silently removes the gate — CI would
   still run and nothing would be enforced.
+- **`tweak-event-slides` is broken by this and nobody noticed.** That skill
+  exists for the one-small-change-an-hour-before-doors case and pushes straight
+  to `main` by design, with three offline checks as its entire review. With zero
+  bypass actors, that push is rejected. The fix is small — branch, pull request,
+  merge — and costs nothing in people, because the ruleset requires no approvals.
+  `docs/development/SKILLS_AND_WORKFLOWS_HANDOVER.md` §5 has it.
 - **Everyone must now use pull requests, including people who did not before.**
   `647ae0b6` ("Add registration link for Xero event") was pushed straight to
   `main` at 23:04 on 2026-09-05 by a second contributor, skipping every check and
@@ -278,12 +305,23 @@ checking rather than assuming it is fine.
    opened, and the index to the eight directory-level files.
 2. `docs/ARCHITECTURE.md`, especially §7, the subsystem map.
 3. `docs/README.md` — every document, with an honest status column.
-4. This file, §4 through §7.
-5. `docs/development/TESTING.md` — there is no test runner; checks are plain
+4. This file, §4 through §7, then **§14** for who is taking it on.
+5. **`docs/deployment/MAINTAINER_ONBOARDING.md`** — the first fortnight, with a
+   proof step for each access rather than a login that looked like it worked.
+6. **`docs/deployment/CREDENTIAL_INVENTORY.md`** — every variable and account:
+   what reads it, where it must be set, who can reissue it, and what happens to
+   it at a departure. No values, ever.
+7. **`docs/deployment/OPERATIONS_RUNBOOK.md`** — symptom-first. The site is down;
+   the digest did not arrive; bounces stopped being recorded. Plus the four
+   things this file had no answer for: backups, cost, Slack, and privacy.
+8. `docs/development/TESTING.md` — there is no test runner; checks are plain
    `node:assert` scripts, and CI is one job on purpose.
-6. `docs/development/AI_SKILLS_GUIDE.md` — because most of the recurring work was
-   deliberately packaged for a non-technical operator, and that only pays off if
-   somebody is told it exists.
+9. `docs/development/AI_SKILLS_GUIDE.md`, then
+   **`docs/development/SKILLS_AND_WORKFLOWS_HANDOVER.md`** — because most of the
+   recurring work was deliberately packaged for a non-technical operator, and
+   that only pays off if somebody is told it exists. The second says who owns
+   which loop, which skills have never actually been run, and which one is
+   currently broken.
 
 If only one thing from this document survives: **§1.3, the database ownership.**
 Everything else can be rebuilt from the repository. That cannot.
@@ -636,3 +674,88 @@ compared against production, a key list read back from the provider, a password
 tried and refused. The one time a probe was trusted without a control it gave the
 wrong answer — `no_team` reads exactly like "revoked" until you discover it also
 answers that for a placeholder that was never real. **Run the positive control.**
+
+---
+
+## 14. The two maintainers
+
+§1.1 of this document has said "name one maintainer" since 2026-09-05 and named
+nobody. This section is the answer, written on **2026-09-10**.
+
+### Who
+
+| | GitHub | Repository | Organisation |
+|---|---|---|---|
+| **Tharanee** | `Tharaneetharan7` | write → **admin** | member → **owner** |
+| **Lesley** | `lesley-gao` | admin | member → **owner** |
+| Chan Meng (outgoing) | `ChanMeng666` | admin → removed | owner → removed |
+| (shared account) | `SheSharpNZ` | admin | owner |
+
+**Both are full maintainers.** §1.1 asked for one person because its complaint
+was unowned *obligations*, not shared *access* — so access is shared and every
+recurring obligation in §5 gets exactly one name against it. Nothing in §5 is
+allowed to be owned by "the maintainers".
+
+| Obligation | Owner |
+|---|---|
+| Access, credentials, rotations, the cron watch | Lesley |
+| The event lifecycle and the monthly newsletter | Tharanee |
+| Deploys, pull request review | either |
+| Approving a send to the list | **the founder**, not a maintainer |
+
+That split is a proposal made without asking either of them. Confirm it, change
+it, or swap it — but do not leave a row blank.
+
+### The organisation-owner gap, which is the urgent part
+
+Measured on 2026-09-10: the `NZ-SheSharp` organisation has exactly **two**
+owners, the departing maintainer and the shared `SheSharpNZ` account. Neither
+incoming maintainer is one.
+
+When the departing account goes, every organisation-level action — adding a
+member, changing a ruleset, reading an Actions secret — requires signing in as
+the shared account. That is the same credential §3 warns about: it reaches the
+mailbox, the legacy Webflow back end and Resend, which can mail 1,500 people.
+Making the organisation depend on it is how a bad afternoon becomes a bad month.
+
+**Promote both to organisation owner before the departing account is removed.**
+It costs nothing on the Free plan and it is the single cheapest thing on this
+page.
+
+### What was done on 2026-09-10, so nobody repeats it
+
+- **The first backup this project has ever had.** A full `pg_dump --no-owner
+  --no-acl -Fc`, checksummed, taken because Neon's history retention on the
+  current plan is **six hours** and nothing else existed. `OPERATIONS_RUNBOOK.md`
+  §4 proposes the policy that should follow it.
+- **Two per-person database roles**, `tharanee` and `lesley`, on
+  `she-sharp-production`. Their privileges were measured rather than assumed:
+  read and write on existing tables, and `TRUNCATE`, `ALTER TABLE`, `CREATE
+  TABLE` and `DROP TABLE` all refused by the database. So every skill that needs
+  the live subscriber list works, `clear-all-data.ts` cannot run, and
+  `pnpm db:migrate` fails with `must be owner`. Schema changes stay with
+  `neondb_owner`, deliberately.
+- **`scripts/db/which-database.ts`**, because §10.1's method for proving which
+  database production uses does not work: `pg_stat_activity` is blind through
+  Neon's pooler, and a deliberate second connection does not appear in it. The
+  replacement makes production perform a read you are certain of and watches
+  `pg_stat_database`. It refuses to report anything until its own control moves
+  that counter.
+- **`.env.example` brought back in line** — 50 documented variables to 69, the
+  24 with no reader removed, and `POSTGRES_URL` promoted from a commented-out
+  line to a real entry. It is the string `lib/db/drizzle.ts` throws without, so
+  anyone configuring a machine from that file used to get a crash and no
+  explanation.
+
+### When this handover is finished
+
+Not when the departing maintainer says so. When **each** of Tharanee and Lesley
+has independently:
+
+1. deployed to production,
+2. connected to the database with their own role,
+3. run one skill end to end, and
+4. rotated one credential.
+
+An access nobody has exercised is an access nobody has. Until all four are true
+for both people, the handover is in progress, whatever the calendar says.
