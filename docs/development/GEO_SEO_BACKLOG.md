@@ -168,7 +168,7 @@ weeks. If it fails a second time despite the 308s, the next lever is exact-URL
 Removals — not more redirect changes.
 
 **GSC access**: this property is only reachable from the `website@shesharp.org.nz`
-Google account. The maintainer's usual Chrome profile (`chanmeng6666@gmail.com`)
+Google account. The maintainer's usual Chrome profile (a personal one)
 gets "Oops, you don't have access to this property".
 
 ---

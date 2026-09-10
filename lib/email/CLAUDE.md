@@ -226,4 +226,8 @@ and Svix, and is **not** in CI. Run it. And remember that a guard is not
 verified until you have handed it the input it was supposed to refuse — two
 gates in this subsystem read as correct and gated nothing until 2026-08-30.
 
-Use `chanmeng6666@gmail.com` for test and preview sends.
+Send test and preview mail **to yourself** — the address of whoever is running
+the command, not a hardcoded one. This line named one person's private Gmail
+until 2026-09-10, which published a personal address in a public repository and,
+after a handover, addressed the wrong inbox. `AI_SKILLS_GUIDE.md` §5 has said
+"test on yourself first" all along; this is the same rule.

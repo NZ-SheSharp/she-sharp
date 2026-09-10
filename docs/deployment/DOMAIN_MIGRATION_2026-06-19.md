@@ -70,7 +70,7 @@ workflow.
 
 - She Sharp's production Stripe account is **`acct_…51NHkCP…`** (publishable key prefix
   `pk_live_51NHkCP…`) — this is **not** the account the local Stripe CLI defaults to
-  (`chanmeng.org` / `acct_1RneKW…`). The live webhook was found and updated by passing the
+  (a different, personal account belonging to the maintainer). The live webhook was found and updated by passing the
   production `STRIPE_LIVE_SECRET_KEY` explicitly via `--api-key`.
 - Live webhook endpoint **`we_1TA2WMFH4SQKCLLp5sEDV94h`** URL changed from
   `…vercel.app/api/stripe/webhook` to `https://www.shesharp.org.nz/api/stripe/webhook`.

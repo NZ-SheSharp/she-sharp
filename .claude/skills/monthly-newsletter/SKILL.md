@@ -75,7 +75,7 @@ repo and nothing else. They are the prerequisites for the steps that follow.
 
    1. **Your own test mailbox** (Step 6). Whoever is running this skill names
       their own inbox. Not the founder's, not a colleague's, and — unless you
-      are the developer — not `chanmeng6666@gmail.com`, which this file used to
+      are the developer — not a hardcoded personal address, which this file used to
       hardcode as "the single approved test mailbox". One person, proving the
       render.
    2. **The review round** (Step 6b). The founder together with the **newsletter
@@ -732,7 +732,7 @@ Writes `tmp/emails/newsletter-2026-08.<mode>.html`. Check:
 **Ask the person running this skill for their own address, and send only there.**
 One mailbox, theirs.
 
-Until 2026-08-30 this step hardcoded `chanmeng6666@gmail.com` and called it "the
+Until 2026-08-30 this step hardcoded one person's private address and called it "the
 single approved test mailbox". That is the *developer's* personal inbox, and
 this skill is run by the newsletter department — so the instruction sent a
 newsletter person's proof copy to somebody else, and gave them no way to see
@@ -1162,7 +1162,7 @@ add anyone who is not already a confirmed, unsuppressed subscriber:
   mailbox. Use your own address if it is a confirmed subscriber; the one below
   is an example, not a default.
   ```powershell
-  npx tsx scripts/email/recipients-from-db.ts --key newsletter-2026-08 --only chanmeng6666@gmail.com
+  npx tsx scripts/email/recipients-from-db.ts --key newsletter-2026-08 --only you@example.com
   ```
 - `--restrict-to-hashes <path>` — keep only the people in a cohort file of
   `hashEmail()` digests, as `scripts/mailchimp/recent-openers.ts` writes. This

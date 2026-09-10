@@ -642,8 +642,9 @@ links in flight. The module says so at the call site too.
    leaked value returns `401 Expired API Key provided`, so Stripe itself refuses
    it. Worth noting how nearly this was left open: GitHub's alert had been marked
    `revoked` all along, and that resolution is a claim a person typed into a form,
-   not a check. The key is `sk_live_51Rn…L71x` — account prefix `51Rn`, which is
-   the departing maintainer's *other* account, not She Sharp's `51NH`.
+   not a check. Its account prefix does not match She Sharp's: the key belongs to
+   the departing maintainer's *other* Stripe account, and the identifying detail
+   is held privately rather than published here.
 2. **Delete the three stale remote branches**, understanding that this is tidying
    rather than remediation. Lower priority now that the key in them is dead.
 3. **Decide about making the repository public.** The audit's verdict was *safe

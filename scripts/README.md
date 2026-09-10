@@ -28,7 +28,7 @@ below is production. The two wipe scripts are gated by
 | `send-mentor-reminder.ts`, `send-mentee-reminder.ts` | Email every approved-but-unregistered mentor / mentee, and extend their invitation codes by 14 days. | Real send, plus a DB write to `invitation_codes`. Same flags. |
 | `resend-mentor-invitations.ts` | Re-sends invitation emails for every unused `mentor_approved` code. | Real send. `--dry-run` only. |
 | `send-admin-invitation.ts` | Mints an **admin** invitation code and mails it. | Real send; the code grants admin on redemption. |
-| `preview-all-emails.ts` | Sends 18 templates with mock data to one address. | Forces `NODE_ENV=production` so it really sends. Use `chanmeng6666@gmail.com`. |
+| `preview-all-emails.ts` | Sends 18 templates with mock data to one address. | Forces `NODE_ENV=production` so it really sends. Send it **to yourself**, never to a hardcoded address. |
 | `newsletter/approve.ts` | Sends nothing itself — calls the admin approve endpoint, which creates **and schedules** the Resend broadcast. | This is the one script here that can reach the whole newsletter audience. `--send-now` skips the queue. |
 | `email/probe-mailboxes.ts` | Sends one message to each of ~21 She Sharp mailboxes to find out which exist. | Real send, but only ever to the organisation's own addresses, and dry run is the default (`--send` to send). In production every hard bounce becomes an `email_optouts` row; `email/suppression.ts sync` now skips She Sharp's own mailboxes by hash so they can never reach the committed register. |
 | `newsletter/send-test.ts` | Real one-off sends. | Needs `RESEND_API_KEY` in the environment at `npx tsx` start or it reports success while sending nothing. |
